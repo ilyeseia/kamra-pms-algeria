@@ -365,7 +365,11 @@ function Invoke-Install {
             $SiteName = 'kamra.localhost'
         }
         else {
-            throw '-SiteName is required for Production. It must look like a domain, e.g. pms.yourhotel.dz'
+            # Prompt rather than throw: this is reached from a Start menu
+            # shortcut, where an exception is just a red wall of text.
+            Write-Host ''
+            $SiteName = Read-Host '  Site domain (e.g. pms.yourhotel.dz)'
+            if (-not $SiteName) { throw 'A site domain is required for Production.' }
         }
     }
     if ($SiteName -notmatch '\.') {
@@ -376,7 +380,8 @@ function Invoke-Install {
             $AdminEmail = 'admin@kamra.localhost'
         }
         else {
-            throw '-AdminEmail is required for Production.'
+            $AdminEmail = Read-Host '  Admin email'
+            if (-not $AdminEmail) { throw 'An admin email is required for Production.' }
         }
     }
     if ($AdminEmail -notmatch '@') { throw "AdminEmail '$AdminEmail' is not an email address." }

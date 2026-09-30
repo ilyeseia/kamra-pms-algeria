@@ -52,6 +52,7 @@ VIAddVersionKey      "LegalCopyright"  "AGPL-3.0. Built on Kamra PMS (HeyKoala a
 !insertmacro MUI_PAGE_WELCOME
 
 !insertmacro MUI_PAGE_LICENSE "..\..\license.txt"
+!insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 
@@ -149,20 +150,18 @@ Section "Start menu shortcuts" SecShortcuts
   ; guess it. Preflight first - it is the only one that changes nothing.
   CreateShortcut "$SMPROGRAMS\${PRODUCT}\1 - Check this PC.lnk" \
     "$SYSDIR\WindowsPowerShell\v1.0\powershell.exe" \
-    '-NoProfile -ExecutionPolicy Bypass -NoExit -File "$INSTDIR\Install-Kamra.ps1" -Preflight' \
-    "" "" SW_SHOWNORMAL "" "Check prerequisites. Changes nothing."
+    '-NoProfile -ExecutionPolicy Bypass -NoExit -File "$INSTDIR\Install-Kamra.ps1" -Preflight'
 
   CreateShortcut "$SMPROGRAMS\${PRODUCT}\2 - Install trial.lnk" \
     "$SYSDIR\WindowsPowerShell\v1.0\powershell.exe" \
-    '-NoProfile -ExecutionPolicy Bypass -NoExit -File "$INSTDIR\Install-Kamra.ps1" -Mode Trial' \
-    "" "" SW_SHOWNORMAL "" "Demo install with sample data. Takes 20-45 minutes."
+    '-NoProfile -ExecutionPolicy Bypass -NoExit -File "$INSTDIR\Install-Kamra.ps1" -Mode Trial'
 
-  ; Production needs a site name and an admin email, so it opens a prompt
-  ; rather than launching blind with defaults that would be wrong.
+  ; Production asks for the site domain and the admin email itself, so this
+  ; shortcut is the same shape as the others - and needs no escaped quotes
+  ; inside an NSIS string, which NSIS does not support anyway.
   CreateShortcut "$SMPROGRAMS\${PRODUCT}\3 - Install production.lnk" \
     "$SYSDIR\WindowsPowerShell\v1.0\powershell.exe" \
-    '-NoProfile -ExecutionPolicy Bypass -NoExit -Command "& { $s = Read-Host ''Site domain (e.g. pms.yourhotel.dz)''; $e = Read-Host ''Admin email''; & \"$INSTDIR\Install-Kamra.ps1\" -Mode Production -SiteName $s -AdminEmail $e }"' \
-    "" "" SW_SHOWNORMAL "" "Live install. No sample data, no demo accounts."
+    '-NoProfile -ExecutionPolicy Bypass -NoExit -File "$INSTDIR\Install-Kamra.ps1" -Mode Production'
 
   CreateDirectory "$SMPROGRAMS\${PRODUCT}\Guides"
   CreateShortcut "$SMPROGRAMS\${PRODUCT}\Guides\Installation (English).lnk" "$INSTDIR\guides\INSTALL-en.md"
@@ -180,6 +179,12 @@ SectionEnd
 
 LangString DESC_SecMain      ${LANG_ENGLISH} "The installer, the launcher and the guides. Required."
 LangString DESC_SecShortcuts ${LANG_ENGLISH} "Start menu entries for the preflight check, the two install modes and the guides."
+
+LangString DESC_SecMain      ${LANG_FRENCH}  "L'installateur, le lanceur et les guides. Obligatoire."
+LangString DESC_SecShortcuts ${LANG_FRENCH}  "Raccourcis du menu Demarrer : verification du PC, les deux modes d'installation et les guides."
+
+LangString DESC_SecMain      ${LANG_ARABIC}  "المُثبّت والمُشغّل والأدلّة. إلزامي."
+LangString DESC_SecShortcuts ${LANG_ARABIC}  "اختصارات قائمة البدء: فحص الجهاز، ووضعا التركيب، والأدلّة."
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SecMain}      $(DESC_SecMain)
