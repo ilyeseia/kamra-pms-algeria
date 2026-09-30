@@ -217,6 +217,50 @@ housekeeping and POS strings — had never reached it. Those are translated.
     `UnicodeDecodeError` (cp1252) unless `PYTHONUTF8=1` is set. Environment
     bug, works in CI. Worth an upstream fix.
 
+19. **The currency symbol prefixes the amount; Algerian convention suffixes
+    it.** Money renders `DA 1 500`. An Algerian bill is conventionally written
+    `1 500,00 DA`. The amount, the separators and the symbol are all correct —
+    only the position is not, so nothing is ambiguous or wrong, it simply is
+    not how a local accountant writes it.
+
+    **Deliberately deferred, with the cost measured rather than guessed.** The
+    position is not a setting: it is baked into every money display in the app.
+
+    | | count |
+    | --- | --- |
+    | `cur()` sitting directly before a number (mechanically convertible) | 149 |
+    | `cur()` standalone — a bare symbol in a column header, `{cur()}0`, `${cur()}/night` — each needing its own judgement | 84 |
+    | files defining their own local number formatter (`const inr = …`) | 34 |
+    | files touching `cur()` | 40 |
+    | uses of the one shared formatter, `fmtMoney` | 2 |
+
+    So the fix is not a flag. It is: add one shared formatter that honours a
+    per-pack position, migrate 149 adjacency sites to it, review 84 standalone
+    uses individually, and collapse 34 duplicated local formatters. Every money
+    surface in the product, including printed invoices.
+
+    **Why it waits:** there is no bench, no site and no browser here, so not one
+    of those 233 sites could be seen rendered. The failure mode is a wrong
+    price on a guest's invoice that nobody notices before the guest does. And a
+    partial migration is worse than none — one screen reading `DA 1 500` while
+    another reads `1 500 DA` is a defect in a way that consistent
+    non-convention is not.
+
+    **Do it right after the first trial install**, when screens can actually be
+    looked at. The order that keeps it verifiable:
+    1. Add `symbol_position` to the pack contract in
+       `kamra/localization/__init__.py`, defaulting to prefix so every existing
+       country is unaffected; Algeria returns suffix.
+    2. Add `money(n)` to `frontend/src/lib/money.ts` as the single formatter,
+       honouring position, and keep `cur()` for the genuine bare-symbol cases.
+    3. Convert the 149 adjacency sites by script — the patterns are regular
+       (`{cur()}{inr(x)}`, `${cur()}${inr(x)}`) — then assert the count went to
+       zero and `tsc` still passes.
+    4. Walk the 84 standalone uses by hand.
+    5. Delete the 34 local formatters.
+    6. **Look at a rendered invoice, folio, thermal receipt and booking page**
+       before believing any of it.
+
 ## Technical debt / upstream candidates
 
 - `tax_exempt` on Room Type (limitation 1) — affects six packs.
@@ -235,6 +279,8 @@ housekeeping and POS strings — had never reached it. Those are translated.
   `lib/money.ts`) and backend-supplied country-pack strings are still invisible.
 - Lazy-load locale dictionaries.
 - `words.py` `SAR` entry, for the Saudi pack (DZD is done).
+- One shared money formatter, and the symbol position with it
+  (limitation 19) — 233 sites, sequenced there.
 - `marketplace_install_check.py` Windows encoding.
 - Rename `gstin` → `tax_id`.
 - ~~Internationalise the three public screens~~ — **done**. What remains is
