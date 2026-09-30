@@ -9,7 +9,7 @@ Idempotent.
 import frappe
 from frappe.utils import add_days, nowdate
 
-PROPERTY = "Kamra Demo Palace"
+PROPERTY = "Hotel MgM Demo"
 
 
 def upsert(doctype, keys, values):

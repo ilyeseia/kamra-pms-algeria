@@ -54,7 +54,7 @@ export interface ShellContext {
 // mirrors @require_roles on kamra.api.create_booking / walk_in (admins always pass)
 const BOOKING_ROLES = [
   "Front Desk",
-  "Kamra Agent",
+  "Hotel MgM Agent",
   "Hotel Admin",
   "System Manager",
   "Administrator",
@@ -288,14 +288,12 @@ export default function AppShell() {
     <div className={cn("flex min-h-screen flex-col", floor && "lg:h-screen")}>
       {demoMode && !kiosk && (
         <div className="bg-amber-500 px-4 py-1.5 text-center text-xs font-medium text-amber-950">
+          {/* The warning is the useful part. The upstream vendor's upsell
+              link that used to sit here is gone: this banner shows whenever
+              demo mode is on, which is exactly what a reseller's trial
+              install sets - so it was pointing a prospect at someone
+              else's shop in the middle of the demo. */}
           {t("Shared playground — not your hotel. Data is wiped every night.")}
-          {" "}
-          <a
-            href="https://kamrapms.com"
-            className="underline underline-offset-2 hover:text-black"
-          >
-            {t("Get your own Kamra →")}
-          </a>
         </div>
       )}
       <div className="flex min-h-0 flex-1">

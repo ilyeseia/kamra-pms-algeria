@@ -1,7 +1,7 @@
 """Stand up one customer's property - the application half of provisioning.
 
 The demo seeds exist to make screenshots look alive. A paying customer
-must get none of that: no Kamra Demo Palace, no invented reservations, no
+must get none of that: no Hotel MgM Demo, no invented reservations, no
 sample laundry. What they get is their own property, their own login, the
 modules they actually bought, and nothing else.
 
@@ -195,7 +195,7 @@ def status(property_name: str | None = None) -> dict:
 	props = frappe.get_all("Property", fields=["name", "property_name",
 	                                           "city", "enabled_modules"])
 	mail = mail_ready()
-	demo = frappe.db.exists("Property", "Kamra Demo Palace")
+	demo = frappe.db.exists("Property", "Hotel MgM Demo")
 	return {
 		"properties": props,
 		"room_types": frappe.db.count("Room Type"),

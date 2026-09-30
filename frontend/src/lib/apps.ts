@@ -102,7 +102,7 @@ export const APPS: AppDef[] = [
     items: [
       { to: "/", label: "Today", icon: Home },
       { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-      { to: "/assistant", label: "Kamra Agent", icon: Sparkles },
+      { to: "/assistant", label: "Hotel MgM Agent", icon: Sparkles },
       { to: "/reservations", label: "Reservations", icon: ClipboardList },
       { to: "/crs", label: "Central Reservations", icon: Search },
       { to: "/tape", label: "Tape Chart", icon: LayoutGrid },

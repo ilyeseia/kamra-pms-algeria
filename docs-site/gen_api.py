@@ -250,7 +250,7 @@ def write_postman(modules):
 
     collection = {
         "info": {
-            "name": "Kamra PMS API",
+            "name": "Hotel MgM API",
             "description":
                 "The full Kamra REST surface. Set base_url (e.g. "
                 "https://pms.yourhotel.com), api_key and api_secret in the "

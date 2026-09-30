@@ -808,7 +808,7 @@ export default function BookingEngine() {
                     <span className="mb-1 block text-sm font-medium text-zinc-600">Meta Title</span>
                     <input
                       className={inputCls}
-                      placeholder="Grand Kamra Palace | Luxury Stay in Udaipur"
+                      placeholder="Hotel El Djazair | Sejour de luxe a Alger"
                       value={doc.meta_title ?? ""}
                       onChange={(e) => updateField("meta_title", e.target.value)}
                     />
@@ -819,7 +819,7 @@ export default function BookingEngine() {
                     <textarea
                       rows={3}
                       className={inputCls}
-                      placeholder="Book directly for best rates at Grand Kamra Palace, Udaipur. Located right on Lake Pichola with luxury amenities, rooftop pool, and five-star dine-in options."
+                      placeholder="Reservez en direct au meilleur tarif a Alger. Vue sur la baie, piscine, restaurant et salles de reunion."
                       value={doc.meta_description ?? ""}
                       onChange={(e) => updateField("meta_description", e.target.value)}
                     />

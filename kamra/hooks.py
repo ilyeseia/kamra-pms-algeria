@@ -1,5 +1,5 @@
 app_name = "kamra"
-app_title = "Kamra"
+app_title = "Hotel MgM"
 app_publisher = "HeyKoala"
 app_description = (
 	"Open-source, AI-native hotel PMS — front desk, direct booking, "

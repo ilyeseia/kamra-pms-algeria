@@ -21,7 +21,7 @@ from frappe.utils import add_days, nowdate
 from kamra.channel_manager import _apply_event, ari_snapshot
 from kamra.channels import provider_for
 
-DEMO_PROPERTY = "Kamra Lakeside Villa"   # has a real Villa + a member STD
+DEMO_PROPERTY = "Hotel MgM Lakeside Villa"   # has a real Villa + a member STD
 HOTEL_CODE = "sandbox-pms"
 MEMBER_CODE, MEMBER_RATE = "std", "std-ep"
 VILLA_CODE, VILLA_RATE = "villa", "villa-ep"

@@ -7,8 +7,8 @@ Run via bench console:
 
 import frappe
 
-P2 = "Kamra Beach House"
-P1 = "Kamra Demo Palace"
+P2 = "Hotel MgM Beach House"
+P1 = "Hotel MgM Demo"
 
 
 def execute():
@@ -23,7 +23,7 @@ def execute():
 			"gstin": "29ABCDE1234F2Z4",
 			"star_category": "Homestay",
 			"showcase_description": "Six rooms, one cliff, endless sea. "
-			                        "Kamra Beach House is barefoot luxury on the Gokarna coast.",
+			                        "Hotel MgM Beach House is barefoot luxury on the Gokarna coast.",
 			"hero_image": "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1600",
 			"property_amenities": "Sea view, Cafe, Free WiFi, Hammocks",
 		}).insert(ignore_permissions=True)
@@ -66,7 +66,7 @@ def execute():
 			"for_value": P1,
 			"apply_to_all_doctypes": 1,
 		}).insert(ignore_permissions=True)
-		print("frontdesk@kamra.local restricted to Kamra Demo Palace")
+		print("frontdesk@kamra.local restricted to Hotel MgM Demo")
 
 	frappe.db.commit()  # nosemgrep: frappe-manual-commit -- batch/seed/migration script runs outside the request cycle; explicit commit persists the staged writes
 	print("Portfolio demo ready.")

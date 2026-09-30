@@ -13,7 +13,7 @@ import random
 import frappe
 from frappe.utils import add_days, nowdate
 
-PROPERTY = "Kamra Demo Palace"
+PROPERTY = "Hotel MgM Demo"
 
 ROOM_TYPES = [
 	("STD", "Standard", 2800, "City", ["101", "102", "103", "104", "105", "106"]),
@@ -217,8 +217,8 @@ def execute():
 
 
 def seed_generic_properties():
-	# 1. Seed Kamra Lakeside Villa (Generic Tatasth structure)
-	p1 = "Kamra Lakeside Villa"
+	# 1. Seed Hotel MgM Lakeside Villa (Generic Tatasth structure)
+	p1 = "Hotel MgM Lakeside Villa"
 	if not frappe.db.exists("Property", p1):
 		prop = frappe.get_doc({
 			"doctype": "Property",
@@ -280,10 +280,10 @@ def seed_generic_properties():
 		from kamra.api import set_room_rate
 		set_room_rate(prop.name, rt_std.name, "2026-08-01", "2027-08-01", 8600, reason="Weekend Rate", days_of_week=["Fri", "Sat"])
 		set_room_rate(prop.name, rt_villa.name, "2026-08-01", "2027-08-01", 36800, reason="Weekend Rate", days_of_week=["Fri", "Sat"])
-		print("Seeded generic Kamra Lakeside Villa.")
+		print("Seeded generic Hotel MgM Lakeside Villa.")
 
-	# 2. Seed Kamra Beach Homestay (Generic Waterfront structure)
-	p2 = "Kamra Beach Homestay"
+	# 2. Seed Hotel MgM Beach Homestay (Generic Waterfront structure)
+	p2 = "Hotel MgM Beach Homestay"
 	if not frappe.db.exists("Property", p2):
 		prop = frappe.get_doc({
 			"doctype": "Property",
@@ -333,4 +333,4 @@ def seed_generic_properties():
 		frappe.get_doc({"doctype": "Room", "property": prop.name, "room_number": "Room 3", "room_type": rt_uf2r.name, "floor": "Upper Floor"}).insert(ignore_permissions=True)
 		frappe.get_doc({"doctype": "Room", "property": prop.name, "room_number": "Room 4", "room_type": rt_gfna.name, "floor": "Ground Floor"}).insert(ignore_permissions=True)
 		frappe.get_doc({"doctype": "Room", "property": prop.name, "room_number": "Room 5", "room_type": rt_gfnb.name, "floor": "Ground Floor"}).insert(ignore_permissions=True)
-		print("Seeded generic Kamra Beach Homestay.")
+		print("Seeded generic Hotel MgM Beach Homestay.")

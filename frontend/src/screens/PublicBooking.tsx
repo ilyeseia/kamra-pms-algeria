@@ -1066,7 +1066,7 @@ export default function PublicBooking() {
         )}
 
         <p className="mt-10 text-center text-xs text-zinc-400">
-          {t("Powered by Kamra - the open-source, agent-ready hotel PMS")}
+          {t("Powered by Hotel MgM")}
         </p>
       </div>
 

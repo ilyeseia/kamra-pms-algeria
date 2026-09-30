@@ -186,7 +186,7 @@ export default function Login(props: { onSuccess: () => void }) {
         )}
         {(version || sourceUrl) && (
           <p className="mt-6 text-center text-[11px] text-[#6f7a71]">
-            {version && <span>Kamra PMS v{version}</span>}
+            {version && <span>Hotel MgM v{version}</span>}
             {version && sourceUrl && <span className="mx-1">·</span>}
             {sourceUrl && (
               <a

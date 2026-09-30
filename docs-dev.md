@@ -108,10 +108,10 @@ bench --site kamra.localhost migrate
 - **Property switcher** in the header (shows when the user can access >1
   property); switching remounts all screens with that property's data;
   choice persists in localStorage
-- Second demo property seeded: **Kamra Beach House** (Gokarna) with its own
+- Second demo property seeded: **Hotel MgM Beach House** (Gokarna) with its own
   room types, rooms, meal plan
 - **Per-user property scoping** via native Frappe User Permissions:
-  frontdesk@kamra.local is pinned to Kamra Demo Palace and can't see or
+  frontdesk@kamra.local is pinned to Hotel MgM Demo and can't see or
   query the Beach House; admins see the whole portfolio
 - `my_properties` API returns only permitted properties
 

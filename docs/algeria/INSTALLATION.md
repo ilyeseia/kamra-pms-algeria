@@ -268,7 +268,7 @@ Confirm before you proceed:
 | Demo accounts | Created — all six, known passwords | **Never created** |
 | Login screen demo buttons | Shown | Hidden |
 | Demo reset available | Yes | No — and that is intentional |
-| Admin password | Set by the installer for the trial | Prompted as a `SecureString`, never echoed |
+| Admin password | prompted by the Linux installer, both modes | prompted by the Linux installer, both modes |
 | HTTP port | `-HttpPort`, default 8080 | `-HttpPort`, default 8080 |
 | TLS | None. `localhost` over plain HTTP | **Required** — see §8.6 |
 | Backups | Not configured; the data is disposable | **Mandatory** — see [`BACKUP.md`](BACKUP.md) |
@@ -394,8 +394,15 @@ point it at a production site — and it will refuse anyway.
 .\Install-Kamra.ps1 -Mode Production -SiteName pms.hotel.dz -AdminEmail gm@hotel.dz
 ```
 
-The installer prompts for the admin password as a `SecureString`, so it is not
-echoed and does not land in PowerShell history. Minimum 10 characters
+`Install-Kamra.ps1` never asks for, stores or forwards the admin password — a
+stronger guarantee than handling it carefully would be. It exports `SITE_NAME`
+and `ADMIN_EMAIL` only; because `prompt()` in `deploy/install.sh` returns early
+for a variable that is already set, the Linux installer asks for the password
+itself and reads it straight from the console (`install.sh:67-80`, `:244-249`).
+So it never enters a PowerShell variable, the environment block, a transcript or
+shell history — there is nothing holding it to leak.
+
+This applies to **both** modes, Trial included. Minimum 10 characters
 (`deploy/install.sh:51,255`); there is **no default password** anywhere in this
 stack, by design.
 

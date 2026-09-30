@@ -10,7 +10,7 @@ adds only what's missing, never duplicates.
 
 import frappe
 
-PROPERTY = "Kamra Demo Palace"
+PROPERTY = "Hotel MgM Demo"
 
 # (name, category, price, duration, gst%, description, image)
 EXPERIENCES = [
@@ -792,7 +792,7 @@ def seed_sample_content():
 		                    "room; 6-11 at the child rate. Cribs on "
 		                    "request, free."),
 		"extra_bed_policy": "Rollaway bed ₹900/night, subject to room size.",
-		"meta_title": "Kamra Demo Palace, Bengaluru - boutique stays near Lalbagh",
+		"meta_title": "Hotel MgM Demo, Bengaluru - boutique stays near Lalbagh",
 		"meta_description": (
 			"38 rooms of quiet luxury by Lalbagh Botanical Garden. Direct "
 			"rates, pay at hotel, instant confirmation."),
@@ -961,7 +961,7 @@ def seed_sample_content():
 		g = demo_guest[0] if demo_guest else None
 		thread = [
 			("Outbound", "Template", "kamra_booking_confirmation", "Sent",
-			 "Rohan · Kamra Demo Palace · 2026-07-24 · 2026-07-26"),
+			 "Rohan · Hotel MgM Demo · 2026-07-24 · 2026-07-26"),
 			("Outbound", "Template", "kamra_precheckin_link", "Sent",
 			 "Rohan · https://demo.kamrapms.com/kamra/checkin/…"),
 			("Inbound", "Text", None, "Received",

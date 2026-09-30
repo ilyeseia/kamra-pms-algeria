@@ -1,6 +1,6 @@
 {
  "info": {
-  "name": "Kamra PMS API",
+  "name": "Hotel MgM API",
   "description": "The full Kamra REST surface. Set base_url (e.g. https://pms.yourhotel.com), api_key and api_secret in the collection variables, then call away. Docs: https://kamrapms.com/docs/api-reference",
   "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
  },
