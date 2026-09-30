@@ -1361,5 +1361,6 @@
   "{plan} (+{amount}/adult/night)": "{plan} (+{amount}/بالغ/ليلة)",
   "{property} in {city}: {n} room types from {rate}/night. Best-rate direct booking, pay at hotel.": "{property} في {city}: {n} أنواع غرف ابتداءً من {rate}/ليلة. حجز مباشر بأفضل سعر، والدفع في الفندق.",
   "{property}, {city} - book direct from {rate}/night": "{property}، {city} - احجز مباشرة ابتداءً من {rate}/ليلة",
-  "{time} onwards": "من {time} فصاعداً"
+  "{time} onwards": "من {time} فصاعداً",
+  "Source code": "الكود المصدري"
 }

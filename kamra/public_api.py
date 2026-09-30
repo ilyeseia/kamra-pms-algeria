@@ -11,7 +11,15 @@ import frappe
 from frappe.rate_limiter import rate_limit
 from frappe.utils import cint, date_diff
 
+from kamra import __version__
 from kamra.booking_slugs import resolve_public_slug, slugify
+
+# Where the Corresponding Source of THIS running build lives. AGPL-3.0 §13
+# requires that anyone interacting with the app over a network be offered it,
+# and a hotel's guests interact with the booking engine over a network. A fork
+# or a reseller points this at their own published source with the
+# `kamra_source_url` default rather than editing code.
+DEFAULT_SOURCE_URL = "https://github.com/ilyeseia/kamra-pms-algeria"
 
 
 def _room_type_filters(property: str, listing_slug: str | None = None,
@@ -211,8 +219,22 @@ def site_info():
 	demo_mode is true only on the seeded demo site (seed_demo sets the
 	`kamra_demo_mode` default), so a real install never advertises the
 	demo login accounts.
+
+	version and source_url are here for two reasons that happen to share a
+	fix. The login screen has always rendered a version line, and it has
+	never once appeared, because this endpoint did not return the field it
+	reads. And this app is AGPL-3.0: §13 obliges whoever runs it to offer
+	the Corresponding Source to people who use it across a network, which
+	is precisely what a hotel's guests do on the booking engine - so the
+	source URL belongs on a surface every user can reach, not in a file only
+	the operator sees.
 	"""
-	return {"demo_mode": frappe.db.get_default("kamra_demo_mode") == "1"}
+	return {
+		"demo_mode": frappe.db.get_default("kamra_demo_mode") == "1",
+		"version": __version__,
+		"source_url": (frappe.db.get_default("kamra_source_url")
+		               or DEFAULT_SOURCE_URL),
+	}
 
 
 @frappe.whitelist(allow_guest=True)

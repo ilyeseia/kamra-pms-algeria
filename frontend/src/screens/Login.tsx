@@ -30,6 +30,11 @@ export default function Login(props: { onSuccess: () => void }) {
   // Demo accounts only exist on the seeded demo site; hide them elsewhere.
   const [demoMode, setDemoMode] = useState(false)
   const [version, setVersion] = useState<string | null>(null)
+  // AGPL-3.0 §13: whoever runs this over a network must offer its users the
+  // Corresponding Source. The login screen is the surface every staff user
+  // reaches, so the offer lives here. The site can point it at its own
+  // published fork via the `kamra_source_url` default.
+  const [sourceUrl, setSourceUrl] = useState<string | null>(null)
   const [langState, setLangState] = useState<Lang>(lang || getLang())
 
   useEffect(() => {
@@ -40,6 +45,7 @@ export default function Login(props: { onSuccess: () => void }) {
     getSiteInfo().then((info) => {
       setDemoMode(Boolean(info.demo_mode))
       setVersion(info.version ?? null)
+      setSourceUrl(info.source_url ?? null)
     })
   }, [])
 
@@ -178,9 +184,19 @@ export default function Login(props: { onSuccess: () => void }) {
           </div>
         </div>
         )}
-        {version && (
+        {(version || sourceUrl) && (
           <p className="mt-6 text-center text-[11px] text-[#6f7a71]">
-            Kamra PMS v{version}
+            {version && <span>Kamra PMS v{version}</span>}
+            {version && sourceUrl && <span className="mx-1">·</span>}
+            {sourceUrl && (
+              <a
+                href={sourceUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="underline hover:text-[#4a5a50]">
+                {t("Source code")}
+              </a>
+            )}
           </p>
         )}
       </div>

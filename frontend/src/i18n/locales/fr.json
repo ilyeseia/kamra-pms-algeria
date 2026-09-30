@@ -1308,5 +1308,6 @@
   "{plan} (+{amount}/adult/night)": "{plan} (+{amount}/adulte/nuit)",
   "{property} in {city}: {n} room types from {rate}/night. Best-rate direct booking, pay at hotel.": "{property} à {city} : {n} types de chambres à partir de {rate}/nuit. Réservation directe au meilleur tarif, paiement à l'hôtel.",
   "{property}, {city} - book direct from {rate}/night": "{property}, {city} - réservez en direct à partir de {rate}/nuit",
-  "{time} onwards": "à partir de {time}"
+  "{time} onwards": "à partir de {time}",
+  "Source code": "Code source"
 }
