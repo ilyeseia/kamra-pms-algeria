@@ -119,11 +119,16 @@ person, which is worse than nothing.
 
 ## Amounts in words
 
-`kamra/localization/words.py` does not know DZD, so a bill reads
-`"DZD Three Thousand Five Hundred Only"` rather than spelling dinars and
-centimes. The pack does **not** override the `amount_in_words` hook for this —
-the default accessor is plain but correct. Teaching `CURRENCY_WORDS` about
-`"DZD": ("Dinars", "Centimes")` is a one-line upstream improvement.
+`kamra/localization/words.py` now carries `"DZD": ("Dinars", "Centimes")`, so a
+bill reads `"Dinars Three Thousand Five Hundred Only"`, and
+`"Dinars Three Thousand Five Hundred and Seventy Five Centimes Only"` where
+there are centimes. The pack does **not** override the `amount_in_words` hook —
+the default accessor in `localization/__init__.py` now produces the right words
+on its own.
+
+Note `CURRENCY_WORDS` still has no `SAR` entry, so Saudi invoices print
+`"SAR Three Thousand Only"` despite a Saudi pack shipping. Same one-line fix,
+but it belongs to that pack's owner, not to this branch.
 
 ## Payment modes
 

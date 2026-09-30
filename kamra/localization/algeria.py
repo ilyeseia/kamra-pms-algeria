@@ -55,11 +55,9 @@ No e-invoicing hooks. Algeria has no clearance regime equivalent to
 Saudi ZATCA for this seam to call, and a stub that pretended to report an
 invoice somewhere would be worse than nothing - it would read like a
 working integration to the next person. Amounts in words also stay on the
-default accessor in localization/__init__.py: words.py spells the number
-correctly and falls back to the bare currency code, so a DZD bill reads
-"DZD Three Thousand Only" until someone teaches CURRENCY_WORDS about
-dinars and centimes. Plain, but correct - no reason for this pack to
-override the hook.
+default accessor in localization/__init__.py: words.py now knows DZD, so a
+bill reads "Dinars Three Thousand Five Hundred Only" with centimes where
+there are any. No reason for this pack to override the hook.
 """
 
 from decimal import Decimal

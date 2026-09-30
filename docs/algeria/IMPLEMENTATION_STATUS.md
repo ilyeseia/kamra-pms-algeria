@@ -159,8 +159,9 @@ variable call sites; only 49 are genuinely dead.
 5. **Levy tax rate basis differs subtly between paths**: the quote uses the
    stay's blended room tax rate, the folio uses that night's. Identical unless
    a stay crosses a rate boundary. Pre-existing.
-6. **Amounts in words print `"DZD Three Thousand Only"`** — `words.py` has no
-   DZD entry. One-line upstream fix (`"DZD": ("Dinars", "Centimes")`).
+6. ~~**Amounts in words print `"DZD Three Thousand Only"`**~~ **Resolved.**
+   `words.py` now carries `"DZD": ("Dinars", "Centimes")`. Still open for the
+   Saudi pack, whose `SAR` has no entry either — not this branch's to fix.
 7. **Fixed levy is treated as tax-exclusive** even on a `rates_include_tax`
    property, because `_post_room_levy` has no notion of inclusivity and adding
    one would split the two paths.
@@ -208,7 +209,7 @@ variable call sites; only 49 are genuinely dead.
   Arabic keys when only 49 are dead, and keep missing every Settings.tsx spec
   string — including this branch's own.
 - Lazy-load locale dictionaries.
-- `words.py` DZD entry.
+- `words.py` `SAR` entry, for the Saudi pack (DZD is done).
 - `marketplace_install_check.py` Windows encoding.
 - Rename `gstin` → `tax_id`.
 - Internationalise `PublicBooking.tsx`, `PublicListing.tsx`, `QrMenu.tsx`
