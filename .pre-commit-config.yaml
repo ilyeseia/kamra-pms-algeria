@@ -4,6 +4,23 @@ fail_fast: false
 
 
 repos:
+  # Secret scanning, first so it fails before anything cosmetic. Gitleaks
+  # scans the STAGED diff only (--staged --redact), not the whole tree, so it
+  # guards what you are about to commit and stays fast. It does not replace
+  # .gitignore - that stops a secret file being added at all; this catches a
+  # secret pasted into a file that belongs in the repo.
+  #
+  # If it ever fires on the deliberate demo credentials in
+  # frontend/src/screens/Login.tsx or kamra/scripts/seed_users.py, add a
+  # .gitleaksignore entry for those specific findings rather than disabling
+  # the hook. Because it only reads staged changes, it stays quiet unless
+  # someone actually edits those files.
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+        name: "Scan staged changes for secrets"
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
