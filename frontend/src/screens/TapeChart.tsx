@@ -381,7 +381,7 @@ export default function TapeChart() {
           </span>{" "}
           {data!.conflicts.map((c) => (
             <span key={c.in_res} className="mr-3 whitespace-nowrap">
-              Room {c.room_number} on {new Date(c.date).toLocaleDateString("en-IN", { day: "numeric", month: "short" })} —
+              Room {c.room_number} on {new Date(c.date).toLocaleDateString(moneyLocale(), { day: "numeric", month: "short" })} —
               out {c.etd} ({c.out_guest}) / in {c.eta} ({c.in_guest})
             </span>
           ))}
@@ -401,7 +401,7 @@ export default function TapeChart() {
                 <div key={d} style={{ width: cellW }}
                   className={cn("shrink-0 border-l border-zinc-100 px-1 py-2 text-center",
                     weekend && "bg-brand-50 text-brand-700")}>
-                  {day.toLocaleDateString("en-IN", { weekday: "short" })}{" "}
+                  {day.toLocaleDateString(moneyLocale(), { weekday: "short" })}{" "}
                   <span className="font-semibold">{day.getDate()}</span>
                 </div>
               )

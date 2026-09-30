@@ -1,7 +1,15 @@
 /*  Currency and tax vocabulary, from the property's localization pack. Loaded
-    once per session; defaults keep India output identical until it resolves.
-    The last resolved locale is kept in localStorage so screens render with
-    the right symbol immediately on reload, before the network answers. */
+    once per session. The last resolved locale is kept in localStorage so
+    screens render with the right symbol immediately on reload, before the
+    network answers.
+
+    The defaults below are what is on screen BEFORE the pack resolves - on
+    first run, for the moment after every reload, and permanently in a private
+    window where localStorage throws. They used to be Indian, so an Algerian
+    front desk opened to rupees, GST, GSTIN, Aadhaar and UPI and then watched
+    them change. They are Algerian now, because that is who this build is for.
+    Nothing here is authoritative: property_locale() overwrites all of it from
+    the country pack a moment later. */
 
 import { useEffect, useState } from "react"
 import { call, getCurrentProperty } from "./api"
@@ -21,15 +29,16 @@ interface Locale {
 }
 
 let cache: Locale = {
-  currency_symbol: "₹",
-  locale: "en-IN",
-  currency: "INR",
-  tax_label: "GST",
-  tax_id_label: "GSTIN",
-  tax_rates: [0, 5, 12, 18, 28],
-  id_types: ["Aadhaar", "Passport", "Driving License", "Voter ID", "PAN", "Other"],
-  payment_modes: ["Cash", "Card", "UPI", "Bank Transfer"],
-  default_nationality: "Indian",
+  // trailing space because fmtMoney below prefixes the symbol: "DA 1 500"
+  currency_symbol: "DA ",
+  locale: "fr-DZ",
+  currency: "DZD",
+  tax_label: "TVA",
+  tax_id_label: "NIF",
+  tax_rates: [9, 19],
+  id_types: ["National ID", "Passport", "Driving License", "Residence Permit", "Other"],
+  payment_modes: ["Cash", "Card", "Bank Transfer"],
+  default_nationality: "Algerian",
 }
 
 const listeners = new Set<() => void>()
@@ -38,7 +47,8 @@ try {
   const saved = JSON.parse(localStorage.getItem("kamra_locale") || "")
   if (saved && saved.currency_symbol) cache = { ...cache, ...saved }
 } catch {
-  /* first run - Indian defaults until the pack resolves */
+  /* first run, or a private window - the defaults above hold until the pack
+     resolves, which is why they are Algerian rather than Indian */
 }
 
 function remember() {
@@ -75,9 +85,9 @@ export function adoptUiLocale(ui?: { currency_symbol?: string; locale?: string }
 }
 
 export const locale = () => cache
-/** The property's currency symbol, e.g. "₹" or "Rp". */
+/** The property's currency symbol, e.g. "DA " or "₹". */
 export const cur = () => cache.currency_symbol
-/** The number-formatting locale, e.g. "en-IN" (lakhs) or "id-ID". */
+/** The number-formatting locale, e.g. "fr-DZ" or "en-IN" (lakhs). */
 export const moneyLocale = () => cache.locale
 export const fmtMoney = (n: unknown) =>
   cache.currency_symbol +

@@ -31,7 +31,7 @@ function rangeLabel(dates: string[]) {
   const f = new Date(dates[0]),
     l = new Date(dates[dates.length - 1])
   const fmt = (d: Date, withYear: boolean) =>
-    d.toLocaleDateString("en-IN", {
+    d.toLocaleDateString(moneyLocale(), {
       day: "numeric",
       month: "short",
       ...(withYear ? { year: "numeric" } : {}),
@@ -61,7 +61,7 @@ export function CalendarView(props: {
   const dayLabel = (iso: string) => {
     const d = new Date(iso)
     return {
-      dow: d.toLocaleDateString("en-IN", { weekday: "short" }),
+      dow: d.toLocaleDateString(moneyLocale(), { weekday: "short" }),
       day: d.getDate(),
       weekend: d.getDay() === 0 || d.getDay() === 6,
     }

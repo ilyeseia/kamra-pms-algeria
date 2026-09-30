@@ -419,7 +419,7 @@ export default function Setup() {
                     </span>
                     <input
                       className={inputCls}
-                      placeholder="USD"
+                      placeholder="DZD"
                       maxLength={3}
                       value={prop.currency}
                       onChange={(e) =>

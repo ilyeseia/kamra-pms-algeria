@@ -159,12 +159,13 @@ def invoice_context(prop_doc) -> dict:
 
 def locale(prop_doc) -> dict:
 	currency = prop_doc.get("currency") or DEFAULT_CURRENCY
-	# the Currency master knows the symbol (DA); on a bare site with no
-	# currency records the code itself becomes the symbol - "DZD 1,500"
-	# beats a bare unlabelled number
+	# An Algerian bill is written in DA, so that is what the desk sees. The
+	# Currency master wins if an operator has set a symbol there (some prefer
+	# د.ج); otherwise DA, never the bare "DZD" code. The trailing space is
+	# deliberate - the frontend prefixes the symbol, so "DA 1 500" needs it.
 	symbol = frappe.db.get_value("Currency", currency, "symbol")
 	return {
-		"currency_symbol": symbol or f"{currency} ",
+		"currency_symbol": symbol or ("DA " if currency == "DZD" else f"{currency} "),
 		# the invoice and the front desk speak French in most houses
 		"locale": "fr-DZ",
 		"currency": currency,

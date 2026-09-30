@@ -6,7 +6,7 @@ import { Button } from "../components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { moneyLocale } from "../lib/money"
 
-const inr = (n: unknown) =>
+const amt = (n: unknown) =>
   Number(n ?? 0).toLocaleString(moneyLocale(), {
     maximumFractionDigits: 2,
   })
@@ -23,12 +23,12 @@ export default function CurrencyDesk() {
     }[]
   >([])
   const [history, setHistory] = useState<Record<string, unknown>[]>([])
-  const [currency, setCurrency] = useState("USD")
+  const [currency, setCurrency] = useState("EUR")
   const [fxAmount, setFxAmount] = useState("100")
   const [direction, setDirection] = useState<"Buy" | "Sell">("Buy")
   const [calc, setCalc] = useState<Record<string, number | string> | null>(null)
   const [newRate, setNewRate] = useState({
-    currency: "USD",
+    currency: "EUR",
     buy: "83",
     sell: "84",
     tax: "0",
@@ -127,7 +127,7 @@ export default function CurrencyDesk() {
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value)}
               >
-                {(rates.length ? rates.map((r) => r.currency) : ["USD", "EUR", "GBP"]).map(
+                {(rates.length ? rates.map((r) => r.currency) : ["EUR", "USD", "GBP"]).map(
                   (c) => (
                     <option key={c}>{c}</option>
                   ),
@@ -157,12 +157,12 @@ export default function CurrencyDesk() {
               <p className="text-sm text-zinc-600">
                 Rate {String(calc.exchange_rate)} → local{" "}
                 <span className="font-semibold tabular-nums">
-                  {inr(calc.local_amount)}
+                  {amt(calc.local_amount)}
                 </span>
                 {Number(calc.service_tax) > 0
-                  ? ` + tax ${inr(calc.service_tax)}`
+                  ? ` + tax ${amt(calc.service_tax)}`
                   : ""}{" "}
-                = {inr(calc.total)}
+                = {amt(calc.total)}
               </p>
             ) : null}
           </CardContent>
@@ -246,7 +246,7 @@ export default function CurrencyDesk() {
                   </td>
                   <td className="px-3 py-2">{String(h.exchange_rate)}</td>
                   <td className="px-3 py-2 tabular-nums">
-                    {inr(h.local_amount)}
+                    {amt(h.local_amount)}
                   </td>
                 </tr>
               ))}
