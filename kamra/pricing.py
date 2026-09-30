@@ -294,18 +294,35 @@ def quote(
 	else:
 		total_base = taxable
 
-	# Room levy (municipality fee, city / tourism tax): a % of the room rate
-	# net of discount, posted per night as its own folio line
-	levy_pct = _dec(prop.get("room_levy_percent") or 0)
+	# Room levy (municipality fee, city / tourism tax), on one of two bases
+	# the property chooses. Percent: a % of the room rate net of discount.
+	# Fixed: a flat amount per person per night - Algeria's taxe de sejour is
+	# set by the hotel's classification, not by what the room sold for, so no
+	# percentage models it without drifting every time the rate moves.
+	# Either way it is posted per night as its own folio line, and
+	# kamra/folio.py:_post_room_levy has to produce the same number to the
+	# cent or the quote and the folio it becomes will disagree.
 	levy = levy_tax = Decimal(0)
-	if levy_pct > 0 and room_total:
-		room_net = room_total * (taxable / subtotal) if subtotal else room_total
-		levy = room_net * levy_pct / Decimal(100)
-		if cint(prop.get("room_levy_taxable") if prop.get("room_levy_taxable") is not None else 1):
-			avg_gst = room_tax / room_total * Decimal(100)
-			levy_tax = levy * avg_gst / Decimal(100)
-		tax += levy_tax
-		total_base += levy
+	if prop.get("room_levy_mode") == "Fixed per person per night":
+		# Adults only. Whether a child owes the levy is the operator's policy
+		# decision - a follow-up, not something to guess at here. The `or 1`
+		# fallback is the one the folio path and the meal-plan posting already
+		# use, so a party recorded as 0 adults still bills for one head.
+		pax = max(1, int(adults or 1))
+		# round the night, then multiply: the folio posts one rounded line per
+		# night, so the quote has to add up the same rounded nights
+		per_night = (_dec(prop.get("room_levy_amount") or 0) * pax).quantize(Decimal("0.01"))
+		levy = per_night * billable_nights
+	else:
+		levy_pct = _dec(prop.get("room_levy_percent") or 0)
+		if levy_pct > 0 and room_total:
+			room_net = room_total * (taxable / subtotal) if subtotal else room_total
+			levy = room_net * levy_pct / Decimal(100)
+	if levy and cint(prop.get("room_levy_taxable") if prop.get("room_levy_taxable") is not None else 1):
+		avg_gst = (room_tax / room_total * Decimal(100)) if room_total else Decimal(0)
+		levy_tax = levy * avg_gst / Decimal(100)
+	tax += levy_tax
+	total_base += levy
 
 	total = total_base + tax
 	effective_pct = float(tax / total_base * 100) if total_base else 0

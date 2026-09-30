@@ -342,20 +342,42 @@ def post_room_night(reservation, date, folios=None) -> bool:
 
 
 def _post_room_levy(folios, reservation, date, night_rate):
-	"""The property's per-night levy on the room rate (municipality fee,
-	city / tourism tax) - its own line so the invoice shows it and the
-	ledger books it apart from room revenue."""
+	"""The property's per-night levy (municipality fee, city / tourism tax) -
+	its own line so the invoice shows it and the ledger books it apart from
+	room revenue.
+
+	Two bases, whichever the property is set to. Percent: a cut of the
+	night's rate. Fixed: a flat amount per person per night - Algeria's taxe
+	de sejour is set by the hotel's classification, so it is owed per head
+	per night whatever the room sold for, which is why the fixed branch
+	needs no rate at all. This arithmetic has to agree to the cent with
+	kamra/pricing.py's levy block, or the quote a guest accepted and the
+	folio it becomes will show different money."""
 	prop = frappe.get_cached_doc("Property", reservation.property)
-	pct = float(prop.get("room_levy_percent") or 0)
-	if not pct or not night_rate or _charge_posted(
-			reservation.name, "Room Levy", date):
+	if _charge_posted(reservation.name, "Room Levy", date):
 		return
-	levy = round(float(night_rate) * pct / 100, 2)
+	label = prop.get("room_levy_label") or "Room levy"
+	if prop.get("room_levy_mode") == "Fixed per person per night":
+		amount = float(prop.get("room_levy_amount") or 0)
+		if not amount:
+			return
+		# Adults only. Whether a child owes the levy is the operator's policy
+		# decision, a follow-up rather than a default worth guessing. The
+		# `or 1` fallback matches the meal-plan posting just above.
+		pax = max(1, int(reservation.adults or 1))
+		levy = round(amount * pax, 2)
+		desc = f"{label} {amount:g} per person, {pax} adult(s)"
+	else:
+		pct = float(prop.get("room_levy_percent") or 0)
+		if not pct or not night_rate:
+			return
+		levy = round(float(night_rate) * pct / 100, 2)
+		desc = f"{label} {pct:g}%"
 	_append_charge(folios, reservation, "Room Levy", {
 		"posting_date": date,
 		"charge_type": "Room Levy",
 		"reservation": reservation.name,
-		"description": f"{prop.get('room_levy_label') or 'Room levy'} {pct:g}%",
+		"description": desc,
 		"qty": 1,
 		"rate": levy,
 		"amount": levy,

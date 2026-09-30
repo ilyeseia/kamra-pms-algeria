@@ -423,7 +423,20 @@ const BOOKING_SPECS: Spec[] = [
     label: "Room levy name",
     hint: "Per-night levy on the room rate - municipality fee, city or tourism tax.",
   },
+  {
+    field: "room_levy_mode",
+    label: "Room levy basis",
+    type: "select",
+    options: ["Percent", "Fixed per person per night"],
+    hint: "Percent of the room rate, or a flat amount per person per night (taxe de sejour).",
+  },
   { field: "room_levy_percent", label: "Room levy %", type: "number" },
+  {
+    field: "room_levy_amount",
+    label: "Room levy amount (per person / night)",
+    type: "number",
+    hint: "Used on the fixed basis only - charged once per adult, per night, whatever the rate.",
+  },
   { field: "room_levy_taxable", label: "Tax applies to the levy", type: "check" },
   {
     field: "security_deposit_amount",
