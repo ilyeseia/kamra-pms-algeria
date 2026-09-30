@@ -46,6 +46,10 @@ source:
 | Legal-id migration | `kamra/patches/v37/normalize_legal_id_columns.py` (new), `kamra/patches.txt` |
 | Secret hygiene | `.gitignore` (closed `site_config.json`, `*.pem`, `.env.*`, `kamra.env`, `id_rsa*` gaps) |
 | Secret scanning | `.pre-commit-config.yaml` — gitleaks `v8.30.1` on the staged diff |
+| DZD in words | `kamra/localization/words.py` — `("Dinars", "Centimes")` |
+| Guest-facing i18n | `PublicBooking.tsx`, `PublicListing.tsx`, `QrMenu.tsx` + both locales |
+| Algiers time zone | `frontend/src/screens/Settings.tsx` — `Africa/Algiers` was absent |
+| Catalog tooling | `frontend/scripts/i18n-extract.mjs`, `i18n-import.mjs` |
 | Documentation | `docs/architecture/algeria-localization-audit.md`, `docs/algeria/TAXES.md`, this file |
 
 Registering the pack in `hooks.py` is what makes Algeria appear in the setup
@@ -59,69 +63,41 @@ Algerian ID types, `Taxe de séjour` levy label, and CIB/Edahabia mapped onto
 `Card` because `payment_modes()` silently drops anything outside
 `CANONICAL_PAYMENT_MODES`.
 
-### Localization coverage — measured, not counted
+### Localization coverage — measured three times, honestly each time
 
-An earlier revision of this file quoted "1187 of 1240 keys = 95.73%" as French
-coverage. **That was the wrong metric** — it is the French/Arabic key-count
-ratio, which says nothing about how much of the live UI is translated. The
-extractor (`frontend/scripts/i18n-extract.mjs`) finds **1031 translatable
-strings in live source**. Measured against that:
+This number has been corrected twice, and the direction of travel is worth
+recording because each revision was less flattering and more true.
 
-| | before this branch | now |
-| --- | --- | --- |
-| Arabic | 97.87% (22 live strings never translated) | **100.00%** |
-| French | did not exist | **96.90%** |
-| `ar.json` keys | 1240 | 1272 |
-| `fr.json` keys | 0 | 1222 |
+1. **"95.73%"** — wrong metric entirely. That was the French/Arabic key-count
+   ratio (1187/1240), which says nothing about how much of the UI is translated.
+2. **"ar 100%, fr 96.90%"** — right metric, broken instrument. Measured against
+   the extractor's 1031 keys, but the extractor only saw static `t("literal")`
+   calls. It was blind to every string reaching `t()` through a spec table —
+   `t(spec.label)`, `t(spec.hint)`, `t(o)` — which is where all of this
+   branch's Algeria strings live.
+3. **The current figure, with the extractor fixed:**
 
-Arabic had quietly fallen behind the UI — the AI-provider block in Settings,
-the marketplace block in Setup, and several housekeeping and POS strings had
-never reached it. All 22 are now translated.
+| | catalog keys | translated | coverage | dictionary keys |
+| --- | --- | --- | --- | --- |
+| Arabic | 1593 | 1245 | **78.2%** | 1363 |
+| French | 1593 | 1202 | **75.5%** | 1310 |
 
-The 32 strings French still omits are deliberate: 30 are acronyms or words
-already identical in French (ADR, RevPAR, RevPAX, OTA, VIP, UPI, KOT, Pax,
-Villa, Signature…) where the English fallback *is* the correct display, and 2
-are untranslatable by construction (see limitation 13). No English-to-English
-filler was added; an omitted key falls back to English by design.
+The catalog grew 1031 → 1593 (1126 from `t()` calls, 467 from spec tables).
+**Coverage did not get worse — the measurement got honest.** Both dictionaries
+gained keys throughout; the denominator simply stopped lying by 562 strings.
 
-Note the 1031 figure is itself a floor, not a ceiling: the extractor only sees
-static `t("literal")` calls, so it cannot see the `t(spec.label)` /
-`t(spec.hint)` / `t(o)` call sites that Settings.tsx uses — which is exactly
-where this branch's new levy and legal-identifier strings live. It reports 231
-"dead" keys in `ar.json`, but 182 of those are still reachable through those
-variable call sites; only 49 are genuinely dead.
+Of the remaining gap, a large share is deliberate: acronyms and product names
+that must not be translated (ADR, RevPAR, OTA, VIP, UPI, KOT, Pax…), strings
+already identical in the target language, and keys whose placeholders carry an
+English morpheme and so cannot be translated at all (limitation 12). The rest is
+genuine backlog. ~118 Arabic and ~108 French keys are reported unused; most are
+still reachable through `t(variable)` call sites the extractor cannot see, or
+are server-supplied country-pack strings that no frontend analysis can ever
+find — the truly dead count is around 49.
 
-### Verification — what was actually run
-
-| Gate | Result |
-| --- | --- |
-| `ruff check kamra/localization/algeria.py` | **All checks passed** |
-| `ruff check kamra/pricing.py kamra/folio.py kamra/patches/v36/` | 2 findings, **both pre-existing at HEAD** (RUF001/RUF002 on `×` and `−` glyphs); zero new |
-| `marketplace_install_check.py` | **6/6 PASS** (needs `PYTHONUTF8=1` on Windows) |
-| `tsc --noEmit` (frontend) | **exit 0** |
-| `property.json` integrity | JSON valid; `field_order` 84 = definitions 84; no orphans, no duplicates |
-| `fr.json` integrity | valid JSON; 0 keys absent from `ar.json`; 0 empty values; placeholder sets match on all 1187 keys |
-| Quote vs folio levy parity | 13 cases agree to the cent (e.g. 3 nights × 2 adults × 200 DZD → 1200.00 both paths, tax 228.00 both) |
-| Secret scan | **0 real secrets** across all 5932 blobs in local object DB (exhaustive, not sampled) |
-| Invoice footer contract | `invoice_context()` called against the real module — prints `RC · NIF · NIS · AI`, and no stray separator when none are set |
-| semgrep f-string SQL | every `frappe.db.sql` f-string in the repo carries the required same-line `nosemgrep` marker; **0** unguarded |
-| Locale coverage | measured against the extractor's 1031 live strings: ar **100.00%**, fr **96.90%** |
-| `git diff --check` | clean |
-
-### NOT verified — stated plainly
-
-- **No Frappe / bench test was run.** There is no `bench` and no configured
-  site on the development machine. The backend test suite (`kamra/tests/`,
-  11 modules), `bench migrate`, and patch `v36`'s SQL have **not** been
-  executed. Business-logic verification above came from exercising the real
-  modules against a stubbed `frappe`, which is weaker than a site test.
-- Patch `v36` has been reviewed for syntax, structure and idempotency only.
-  **It has never run against a database.**
-- No RTL/LTR visual verification of the French or Arabic UI in a browser.
-- No semgrep run (`linters.yml` equivalent); semgrep is installed but the
-  Frappe rule set was not cloned.
-- French legal/privacy paragraphs and two terminology calls (`Housekeeping` →
-  "Ménage", `Walk-in` → "Sans réservation") want a native Algerian reviewer.
+Arabic was also quietly behind the UI before this branch: 22 live strings — the
+AI-provider block in Settings, the marketplace block in Setup, several
+housekeeping and POS strings — had never reached it. Those are translated.
 
 ## Known limitations
 
@@ -175,7 +151,14 @@ variable call sites; only 49 are genuinely dead.
     production site that runs `seed_users.py` hands out known admin passwords.
 11. **`gstin` now carries five different countries' tax IDs.** Display label is
     overridden per pack; the fieldname is not.
-12. **Arabic ships two visibly broken strings today, and has for a while.**
+12. **Arabic ships visibly broken plurals, and this is now guest-facing.**
+    Beyond the two below, the whole `{s}` convention is wrong in Arabic: callers
+    pass a literal `"s"`, so `{n} night{s}` renders as `3 ليلةs`. That was a
+    staff-screen blemish; as of the public-screens work it is on the booking
+    page a paying guest uses, which is what makes it urgent. Arabic has six
+    plural categories and the scheme cannot express two. The fix is a plural
+    selector in `lib/i18n.ts` (`Intl.PluralRules`), not dictionary entries.
+    The two original cases:
     `{n}{ord} Floor` and `{n} propert{ies} …` interpolate *English* morphemes —
     `{ord}` resolves to "st/nd/rd/th" and `{ies}` to "y/ies" — so an Arabic user
     currently sees `الطابق 3rd` and `3 عقارy`. This is a real user-facing bug,
@@ -184,14 +167,35 @@ variable call sites; only 49 are genuinely dead.
     resolve the ordinal and the plural and pass a finished word; no dictionary
     entry can repair it. A `plural(n, one, many)` helper would retire the whole
     `{s}` / `{s2}` / `{s3}` family with it.
-13. **The three public guest-facing screens are not internationalised at all.**
-    `PublicBooking.tsx`, `PublicListing.tsx` and `QrMenu.tsx` contain **zero**
-    `t()` calls — the booking page, the listing page and the QR menu are
-    English-only. For an Algerian market this is a larger practical gap than any
-    remaining dictionary entry, and it is a code change, not a translation one.
-    (The extractor's SKIP list for these three files is consequently dead
-    weight — it excludes nothing.)
-14. **`marketplace_install_check.py` crashes on Windows** with
+13. ~~**The three public guest-facing screens are not internationalised.**~~
+    **Resolved.** All three now use `t()` (88 / 52 / 13 calls where there were
+    zero), carry a language picker a guest can reach without an account, and
+    pick Arabic from `navigator.language` on a cold visit. Every physical
+    directional class on text in those files is now logical, and price and phone
+    runs are bidi-isolated. **But the hotel's own content is still
+    monolingual** — property and room descriptions, house rules, FAQ, amenities,
+    meal-plan and menu item names are backend data, so an Arabic guest gets an
+    Arabic interface wrapped around whatever language the operator typed. Fixing
+    that means per-language fields on the Property / Room Type / Menu Item
+    DocTypes, or saying so plainly in the operator-facing settings copy.
+14. **The booking drawer is not RTL-correct.** `frontend/src/components/ui/sheet.tsx`
+    anchors with `right-0` and hardcodes `aria-label="Close"`, so in Arabic the
+    sheet still slides in from the right and its close button is announced in
+    English. Its `description` prop is typed `string` rather than `ReactNode`,
+    which is why the date range inside it cannot be bidi-isolated the way the
+    in-page ones are.
+15. **`LangPicker` now exists in six places** — the three public screens,
+    `PublicCheckin`, and `<select>` variants in `Login` and `Settings`. The cold
+    `navigator.language` sniff is duplicated four times and belongs in
+    `initLang()`, where it would fix every public entry point at once.
+16. **The frontend is type-checked but not lint-checked.** `eslint` is not in
+    the local `node_modules` and `npx` refused to install it, so
+    `react-hooks/exhaustive-deps` has never run over the new effects. CI's
+    pre-commit eslint hook will be the first to see them.
+17. **`rtl:rotate-180` is the first use of the `rtl:` variant in this repo.**
+    Tailwind 4 drives it off `<html dir>`, which `applyLang()` sets, and it
+    type-checks — but nobody has confirmed it visually.
+18. **`marketplace_install_check.py` crashes on Windows** with
     `UnicodeDecodeError` (cp1252) unless `PYTHONUTF8=1` is set. Environment
     bug, works in CI. Worth an upstream fix.
 
@@ -199,21 +203,28 @@ variable call sites; only 49 are genuinely dead.
 
 - `tax_exempt` on Room Type (limitation 1) — affects six packs.
 - Percent-levy discount basis (limitation 2).
-- `{ord}` / `{ies}` / `{s}` English-morphology leaks in i18n keys — these block
-  every non-English language, not just French. A `plural(n, one, many)` helper
-  would retire them.
-- `i18n-extract.mjs` should glob `src/i18n/locales/` instead of hard-coding
-  `ar.json` — French was invisible to the tooling, which is why its real gap
-  went unmeasured until now. It should also learn the `t(variable)` call sites
-  (`t(spec.label)`, `t(spec.hint)`, `t(o)`), or it will keep reporting 231 dead
-  Arabic keys when only 49 are dead, and keep missing every Settings.tsx spec
-  string — including this branch's own.
+- **Plural handling in `lib/i18n.ts` — now the highest-value item on this list.**
+  `{s}` / `{ies}` / `{ord}` put English morphology in the dictionary, so Arabic
+  renders `3 ليلةs` and `الطابق 3rd`. Since the guest-facing screens landed this
+  is visible to paying customers. Arabic has six plural categories; the scheme
+  cannot express two. Wants `Intl.PluralRules` in `lib/i18n.ts` and a migration
+  of the affected keys — no dictionary entry can fix it.
+- ~~`i18n-extract.mjs` hard-codes `ar.json` and cannot see `t(variable)`~~ —
+  **done**: it globs `src/i18n/locales/*.json`, names columns by locale code,
+  harvests spec-table literals, and its per-file SKIP list was replaced with
+  structural exclusions that cannot rot. `i18n-import.mjs` was fixed in the same
+  commit to default its column to the language code. Remaining gap: string
+  arrays consumed as `.map(o => t(o))` (e.g. `ORDER_TYPES` in POS, `id_types` in
+  `lib/money.ts`) and backend-supplied country-pack strings are still invisible.
 - Lazy-load locale dictionaries.
 - `words.py` `SAR` entry, for the Saudi pack (DZD is done).
 - `marketplace_install_check.py` Windows encoding.
 - Rename `gstin` → `tax_id`.
-- Internationalise `PublicBooking.tsx`, `PublicListing.tsx`, `QrMenu.tsx`
-  (limitation 13) and drop the extractor's now-pointless SKIP list.
+- ~~Internationalise the three public screens~~ — **done**. What remains is
+  the hotel's own content (limitation 13) and the `Sheet` component's RTL
+  anchoring (limitation 14).
+- Extract a shared `LangPicker` and move the `navigator.language` sniff into
+  `initLang()` (limitation 15).
 - Prune the 49 genuinely dead `ar.json` keys / 45 in `fr.json`.
 
 ## Blockers
@@ -240,7 +251,10 @@ bookings, multi-property RBAC and the MCP/AI layer are all shipped upstream.
 The remaining genuine Algeria work is:
 
 - Trilingual GRC / invoice print verification (ar / fr / en layout, RTL) —
-  nobody has looked at a rendered page in any language
+  nobody has looked at a rendered page in any language, including the newly
+  localised guest-facing screens
+- Per-language fields for hotel-authored content, or an explicit decision to
+  accept mixed-language guest pages and say so in the operator settings copy
 - Children policy for the levy (limitation 4) — an operator decision
 - Whether a percentage levy is discountable (limitation 2) — an owner decision
 - A native-speaker pass on the French legal/privacy copy, and on the Arabic
