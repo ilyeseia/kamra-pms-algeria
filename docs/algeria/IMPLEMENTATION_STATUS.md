@@ -151,22 +151,28 @@ housekeeping and POS strings — had never reached it. Those are translated.
     production site that runs `seed_users.py` hands out known admin passwords.
 11. **`gstin` now carries five different countries' tax IDs.** Display label is
     overridden per pack; the fieldname is not.
-12. **Arabic ships visibly broken plurals, and this is now guest-facing.**
-    Beyond the two below, the whole `{s}` convention is wrong in Arabic: callers
-    pass a literal `"s"`, so `{n} night{s}` renders as `3 ليلةs`. That was a
-    staff-screen blemish; as of the public-screens work it is on the booking
-    page a paying guest uses, which is what makes it urgent. Arabic has six
-    plural categories and the scheme cannot express two. The fix is a plural
-    selector in `lib/i18n.ts` (`Intl.PluralRules`), not dictionary entries.
-    The two original cases:
-    `{n}{ord} Floor` and `{n} propert{ies} …` interpolate *English* morphemes —
-    `{ord}` resolves to "st/nd/rd/th" and `{ies}` to "y/ies" — so an Arabic user
-    currently sees `الطابق 3rd` and `3 عقارy`. This is a real user-facing bug,
-    pre-existing and not introduced here. French omits both keys rather than
-    shipping the same breakage. **The fix belongs in the caller**, which must
-    resolve the ordinal and the plural and pass a finished word; no dictionary
-    entry can repair it. A `plural(n, one, many)` helper would retire the whole
-    `{s}` / `{s2}` / `{s3}` family with it.
+12. **Plural and ordinal morphology — visible damage stopped, real support
+    still absent.** Call sites compute an *English* morpheme themselves
+    (`s: n === 1 ? "" : "s"`, `ies`, `ord` for st/nd/rd/th) and pass it in, so
+    Arabic rendered `3 ليلةs`, `3 عقارy` and `الطابق 3rd` — on staff screens and,
+    after the public-screens work, on the guest booking page.
+
+    **Fixed as far as it can be cheaply fixed:** `LangDef` now declares
+    `suffixPlural` and `ordinalSuffix`, and `interpolate()` drops those
+    placeholders where they do not apply. Arabic renders `3 ليلة` and
+    `الطابق 3`; English and French are unchanged. Two flags rather than one
+    because the properties differ — French pluralises with `-s` so it keeps
+    `{s}`, but writes ordinals `1er` / `3e`, so `3rd étage` would be as wrong as
+    the Arabic was. A side benefit: with `{ord}` dropped, that key is
+    translatable into French for the first time.
+
+    **This is not plural support and is labelled a stopgap in the code.** It
+    declines to append an English suffix; it does not select a plural form.
+    Arabic has six plural categories and this expresses none of them, and
+    `{n}e étage` is still wrong for `n = 1` (French wants `1er`). Real support
+    means per-category forms driven by `Intl.PluralRules`, which changes the
+    dictionary format and every affected key — roughly 40 call sites across 15
+    screens.
 13. ~~**The three public guest-facing screens are not internationalised.**~~
     **Resolved.** All three now use `t()` (88 / 52 / 13 calls where there were
     zero), carry a language picker a guest can reach without an account, and
@@ -203,12 +209,11 @@ housekeeping and POS strings — had never reached it. Those are translated.
 
 - `tax_exempt` on Room Type (limitation 1) — affects six packs.
 - Percent-levy discount basis (limitation 2).
-- **Plural handling in `lib/i18n.ts` — now the highest-value item on this list.**
-  `{s}` / `{ies}` / `{ord}` put English morphology in the dictionary, so Arabic
-  renders `3 ليلةs` and `الطابق 3rd`. Since the guest-facing screens landed this
-  is visible to paying customers. Arabic has six plural categories; the scheme
-  cannot express two. Wants `Intl.PluralRules` in `lib/i18n.ts` and a migration
-  of the affected keys — no dictionary entry can fix it.
+- **Real plural support via `Intl.PluralRules`** (limitation 12). The visible
+  garbage is gone, but the scheme still cannot *select* a form: Arabic's six
+  plural categories are unexpressed, and French `1er` vs `3e` needs the caller
+  to stop passing a suffix. ~40 call sites across 15 screens, plus a dictionary
+  format that can hold per-category forms.
 - ~~`i18n-extract.mjs` hard-codes `ar.json` and cannot see `t(variable)`~~ —
   **done**: it globs `src/i18n/locales/*.json`, names columns by locale code,
   harvests spec-table literals, and its per-file SKIP list was replaced with
