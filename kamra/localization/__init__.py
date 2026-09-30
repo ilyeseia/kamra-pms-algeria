@@ -31,9 +31,44 @@ def pack_for(property: str | None = None):
 	return pack_for_country(country or "India")
 
 
+# Alternate spellings a country genuinely arrives as. Property.country is a
+# free-text Data field, so an operator types whatever they type - and the hook
+# map below is an exact dict lookup. That combination meant "algeria", a
+# trailing space, or the French and Arabic names of the country all fell
+# through to the flat-tax generic pack: no TVA label, no NIF, no DZD, no taxe
+# de séjour, and nothing raised to say so. A hotel printing the wrong tax
+# vocabulary on its invoices while the software reports success is the worst
+# shape a bug can take, so the lookup normalises and then checks aliases.
+#
+# Keys are casefolded. Add a row per alternate name; the country it maps to
+# must match a `kamra_localization` hook key exactly.
+COUNTRY_ALIASES = {
+	"algerie": "Algeria",
+	"algérie": "Algeria",
+	"الجزائر": "Algeria",
+	"dz": "Algeria",
+	"dza": "Algeria",
+}
+
+
+def _normalise_country(country: str | None) -> str:
+	"""Casefolded, inner whitespace collapsed, outer stripped."""
+	return " ".join((country or "").split()).casefold()
+
+
 def pack_for_country(country: str):
 	mapping = frappe.get_hooks("kamra_localization") or {}
+	# exact match first, so an existing install resolves exactly as before
 	target = mapping.get(country)
+	if not target:
+		norm = _normalise_country(country)
+		if norm:
+			by_norm = {_normalise_country(k): v for k, v in mapping.items()}
+			target = by_norm.get(norm)
+			if not target:
+				aliased = COUNTRY_ALIASES.get(norm)
+				if aliased:
+					target = mapping.get(aliased)
 	if target:
 		path = target[-1] if isinstance(target, (list, tuple)) else target
 		try:
