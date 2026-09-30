@@ -10,13 +10,29 @@ export interface LangDef {
   /** English label for the picker, e.g. "Arabic". */
   englishLabel: string
   dir: "ltr" | "rtl"
+  /** Does this language form a plural by suffixing the noun? English and
+   * French do ("3 nights", "3 nuits"), so the `{s}`-family placeholders that
+   * callers pass ("" or "s") land correctly. Arabic does not - suffixing "s"
+   * onto ليلة produces "3 ليلةs", which is what a guest was actually seeing.
+   * i18n.ts drops those placeholders where this is false. See its comment for
+   * why this is a stopgap and not real plural support. */
+  suffixPlural: boolean
+  /** Does this language write ordinals as an English-style suffix on the
+   * numeral - 1st, 2nd, 3rd? Only English does. French writes 1er / 3e and
+   * Arabic does not suffix at all, so "3rd étage" would be as wrong as
+   * "الطابق 3rd". Separate from suffixPlural because French pluralises with
+   * -s but does NOT take English ordinals. */
+  ordinalSuffix: boolean
 }
 
 /** Supported UI languages. Add a row + a locales/<code>.json to ship another. */
 export const LANGS: LangDef[] = [
-  { code: "en", nativeLabel: "English", englishLabel: "English", dir: "ltr" },
-  { code: "fr", nativeLabel: "Français", englishLabel: "French", dir: "ltr" },
-  { code: "ar", nativeLabel: "العربية", englishLabel: "Arabic", dir: "rtl" },
+  { code: "en", nativeLabel: "English", englishLabel: "English", dir: "ltr",
+    suffixPlural: true, ordinalSuffix: true },
+  { code: "fr", nativeLabel: "Français", englishLabel: "French", dir: "ltr",
+    suffixPlural: true, ordinalSuffix: false },
+  { code: "ar", nativeLabel: "العربية", englishLabel: "Arabic", dir: "rtl",
+    suffixPlural: false, ordinalSuffix: false },
 ]
 
 export type Lang = string
