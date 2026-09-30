@@ -196,6 +196,7 @@ const TIMEZONES = [
   "Asia/Singapore",
   "Europe/London",
   "Europe/Paris",
+  "Africa/Algiers",
   "Africa/Cairo",
   "Africa/Nairobi",
   "America/New_York",

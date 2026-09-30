@@ -3,8 +3,9 @@
  * Import filled catalog.csv into locales/<lang>.json.
  *
  * Usage:
- *   node scripts/i18n-import.mjs              # arabic → ar.json
- *   node scripts/i18n-import.mjs --lang hi --column hindi
+ *   node scripts/i18n-import.mjs              # the ar column → ar.json
+ *   node scripts/i18n-import.mjs --lang fr   # the fr column → fr.json
+ *   node scripts/i18n-import.mjs --lang hi --column hindi   # explicit override
  */
 import fs from "node:fs"
 import path from "node:path"
@@ -16,11 +17,14 @@ const csvPath = path.join(root, "src/i18n/catalog.csv")
 
 const args = process.argv.slice(2)
 let lang = "ar"
-let column = "arabic"
+// defaults to the language code, because catalog.csv names its columns by
+// locale code (ar, fr, ...) - so a new locale needs no edit here either
+let column = null
 for (let i = 0; i < args.length; i++) {
   if (args[i] === "--lang") lang = args[++i]
   if (args[i] === "--column") column = args[++i]
 }
+if (!column) column = lang
 
 function parseCsv(text) {
   // strip BOM
