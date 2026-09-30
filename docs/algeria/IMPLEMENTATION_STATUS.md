@@ -11,9 +11,9 @@ verified versus merely written. Updated at the end of each phase.
 | Cut from | `upstream/develop` @ `7b4b65b` |
 | Upstream remote | `upstream` → `https://github.com/Kamra-PMS/kamra-pms.git` |
 | Origin remote | `origin` → `https://github.com/ilyeseia/kamra-pms-algeria.git` |
-| Commits ahead of `upstream/develop` | 5 |
+| Commits ahead of `upstream/develop` | 9 |
 | Last upstream sync | `7b4b65b` (branch point; no merge performed) |
-| Published to `origin` | **Yes** — `feature/algeria-hospitality-platform` @ `ff1d9fe` |
+| Published to `origin` | **Yes** — `feature/algeria-hospitality-platform` |
 | Pull request | Not opened — see Blockers |
 
 ## Phase 0 — Audit · COMPLETE
@@ -42,7 +42,10 @@ source:
 | French UI language | `frontend/src/lib/dir.ts`, `frontend/src/lib/i18n.ts`, `frontend/src/i18n/locales/fr.json` (new) |
 | Fixed per-person levy | `kamra/kamra/doctype/property/property.json`, `kamra/pricing.py`, `kamra/folio.py`, `frontend/src/screens/Settings.tsx` |
 | Levy migration | `kamra/patches/v36/backfill_room_levy_mode.py` (new), `kamra/patches.txt` |
+| RC / NIS / AI fields | `kamra/kamra/doctype/property/property.json`, `frontend/src/screens/Settings.tsx` |
+| Legal-id migration | `kamra/patches/v37/normalize_legal_id_columns.py` (new), `kamra/patches.txt` |
 | Secret hygiene | `.gitignore` (closed `site_config.json`, `*.pem`, `.env.*`, `kamra.env`, `id_rsa*` gaps) |
+| Secret scanning | `.pre-commit-config.yaml` — gitleaks `v8.30.1` on the staged diff |
 | Documentation | `docs/architecture/algeria-localization-audit.md`, `docs/algeria/TAXES.md`, this file |
 
 Registering the pack in `hooks.py` is what makes Algeria appear in the setup
@@ -56,12 +59,37 @@ Algerian ID types, `Taxe de séjour` levy label, and CIB/Edahabia mapped onto
 `Card` because `payment_modes()` silently drops anything outside
 `CANONICAL_PAYMENT_MODES`.
 
-French coverage: **1187 of 1240 keys = 95.73%**. The 53 omissions are
-deliberate — acronyms and product names that must not be translated (ADR,
-RevPAR, OTA, VIP, KOT, GSTIN…), plus two keys whose placeholders interpolate
-an English morpheme (`{ord}` → "st/nd/rd/th", `{ies}` → "y/ies") and so cannot
-be translated without rendering broken French. No English-to-English filler
-was added; an omitted key falls back to English by design.
+### Localization coverage — measured, not counted
+
+An earlier revision of this file quoted "1187 of 1240 keys = 95.73%" as French
+coverage. **That was the wrong metric** — it is the French/Arabic key-count
+ratio, which says nothing about how much of the live UI is translated. The
+extractor (`frontend/scripts/i18n-extract.mjs`) finds **1031 translatable
+strings in live source**. Measured against that:
+
+| | before this branch | now |
+| --- | --- | --- |
+| Arabic | 97.87% (22 live strings never translated) | **100.00%** |
+| French | did not exist | **96.90%** |
+| `ar.json` keys | 1240 | 1272 |
+| `fr.json` keys | 0 | 1222 |
+
+Arabic had quietly fallen behind the UI — the AI-provider block in Settings,
+the marketplace block in Setup, and several housekeeping and POS strings had
+never reached it. All 22 are now translated.
+
+The 32 strings French still omits are deliberate: 30 are acronyms or words
+already identical in French (ADR, RevPAR, RevPAX, OTA, VIP, UPI, KOT, Pax,
+Villa, Signature…) where the English fallback *is* the correct display, and 2
+are untranslatable by construction (see limitation 13). No English-to-English
+filler was added; an omitted key falls back to English by design.
+
+Note the 1031 figure is itself a floor, not a ceiling: the extractor only sees
+static `t("literal")` calls, so it cannot see the `t(spec.label)` /
+`t(spec.hint)` / `t(o)` call sites that Settings.tsx uses — which is exactly
+where this branch's new levy and legal-identifier strings live. It reports 231
+"dead" keys in `ar.json`, but 182 of those are still reachable through those
+variable call sites; only 49 are genuinely dead.
 
 ### Verification — what was actually run
 
@@ -75,6 +103,9 @@ was added; an omitted key falls back to English by design.
 | `fr.json` integrity | valid JSON; 0 keys absent from `ar.json`; 0 empty values; placeholder sets match on all 1187 keys |
 | Quote vs folio levy parity | 13 cases agree to the cent (e.g. 3 nights × 2 adults × 200 DZD → 1200.00 both paths, tax 228.00 both) |
 | Secret scan | **0 real secrets** across all 5932 blobs in local object DB (exhaustive, not sampled) |
+| Invoice footer contract | `invoice_context()` called against the real module — prints `RC · NIF · NIS · AI`, and no stray separator when none are set |
+| semgrep f-string SQL | every `frappe.db.sql` f-string in the repo carries the required same-line `nosemgrep` marker; **0** unguarded |
+| Locale coverage | measured against the extractor's 1031 live strings: ar **100.00%**, fr **96.90%** |
 | `git diff --check` | clean |
 
 ### NOT verified — stated plainly
@@ -111,10 +142,17 @@ was added; an omitted key falls back to English by design.
    `HEAD`, so it predates this branch. Fixed mode is unaffected. Needs an owner
    decision — is a percentage levy discountable? — and both sites must change
    together.
-3. **RC / NIS / AI have no Property fields.** Only NIF prints, riding on
-   `gstin` via `tax_id_label`. `LEGAL_ID_FIELDS` in the pack already maps
-   `rc_number` / `nis_number` / `ai_number`, so they start printing the day a
-   migration adds them. Needs `v37` — `v36` is taken by the levy.
+3. ~~**RC / NIS / AI have no Property fields.**~~ **Resolved.** `rc_number`,
+   `nis_number` and `ai_number` now exist on Property (patch `v37`), and the
+   footer prints `RC · NIF · NIS · AI`, verified by calling `invoice_context()`
+   against the real module. The three fields are **not** country-gated: `gstin`
+   itself is ungated, nothing in this app gates on `country` (zero hits for
+   `doc.country` across every DocType), and `Property.country` is free-text
+   `Data` — so an `eval:` on it would break on "algerie" or a trailing space by
+   silently *hiding* a legal identifier off a printed invoice. Cost: three rows
+   every country sees, the same cost already paid for the five `gst_*` fields.
+   The clean fix is making `country` a Link and grouping country fields behind
+   a section `depends_on`, which is a much larger change.
 4. **Children are not counted in the levy.** Adults only, commented at both
    calculation sites. Several Algerian municipalities exempt or halve
    children; this is an operator policy decision left explicit.
@@ -136,7 +174,23 @@ was added; an omitted key falls back to English by design.
     production site that runs `seed_users.py` hands out known admin passwords.
 11. **`gstin` now carries five different countries' tax IDs.** Display label is
     overridden per pack; the fieldname is not.
-12. **`marketplace_install_check.py` crashes on Windows** with
+12. **Arabic ships two visibly broken strings today, and has for a while.**
+    `{n}{ord} Floor` and `{n} propert{ies} …` interpolate *English* morphemes —
+    `{ord}` resolves to "st/nd/rd/th" and `{ies}` to "y/ies" — so an Arabic user
+    currently sees `الطابق 3rd` and `3 عقارy`. This is a real user-facing bug,
+    pre-existing and not introduced here. French omits both keys rather than
+    shipping the same breakage. **The fix belongs in the caller**, which must
+    resolve the ordinal and the plural and pass a finished word; no dictionary
+    entry can repair it. A `plural(n, one, many)` helper would retire the whole
+    `{s}` / `{s2}` / `{s3}` family with it.
+13. **The three public guest-facing screens are not internationalised at all.**
+    `PublicBooking.tsx`, `PublicListing.tsx` and `QrMenu.tsx` contain **zero**
+    `t()` calls — the booking page, the listing page and the QR menu are
+    English-only. For an Algerian market this is a larger practical gap than any
+    remaining dictionary entry, and it is a code change, not a translation one.
+    (The extractor's SKIP list for these three files is consequently dead
+    weight — it excludes nothing.)
+14. **`marketplace_install_check.py` crashes on Windows** with
     `UnicodeDecodeError` (cp1252) unless `PYTHONUTF8=1` is set. Environment
     bug, works in CI. Worth an upstream fix.
 
@@ -148,12 +202,18 @@ was added; an omitted key falls back to English by design.
   every non-English language, not just French. A `plural(n, one, many)` helper
   would retire them.
 - `i18n-extract.mjs` should glob `src/i18n/locales/` instead of hard-coding
-  `ar.json`.
+  `ar.json` — French was invisible to the tooling, which is why its real gap
+  went unmeasured until now. It should also learn the `t(variable)` call sites
+  (`t(spec.label)`, `t(spec.hint)`, `t(o)`), or it will keep reporting 231 dead
+  Arabic keys when only 49 are dead, and keep missing every Settings.tsx spec
+  string — including this branch's own.
 - Lazy-load locale dictionaries.
 - `words.py` DZD entry.
 - `marketplace_install_check.py` Windows encoding.
 - Rename `gstin` → `tax_id`.
-- No secret-scanning pre-commit hook (`gitleaks` / `detect-secrets`).
+- Internationalise `PublicBooking.tsx`, `PublicListing.tsx`, `QrMenu.tsx`
+  (limitation 13) and drop the extractor's now-pointless SKIP list.
+- Prune the 49 genuinely dead `ar.json` keys / 45 in `fr.json`.
 
 ## Blockers
 
@@ -178,9 +238,11 @@ inventory, channel manager, booking engine, WhatsApp, deposits, GRC, group
 bookings, multi-property RBAC and the MCP/AI layer are all shipped upstream.
 The remaining genuine Algeria work is:
 
-- `v37`: Property fields for RC / NIS / AI (limitation 3)
-- Trilingual GRC / invoice print verification (ar / fr / en layout, RTL)
-- Arabic coverage review against a fresh `catalog.csv`
-- FR/AR strings for the two new levy settings fields
-- Children policy for the levy (limitation 4)
-- A native-speaker pass on the French legal/privacy copy
+- Trilingual GRC / invoice print verification (ar / fr / en layout, RTL) —
+  nobody has looked at a rendered page in any language
+- Children policy for the levy (limitation 4) — an operator decision
+- Whether a percentage levy is discountable (limitation 2) — an owner decision
+- A native-speaker pass on the French legal/privacy copy, and on the Arabic
+  levy harmonisation (`الرسم على الغرفة` → `رسم الإقامة`), which edited three
+  translations someone else shipped
+- `bench migrate` on a real site — the first genuine test of `v36` and `v37`
