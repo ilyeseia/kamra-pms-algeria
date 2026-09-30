@@ -4,6 +4,36 @@ import { Plus, Minus, Leaf, ShoppingBag } from "lucide-react"
 import { call } from "../lib/api"
 import { accentVars } from "../lib/accents"
 import { cur, moneyLocale, adoptUiLocale } from "../lib/money"
+import { useT } from "../lib/i18n"
+import { LANGS, setLang } from "../lib/dir"
+
+/** A guest scanning a QR code has no account and no saved preference, so the
+ *  language has to be pickable on the page itself. `setLang` also flips
+ *  `<html dir>`, so the whole layout mirrors with the choice. */
+function LangPicker({ lang, t }: { lang: string; t: (s: string) => string }) {
+  return (
+    <div
+      className="flex shrink-0 rounded-lg border border-zinc-200 bg-white p-0.5 text-xs"
+      role="group"
+      aria-label={t("Language")}
+    >
+      {LANGS.map((l) => (
+        <button
+          key={l.code}
+          type="button"
+          aria-pressed={lang === l.code}
+          onClick={() => setLang(l.code)}
+          className={
+            "rounded-md px-2 py-1 " +
+            (lang === l.code ? "bg-zinc-900 text-white" : "text-zinc-600")
+          }
+        >
+          {l.nativeLabel}
+        </button>
+      ))}
+    </div>
+  )
+}
 
 const inr = (n: unknown) =>
   Number(n ?? 0).toLocaleString(moneyLocale(), { maximumFractionDigits: 0 })
@@ -28,6 +58,16 @@ interface Menu {
 /** Guest-facing digital menu behind a table/room QR code. */
 export default function QrMenu() {
   const { outlet = "" } = useParams()
+  const { t, lang } = useT()
+  // a guest's phone speaks their language: follow it until they choose
+  useEffect(() => {
+    try {
+      if (!localStorage.getItem("kamra-lang") && navigator.language?.toLowerCase().startsWith("ar"))
+        setLang("ar")
+    } catch {
+      /* private mode - stay in English */
+    }
+  }, [])
   const [params] = useSearchParams()
   const room = params.get("room") || ""
   const table = params.get("table") || ""
@@ -79,16 +119,23 @@ export default function QrMenu() {
   if (error && !menu)
     return <div className="mx-auto max-w-lg p-8 text-center text-zinc-500">{error}</div>
   if (!menu)
-    return <div className="p-10 text-center text-zinc-400">Loading menu…</div>
+    return <div className="p-10 text-center text-zinc-400">{t("Loading menu…")}</div>
 
   return (
     <div className="min-h-screen bg-zinc-50 pb-28" style={accentVars("Emerald")}>
-      <header className="border-b border-zinc-200 bg-white px-4 py-4">
-        <h1 className="text-lg font-bold text-zinc-800">{menu.outlet_name}</h1>
-        <p className="text-xs text-zinc-500">
-          {menu.property_name}
-          {room ? ` · Room ${room.split("-").pop()}` : table ? ` · Table ${table}` : ""}
-        </p>
+      <header className="flex items-start gap-3 border-b border-zinc-200 bg-white px-4 py-4">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-lg font-bold text-zinc-800">{menu.outlet_name}</h1>
+          <p className="text-xs text-zinc-500">
+            {menu.property_name}
+            {room
+              ? ` · ${t("Room {n}", { n: room.split("-").pop() ?? "" })}`
+              : table
+                ? ` · ${t("Table {n}", { n: table })}`
+                : ""}
+          </p>
+        </div>
+        <LangPicker lang={lang} t={t} />
       </header>
 
       {done ? (
@@ -98,7 +145,7 @@ export default function QrMenu() {
             <p className="font-medium">{done}</p>
           </div>
           <button className="mt-4 text-sm font-medium text-brand-700" onClick={() => setDone(null)}>
-            Order more
+            {t("Order more")}
           </button>
         </div>
       ) : (
@@ -113,20 +160,23 @@ export default function QrMenu() {
                     {it.image && <img src={it.image} alt="" className="size-16 shrink-0 rounded-lg object-cover" />}
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-1.5">
-                        <Leaf className={"size-3 " + (it.is_veg ? "text-emerald-600" : "text-rose-500")} />
+                        <Leaf
+                          className={"size-3 " + (it.is_veg ? "text-emerald-600" : "text-rose-500")}
+                          aria-label={it.is_veg ? t("Vegetarian") : t("Non-vegetarian")}
+                        />
                         <span className="text-sm font-medium">{it.item_name}</span>
                       </div>
                       {it.description && <p className="mt-0.5 line-clamp-2 text-xs text-zinc-500">{it.description}</p>}
-                      <div className="mt-1 text-sm font-semibold">{cur()}{inr(it.price)}</div>
+                      <div className="mt-1 text-sm font-semibold"><span dir="ltr">{cur()}{inr(it.price)}</span></div>
                     </div>
                     <div className="flex shrink-0 items-center gap-1.5 self-center">
                       {qty(it.name) > 0 && (
                         <>
-                          <button onClick={() => set(it.name, -1)} className="size-8 rounded-lg border border-zinc-300"><Minus className="mx-auto size-4" /></button>
+                          <button onClick={() => set(it.name, -1)} aria-label={t("Remove one")} className="size-8 rounded-lg border border-zinc-300"><Minus className="mx-auto size-4" aria-hidden /></button>
                           <span className="w-5 text-center text-sm tabular-nums">{qty(it.name)}</span>
                         </>
                       )}
-                      <button onClick={() => set(it.name, 1)} className="size-8 rounded-lg bg-brand-600 text-white"><Plus className="mx-auto size-4" /></button>
+                      <button onClick={() => set(it.name, 1)} aria-label={t("Add one")} className="size-8 rounded-lg bg-brand-600 text-white"><Plus className="mx-auto size-4" aria-hidden /></button>
                     </div>
                   </div>
                 ))}
@@ -140,11 +190,11 @@ export default function QrMenu() {
         <div className="fixed inset-x-0 bottom-0 border-t border-zinc-200 bg-white p-3">
           <button disabled={busy} onClick={order}
             className="mx-auto flex w-full max-w-lg items-center justify-between rounded-xl bg-brand-600 px-4 py-3 font-semibold text-white disabled:opacity-60">
-            <span>{count} item{count === 1 ? "" : "s"}</span>
-            <span>Place order · {cur()}{inr(total)}</span>
+            <span>{t("{n} item{s}", { n: count, s: count === 1 ? "" : "s" })}</span>
+            <span>{t("Place order")} · <span dir="ltr">{cur()}{inr(total)}</span></span>
           </button>
           <p className="mx-auto mt-1 max-w-lg text-center text-[11px] text-zinc-400">
-            A server confirms your order before the kitchen starts.
+            {t("A server confirms your order before the kitchen starts.")}
           </p>
         </div>
       )}
