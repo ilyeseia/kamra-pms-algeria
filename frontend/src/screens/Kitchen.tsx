@@ -343,7 +343,7 @@ function TicketDetail({ order, onClose, onAction, busy, now }: {
         kot: order.kot_no ?? "",
         dest: destination(order),
       })}
-      className="fixed inset-y-0 right-0 z-50 flex w-full flex-col border-l border-zinc-200 bg-white shadow-2xl sm:w-1/2">
+      className="fixed inset-y-0 end-0 z-50 flex w-full flex-col border-s border-zinc-200 bg-white shadow-2xl sm:w-1/2">
       <div className={cn("h-1.5 w-full shrink-0", tone.bar)} />
       <header className="flex shrink-0 items-start justify-between gap-4 px-5 py-4">
         <div className="min-w-0">

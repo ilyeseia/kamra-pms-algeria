@@ -1,20 +1,29 @@
 import { useEffect } from "react"
 import { X } from "lucide-react"
 import { Button } from "./button"
+import { useT } from "../../lib/i18n"
 
 /**
- * Right-side drawer for create/edit forms - Kamra's standard form surface.
+ * Inline-end drawer for create/edit forms - Kamra's standard form surface.
  * Content scrolls; header and footer stay pinned.
+ *
+ * Anchored with `end-0`, not `right-0`, so it enters from the side the reader
+ * comes from: right in English and French, left in Arabic. The slide-in
+ * keyframe is mirrored for RTL in index.css, or it would fly in from off the
+ * wrong edge.
  */
 export function Sheet(props: {
   title: string
-  description?: string
+  /** ReactNode, not string, so a caller can bidi-isolate a date range or a
+   * price inside it with <span dir="ltr">. */
+  description?: React.ReactNode
   onClose: () => void
   footer?: React.ReactNode
   children: React.ReactNode
   /** Wide surface (~2/3 screen) for rich detail panels. */
   wide?: boolean
 }) {
+  const { t } = useT()
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") props.onClose()
@@ -38,8 +47,8 @@ export function Sheet(props: {
       <div
         className={
           props.wide
-            ? "absolute inset-y-0 right-0 flex w-full flex-col bg-white shadow-2xl animate-sheet-in md:w-2/3"
-            : "absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-white shadow-2xl animate-sheet-in"
+            ? "absolute inset-y-0 end-0 flex w-full flex-col bg-white shadow-2xl animate-sheet-in md:w-2/3"
+            : "absolute inset-y-0 end-0 flex w-full max-w-md flex-col bg-white shadow-2xl animate-sheet-in"
         }
       >
         <div className="flex items-start justify-between border-b border-zinc-100 px-6 py-4">
@@ -51,7 +60,7 @@ export function Sheet(props: {
               </p>
             )}
           </div>
-          <Button variant="ghost" onClick={props.onClose} aria-label="Close">
+          <Button variant="ghost" onClick={props.onClose} aria-label={t("Close")}>
             <X className="size-5" />
           </Button>
         </div>

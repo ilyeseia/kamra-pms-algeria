@@ -700,7 +700,7 @@ export function BookingDialog(props: {
         aria-hidden
       />
       <div
-        className="absolute inset-y-0 right-0 flex h-full w-full flex-col bg-white shadow-2xl animate-sheet-in md:w-2/3"
+        className="absolute inset-y-0 end-0 flex h-full w-full flex-col bg-white shadow-2xl animate-sheet-in md:w-2/3"
       >
         <header className="flex shrink-0 items-center justify-between gap-4 border-b border-zinc-200 px-6 py-4 md:px-8">
           <div className="min-w-0">
