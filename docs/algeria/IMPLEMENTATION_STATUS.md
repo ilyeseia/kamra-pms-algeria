@@ -184,16 +184,28 @@ housekeeping and POS strings — had never reached it. Those are translated.
     Arabic interface wrapped around whatever language the operator typed. Fixing
     that means per-language fields on the Property / Room Type / Menu Item
     DocTypes, or saying so plainly in the operator-facing settings copy.
-14. **The booking drawer is not RTL-correct.** `frontend/src/components/ui/sheet.tsx`
-    anchors with `right-0` and hardcodes `aria-label="Close"`, so in Arabic the
-    sheet still slides in from the right and its close button is announced in
-    English. Its `description` prop is typed `string` rather than `ReactNode`,
-    which is why the date range inside it cannot be bidi-isolated the way the
-    in-page ones are.
+14. ~~**The booking drawer is not RTL-correct.**~~ **Resolved.** `Sheet`,
+    `BookingDialog` and the Kitchen display panel now anchor `end-0` instead of
+    `right-0`, the Kitchen panel's `border-l` became `border-s`, and
+    `index.css` gained a mirrored `sheet-in-rtl` keyframe selected by
+    `[dir="rtl"]` — a logical anchor with a physical animation would have been
+    worse than neither, landing correctly after starting from off the wrong
+    edge. `aria-label="Close"` is now `t("Close")`, which was already
+    translated (`إغلاق` / `Fermer`) and simply never used. `Sheet`'s
+    `description` widened from `string` to `ReactNode` so a caller can
+    bidi-isolate the date range inside it.
 15. **`LangPicker` now exists in six places** — the three public screens,
-    `PublicCheckin`, and `<select>` variants in `Login` and `Settings`. The cold
-    `navigator.language` sniff is duplicated four times and belongs in
-    `initLang()`, where it would fix every public entry point at once.
+    `PublicCheckin`, and `<select>` variants in `Login` and `Settings`. Pure
+    duplication; wants one component in `components/ui/` with a `tone` prop for
+    the hero-glass variant `PublicBooking` needs.
+
+    The cold `navigator.language` sniff is duplicated four times alongside it,
+    and moving it into `initLang()` would fix every entry point at once — but
+    that is **not** a pure refactor and is deliberately left undone. `initLang`
+    runs for the whole app, so the sniff would start choosing the initial
+    language for *staff* screens too, not just guest pages. Defensible, and
+    arguably right, but it changes default behaviour for every existing user
+    and is the operator's call, not a cleanup.
 16. **The frontend is type-checked but not lint-checked.** `eslint` is not in
     the local `node_modules` and `npx` refused to install it, so
     `react-hooks/exhaustive-deps` has never run over the new effects. CI's
