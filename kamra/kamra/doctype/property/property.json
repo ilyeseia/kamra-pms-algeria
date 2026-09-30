@@ -44,7 +44,10 @@
   "hourly_view_end",
   "auto_send_checkin_links",
   "column_break_c",
+  "rc_number",
   "gstin",
+  "nis_number",
+  "ai_number",
   "disabled",
   "locale",
   "sb_gst",
@@ -317,9 +320,24 @@
    "label": "Column Break C"
   },
   {
+   "fieldname": "rc_number",
+   "fieldtype": "Data",
+   "label": "RC (Registre de Commerce)"
+  },
+  {
    "fieldname": "gstin",
    "fieldtype": "Data",
    "label": "GSTIN"
+  },
+  {
+   "fieldname": "nis_number",
+   "fieldtype": "Data",
+   "label": "NIS (Num\u00e9ro d'Identification Statistique)"
+  },
+  {
+   "fieldname": "ai_number",
+   "fieldtype": "Data",
+   "label": "AI (Article d'Imposition)"
   },
   {
    "default": "0",
