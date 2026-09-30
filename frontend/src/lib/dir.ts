@@ -15,6 +15,7 @@ export interface LangDef {
 /** Supported UI languages. Add a row + a locales/<code>.json to ship another. */
 export const LANGS: LangDef[] = [
   { code: "en", nativeLabel: "English", englishLabel: "English", dir: "ltr" },
+  { code: "fr", nativeLabel: "Français", englishLabel: "French", dir: "ltr" },
   { code: "ar", nativeLabel: "العربية", englishLabel: "Arabic", dir: "rtl" },
 ]
 
