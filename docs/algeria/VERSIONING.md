@@ -1,4 +1,4 @@
-# Versioning — the Algeria distribution
+# Versioning — Hotel MgM
 
 Two version numbers exist here and they mean different things. Conflating them
 is how a support call becomes unanswerable, so this file fixes what each one
@@ -7,7 +7,7 @@ is for.
 | | Number | Owned by | Where it lives |
 | --- | --- | --- | --- |
 | Kamra core | **2.6.5** | upstream Kamra PMS | `kamra/__init__.py`, `.release-please-manifest.json` |
-| Algeria distribution | **1.0.0** | this repository | git tag `algeria-v1.0.0`, `docs/algeria/` |
+| Hotel MgM distribution | **1.0.0** | this repository | git tag `hotel-mgm-v1.0.0`, `docs/algeria/` |
 
 ## Why the core version is not touched
 
@@ -48,13 +48,18 @@ core 2.6.5:
 
 ## Tagging
 
-Distribution releases are tagged with an `algeria-v` prefix so they cannot
+Distribution releases are tagged with a `hotel-mgm-v` prefix so they cannot
 collide with upstream's `v2.6.5`-style tags in the same repository:
 
 ```bash
-git tag -a algeria-v1.0.0 -m "Algeria distribution 1.0.0 on Kamra core 2.6.5"
-git push origin algeria-v1.0.0
+git tag -a hotel-mgm-v1.0.0 -m "Hotel MgM 1.0.0 on Kamra core 2.6.5"
+git push origin hotel-mgm-v1.0.0
 ```
+
+One earlier tag, `algeria-v1.0.0-rc.1`, predates the rename and therefore
+describes a build still branded Kamra. It is left in place rather than deleted,
+because moving or removing a published tag breaks anyone who fetched it — but
+it is superseded and should not be handed to a client.
 
 A tag is a claim that the thing works. Do not tag `1.0.0` until at least one
 `bench migrate` has run against a real database — at time of writing, `v36`
