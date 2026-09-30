@@ -18,6 +18,30 @@ kamra/public/node_modules/
 .DS_Store
 .env
 
+# Secrets — never commit. site_config.json is the important one: a Frappe
+# site's config holds the database credentials AND the encryption key that
+# decrypts every stored password on the site. The rest are the files an
+# operator is most likely to create next to a checkout while following
+# deploy/README.md — deploy/.env.example tells them to write `kamra.env`.
+site_config.json
+.env.*
+!.env.example
+kamra.env
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.jks
+*.keystore
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+.npmrc
+.pypirc
+secrets.json
+
 # Internal operator plans — keep local only, never publish
 PLAN.md
 docs/adr-str.md
