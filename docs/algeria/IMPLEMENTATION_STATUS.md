@@ -11,9 +11,10 @@ verified versus merely written. Updated at the end of each phase.
 | Cut from | `upstream/develop` @ `7b4b65b` |
 | Upstream remote | `upstream` → `https://github.com/Kamra-PMS/kamra-pms.git` |
 | Origin remote | `origin` → `https://github.com/ilyeseia/kamra-pms-algeria.git` |
-| Commits ahead of `upstream/develop` | 0 at time of writing (work uncommitted) |
+| Commits ahead of `upstream/develop` | 5 |
 | Last upstream sync | `7b4b65b` (branch point; no merge performed) |
-| Published to `origin` | **No** — see Blockers |
+| Published to `origin` | **Yes** — `feature/algeria-hospitality-platform` @ `ff1d9fe` |
+| Pull request | Not opened — see Blockers |
 
 ## Phase 0 — Audit · COMPLETE
 
@@ -156,10 +157,12 @@ was added; an omitted key falls back to English by design.
 
 ## Blockers
 
-1. **Cannot publish to `origin`.** The GitHub token is invalid:
-   `gh auth status` → *"The token in default is invalid."* So the existence of
-   `ilyeseia/kamra-pms-algeria` could not be confirmed, and nothing can be
-   pushed or opened as a PR. Resolve with `gh auth login -h github.com`.
+1. **No pull request could be opened.** `git push` works — git authenticates
+   through the OS credential manager — but the `gh` CLI token is invalid
+   (`gh auth status` → *"The token in default is invalid."*), so no PR can be
+   created from the command line. Either run `gh auth login -h github.com -w`
+   or open it in the browser at
+   `https://github.com/ilyeseia/kamra-pms-algeria/pull/new/feature/algeria-hospitality-platform`.
 2. **Cannot run the backend test suite.** No `bench`, no site. This caps the
    quality gate at static analysis plus stubbed-module arithmetic.
 3. **Fork CI will fail until secrets are set.** `nightly.yml`, `release.yml`
