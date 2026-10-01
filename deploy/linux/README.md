@@ -66,10 +66,28 @@ If you want this directory to be the whole story, build the image yourself
 once. This is exactly what `install.sh` does:
 
 ```bash
-git clone --depth 1 https://github.com/frappe/frappe_docker.git /tmp/frappe_docker
+git -c core.autocrlf=false clone --depth 1 https://github.com/frappe/frappe_docker.git /tmp/frappe_docker
 cd /tmp/frappe_docker
 git fetch --depth 1 origin 3d0a0e53d8ab03903f6c3f125976a37d7a0f9875 && git checkout --force FETCH_HEAD
 ```
+
+> **`core.autocrlf=false` is not optional if you are cloning on Windows**, and
+> it is the single most confusing way this build can fail. With Git for
+> Windows' default `autocrlf=true`, the shell scripts in this repository are
+> checked out with CRLF line endings and baked into the image that way. The
+> shebang then reads `#!/bin/bash`, Linux looks for an interpreter literally
+> named `bash`, and every container dies at startup with:
+>
+> ```
+> exec /usr/local/bin/entrypoint.sh: no such file or directory
+> ```
+>
+> The file is right there and is executable — it is the carriage return that is
+> missing from the error message. The `configurator` still succeeds, because it
+> overrides the entrypoint with `bash -c`, which makes it look as though the
+> image is fine. Verified on this machine: `head -1` of the baked entrypoint
+> showed `#  !  /  b  i  n  /  b  a  s  h    
+`.
 
 ```bash
 cat > /tmp/apps.json <<'EOF'
@@ -194,6 +212,7 @@ record. There is no undo. Check your restore works before you ever type it.
 | Night audit never runs | the `scheduler` container is down |
 | Algeria missing from the setup country list | the image was built from upstream — check `apps.json` and rebuild |
 | Build fails fetching the app | the source repository is not publicly readable |
+| Every container restarts with `exec …entrypoint.sh: no such file or directory` | the image was built from a Windows checkout with CRLF line endings — re-clone with `core.autocrlf=false` and rebuild |
 
 More in [`../TROUBLESHOOTING.md`](../TROUBLESHOOTING.md).
 
