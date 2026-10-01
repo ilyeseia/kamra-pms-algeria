@@ -308,7 +308,7 @@ class Reservation(Document):
 	def validate_no_overlap(self):
 		"""A physical room can hold only one live reservation per night.
 
-		This check is the seed of Kamra's no-overbooking guarantee: it runs
+		This check is the seed of ZIRI's no-overbooking guarantee: it runs
 		on every insert/update, regardless of whether a human or an AI agent
 		created the booking.
 		"""

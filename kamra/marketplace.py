@@ -1,8 +1,8 @@
-"""The Kamra Marketplace: what's in your plan, and what you can plug in.
+"""The ZIRI Marketplace: what's in your plan, and what you can plug in.
 
 Three kinds of card, three install models - never conflated:
 
-  module     a Kamra app that ships in this codebase, open and included
+  module     a ZIRI app that ships in this codebase, open and included
              (no install, no lock).
   connector  a live integration backed by a config row (a channel, a payment
              gateway, an AI key) - the card connects/configures it here.

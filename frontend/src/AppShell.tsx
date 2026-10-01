@@ -51,10 +51,13 @@ export interface ShellContext {
   openBooking: (initial: BookingInitial) => void
 }
 
-// mirrors @require_roles on kamra.api.create_booking / walk_in (admins always pass)
+// mirrors @require_roles on kamra.api.create_booking / walk_in (admins always pass).
+// "Kamra Agent" is the Frappe Role name as seed_rbac_v2.py creates it - a database
+// record, not a display label. It is deliberately NOT rebranded to "ZIRI Agent";
+// the UI label lives in lib/apps.ts.
 const BOOKING_ROLES = [
   "Front Desk",
-  "Hotel MgM Agent",
+  "Kamra Agent",
   "Hotel Admin",
   "System Manager",
   "Administrator",
@@ -300,9 +303,11 @@ export default function AppShell() {
       {!kiosk && (
       <aside className="hidden w-52 shrink-0 border-r border-zinc-200 bg-white px-3 py-5 sm:sticky sm:top-0 sm:block sm:h-screen sm:overflow-y-auto">
         <div className="mb-5 flex items-center gap-2 px-1">
-          <img src={asset("kamra-mark.svg")} alt="" className="size-7" aria-hidden />
+          <span className="logo-chip">
+            <img src={asset("ziri-mark.png")} alt="" className="size-7" aria-hidden />
+          </span>
           <span className="text-lg font-semibold tracking-tight">
-            kamra
+            ZIRI
             <span className="ml-1 align-middle text-[10px] font-semibold tracking-[0.2em] text-brand-600">
               PMS
             </span>

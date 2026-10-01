@@ -326,7 +326,9 @@ export default function HkApp() {
   return (
     <div className="min-h-screen bg-zinc-50 pb-20">
       <header className="sticky top-0 z-40 flex items-center gap-2 border-b border-zinc-200 bg-white px-4 py-3">
-        <img src={asset("kamra-mark.svg")} alt="" className="size-6" aria-hidden />
+        <span className="logo-chip">
+          <img src={asset("ziri-mark.png")} alt="" className="size-6" aria-hidden />
+        </span>
         <span className="font-semibold">{t("Housekeeping")}</span>
         <span className="ml-auto flex items-center gap-3">
           <button

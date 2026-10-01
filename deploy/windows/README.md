@@ -1,4 +1,4 @@
-# Kamra on Windows 10 — quick reference
+# ZIRI PMS on Windows 10 — quick reference
 
 Full runbook: [`docs/algeria/INSTALLATION.md`](../../docs/algeria/INSTALLATION.md).
 This file is the short version for someone standing at the machine.
@@ -83,7 +83,7 @@ exist**. Production mode never creates them; do not add them by hand.
 ## Both versions matter in a support request
 
 ```
-Kamra PMS - Algeria Distribution 1.0.0
+ZIRI PMS - Algeria Distribution 1.0.0
 on Kamra core 2.6.5
 ```
 

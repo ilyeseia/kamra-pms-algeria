@@ -1,7 +1,7 @@
 {
  "info": {
-  "name": "Hotel MgM API",
-  "description": "The full Kamra REST surface. Set base_url (e.g. https://pms.yourhotel.com), api_key and api_secret in the collection variables, then call away. Docs: https://kamrapms.com/docs/api-reference",
+  "name": "ZIRI PMS API",
+  "description": "The full ZIRI PMS REST surface. Set base_url (e.g. https://pms.yourhotel.com), api_key and api_secret in the collection variables, then call away. Docs: the REST API reference on your ZIRI PMS docs site (/docs/api-reference).",
   "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
  },
  "variable": [
@@ -47,7 +47,7 @@
         "kamra.api.enabled_modules"
        ]
       },
-      "description": "Which parts of Kamra this property runs. Empty setting = all of\nthem, so an existing property keeps working untouched.",
+      "description": "Which parts of ZIRI this property runs. Empty setting = all of\nthem, so an existing property keeps working untouched.",
       "body": {
        "mode": "raw",
        "raw": "{\n  \"property\": \"Your Property\"\n}",
@@ -2690,7 +2690,7 @@
         "kamra.api.id_document_image"
        ]
       },
-      "description": "The ID scan as a data URL, for the desk to eyeball.\n\nWhy not just point an <img> at the /private/files/ URL: Frappe would\nauthorise that through File.has_permission -> the Reservation's own\ndoctype permissions. On a site whose Custom DocPerm rows omit Front Desk\n(as ours do - any custom perm on a doctype REPLACES all its standard\nperms), that check says no, and the desk gets a broken image while a\nHotel Admin sees it. Kamra's authorization has always lived on the\nendpoint rather than the doctype (see authz.py), so the image is served\nthe same way as everything else here: one gate, one rule, works for\nevery role the app actually grants.",
+      "description": "The ID scan as a data URL, for the desk to eyeball.\n\nWhy not just point an <img> at the /private/files/ URL: Frappe would\nauthorise that through File.has_permission -> the Reservation's own\ndoctype permissions. On a site whose Custom DocPerm rows omit Front Desk\n(as ours do - any custom perm on a doctype REPLACES all its standard\nperms), that check says no, and the desk gets a broken image while a\nHotel Admin sees it. ZIRI's authorization has always lived on the\nendpoint rather than the doctype (see authz.py), so the image is served\nthe same way as everything else here: one gate, one rule, works for\nevery role the app actually grants.",
       "body": {
        "mode": "raw",
        "raw": "{\n  \"reservation\": \"RES-2026-00001\"\n}",
@@ -9259,7 +9259,7 @@
         "kamra.public_api.site_info"
        ]
       },
-      "description": "Public site metadata for the login/boot screen.\n\ndemo_mode is true only on the seeded demo site (seed_demo sets the\n`kamra_demo_mode` default), so a real install never advertises the\ndemo login accounts."
+      "description": "Public site metadata for the login/boot screen.\n\ndemo_mode is true only on the seeded demo site (seed_demo sets the\n`kamra_demo_mode` default), so a real install never advertises the\ndemo login accounts.\n\nversion and source_url are here for two reasons that happen to share a\nfix. The login screen has always rendered a version line, and it has\nnever once appeared, because this endpoint did not return the field it\nreads. And this app is AGPL-3.0: \u00a713 obliges whoever runs it to offer\nthe Corresponding Source to people who use it across a network, which\nis precisely what a hotel's guests do on the booking engine - so the\nsource URL belongs on a surface every user can reach, not in a file only\nthe operator sees."
      }
     },
     {
@@ -9283,7 +9283,7 @@
         "kamra.public_api.default_property"
        ]
       },
-      "description": "Which Property the public booking engine (``/book``) should show.\n\nEach Kamra deploy is single-tenant: one site = one hotel/villa. The\nfrontend used to hardcode the demo property name, which only worked\non the seeded demo site and broke the booking engine on every other\ntenant (``Property <name> not found`` / permission error for Guest).\n\nPicks the Property with booking_engine_enabled=1; if none are flagged\n(fresh install) or several are, falls back to the first Property so\nthe page still renders instead of hanging on a guest permission error."
+      "description": "Which Property the public booking engine (``/book``) should show.\n\nEach ZIRI deploy is single-tenant: one site = one hotel/villa. The\nfrontend used to hardcode the demo property name, which only worked\non the seeded demo site and broke the booking engine on every other\ntenant (``Property <name> not found`` / permission error for Guest).\n\nPicks the Property with booking_engine_enabled=1; if none are flagged\n(fresh install) or several are, falls back to the first Property so\nthe page still renders instead of hanging on a guest permission error."
      }
     },
     {

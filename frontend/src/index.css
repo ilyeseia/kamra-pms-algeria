@@ -1,18 +1,44 @@
 @import "tailwindcss";
 
 @theme {
-  /* Kamra brand: deep hotel green, warm neutrals */
+  /* ZIRI brand: deep hotel green, warm neutrals, gold accent.
+     700 and 900 are the supplied brand greens; 600 is a lighter step for
+     hover and active states, and 50/100 are tints for filled backgrounds. */
   --color-brand-50: #ecf7f2;
   --color-brand-100: #d2ece0;
-  --color-brand-600: #0f6b54;
-  --color-brand-700: #0b5442;
-  --color-brand-900: #073527;
+  --color-brand-600: #0a6e52;
+  --color-brand-700: #064e3b; /* ZIRI primary green */
+  --color-brand-900: #022c22; /* ZIRI dark green */
+
+  /* ZIRI gold. MEASURED, not assumed: gold on the warm background is 2.37:1
+     and on white 2.56:1 - both fail WCAG AA for text, badly. So gold is a
+     decorative accent on DARK surfaces only, where it measures 5.92:1 on the
+     dark green and 6.65:1 on the app's dark background. Use light-gold for
+     text on green (5.87:1). Never put either on a light surface as text. */
+  --color-gold-400: #e7c66a; /* ZIRI light gold */
+  --color-gold-500: #c89b3c; /* ZIRI gold */
 
   /* Neutrals carry a faint warm bias so the greys read as chosen, not the
-     stock cool zinc. Dark mode + print remap these below. */
-  --color-zinc-50: #f8f7f5;
+     stock cool zinc. 50 is ZIRI's warm background. Dark mode + print remap
+     these below. */
+  --color-zinc-50: #f8f6f0;
   --color-zinc-100: #f1efec;
   --color-zinc-200: #e6e3de;
+}
+
+/* The supplied ZIRI logo is dark green on transparency, which measures 1.75:1
+   against the app's dark background - invisible. The logo is not recoloured
+   to fix that: it is set on a light chip so the artwork stays exactly as
+   supplied and simply keeps a surface to sit on. Light mode needs nothing. */
+.logo-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+}
+.dark .logo-chip {
+  background: #f8f6f0;
+  padding: 0.375rem;
 }
 
 html {
@@ -36,6 +62,10 @@ html {
   --color-zinc-800: #ebebee;
   --color-zinc-900: #f6f6f7;
   --color-zinc-950: #ffffff;
+  /* Deliberately NOT the ZIRI greens. The supplied primary #064E3B measures
+     1.75:1 against this dark background - unreadable. Dark mode keeps a
+     lightened green of the same family instead; the brand colour is a hue
+     here, not a hex. Gold needs no remap: it is 6.65:1 on this background. */
   --color-brand-50: #10312a;
   --color-brand-100: #154438;
   --color-brand-600: #189776;

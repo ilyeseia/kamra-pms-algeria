@@ -1,6 +1,6 @@
 # Country setup & Saudi e-invoicing (ZATCA)
 
-Kamra is one product for every country. The **country** you pick when you
+ZIRI is one product for every country. The **country** you pick when you
 create the property selects its *localization pack*, and the pack decides:
 
 | | What it sets |
@@ -45,11 +45,11 @@ municipality charges.
 
 ## Saudi Arabia: ZATCA e-invoicing
 
-### What Kamra does (Phase 1 — generation)
+### What ZIRI does (Phase 1 — generation)
 
 For every **invoice** (a settled folio), **credit note** (a cancelled
 invoice — ZATCA does not allow deleting one) and **paid restaurant bill**,
-Kamra creates a *ZATCA Invoice* record with:
+ZIRI creates a *ZATCA Invoice* record with:
 
 - a UUID and the property's invoice counter (**ICV**), and the previous
   invoice's hash (**PIH**), so every document is chained to the one before;
@@ -67,7 +67,7 @@ API (`zatca_invoice_xml`).
 
 1. Set the property's country to **Saudi Arabia** and its **VAT No.**
    (15 digits, starting and ending with 3).
-2. Open *Settings → ZATCA e-invoicing* (shown for Saudi properties). Kamra
+2. Open *Settings → ZATCA e-invoicing* (shown for Saudi properties). ZIRI
    creates it from the property on first use. Fill in the details exactly
    as registered: seller name, Commercial Registration (CRN), building
    number (4 digits), street, district, city, postal code (5 digits).

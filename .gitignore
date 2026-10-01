@@ -54,5 +54,5 @@ node_modules
 
 # Build artifact: the Windows installer is a release asset, attached to a
 # GitHub Release rather than committed. Rebuild it with:
-#   makensis deploy/windows/HotelMgM-Setup.nsi
+#   makensis deploy/windows/ZiriPms-Setup.nsi
 deploy/windows/*.exe

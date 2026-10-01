@@ -1,6 +1,6 @@
 # Channel manager (OTA sync)
 
-Kamra syncs availability and rates to the OTAs — and receives their
+ZIRI syncs availability and rates to the OTAs — and receives their
 bookings — through a channel manager. The integration is a provider
 seam: adapters ship for **Channex.io** (usable today, self-serve),
 **STAAH** and **AioSell** (ready; they activate with the credentials
@@ -14,7 +14,7 @@ to them, certified with Booking.com, Agoda, Expedia, Airbnb and more.
 
 1. Create a Channex account, add your property and rooms, connect your
    OTA channels in their dashboard.
-2. In Kamra: *Revenue → Channel Manager → New*: provider **Channex**,
+2. In ZIRI: *Revenue → Channel Manager → New*: provider **Channex**,
    your Channex **user API key**, the Channex **property id**, and a
    **webhook secret** you invent. Tick Active.
 3. *Revenue → OTA Room Mappings*: one row per room type — your room
@@ -52,5 +52,5 @@ certification.
 ## Is any of this gated?
 
 No. The integrations are open source like everything else. You pay the
-channel manager directly for their service; with an
-[implementation](https://kamrapms.com/implementation/) we can set it up for you.
+channel manager directly for their service; if you would rather not wire
+it up yourself, ask whoever supplied your ZIRI deployment to do it.

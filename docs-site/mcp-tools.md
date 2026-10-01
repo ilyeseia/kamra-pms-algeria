@@ -1,6 +1,6 @@
 # MCP tool reference
 
-Kamra exposes **86 governed tools** on the hosted MCP
+ZIRI exposes **86 governed tools** on the hosted MCP
 endpoint (`/mcp`) and the stdio sidecar (`mcp/kamra_mcp.py`). Every
 call runs as the connected user — **role** permissions apply, tools
 are further filtered by the property's **enabled modules**, prices

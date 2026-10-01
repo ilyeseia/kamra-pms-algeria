@@ -840,7 +840,7 @@ the docs (github.com/Kamra-PMS/kamra-pms/tree/main/docs)."""
 @require_roles("Front Desk", "Finance", "Revenue Manager", "Housekeeping")
 def help_ask(property: str, messages):
 	"""Streaming how-to help (SSE). No tools, no data access - just explains
-	how to use Kamra, grounded in the app's features. Reuses the property's
+	how to use ZIRI, grounded in the app's features. Reuses the property's
 	AI key. Events: token {text} · error {message} · done {}."""
 	from werkzeug.wrappers import Response
 

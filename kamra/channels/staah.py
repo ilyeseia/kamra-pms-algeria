@@ -4,7 +4,7 @@ The name Indian and SEA mid-market hotels already know. STAAH's PMS
 connectivity runs through their partner program (XML-based SU API for
 rates/inventory, reservation delivery by push or pull); credentials and
 the exact DTD arrive with partner onboarding. As with AioSell, the
-transport lives in one function and both sides of it speak Kamra's
+transport lives in one function and both sides of it speak ZIRI's
 normalized shapes - activating this adapter is a mapping exercise
 against the partner doc.
 """

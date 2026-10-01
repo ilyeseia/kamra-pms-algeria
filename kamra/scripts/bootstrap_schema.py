@@ -1,4 +1,4 @@
-"""One-time bootstrap: create Kamra's v0 DocTypes.
+"""One-time bootstrap: create ZIRI's v0 DocTypes.
 
 Run with:
     bench --site kamra.localhost execute kamra.scripts.bootstrap_schema.execute

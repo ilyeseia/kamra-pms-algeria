@@ -5,7 +5,7 @@
    re-add them properly with dt.append().
 2. Custom DocPerm rows REPLACE a doctype's built-in permissions in
    Frappe, so seeding role perms locked System Manager out. Grant
-   System Manager full custom perms on every Kamra doctype, and give
+   System Manager full custom perms on every ZIRI doctype, and give
    Front Desk / Finance their missing folio-era grants.
 3. The same trap, one layer deeper: seed_rbac_v2.ensure_agent_user()
    writes Custom DocPerms for Kamra Agent, and the moment ONE lands the
@@ -13,7 +13,7 @@
    revoking Front Desk, Finance, Revenue Manager and Housekeeping on
    every doctype it touched. Symptom: "Insufficient Permission" for a
    Front Desk user on Reservation/Guest/Room/Property/Folio, while the
-   SPA mostly keeps working because Kamra's whitelisted endpoints go
+   SPA mostly keeps working because ZIRI's whitelisted endpoints go
    through require_roles and db.set_value, which never consult doctype
    perms at all (see authz.py). sync_standard_perms() repairs it.
 

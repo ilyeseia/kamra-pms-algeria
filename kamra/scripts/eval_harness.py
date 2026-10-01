@@ -1,4 +1,4 @@
-"""Kamra eval harness — deterministic checks over the governed tool layer.
+"""ZIRI eval harness — deterministic checks over the governed tool layer.
 
 The PRD's risk register calls for an eval harness before agents go live:
 every rule an agent relies on (pricing, availability, guardrails, SLA)

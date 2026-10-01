@@ -6,7 +6,7 @@ the UI and the AI use.
 ::: tip Try it in 2 minutes
 Download the **[Postman collection](/kamra.postman_collection.json)**
 (all 120 endpoints, organised by domain), set three collection variables —
-`base_url` (your Kamra URL), `api_key`, `api_secret` — and every request
+`base_url` (your ZIRI URL), `api_key`, `api_secret` — and every request
 is ready to send. The complete endpoint list with parameters is in the
 **[REST API reference](/api-reference)**.
 :::
@@ -17,7 +17,7 @@ Authorization: token <api_key>:<api_secret>
 Content-Type: application/json
 ```
 
-Generate keys from **Kamra Agent → Connect your AI** (per-user, role-scoped
+Generate keys from **ZIRI Agent → Connect your AI** (per-user, role-scoped
 OAuth for Claude) or, for service integrations, on Developers.
 
 ## Frequently used endpoints

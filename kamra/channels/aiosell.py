@@ -2,7 +2,7 @@
 
 Indian channel manager (+ revenue management) popular with budget and
 mid-market properties. This adapter is transport only: it speaks AioSell's
-`/api/v2/cm` wire format on both sides and hands Kamra's normalized shapes to
+`/api/v2/cm` wire format on both sides and hands ZIRI's normalized shapes to
 kamra.channel_manager, where every consequence (booking creation, availability,
 pricing, the credit-note cancellation policy, the audit log) lives.
 
@@ -94,7 +94,7 @@ def _runs(days: list[dict]):
 
 
 # ---------------------------------------------------------------------------
-# Push: Kamra -> AioSell
+# Push: ZIRI -> AioSell
 # ---------------------------------------------------------------------------
 
 def build_push_bodies(hotel_code: str, snapshot) -> tuple[list, list]:
@@ -155,7 +155,7 @@ def push_ari(conn, snapshot) -> tuple[bool, str]:
 
 def fetch_property_details(conn) -> dict:
 	"""GET /property_details - the hotel_id, room_id and rateplan_id codes to
-	map Kamra's room types onto. Call this first, once per property."""
+	map ZIRI's room types onto. Call this first, once per property."""
 	import requests
 	from requests.auth import HTTPBasicAuth
 
@@ -171,11 +171,11 @@ def fetch_property_details(conn) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# Webhook: AioSell -> Kamra
+# Webhook: AioSell -> ZIRI
 # ---------------------------------------------------------------------------
 
 def parse_webhook(conn, payload) -> list[dict]:
-	"""AioSell reservation webhook -> Kamra's normalized events.
+	"""AioSell reservation webhook -> ZIRI's normalized events.
 
 	book/modify carry the full booking state (rooms[]); cancel carries only
 	bookingId. One event per room line; ota_ref is the bookingId for a

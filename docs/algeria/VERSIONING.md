@@ -1,4 +1,4 @@
-# Versioning — Hotel MgM
+# Versioning — ZIRI PMS
 
 Two version numbers exist here and they mean different things. Conflating them
 is how a support call becomes unanswerable, so this file fixes what each one
@@ -7,7 +7,7 @@ is for.
 | | Number | Owned by | Where it lives |
 | --- | --- | --- | --- |
 | Kamra core | **2.6.5** | upstream Kamra PMS | `kamra/__init__.py`, `.release-please-manifest.json` |
-| Hotel MgM distribution | **1.0.0** | this repository | git tag `hotel-mgm-v1.0.0`, `docs/algeria/` |
+| ZIRI PMS distribution | **1.0.0** | this repository | git tag `hotel-mgm-v1.0.0`, `docs/algeria/` |
 
 ## Why the core version is not touched
 
@@ -68,7 +68,7 @@ Distribution releases are tagged with a `hotel-mgm-v` prefix so they cannot
 collide with upstream's `v2.6.5`-style tags in the same repository:
 
 ```bash
-git tag -a hotel-mgm-v1.0.0 -m "Hotel MgM 1.0.0 on Kamra core 2.6.5"
+git tag -a hotel-mgm-v1.0.0 -m "ZIRI PMS 1.0.0 on Kamra core 2.6.5"
 git push origin hotel-mgm-v1.0.0
 ```
 
@@ -98,7 +98,7 @@ and `v37` have never executed against one, so the honest state is
 `deploy/windows/Install-Kamra.ps1` prints both on every run:
 
 ```
-Kamra PMS - Algeria Distribution 1.0.0
+ZIRI PMS - Algeria Distribution 1.0.0
 on Kamra core 2.6.5 - AGPL-3.0
 ```
 

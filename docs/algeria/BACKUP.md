@@ -93,7 +93,7 @@ Each run produces a timestamped set: the database dump, and — with
 `--with-files` — separate tarballs for public and private files.
 
 > **Not verified from this repository.** The exact filenames and the number of
-> archives per run are Frappe framework behaviour, not Kamra's, and the
+> archives per run are Frappe framework behaviour, not the application's, and the
 > framework is not vendored here — `frappe_docker` is fetched at install time
 > (`deploy/install.sh:139-151`). Do not script against an assumed filename
 > pattern. List the directory on the actual install and read the real names:
@@ -411,7 +411,7 @@ $action = New-ScheduledTaskAction -Execute "wsl.exe" `
   -Argument "-d Ubuntu -- bash -lc '/opt/kamra/backup.sh >> /opt/kamra/backup.log 2>&1'"
 $trigger = New-ScheduledTaskTrigger -Daily -At 3:30am
 Register-ScheduledTask -TaskName "Kamra backup" -Action $action -Trigger $trigger `
-  -Description "Nightly Kamra PMS backup (Algeria Distribution)"
+  -Description "Nightly ZIRI PMS backup (Algeria Distribution)"
 ```
 
 Replace `Ubuntu` with the actual distribution name from `wsl --list --verbose`.

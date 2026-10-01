@@ -1,9 +1,9 @@
-"""The savings ledger — Kamra's core product primitive.
+"""The savings ledger — ZIRI's core product primitive.
 
 Every meaningful action (human or agent) can be recorded as an
 Agent Action Log row. Automated actions carry an estimate of the staff
 minutes they avoided; the dashboard aggregates these into the
-hours-saved counter that anchors Kamra's value story.
+hours-saved counter that anchors ZIRI's value story.
 
 As of v23 (autonomy gate), each row also carries an approval_status
 (Executed / Suggested / Pending / Approved / Rejected) and optional

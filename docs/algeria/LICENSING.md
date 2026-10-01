@@ -14,7 +14,8 @@ you install this for a paying hotel.
 
 ## 1. The licence
 
-Kamra PMS is licensed under the **GNU Affero General Public License, version 3**
+ZIRI PMS, and the Kamra PMS code it derives from, are licensed under the
+**GNU Affero General Public License, version 3**
 (AGPL-3.0). The full text is in `license.txt` at the repository root — 661
 lines, the FSF's canonical text, unmodified. `README.md` states AGPL-3.0, and so
 do `CONTRIBUTING.md`, `RELEASING.md`, `deploy/README.md` and the project's own
@@ -98,7 +99,7 @@ page is the usual and expected form, and it is what a reviewer will look for.
 
 Something of the shape:
 
-> Kamra PMS — Algeria Distribution 1.0.0 (Kamra core 2.6.5).
+> ZIRI PMS — Algeria Distribution 1.0.0 (Kamra core 2.6.5).
 > Free software under the GNU AGPL-3.0.
 > Source code: `https://github.com/ilyeseia/kamra-pms-algeria`
 
@@ -108,7 +109,7 @@ Two practical notes on placing it:
   public booking page, the public listing page and the public check-in page are
   network interaction under §13 just as much as the front desk console.
 - **The login screen already has a slot begging for it.**
-  `frontend/src/screens/Login.tsx:181-183` renders `Kamra PMS v{version}` when
+  `frontend/src/screens/Login.tsx:181-183` renders `ZIRI PMS v{version}` when
   a version is present — but it reads `info.version` from
   `public_api.site_info()` (`Login.tsx:42`), and that endpoint returns only
   `{"demo_mode": …}` (`kamra/public_api.py:207-216`). So **the version line

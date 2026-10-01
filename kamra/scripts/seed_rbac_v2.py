@@ -1,9 +1,9 @@
-"""RBAC v2: Hotel Admin role (full rights on all Kamra doctypes) and the
+"""RBAC v2: Hotel Admin role (full rights on all ZIRI doctypes) and the
 AI agent user with API keys for MCP access.
 
 Roles, by intent:
   - System Manager  → IT admin (platform, users, everything incl. schema)
-  - Hotel Admin     → owner/GM: full rights on every Kamra doctype
+  - Hotel Admin     → owner/GM: full rights on every ZIRI doctype
   - Front Desk / Revenue Manager / Finance → scoped (see seed_users)
   - Kamra Agent     → what AI agents get; Front Desk-equivalent ops rights,
                       every action attributable to the agent user

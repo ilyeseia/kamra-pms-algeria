@@ -129,7 +129,7 @@ def _apply_villa_lockout(rows: list[dict], meta: dict) -> None:
 	  - the villa is booked       -> every member room pushes 0 available
 
 	This complements - it does NOT replace - the write-time guard in
-	Reservation.validate_villa_lockout; that one stops Kamra accepting a
+	Reservation.validate_villa_lockout; that one stops ZIRI accepting a
 	conflicting booking, this one stops OTAs ever showing it. A property with
 	no Villa-category room type mapped is a no-op (unchanged behavior)."""
 	villa_rts = [rt for rt, mm in meta.items() if mm["category"] == "Villa"]
@@ -271,7 +271,7 @@ def _find_or_create_guest(name: str, phone: str, email: str) -> str:
 
 
 def _reservations_for_booking(property: str, booking_id: str) -> list[dict]:
-	"""Every Kamra reservation for one OTA booking: the single-room case
+	"""Every ZIRI reservation for one OTA booking: the single-room case
 	(ota_ref == bookingId) and each line of a multi-room booking
 	(ota_ref == "bookingId-<n>"). A cancel payload carries only the base
 	bookingId, so it must reach all of them."""
@@ -432,7 +432,7 @@ def import_room_mappings(connection: str, dry_run: int = 0):
 	(via the adapter's fetch_property_details) and map them onto this
 	property's room types.
 
-	Auto-matches a provider room to a Kamra Room Type by code or name, then
+	Auto-matches a provider room to a ZIRI Room Type by code or name, then
 	creates/updates a Channel Room Mapping (external_room_id = provider room id,
 	external_rate_id = the room's first rate plan). Anything it can't place is
 	returned under `unmatched` so you can map it by hand. Pass dry_run=1 to

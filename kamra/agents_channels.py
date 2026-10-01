@@ -9,7 +9,7 @@ needs to do is:
        messaging_webhook with an HMAC-SHA256 signature of the raw body
        in the X-Kamra-Signature header (hex-encoded).
     2. Include phone_number of the property line in the payload so
-       Kamra can route to the right Channel Provider Connection.
+       ZIRI can route to the right Channel Provider Connection.
     3. Include guest_phone (E.164) so we can resolve the reservation.
 
 The webhook does NOT run the agent's turn synchronously — it stamps an
@@ -102,7 +102,7 @@ def messaging_webhook(payload: str | dict | None = None) -> dict:
 	    }
 
 	Returns routing hints. The provider then either calls MCP tools
-	directly or POSTs to a follow-up endpoint to receive Kamra's reply.
+	directly or POSTs to a follow-up endpoint to receive ZIRI's reply.
 	"""
 	body = _parse_payload(payload)
 	connection = _authenticate("WhatsApp", body)
@@ -232,7 +232,7 @@ def send_outbound(
 		return {"sent": False, "reason": "no_outbound_url"}
 
 	# Provider-agnostic payload — the receiver adapter reshapes to its
-	# native API. Kamra doesn't need to know the difference between Meta
+	# native API. ZIRI doesn't need to know the difference between Meta
 	# WA templates and HeyKoala freeform messages at this layer.
 	credentials = frappe.get_doc(
 		"Channel Provider Connection", c["name"]

@@ -1,6 +1,6 @@
 """Wipe play data on the public demo so it cannot be used as a live PMS.
 
-The shared sandbox at demo.kamrapms.com (and nightly) is for trying Kamra,
+The shared sandbox at demo.kamrapms.com (and nightly) is for trying ZIRI,
 not for running a hotel. This script deletes everything people created —
 extra properties, users, bookings, folios, POS tickets, uploaded IDs,
 pasted API keys — then reseeds the sample hotel.
@@ -81,7 +81,7 @@ def execute():
 
 
 def reset() -> dict:
-	"""Wipe Kamra + leftover users, then reseed the sample hotel."""
+	"""Wipe ZIRI + leftover users, then reseed the sample hotel."""
 	summary: dict = {"site": frappe.local.site, "wiped": {}}
 
 	frappe.flags.ignore_permissions = True

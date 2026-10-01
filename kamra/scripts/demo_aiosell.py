@@ -21,7 +21,7 @@ from frappe.utils import add_days, nowdate
 from kamra.channel_manager import _apply_event, ari_snapshot
 from kamra.channels import provider_for
 
-DEMO_PROPERTY = "Hotel MgM Lakeside Villa"   # has a real Villa + a member STD
+DEMO_PROPERTY = "ZIRI Lakeside Villa"   # has a real Villa + a member STD
 HOTEL_CODE = "sandbox-pms"
 MEMBER_CODE, MEMBER_RATE = "std", "std-ep"
 VILLA_CODE, VILLA_RATE = "villa", "villa-ep"
@@ -127,7 +127,7 @@ def _avail(property, connection, room_type, date, days=12):
 
 
 def preview(property=None, days=5):
-	"""Show the OUT direction without live credentials: the exact JSON Kamra
+	"""Show the OUT direction without live credentials: the exact JSON ZIRI
 	would POST to Aiosell's /update (inventory) and /update-rates (rates)."""
 	import json
 
@@ -161,12 +161,12 @@ def preview(property=None, days=5):
 
 
 def push_to_sandbox(password, property=None, days=14):
-	"""Push REAL Kamra availability + rates to Aiosell's shared SANDBOX and
+	"""Push REAL ZIRI availability + rates to Aiosell's shared SANDBOX and
 	watch it land on live.aiosell.com.
 
-	Points a Kamra connection at the sandbox hotel, maps Kamra's room types onto
+	Points a ZIRI connection at the sandbox hotel, maps ZIRI's room types onto
 	the sandbox's OWN room codes (executive, suite) so the numbers are visible,
-	then fires Kamra's real push. Run with the sandbox password:
+	then fires ZIRI's real push. Run with the sandbox password:
 	    ...execute kamra.scripts.demo_aiosell.push_to_sandbox --kwargs '{"password":"THE_SANDBOX_PW"}'
 	"""
 	from kamra.channel_manager import ari_snapshot, push_ari
@@ -188,7 +188,7 @@ def push_to_sandbox(password, property=None, days=14):
 	conn.save(ignore_permissions=True)
 
 	reset(property)  # clear demo bookings so availability is clean
-	# map Kamra room types -> the sandbox's own codes so they show on its board
+	# map ZIRI room types -> the sandbox's own codes so they show on its board
 	sandbox_map = [(member_rt, "executive", "executive-s-ep")]
 	if villa_rt:
 		sandbox_map.append((villa_rt, "suite", "suite-s-ep"))

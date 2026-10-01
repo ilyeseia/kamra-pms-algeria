@@ -1005,7 +1005,7 @@ class TestDocumentCompliance(BanquetTestCase):
 
 
 class TestModuleGate(BanquetTestCase):
-	"""A property runs only the parts of Kamra it bought - but two of them
+	"""A property runs only the parts of ZIRI it bought - but two of them
 	can't be given up, or the site becomes unadministrable."""
 
 	def test_a_property_runs_only_what_it_switched_on(self):

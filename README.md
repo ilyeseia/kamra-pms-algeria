@@ -1,35 +1,45 @@
 <p align="center">
-  <img src="branding/png/kamra-mark-512.png" width="96" alt="Kamra — open-source hotel PMS" />
+  <img src="branding/ziri/ziri-logo-512.png" width="140" alt="ZIRI PMS" />
 </p>
 
-<h1 align="center">Kamra PMS</h1>
+<h1 align="center">ZIRI PMS</h1>
 
 <p align="center">
-  <b>Open-source hotel &amp; short-term rental PMS</b> — front desk, booking engine,<br/>
-  folios &amp; tax billing, housekeeping, POS, and an <b>MCP tool layer</b> so AI agents can run the property.
-</p>
-
-<p align="center">
-  <a href="https://demo.kamrapms.com"><img src="https://img.shields.io/badge/demo-live-0f766e?style=flat-square" alt="Live demo" /></a>
-  <a href="https://github.com/Kamra-PMS/kamra-pms/releases/latest"><img src="https://img.shields.io/github/v/release/Kamra-PMS/kamra-pms?style=flat-square&label=release" alt="Latest release" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-blue?style=flat-square" alt="AGPL-3.0" /></a>
-  <a href="https://cloud.frappe.io/marketplace/apps/kamra"><img src="https://img.shields.io/badge/Frappe%20Cloud-Marketplace-ed8936?style=flat-square" alt="Frappe Cloud Marketplace" /></a>
-  <a href="https://kamrapms.com/docs/"><img src="https://img.shields.io/badge/docs-kamrapms.com-111827?style=flat-square" alt="Documentation" /></a>
-  <img src="https://img.shields.io/github/stars/Kamra-PMS/kamra-pms?style=flat-square" alt="GitHub stars" />
+  <b>Smart Hospitality Management</b><br/>
+  <i>Smart Hospitality, Made for Modern Hotels</i>
 </p>
 
 <p align="center">
-  <a href="https://demo.kamrapms.com"><b>▶ Live demo</b></a> ·
-  <a href="https://kamrapms.com/docs/"><b>Docs</b></a> ·
+  <b>Hotel &amp; short-term rental PMS</b> — front desk, booking engine, folios &amp; tax billing,<br/>
+  housekeeping, POS, and an <b>MCP tool layer</b> so AI agents can run the property.
+</p>
+
+<p align="center">
+  <a href="license.txt"><img src="https://img.shields.io/badge/license-AGPL--3.0-064E3B?style=flat-square" alt="AGPL-3.0" /></a>
+  <img src="https://img.shields.io/badge/Algeria-DZD%20%C2%B7%20TVA%20%C2%B7%20ar%20%C2%B7%20fr-C89B3C?style=flat-square" alt="Algeria localization" />
+  <img src="https://img.shields.io/badge/Frappe-v16-0f766e?style=flat-square" alt="Frappe v16" />
+</p>
+
+<p align="center">
   <a href="#install"><b>Install</b></a> ·
-  <a href="https://kamrapms.com/docs/ai-and-mcp"><b>AI / MCP</b></a> ·
-  <a href="mailto:hello@kamrapms.com"><b>Contact</b></a>
+  <a href="docs/algeria/guides/INSTALL-en.md"><b>Guides (en · fr · ar)</b></a> ·
+  <a href="docs/algeria/INSTALLATION.md"><b>Deployment runbook</b></a> ·
+  <a href="docs/algeria/LICENSING.md"><b>Licensing</b></a>
 </p>
 
-> **Try it in 30 seconds → [demo.kamrapms.com](https://demo.kamrapms.com)**  
-> Tap any role to sign in (credentials are on the page). Guest booking: [/book](https://demo.kamrapms.com/book) · Housekeeping app: [/kamra/hk](https://demo.kamrapms.com/kamra/hk)
+> **ZIRI PMS is a distribution of [Kamra PMS](https://github.com/Kamra-PMS/kamra-pms)**, the
+> open-source AI-native hotel PMS by HeyKoala and contributors, localized for Algeria:
+> DZD, TVA/NIF, Arabic and French interfaces, RTL, the *taxe de séjour*, and Algerian
+> legal identifiers (RC · NIF · NIS · AI). Upstream copyright and the AGPL-3.0 licence are
+> preserved in full — see [LICENSING.md](docs/algeria/LICENSING.md).
+>
+> The Frappe app id remains `kamra`, so databases, routes, APIs and MCP clients from an
+> existing install keep working. The product name changed; the namespace deliberately did not.
 
-**Kamra** is a full **property management system (PMS)** for hotels, resorts, and **short-term rentals / villas**. It runs on **Frappe** (the framework behind ERPNext), is **AGPL-3.0**, and is built so humans *and* AI agents share the same governed APIs — booking, check-in, folios, night audit, pricing — with deterministic money (never from an LLM).
+**ZIRI PMS** is a full **property management system** for hotels, resorts, and **short-term
+rentals / villas**. It runs on **Frappe** (the framework behind ERPNext), is **AGPL-3.0**, and
+is built so humans *and* AI agents share the same governed APIs — booking, check-in, folios,
+night audit, pricing — with deterministic money (never from an LLM).
 
 ---
 
@@ -66,11 +76,11 @@ second release note. How we cut stables: [`RELEASING.md`](RELEASING.md).
 
 ---
 
-## Why Kamra
+## Why ZIRI PMS
 
 Most hotel PMS software was built twenty years ago: per-room SaaS rent, locked-in data, bolt-on chatbots, and screens that need a week of training.
 
-Kamra is the alternative we wanted:
+ZIRI PMS is the alternative we wanted:
 
 | Pain with legacy PMS | With Kamra |
 |---|---|

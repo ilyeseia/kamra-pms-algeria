@@ -1,4 +1,4 @@
-"""Accounting export: hand closed invoices to the books. Kamra keeps the front
+"""Accounting export: hand closed invoices to the books. ZIRI keeps the front
 office; your ledger (Tally, Zoho, ERPNext, ...) keeps compliance. The tax
 columns are shaped by the property's localization pack, so an India export
 carries CGST/SGST and a VAT country carries a single Tax column - the core

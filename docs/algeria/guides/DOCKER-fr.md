@@ -1,13 +1,13 @@
-# Hotel MgM — Guide d'installation Docker sous Linux
+# ZIRI PMS — Guide d'installation Docker sous Linux
 
-**Version installée :** Hotel MgM, Distribution Algérie **1.0.0**, sur
+**Version installée :** ZIRI PMS, Distribution Algérie **1.0.0**, sur
 Kamra core **2.6.5**
 
-Ce guide vous conduit d'un serveur Linux nu jusqu'à un site Hotel MgM
+Ce guide vous conduit d'un serveur Linux nu jusqu'à un site ZIRI PMS
 opérationnel sous Docker, contenant la fiche de votre propre établissement.
 Suivez les étapes dans l'ordre.
 
-> **À propos du nom.** Le produit que vous avez acquis s'appelle **Hotel MgM**.
+> **À propos du nom.** Le produit que vous avez acquis s'appelle **ZIRI PMS**.
 > Le composant logiciel sur lequel il repose porte en interne le nom `kamra` ;
 > vous rencontrerez donc ce mot dans les chemins de fichiers, les noms d'images,
 > les commandes et les adresses web — `/opt/kamra`, `kamra.env`, `kamra:local`,
@@ -776,7 +776,7 @@ ne sera qu'une demande de ces éléments.
 **Indiquez toujours le nom du produit et les deux numéros de version :**
 
 ```
-Hotel MgM
+ZIRI PMS
 Algeria Distribution 1.0.0
 on Kamra core 2.6.5
 ```

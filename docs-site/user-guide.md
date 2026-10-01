@@ -1,7 +1,7 @@
-# Kamra front-desk guide
+# ZIRI front-desk guide
 
 The working manual for a day at the desk. Everything here assumes you're
-signed in at your hotel's Kamra URL; your role decides which sections of
+signed in at your hotel's ZIRI URL; your role decides which sections of
 the sidebar you see.
 
 ## The day at a glance — Today
@@ -169,5 +169,5 @@ from in-house guests also raise a ticket on **Guest Requests**.
   double for the weekend", "cancel RES-2026-0142, guest request" — it
   quotes before booking, previews before cancelling, and every action
   it takes is logged.
-- **MCP** — **Kamra Agent → Connect your AI → Connect Claude**. It acts
+- **MCP** — **ZIRI Agent → Connect your AI → Connect Claude**. It acts
   as you. See [Connect your AI](/ai-and-mcp).

@@ -4,9 +4,9 @@
 framework's makers — Marketplace installs, backups and updates handled for
 you.
 
-::: danger Shared trial sites cannot install Kamra
+::: danger Shared trial sites cannot install ZIRI
 You need a **private bench** (payment method on file; Frappe’s USD 25+
-site plans). Shared / trial sites only install featured apps — Kamra will
+site plans). Shared / trial sites only install featured apps — ZIRI will
 not appear there. Do not start on a trial site and expect to “upgrade into”
 Marketplace installs.
 :::
@@ -16,18 +16,18 @@ Marketplace installs.
 1. **Sign up** at Frappe Cloud and **add a payment method**.
 2. Create a **private bench group** on **Frappe v16**.
 3. Create a **new site** on that bench (not a shared trial site).
-4. On the bench: **Marketplace → search Kamra → Add** → deploy.
-5. On the site: **Install app** Kamra (`payments` comes with it).
+4. On the bench: **Marketplace → search ZIRI → Add** → deploy.
+5. On the site: **Install app** ZIRI (`payments` comes with it).
 6. Open **`https://<your-site>/kamra`** — **not** `/app`.
 7. Sign in as **Administrator** with the site password from create-site
-   (there is no Kamra default password).
+   (there is no ZIRI default password).
 8. You are sent to **`/kamra/setup`** until the first property exists.
    Desk tiles (Accounting, Stock, …) appear only if you later install
-   ERPNext — they are not Kamra.
+   ERPNext — they are not ZIRI.
 
-Kamra itself is free on Frappe Cloud. Billing is only for the site.
+ZIRI itself is free on Frappe Cloud. Billing is only for the site.
 
-Product walkthrough: [live demo](https://demo.kamrapms.com).
+Product walkthrough: seed the [sample hotel](/demo) after install.
 
 ## What a Marketplace install actually does
 
@@ -63,8 +63,8 @@ python kamra/scripts/marketplace_install_check.py
 
 ## Optional: ERPNext and Frappe HR on the same site
 
-Marketplace Kamra does **not** install company books or HR. If you want
+Marketplace ZIRI does **not** install company books or HR. If you want
 Accounting and payroll on the **same** Frappe Cloud site, install
 **ERPNext** and optionally **Frappe HR** from Site Apps / Marketplace
-after Kamra. Those apps add Desk workspaces — the hotel still runs at
-`/kamra`. Full steps: [ERPNext and Frappe HR with Kamra](/self-hosting/erpnext-hr).
+after ZIRI. Those apps add Desk workspaces — the hotel still runs at
+`/kamra`. Full steps: [ERPNext and Frappe HR with ZIRI](/self-hosting/erpnext-hr).

@@ -258,7 +258,7 @@ const ZATCA_SPECS: Spec[] = [
   { field: "additional_number", label: "Additional number" },
   { field: "environment", label: "Environment (Phase 2)", type: "select",
     options: ["Sandbox", "Simulation", "Production"] },
-  { field: "egs_serial", label: "EGS serial (Phase 2)", hint: "1-Hotel MgM|2-PMS|3-<unit serial>" },
+  { field: "egs_serial", label: "EGS serial (Phase 2)", hint: "1-ZIRI|2-PMS|3-<unit serial>" },
 ]
 
 /** Saudi e-invoicing (ZATCA / FATOORA): seller details the XML needs, what
@@ -727,7 +727,7 @@ function AiAssistantCard({
           <CardTitle>{t("AI assistant (bring your own key)")}</CardTitle>
           <p className="mt-0.5 text-xs text-zinc-400">
             {t(
-              "Hotel MgM Agent for staff. Pick a provider, paste the key, Test. Claude Desktop is MCP (Hotel MgM Agent → Connect your AI) — not an Anthropic key in this form.",
+              "ZIRI Agent for staff. Pick a provider, paste the key, Test. Claude Desktop is MCP (ZIRI Agent → Connect your AI) — not an Anthropic key in this form.",
             )}
           </p>
         </div>
@@ -849,7 +849,7 @@ function AiAssistantCard({
         <p className="text-xs text-zinc-400">
           {t("Want Claude the app?")}{" "}
           <a href="/kamra/assistant" className="font-medium text-brand-700 hover:underline">
-            {t("Hotel MgM Agent → Connect your AI")}
+            {t("ZIRI Agent → Connect your AI")}
           </a>
           . {t("Want Claude the model in this chat? Use the OpenRouter preset.")}
         </p>
@@ -1012,7 +1012,7 @@ export default function Settings() {
             <CardTitle>Agent access (MCP)</CardTitle>
             <p className="mt-0.5 text-xs text-zinc-400">
               Connect Claude to this property's governed tool layer. Staff
-              click Connect Claude on Hotel MgM Agent — no API keys on a laptop.
+              click Connect Claude on ZIRI Agent — no API keys on a laptop.
               Every agent action lands in the Agent Action Log.
             </p>
           </div>
@@ -1021,7 +1021,7 @@ export default function Settings() {
           <p className="text-zinc-600">
             Open{" "}
             <a href="/kamra/assistant" className="font-medium text-brand-700 hover:underline">
-              Hotel MgM Agent → Connect your AI
+              ZIRI Agent → Connect your AI
             </a>{" "}
             and click <strong>Connect Claude</strong>. Claude opens with this
             hotel&apos;s MCP URL filled in; confirm, sign in as yourself, done.

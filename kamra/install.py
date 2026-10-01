@@ -101,7 +101,7 @@ def set_site_home_and_favicon():
 	ws = frappe.get_doc("Website Settings")
 	changed = False
 	if not ws.favicon:
-		ws.favicon = "/assets/kamra/kamra-mark.svg"
+		ws.favicon = "/assets/kamra/ziri-mark.png"
 		changed = True
 	if (ws.home_page or "").strip() in ("", "login", "me", "index"):
 		ws.home_page = "kamra"

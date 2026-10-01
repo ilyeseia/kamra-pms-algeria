@@ -80,15 +80,12 @@ export default function Login(props: { onSuccess: () => void }) {
           </p>
         )}
         <div className="mb-6 flex flex-col items-center gap-2">
-          <img src={asset("kamra-mark.svg")} alt="Kamra" className="size-16" />
-          <span
-            className="text-2xl font-semibold tracking-[0.02em] text-[#1C3F38]"
-            style={{ fontFamily: "Montserrat, ui-sans-serif, system-ui, sans-serif" }}
-          >
-            kamra
-            <span className="ml-1.5 align-middle text-[10px] font-semibold tracking-[0.4em] text-[#1E7B4F]">
-              PMS
-            </span>
+          {/* The supplied lockup already carries the ZIRI wordmark and "P M S",
+              so there is no text wordmark beside it - that would print the name
+              twice. logo-chip gives the dark-green artwork a light surface in
+              dark mode, where it measures 1.75:1 and would otherwise vanish. */}
+          <span className="logo-chip">
+            <img src={asset("ziri-logo.png")} alt="ZIRI PMS" className="h-24 w-auto" />
           </span>
           <label className="mt-1 flex items-center gap-2 text-xs text-[#6f7a71]">
             <span>{t("Language")}</span>
@@ -186,7 +183,7 @@ export default function Login(props: { onSuccess: () => void }) {
         )}
         {(version || sourceUrl) && (
           <p className="mt-6 text-center text-[11px] text-[#6f7a71]">
-            {version && <span>Hotel MgM v{version}</span>}
+            {version && <span>ZIRI PMS v{version}</span>}
             {version && sourceUrl && <span className="mx-1">·</span>}
             {sourceUrl && (
               <a

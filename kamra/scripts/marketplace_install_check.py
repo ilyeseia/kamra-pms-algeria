@@ -3,7 +3,7 @@
 
 """Offline marketplace-install simulation.
 
-Mirrors the checks Frappe Cloud and CI run before a site can serve Kamra:
+Mirrors the checks Frappe Cloud and CI run before a site can serve ZIRI:
 pyproject, hooks, license, prebuilt SPA, route rules, and no leftover
 Semgrep-blocking `frappe.set_user` / `frappe.db.commit` without nosemgrep.
 

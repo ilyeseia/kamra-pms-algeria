@@ -1,6 +1,6 @@
 """WhatsApp over Meta's Cloud API - bring your own number, no gateway.
 
-The open-source half of Kamra's WhatsApp story (the managed gateway and
+The open-source half of ZIRI's WhatsApp story (the managed gateway and
 the HeyKoala AI concierge are connected services). A hotel creates a
 Channel Provider Connection with provider "Meta Business":
 

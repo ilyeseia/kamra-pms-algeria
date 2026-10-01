@@ -1,9 +1,9 @@
-# Hotel MgM — Staff Guide
+# ZIRI PMS — Staff Guide
 
 For receptionists, night auditors, housekeepers, cashiers and restaurant
 staff. It covers the jobs you do every shift. No technical knowledge needed.
 
-Hotel MgM runs in a web browser. There is nothing to install on your
+ZIRI PMS runs in a web browser. There is nothing to install on your
 computer or phone.
 
 ---
@@ -49,7 +49,7 @@ Top bar → **Sign out**.
 
 ## 2. Finding your way around
 
-Hotel MgM is divided into **apps**. The top bar shows which app you are in;
+ZIRI PMS is divided into **apps**. The top bar shows which app you are in;
 **Switch app** moves between them, and **View all apps** shows them all on
 one page. You only see the apps your role allows.
 
@@ -637,7 +637,7 @@ If it has to go to support, have this ready:
 
 | Tell them | Where to find it |
 | --- | --- |
-| The product: **Hotel MgM** | — |
+| The product: **ZIRI PMS** | — |
 | The version: **2.6.5** | Not shown on staff screens — quote this guide, or ask your administrator whether it has been updated |
 | The property name | Top bar |
 | The exact address you had open | The browser's address bar |
@@ -653,6 +653,6 @@ it is picked up.
 
 ---
 
-*Hotel MgM 2.6.5 — staff guide. Screen and button names in this guide match
+*ZIRI PMS 2.6.5 — staff guide. Screen and button names in this guide match
 the English interface. If your interface is in Français or العربية, the same
 buttons are in the same places with the translated labels.*

@@ -1,4 +1,4 @@
-# Self-hosting Kamra
+# Self-hosting ZIRI
 
 Own your PMS end to end. Ways to install:
 
@@ -47,10 +47,10 @@ Hyperscaler storefronts (free self-host AMI, planned):
 
 ::: tip Rather not run a server?
 Install from the [Frappe Cloud Marketplace](/self-hosting/frappe-cloud) —
-Frappe hosts, backs up and updates it — and add our
-[implementation](https://kamrapms.com/implementation/) if you want
-migration and training done for you. You can export everything and move
-to self-hosting any time; that's the point of open source.
+Frappe hosts, backs up and updates it — and ask whoever supplied your
+ZIRI deployment about migration and training if you want that done for
+you. You can export everything and move to self-hosting any time; that's
+the point of open source.
 :::
 
 ## After install — production checklist
@@ -78,7 +78,7 @@ sudo /opt/kamra/install.sh update
 ```
 
 That rebuilds the image from the branch recorded in `/opt/kamra/apps.json`
-(fetching the latest Kamra code), recreates the containers and runs
+(fetching the latest ZIRI code), recreates the containers and runs
 `bench migrate` on every site. To switch channel or pin a release, pass
 the branch or tag: `sudo KAMRA_BRANCH=v2.6.4 /opt/kamra/install.sh update`.
 Expect 10–30 minutes; the running site stays up until the containers are

@@ -1,6 +1,6 @@
 """Guest privacy by design (India DPDP Act 2023 and Rules 2025; GDPR-friendly).
 
-The hotel is the Data Fiduciary for its guests. Kamra's job is to make the
+The hotel is the Data Fiduciary for its guests. ZIRI's job is to make the
 right thing the default and the lawful thing one click:
 
   erase_guest        right to erasure (s.12): every identifying trace goes,
@@ -126,7 +126,7 @@ def erase_guest(guest: str, reason: str = "request") -> dict:
 @frappe.whitelist(methods=["POST"])
 @require_roles(scope={"guest": "Guest"})
 def export_guest_data(guest: str) -> dict:
-	"""Right to access: everything Kamra holds about one guest, readable."""
+	"""Right to access: everything ZIRI holds about one guest, readable."""
 	g = frappe.get_doc("Guest", guest)
 	profile = {f.fieldname: g.get(f.fieldname) for f in g.meta.fields
 	           if f.fieldtype not in ("Section Break", "Column Break", "Tab Break") and g.get(f.fieldname)}

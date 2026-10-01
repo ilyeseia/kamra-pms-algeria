@@ -1,6 +1,6 @@
 # Contributors
 
-Kamra is open source and shaped by the people who run hotels on it. Thank
+ZIRI is open source and shaped by the people who run hotels on it. Thank
 you to everyone who has written code, reported an issue from the front
 desk, or disclosed a security problem responsibly.
 

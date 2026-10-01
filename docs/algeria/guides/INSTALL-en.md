@@ -1,11 +1,11 @@
-# Hotel MgM — Installation Guide
+# ZIRI PMS — Installation Guide
 
-**Version installed:** Hotel MgM, Algeria Distribution 1.0.0, on Kamra core **2.6.5**
+**Version installed:** ZIRI PMS, Algeria Distribution 1.0.0, on Kamra core **2.6.5**
 
-This guide takes you from a bare Windows 10 machine to a working Hotel MgM site
+This guide takes you from a bare Windows 10 machine to a working ZIRI PMS site
 with your hotel's own property record in it. Follow the steps in order.
 
-> **A note on the name.** The product you bought is **Hotel MgM**. Its underlying
+> **A note on the name.** The product you bought is **ZIRI PMS**. Its underlying
 > software component is named `kamra` internally, so you will see that word in
 > file paths, commands and web addresses — `/opt/kamra`, `kamra.env`,
 > `http://localhost:8080/kamra`. That is normal and expected. **Do not "correct"
@@ -15,11 +15,11 @@ with your hotel's own property record in it. Follow the steps in order.
 
 ## 1. What this is, and what it needs
 
-Hotel MgM is a property management system: reservations, arrivals and departures,
+ZIRI PMS is a property management system: reservations, arrivals and departures,
 folios, invoicing, housekeeping, and the Algerian tax and legal-identifier
 fields (TVA, NIF, RC, NIS, AI, and the *taxe de séjour*).
 
-**Two sentences you need to read before anything else.** The framework Hotel MgM
+**Two sentences you need to read before anything else.** The framework ZIRI PMS
 is built on does not run natively on Windows — there is no Windows build. The
 installer therefore checks that your Windows machine can host Linux containers,
 then drives the real Linux installer inside **WSL2**, with **Docker Desktop**
@@ -458,7 +458,7 @@ be a request for it.
 **Always include the product name and both version numbers:**
 
 ```
-Hotel MgM
+ZIRI PMS
 Algeria Distribution 1.0.0
 on Kamra core 2.6.5
 ```

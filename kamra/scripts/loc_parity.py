@@ -11,7 +11,7 @@ BASELINE = "/tmp/loc_parity_baseline.json"
 
 def _snapshot():
 	from kamra.pricing import quote, room_gst_rate
-	P = "Hotel MgM Demo"
+	P = "ZIRI Demo"
 	out = {}
 	# tax slab at a few nightly rates
 	rt = frappe.get_doc("Room Type",

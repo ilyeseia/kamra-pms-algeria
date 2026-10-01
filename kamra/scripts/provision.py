@@ -1,7 +1,7 @@
 """Stand up one customer's property - the application half of provisioning.
 
 The demo seeds exist to make screenshots look alive. A paying customer
-must get none of that: no Hotel MgM Demo, no invented reservations, no
+must get none of that: no ZIRI Demo, no invented reservations, no
 sample laundry. What they get is their own property, their own login, the
 modules they actually bought, and nothing else.
 
@@ -18,7 +18,7 @@ import string
 
 import frappe
 
-# Every role Kamra ships. A tenant gets the ones its modules need.
+# Every role ZIRI ships. A tenant gets the ones its modules need.
 ROLES = ("Hotel Admin", "Front Desk", "Housekeeping", "Finance",
          "Revenue Manager", "Kamra Agent")
 
@@ -155,7 +155,7 @@ def configure_smtp(host: str, port: int = 587, login: str = "",
 	payment link or a self-check-in invitation - and nothing tells anyone
 	until a guest complains they never got the email.
 
-	Kamra Cloud outbound mail is usually Resend SMTP
+	ZIRI Cloud outbound mail is usually Resend SMTP
 	(``smtp.resend.com:465``, username ``resend``, password = API key).
 	Port 465 needs ``use_ssl=1`` (implicit TLS) and ``use_tls=0``.
 	Other providers (Brevo, Hostinger, Cloudflare Email Sending, custom)
@@ -195,7 +195,7 @@ def status(property_name: str | None = None) -> dict:
 	props = frappe.get_all("Property", fields=["name", "property_name",
 	                                           "city", "enabled_modules"])
 	mail = mail_ready()
-	demo = frappe.db.exists("Property", "Hotel MgM Demo")
+	demo = frappe.db.exists("Property", "ZIRI Demo")
 	return {
 		"properties": props,
 		"room_types": frappe.db.count("Room Type"),

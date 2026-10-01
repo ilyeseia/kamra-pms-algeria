@@ -1,6 +1,6 @@
 # Connect your AI (MCP)
 
-Kamra is agent-native: everything staff can do through a governed tool,
+ZIRI is agent-native: everything staff can do through a governed tool,
 an agent can do — through the same layer. Prices come from the pricing
 engine, guardrails and policies apply, and every action lands in the
 activity ledger with who / what / why.
@@ -10,7 +10,7 @@ There are two ways to put an AI to work, and they can run side by side.
 ## How it works
 
 ```
-Claude  →  HTTPS /mcp (OAuth as you)  →  Kamra tools  →  pricing engine,
+Claude  →  HTTPS /mcp (OAuth as you)  →  ZIRI tools  →  pricing engine,
            RBAC, folio rules, night audit, Activity Log
 ```
 
@@ -24,15 +24,15 @@ check in; it cannot change rates or run finance. Unattended jobs
 
 ## 1. Connect Claude (the usual path)
 
-Your Kamra site must be **public HTTPS** — Claude talks to it from
+Your ZIRI site must be **public HTTPS** — Claude talks to it from
 Anthropic's cloud, not from the laptop.
 
-1. In Kamra open **Kamra Agent → Connect your AI**.
+1. In ZIRI open **ZIRI Agent → Connect your AI**.
 2. Click **Connect Claude**. Claude opens with this hotel's MCP URL
    filled in.
-3. Confirm **Add**, then sign in to Kamra if asked, pick the property,
+3. Confirm **Add**, then sign in to ZIRI if asked, pick the property,
    **Allow**.
-4. In a Claude chat, open the **+** menu → Connectors and enable Kamra.
+4. In a Claude chat, open the **+** menu → Connectors and enable ZIRI.
 
 Then talk in hotel language: *"Book Mr. Rao a deluxe Fri–Sun with
 breakfast, company Acme pays the stay"* — it quotes, books, routes
@@ -78,12 +78,12 @@ Gemini, Groq, OpenRouter, Ollama, Azure, or Custom) → paste the key →
   (`generativelanguage.googleapis.com/v1beta/openai`).
 - **Your key, your data.** No markup — requests go from your server to
   your provider.
-- **Governed:** the model only calls Kamra's tools.
+- **Governed:** the model only calls ZIRI's tools.
 - **Role-scoped:** tools match the signed-in user's roles.
 
 ## What work it can do
 
-Kamra ships **governed tools** on MCP (see the
+ZIRI ships **governed tools** on MCP (see the
 [tool reference](/mcp-tools)). Visibility is the intersection of the
 connected user's **roles** and the property's **enabled modules** — a
 house without F&B never sees POS tools; Front Desk still cannot change
@@ -123,7 +123,7 @@ the window, closing a folio) in the chat before the tool runs.
 
 - Enable the connector **per conversation** in Claude's + menu. It does
   not stay sticky across every chat unless you pin it.
-- Check **Activity** in Kamra — every MCP call is a row with your name.
+- Check **Activity** in ZIRI — every MCP call is a row with your name.
 - Rotate access with **Disconnect** on the Connect panel, not by
   rotating a Frappe API key.
 - The in-app copilot is still there for a desk terminal that should not
@@ -140,7 +140,7 @@ Be honest with the model, and with buyers:
 - **Channel / OTA and deep ledger / cashier tools** are not on MCP yet
   (AR aging, FX desk, till open/close). REST + roles still cover them.
 - **Claude must reach the site.** NAT / private bench → stdio fallback.
-- **Custom connector confirm.** Until Kamra is in Anthropic's directory,
+- **Custom connector confirm.** Until ZIRI is in Anthropic's directory,
   Claude shows "this URL came from an external link" — click through it.
 - **Front Desk cannot change rates.** Revenue Manager (or admin) can,
   inside guardrails. Tools the property has disabled never appear.
@@ -172,7 +172,7 @@ required to Connect Claude today.
 - Waitlist chase — poll `waitlist_ready` and reach out
 - Guest WhatsApp thread that posts to the folio
 - Public `/try-the-agent` playground with a tool trace
-- Submit Kamra to Anthropic's Connectors Directory
+- Submit ZIRI to Anthropic's Connectors Directory
 
 **Tool holes**
 

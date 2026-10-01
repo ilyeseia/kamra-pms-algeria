@@ -1,6 +1,6 @@
 """Shared MCP tool registry — one list for stdio, remote HTTP, and docs.
 
-Each tool wraps a governed Kamra API endpoint. Money and availability stay
+Each tool wraps a governed ZIRI API endpoint. Money and availability stay
 in the PMS; the model only calls these tools. Visibility is the intersection
 of (1) the signed-in user's Frappe roles via `require_roles` / `_kamra_roles`
 and (2) the property's `enabled_modules` (tool `module` must be on).
@@ -1195,7 +1195,7 @@ def mcp_tool_list(allowed: list[ToolSpec] | None = None) -> list[dict[str, Any]]
 
 
 def prepare_arguments(spec: ToolSpec, arguments: dict[str, Any], property: str) -> dict[str, Any]:
-	"""Map MCP arguments onto the Kamra API kwargs."""
+	"""Map MCP arguments onto the ZIRI API kwargs."""
 	clean: dict[str, Any] = dict(spec.extra)
 	for key in spec.parameters:
 		if key not in arguments:

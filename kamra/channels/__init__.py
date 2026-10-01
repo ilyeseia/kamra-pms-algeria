@@ -1,12 +1,12 @@
 """Channel-manager seam - provider-agnostic OTA connectivity.
 
-Kamra never talks to an OTA directly; a channel manager does (Channex,
+ZIRI never talks to an OTA directly; a channel manager does (Channex,
 STAAH, AioSell, ...). Every provider adapter is one module implementing
 two functions:
 
     push_ari(conn, snapshot) -> (ok: bool, detail: str)
         Deliver availability + rates to the provider. `snapshot` is
-        Kamra's normalized shape (see channel_manager.ari_snapshot):
+        ZIRI's normalized shape (see channel_manager.ari_snapshot):
         [{room_type, external_room_id, external_rate_id, days: [
             {date, available, rate}]}]
 

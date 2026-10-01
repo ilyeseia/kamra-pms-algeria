@@ -1,6 +1,6 @@
 # Installation — Algeria Distribution
 
-A vendor runbook for putting the Algeria distribution of Kamra PMS in front of
+A vendor runbook for putting ZIRI PMS in front of
 a client whose machine runs **Windows 10**. Two profiles are covered: a trial
 (*نسخة تجريبية*) meant for demonstration, and a production install
 (*نسخة احترافية*) meant to run a hotel.

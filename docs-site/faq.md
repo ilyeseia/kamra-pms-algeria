@@ -41,19 +41,19 @@ No. Rates, taxes, availability and policy fees are deterministic code,
 verified by an automated eval suite in CI. AI agents call governed tools
 as permission-checked users and cannot go around them.
 
-## Which Frappe version does Kamra need?
+## Which Frappe version does ZIRI need?
 
 Frappe **v16** (with the `payments` app). Install from the `main` branch
 for stable; `develop` is the nightly channel.
 
-## Does Marketplace Kamra include ERPNext or HR?
+## Does Marketplace ZIRI include ERPNext or HR?
 
-**No.** Kamra installs with `payments` only. Company books (ERPNext) and
+**No.** ZIRI installs with `payments` only. Company books (ERPNext) and
 payroll (Frappe HR) are optional apps on the **same site** when you want
 them — on Frappe Cloud or your own server. See
 [ERPNext and Frappe HR](/self-hosting/erpnext-hr).
 
-## How does Kamra version its own releases?
+## How does ZIRI version its own releases?
 
 **Patch-first.** Small features and fixes ship as `2.6.1`, `2.6.2`, and so
 on. A larger `2.7.0`-style cut only happens when maintainers deliberately
@@ -64,12 +64,14 @@ in the repo.
 
 ## How do I report a bug or ask for a feature?
 
-[GitHub issues](https://github.com/Kamra-PMS/kamra-pms/issues) for bugs
-and requests, discussions for questions. Security reports: see
+[GitHub issues](https://github.com/ilyeseia/kamra-pms-algeria/issues) for
+bugs and requests, discussions for questions. Security reports: see
 `SECURITY.md` — please don't open public issues for those.
 
-## Who builds Kamra?
+## Who builds ZIRI?
 
-[HeyKoala](https://heykoala.ai). The PMS is our open-source foundation;
-we make money hosting it and building AI hotel staff on top — not by
-gating features.
+ZIRI PMS is maintained in
+[this repository](https://github.com/ilyeseia/kamra-pms-algeria) and is
+built on **Kamra PMS** by [HeyKoala](https://heykoala.ai), the upstream
+open-source project it derives from. Both are AGPL-3.0: every feature is
+included, nothing is gated.

@@ -16,7 +16,7 @@ Authorization: token <api_key>:<api_secret>
 Content-Type: application/json
 ```
 
-- Get keys from **Kamra Agent → Connect your AI** (Claude OAuth, role-scoped) or the
+- Get keys from **ZIRI Agent → Connect your AI** (Claude OAuth, role-scoped) or the
   dedicated agent user for services.
 - Responses: `{"message": <return value>}`. Errors are HTTP 4xx with a
   readable reason.
@@ -31,7 +31,7 @@ Content-Type: application/json
 
 **GET/POST**
 
-Which parts of Kamra this property runs. Empty setting = all of
+Which parts of ZIRI this property runs. Empty setting = all of
 them, so an existing property keeps working untouched.
 
 | Param | Required | Default |
@@ -916,7 +916,7 @@ authorise that through File.has_permission -> the Reservation's own
 doctype permissions. On a site whose Custom DocPerm rows omit Front Desk
 (as ours do - any custom perm on a doctype REPLACES all its standard
 perms), that check says no, and the desk gets a broken image while a
-Hotel Admin sees it. Kamra's authorization has always lived on the
+Hotel Admin sees it. ZIRI's authorization has always lived on the
 endpoint rather than the doctype (see authz.py), so the image is served
 the same way as everything else here: one gate, one rule, works for
 every role the app actually grants.
@@ -3438,13 +3438,22 @@ demo_mode is true only on the seeded demo site (seed_demo sets the
 `kamra_demo_mode` default), so a real install never advertises the
 demo login accounts.
 
+version and source_url are here for two reasons that happen to share a
+fix. The login screen has always rendered a version line, and it has
+never once appeared, because this endpoint did not return the field it
+reads. And this app is AGPL-3.0: §13 obliges whoever runs it to offer
+the Corresponding Source to people who use it across a network, which
+is precisely what a hotel's guests do on the booking engine - so the
+source URL belongs on a surface every user can reach, not in a file only
+the operator sees.
+
 ### `kamra.public_api.default_property` <Badge type='tip' text='public' />
 
 **GET/POST**
 
 Which Property the public booking engine (``/book``) should show.
 
-Each Kamra deploy is single-tenant: one site = one hotel/villa. The
+Each ZIRI deploy is single-tenant: one site = one hotel/villa. The
 frontend used to hardcode the demo property name, which only worked
 on the seeded demo site and broke the booking engine on every other
 tenant (``Property &lt;name> not found`` / permission error for Guest).

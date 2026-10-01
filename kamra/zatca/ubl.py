@@ -2,7 +2,7 @@
 
 Input is a *normalised* invoice (plain dict) so the same builder serves a
 hotel folio, a restaurant bill or a credit note - the adapters in
-kamra.zatca own the mapping from Kamra documents.
+kamra.zatca own the mapping from ZIRI documents.
 
     {
       "number": "INV-SPH-26-00001", "uuid": "…", "icv": 7, "pih": "<b64>",

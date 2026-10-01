@@ -20,7 +20,9 @@ group **22, 80, 443** → Elastic IP.
 
 ```bash
 ssh ubuntu@<server-ip>   # or root, depending on AMI
-curl -fsSL https://raw.githubusercontent.com/Kamra-PMS/kamra-pms/main/deploy/install.sh | bash
+export KAMRA_GIT_URL=https://github.com/ilyeseia/kamra-pms-algeria
+export KAMRA_BRANCH=develop
+curl -fsSL https://raw.githubusercontent.com/ilyeseia/kamra-pms-algeria/develop/deploy/install.sh | bash
 ```
 
 Site domain, admin email, admin password — no default.
@@ -36,5 +38,5 @@ Then `/kamra/setup`. See [Quickstart](/quickstart).
 
 ## Marketplace (planned)
 
-Free **Kamra PMS** AMI (self-host in your VPC). Details:
+Free **ZIRI PMS** AMI (self-host in your VPC). Details:
 [Hyperscaler marketplaces](/self-hosting/marketplace/hyperscalers).

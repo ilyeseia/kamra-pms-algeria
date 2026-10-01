@@ -2,17 +2,14 @@
 
 ## Marketplace One-Click (preferred)
 
-When Kamra is listed on the
+When ZIRI is listed on the
 [Akamai / Linode Marketplace](https://www.linode.com/marketplace/):
 
-1. Deploy **Kamra**.
+1. Deploy **ZIRI**.
 2. Enter **site domain**, **admin email**, **admin password**.
 3. Open `/kamra` → `/kamra/setup`.
 
-Use the button on [kamrapms.com/get-started](https://kamrapms.com/get-started/)
-for the HeyKoala Impact / affiliate link (~$100 CPA when terms are met).
-
-StackScript notes: `deploy/linode/` in the Kamra repo.
+StackScript notes: `deploy/linode/` in the ZIRI repo.
 
 ## Manual
 
@@ -28,7 +25,9 @@ StackScript notes: `deploy/linode/` in the Kamra repo.
 
 ```bash
 ssh root@<server-ip>
-curl -fsSL https://raw.githubusercontent.com/Kamra-PMS/kamra-pms/main/deploy/install.sh | bash
+export KAMRA_GIT_URL=https://github.com/ilyeseia/kamra-pms-algeria
+export KAMRA_BRANCH=develop
+curl -fsSL https://raw.githubusercontent.com/ilyeseia/kamra-pms-algeria/develop/deploy/install.sh | bash
 ```
 
 Site domain, admin email, admin password — no default.

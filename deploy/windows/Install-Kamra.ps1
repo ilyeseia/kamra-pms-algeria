@@ -1,13 +1,13 @@
 <#
 .SYNOPSIS
-    Installs the Kamra PMS Algeria distribution on Windows 10 via WSL2 + Docker Desktop.
+    Installs the ZIRI PMS Algeria distribution on Windows 10 via WSL2 + Docker Desktop.
 
 .DESCRIPTION
     Read this before running it.
 
     Frappe does not run on Windows. There is no Windows build, and the project's
     own installer (deploy/install.sh) is a bash script that calls systemctl and
-    apt-get. So this script does not install Kamra "on Windows" in any real
+    apt-get. So this script does not install ZIRI PMS "on Windows" in any real
     sense: it verifies that Windows can host Linux containers, then drives the
     Linux installer inside WSL2 where Docker Desktop actually runs the stack.
 
@@ -48,7 +48,7 @@
     .\Install-Kamra.ps1 -Mode Production -SiteName pms.hotelalger.dz -AdminEmail gm@hotelalger.dz
 
 .NOTES
-    Kamra Algeria Distribution 1.0.0, on Kamra core 2.6.5.
+    ZIRI PMS Algeria Distribution 1.0.0, on Kamra core 2.6.5.
     Targets Windows PowerShell 5.1, which is what Windows 10 ships - so no
     ternary, null-coalescing, or && / || operators appear in this file.
 #>
@@ -499,7 +499,7 @@ function Show-Result {
 # ── Main ────────────────────────────────────────────────────────────────────
 
 Write-Host ''
-Write-Host 'Kamra PMS - Algeria Distribution 1.0.0' -ForegroundColor White
+Write-Host 'ZIRI PMS - Algeria Distribution 1.0.0' -ForegroundColor White
 Write-Host 'on Kamra core 2.6.5 - AGPL-3.0 - see docs/algeria/LICENSING.md' -ForegroundColor DarkGray
 
 $script:Distro = ''

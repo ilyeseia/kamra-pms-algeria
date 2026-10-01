@@ -2,22 +2,22 @@
 layout: home
 
 hero:
-  name: Kamra
-  text: The open-source PMS for hotels and villas
+  name: ZIRI PMS
+  text: Smart Hospitality, Made for Modern Hotels
   tagline: Front desk, billing & GST, POS, housekeeping, direct bookings and short-term rentals — 100% open source, AI-ready, no per-room fees. This is the manual.
   image:
-    src: /kamra-mark.svg
-    alt: Kamra
+    src: /ziri-mark.png
+    alt: ZIRI PMS
   actions:
     - theme: brand
       text: Quickstart (Docker)
       link: /quickstart
     - theme: alt
-      text: Try the live demo
-      link: https://demo.kamrapms.com
+      text: Demo & sample data
+      link: /demo
     - theme: alt
       text: GitHub
-      link: https://github.com/Kamra-PMS/kamra-pms
+      link: https://github.com/ilyeseia/kamra-pms-algeria
 
 features:
   - title: Self-host in an afternoon
@@ -31,13 +31,13 @@ features:
     link: /faq
 ---
 
-## What is Kamra?
+## What is ZIRI?
 
 ::: tip What's new on develop
 The **2.6.2** train (GitHub tag still pending; latest published release is [v2.6.0](https://github.com/Kamra-PMS/kamra-pms/releases/tag/v2.6.0)) plus Unreleased work: cashier/finance, **85 MCP tools**, System Health, property time zone, and banquet Phase 1. Notes: [CHANGELOG](https://github.com/Kamra-PMS/kamra-pms/blob/develop/CHANGELOG.md).
 :::
 
-Kamra is a complete property-management system for hotels and short-term
+ZIRI is a complete property-management system for hotels and short-term
 rentals, built on
 [Frappe](https://frappeframework.com) and released under AGPL-3.0:
 
@@ -50,6 +50,6 @@ rentals, built on
 - **Multi-property** — one login, shared guest profiles, central reservations, portfolio dashboard
 - **AI-native** — an MCP server and a BYO-key copilot over one governed, audited tool layer
 
-New here? Start with the [Quickstart](/quickstart), or poke around the
-[live demo](https://demo.kamrapms.com) first — it's seeded with a full
-sample hotel and one-tap role logins.
+New here? Start with the [Quickstart](/quickstart), then seed your own
+instance with the [sample hotel](/demo) — a full set of rooms, guests,
+reservations and folios, plus one-tap role logins.

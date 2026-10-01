@@ -1,16 +1,16 @@
 app_name = "kamra"
-app_title = "Hotel MgM"
+app_title = "ZIRI PMS"
 app_publisher = "HeyKoala"
 app_description = (
-	"Open-source, AI-native hotel PMS — front desk, direct booking, "
-	"housekeeping, folios and GST billing, with an MCP tool layer so AI "
-	"agents can run the property."
+	"Smart Hospitality Management — open-source, AI-native hotel PMS: front "
+	"desk, direct booking, housekeeping, folios and GST billing, with an MCP "
+	"tool layer so AI agents can run the property."
 )
 app_email = "hello@kamrapms.com"
 app_license = "agpl-3.0"
 
 # Branding shown in the Desk navbar, app switcher and marketplace listing.
-app_logo_url = "/assets/kamra/kamra-mark.svg"
+app_logo_url = "/assets/kamra/ziri-mark.png"
 app_icon = "octicon octicon-home"
 app_color = "#1E7B4F"
 
@@ -19,7 +19,7 @@ app_color = "#1E7B4F"
 add_to_apps_screen = [
 	{
 		"name": "kamra",
-		"logo": "/assets/kamra/kamra-mark.svg",
+		"logo": "/assets/kamra/ziri-mark.png",
 		"title": "Kamra",
 		"route": "/kamra",
 	}
@@ -104,7 +104,7 @@ website_redirects = [
 # 	{
 # 		"name": "kamra",
 # 		"logo": "/assets/kamra/logo.png",
-# 		"title": "Kamra",
+# 		"title": "ZIRI",
 # 		"route": "/kamra",
 # 		"has_permission": "kamra.api.permission.has_app_permission"
 # 	}

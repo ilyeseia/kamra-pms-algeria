@@ -1,10 +1,10 @@
-# Hotel MgM — Guide du personnel
+# ZIRI PMS — Guide du personnel
 
 Pour les réceptionnistes, les auditeurs de nuit, les femmes et valets de
 chambre, les caissiers et le personnel de restaurant. Ce guide couvre les
 gestes de chaque service. Aucune connaissance technique n'est nécessaire.
 
-Hotel MgM fonctionne dans un navigateur web. Il n'y a rien à installer sur
+ZIRI PMS fonctionne dans un navigateur web. Il n'y a rien à installer sur
 votre poste ni sur votre téléphone.
 
 ---
@@ -55,7 +55,7 @@ Barre du haut → **Se déconnecter**.
 
 ## 2. Se repérer
 
-Hotel MgM est découpé en **applications**. La barre du haut indique celle où
+ZIRI PMS est découpé en **applications**. La barre du haut indique celle où
 vous êtes ; **Changer d'application** permet de passer d'une à l'autre, et
 **Voir toutes les applications** les affiche toutes sur une page. Vous ne
 voyez que celles que votre rôle autorise.
@@ -697,7 +697,7 @@ Si cela doit remonter au support, préparez ceci :
 
 | Ce qu'il faut dire | Où le trouver |
 | --- | --- |
-| Le produit : **Hotel MgM** | — |
+| Le produit : **ZIRI PMS** | — |
 | La version : **2.6.5** | Non affichée sur les écrans du personnel — citez ce guide, ou demandez à votre administrateur si une mise à jour a eu lieu |
 | Le nom de l'établissement | Barre du haut |
 | L'adresse exacte que vous aviez ouverte | La barre d'adresse du navigateur |
@@ -713,7 +713,7 @@ prise en charge.
 
 ---
 
-*Hotel MgM 2.6.5 — guide du personnel. Les noms d'écrans et de boutons de ce
+*ZIRI PMS 2.6.5 — guide du personnel. Les noms d'écrans et de boutons de ce
 guide reprennent l'interface française. Quelques libellés ne sont pas encore
 traduits et s'affichent en anglais ; ils sont signalés là où ils
 apparaissent.*

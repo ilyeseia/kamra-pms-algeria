@@ -1,12 +1,12 @@
-# Hotel MgM — Guide d'installation
+# ZIRI PMS — Guide d'installation
 
-**Version installée :** Hotel MgM, Distribution Algérie 1.0.0, sur Kamra core **2.6.5**
+**Version installée :** ZIRI PMS, Distribution Algérie 1.0.0, sur Kamra core **2.6.5**
 
-Ce guide vous conduit d'une machine Windows 10 nue jusqu'à un site Hotel MgM
+Ce guide vous conduit d'une machine Windows 10 nue jusqu'à un site ZIRI PMS
 opérationnel, contenant la fiche de votre propre établissement. Suivez les
 étapes dans l'ordre.
 
-> **À propos du nom.** Le produit que vous avez acquis s'appelle **Hotel MgM**.
+> **À propos du nom.** Le produit que vous avez acquis s'appelle **ZIRI PMS**.
 > Le composant logiciel sur lequel il repose porte en interne le nom `kamra` ;
 > vous rencontrerez donc ce mot dans les chemins de fichiers, les commandes et
 > les adresses web — `/opt/kamra`, `kamra.env`,
@@ -18,11 +18,11 @@ opérationnel, contenant la fiche de votre propre établissement. Suivez les
 
 ## 1. Ce que c'est, et ce qu'il faut
 
-Hotel MgM est un système de gestion hôtelière (PMS) : réservations, arrivées et
+ZIRI PMS est un système de gestion hôtelière (PMS) : réservations, arrivées et
 départs, folios et notes, facturation, gouvernance, ainsi que les champs fiscaux
 et légaux algériens (TVA, NIF, RC, NIS, AI et la taxe de séjour).
 
-**Deux phrases à lire avant toute chose.** Le socle technique d'Hotel MgM ne
+**Deux phrases à lire avant toute chose.** Le socle technique de ZIRI PMS ne
 fonctionne pas nativement sous Windows — il n'en existe aucune version Windows.
 L'installateur vérifie donc que votre machine Windows est capable d'héberger des
 conteneurs Linux, puis pilote le véritable installateur Linux à l'intérieur de
@@ -507,7 +507,7 @@ sera qu'une demande de ces éléments.
 **Indiquez toujours le nom du produit et les deux numéros de version :**
 
 ```
-Hotel MgM
+ZIRI PMS
 Algeria Distribution 1.0.0
 on Kamra core 2.6.5
 ```

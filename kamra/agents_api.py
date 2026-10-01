@@ -1,6 +1,6 @@
 """The activity ledger API - every action anyone took, human or AI.
 
-Kamra has no native agents; this reads the shared audit log (Agent Action Log)
+ZIRI has no native agents; this reads the shared audit log (Agent Action Log)
 that records human actions and any connected AI's actions alike."""
 
 from __future__ import annotations

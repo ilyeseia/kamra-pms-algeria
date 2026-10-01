@@ -27,7 +27,7 @@ export default function AppLauncher() {
       <header>
         <h1 className="text-xl font-semibold tracking-tight text-zinc-900">{t("Your apps")}</h1>
         <p className="mt-0.5 text-sm text-zinc-500">
-          {t("Everything Hotel MgM does, one room at a time. Pick where you want to work.")}
+          {t("Everything ZIRI PMS does, one room at a time. Pick where you want to work.")}
         </p>
       </header>
 

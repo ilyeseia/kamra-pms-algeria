@@ -1,6 +1,6 @@
-"""Kamra MCP server — stdio sidecar for air-gapped / localhost setups.
+"""ZIRI MCP server — stdio sidecar for air-gapped / localhost setups.
 
-Prefer the hosted connector: in Kamra, open Kamra Agent → Connect Claude.
+Prefer the hosted connector: in ZIRI, open Kamra Agent → Connect Claude.
 That talks to https://your-site/mcp over OAuth and needs no Python here.
 
 This process is the fallback when Anthropic cannot reach the hotel (no
@@ -56,7 +56,7 @@ mcp = FastMCP("kamra", instructions=INSTRUCTIONS)
 
 
 def call(dotted: str, **params):
-	"""POST to any whitelisted Kamra endpoint, e.g. "api.get_quote"."""
+	"""POST to any whitelisted ZIRI endpoint, e.g. "api.get_quote"."""
 	res = requests.post(
 		f"{KAMRA_URL}/api/method/kamra.{dotted}",
 		json=params,

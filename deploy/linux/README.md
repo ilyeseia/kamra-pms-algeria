@@ -1,4 +1,6 @@
-# Hotel MgM on Linux — Docker Compose
+# ZIRI PMS on Linux — Docker Compose
+
+*Smart Hospitality, Made for Modern Hotels.*
 
 A self-contained `docker-compose.yml` for running the stack on a Linux server.
 This is the recommended home for a hotel taking live bookings; the Windows

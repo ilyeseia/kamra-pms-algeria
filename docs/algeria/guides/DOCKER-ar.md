@@ -1,14 +1,14 @@
 <div dir="rtl">
 
-# ‏Hotel MgM — دليل التثبيت على Docker في نظام Linux
+# ‏ZIRI PMS — دليل التثبيت على Docker في نظام Linux
 
-**الإصدار المثبَّت:** ‏Hotel MgM، توزيعة الجزائر **1.0.0**، على نواة
+**الإصدار المثبَّت:** ‏ZIRI PMS، توزيعة الجزائر **1.0.0**، على نواة
 ‏Kamra رقم **2.6.5**
 
-يأخذك هذا الدليل من خادم Linux خالٍ إلى موقع ‏Hotel MgM يعمل فعلياً على
+يأخذك هذا الدليل من خادم Linux خالٍ إلى موقع ‏ZIRI PMS يعمل فعلياً على
 ‏Docker، وفيه بطاقة فندقك أنت. اتبع الخطوات بالترتيب.
 
-> **ملاحظة عن الاسم.** المنتج الذي اشتريته اسمه **Hotel MgM**. أمّا المكوّن
+> **ملاحظة عن الاسم.** المنتج الذي اشتريته اسمه **ZIRI PMS**. أمّا المكوّن
 > البرمجي الذي يقوم عليه فاسمه داخلياً `kamra`، ولذلك ستصادف هذه الكلمة في
 > مسارات الملفات وأسماء الصور والأوامر وعناوين الويب — مثل `/opt/kamra` و
 > ‏`kamra.env` و `kamra:local` و `--install-app kamra` و
@@ -802,7 +802,7 @@ docker compose up -d && docker compose exec backend bench --site all migrate
 </div>
 
 ```
-Hotel MgM
+ZIRI PMS
 Algeria Distribution 1.0.0
 on Kamra core 2.6.5
 ```

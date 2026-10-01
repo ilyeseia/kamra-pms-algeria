@@ -23,7 +23,9 @@ Or [AWS](/self-hosting/aws). Prefer managed? [Frappe Cloud](/self-hosting/frappe
 ## One command
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Kamra-PMS/kamra-pms/main/deploy/install.sh | bash
+export KAMRA_GIT_URL=https://github.com/ilyeseia/kamra-pms-algeria
+export KAMRA_BRANCH=develop
+curl -fsSL https://raw.githubusercontent.com/ilyeseia/kamra-pms-algeria/develop/deploy/install.sh | bash
 ```
 
 You will be asked for:
@@ -35,7 +37,7 @@ You will be asked for:
 | Admin password | (min 10 characters — **there is no default**) |
 
 The script clones `frappe_docker`, builds a local `kamra:local` image
-(payments + kamra from GitHub), starts MariaDB + Redis + Kamra, creates
+(payments + kamra from GitHub), starts MariaDB + Redis + ZIRI, creates
 the site, enables the scheduler, and points `/` at `/kamra`.
 
 ## Sign in and set up
@@ -78,7 +80,7 @@ sudo /opt/kamra/install.sh update
 ```
 
 That rebuilds the image from the branch recorded in `/opt/kamra/apps.json`
-(fetching the latest Kamra code), recreates the containers and runs
+(fetching the latest ZIRI code), recreates the containers and runs
 `bench migrate` on every site. To switch channel or pin a release, pass
 the branch or tag: `sudo KAMRA_BRANCH=v2.6.4 /opt/kamra/install.sh update`.
 Expect 10–30 minutes; the running site stays up until the containers are

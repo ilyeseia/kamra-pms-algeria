@@ -52,7 +52,7 @@ Opera-style: till open/close with float and variance, unified FO+POS cash,
 petty cash, a shift report, currency desk, and a PIN pad on folio and POS
 money actions. Folios use an append-only ledger (Guest / Deposit / AR /
 Package). To run full company books (and optional HR) on the same Frappe
-site as Kamra, see [ERPNext and Frappe HR](/self-hosting/erpnext-hr).
+site as ZIRI, see [ERPNext and Frappe HR](/self-hosting/erpnext-hr).
 
 ## Your country's taxes
 
@@ -117,7 +117,7 @@ country's tax labels and the guest's online e-signature.
 ## WhatsApp on your own number
 
 Connect your own Meta Cloud API number (no gateway, no markup — Meta
-bills you directly) and Kamra sends **booking confirmations and self
+bills you directly) and ZIRI sends **booking confirmations and self
 check-in links automatically**, takes **payment requests** from the
 desk, and escalates housekeeping SLAs to managers. Guest replies land
 in a **conversations inbox** — threads per guest, chat bubbles,
@@ -266,7 +266,7 @@ pick **check-in and check-out** and tap **Check availability**.
 
 ## Short-term rentals
 
-Kamra runs villas the same way it runs hotels. Set the property kind to
+ZIRI runs villas the same way it runs hotels. Set the property kind to
 **Short Term Rental** and the public site becomes a catalog of places —
 each villa at its own address, sold as private rooms or the whole house.
 Inventory is **sellable units** (room / whole-place / package) with

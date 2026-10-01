@@ -43,7 +43,7 @@ async function doFetch(path: string, init?: RequestInit) {
       console.warn(`[kamra] network failure calling ${path}`, err)
       window.dispatchEvent(new Event("kamra:offline"))
       throw Object.assign(
-        new Error("Can't reach Hotel MgM right now. Check your connection — we'll reconnect automatically."),
+        new Error("Can't reach ZIRI PMS right now. Check your connection — we'll reconnect automatically."),
         { network: true },
       )
     }
@@ -327,7 +327,7 @@ export interface Quote {
   amount_after_tax: number
 }
 
-export const DEMO_PROPERTY = "Hotel MgM Demo"
+export const DEMO_PROPERTY = "ZIRI Demo"
 
 // Every Kamra site hosts exactly one Property. The public booking engine
 // (/book) has no logged-in session to read a chosen property from, so it

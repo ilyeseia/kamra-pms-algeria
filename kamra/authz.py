@@ -1,6 +1,6 @@
 """Endpoint authorization - Frappe checks doctype permissions on ORM
 paths, but raw-SQL reads and db.set_value writes sail past them. Every
-whitelisted Kamra endpoint therefore declares who may call it - and,
+whitelisted ZIRI endpoint therefore declares who may call it - and,
 for staff restricted to some properties, which properties it may touch."""
 
 import inspect

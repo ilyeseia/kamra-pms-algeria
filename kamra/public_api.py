@@ -241,7 +241,7 @@ def site_info():
 def default_property():
 	"""Which Property the public booking engine (``/book``) should show.
 
-	Each Kamra deploy is single-tenant: one site = one hotel/villa. The
+	Each ZIRI deploy is single-tenant: one site = one hotel/villa. The
 	frontend used to hardcode the demo property name, which only worked
 	on the seeded demo site and broke the booking engine on every other
 	tenant (``Property <name> not found`` / permission error for Guest).

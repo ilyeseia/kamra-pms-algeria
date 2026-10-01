@@ -1,4 +1,4 @@
-"""Whitelisted API for the Kamra front-desk UI.
+"""Whitelisted API for the ZIRI front-desk UI.
 
 Every endpoint here is also, by design, an agent tool: the same governed
 surface serves the React console today and the MCP layer next.
@@ -21,7 +21,7 @@ ALL_MODULES = ("front-desk", "housekeeping", "operations", "fnb", "events",
 @frappe.whitelist()
 @require_roles()
 def enabled_modules(property: str) -> list:
-	"""Which parts of Kamra this property runs. Empty setting = all of
+	"""Which parts of ZIRI this property runs. Empty setting = all of
 	them, so an existing property keeps working untouched."""
 	raw = frappe.db.get_value("Property", property, "enabled_modules")
 	picked = [m.strip() for m in (raw or "").split(",") if m.strip()]
@@ -990,7 +990,7 @@ def hk_upload_media(task: str):
 	content = f.stream.read()
 	if len(content) > 25 * 1024 * 1024:
 		frappe.throw("File is too large - keep photos/videos under 25 MB.")
-	# endpoint-gated (Kamra authorizes on the route, not the doctype), so the
+	# endpoint-gated (ZIRI authorizes on the route, not the doctype), so the
 	# File is created ignore_permissions and attached to the task.
 	saved = frappe.get_doc({
 		"doctype": "File",
@@ -2507,7 +2507,7 @@ def id_document_image(reservation: str):
 	doctype permissions. On a site whose Custom DocPerm rows omit Front Desk
 	(as ours do - any custom perm on a doctype REPLACES all its standard
 	perms), that check says no, and the desk gets a broken image while a
-	Hotel Admin sees it. Kamra's authorization has always lived on the
+	Hotel Admin sees it. ZIRI's authorization has always lived on the
 	endpoint rather than the doctype (see authz.py), so the image is served
 	the same way as everything else here: one gate, one rule, works for
 	every role the app actually grants.

@@ -180,7 +180,7 @@ Authorization: token <api_key>:<api_secret>
 Content-Type: application/json
 ```
 
-- Get keys from **Kamra Agent → Connect your AI** (Claude OAuth, role-scoped) or the
+- Get keys from **ZIRI Agent → Connect your AI** (Claude OAuth, role-scoped) or the
   dedicated agent user for services.
 - Responses: `{{"message": <return value>}}`. Errors are HTTP 4xx with a
   readable reason.
@@ -250,12 +250,12 @@ def write_postman(modules):
 
     collection = {
         "info": {
-            "name": "Hotel MgM API",
+            "name": "ZIRI PMS API",
             "description":
-                "The full Kamra REST surface. Set base_url (e.g. "
+                "The full ZIRI PMS REST surface. Set base_url (e.g. "
                 "https://pms.yourhotel.com), api_key and api_secret in the "
-                "collection variables, then call away. Docs: "
-                "https://kamrapms.com/docs/api-reference",
+                "collection variables, then call away. Docs: the REST API "
+                "reference on your ZIRI PMS docs site (/docs/api-reference).",
             "schema": "https://schema.getpostman.com/json/collection/"
                       "v2.1.0/collection.json",
         },

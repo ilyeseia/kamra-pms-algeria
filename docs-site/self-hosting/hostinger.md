@@ -1,13 +1,12 @@
 # Self-hosting on Hostinger
 
-Best path for India / Southeast Asia on a cheap VPS. Software stays free;
-Hostinger bills the VPS — 20% off with the Kamra referral link below.
+Best path for a cheap VPS. The software stays free; Hostinger bills you
+for the server.
 
 ## 1. Create the server
 
-Open Hostinger with the Kamra referral link —
-**[hostinger.com/in?REFERRALCODE=kamrapms](https://www.hostinger.com/in?REFERRALCODE=kamrapms)** —
-you save **20%** and it helps fund Kamra. Go to **VPS** and pick **KVM 2**
+Open **[hostinger.com](https://www.hostinger.com/)**, go to **VPS** and
+pick **KVM 2**
 (2 vCPU / 8 GB / ~₹549/mo). For the operating system choose
 **Ubuntu 24.04 with Docker** (plain Ubuntu 24.04 also works — the installer
 adds Docker). Set a root password or SSH key and note the IP.
@@ -17,17 +16,19 @@ adds Docker). Set a root password or SSH key and note the IP.
 **A record** for `pms.yourhotel.com` → the server IP. (Cloudflare: DNS only
 while issuing SSL.)
 
-## 3. Install Kamra (one paste)
+## 3. Install ZIRI (one paste)
 
 In hPanel open the VPS → **Browser terminal** (or `ssh root@<server-ip>`)
 and paste:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Kamra-PMS/kamra-pms/main/deploy/install.sh | bash
+export KAMRA_GIT_URL=https://github.com/ilyeseia/kamra-pms-algeria
+export KAMRA_BRANCH=develop
+curl -fsSL https://raw.githubusercontent.com/ilyeseia/kamra-pms-algeria/develop/deploy/install.sh | bash
 ```
 
 Answer three prompts: **site domain**, **admin email**, **admin password**.
-There is no default password. The installer builds Kamra on the VPS —
+There is no default password. The installer builds ZIRI on the VPS —
 allow 20–45 minutes the first time.
 
 ## 4. TLS + sign in

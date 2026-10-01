@@ -6,7 +6,7 @@ Run via bench console:
 
 import frappe
 
-PROPERTY = "Hotel MgM Demo"
+PROPERTY = "ZIRI Demo"
 
 U = "https://images.unsplash.com"
 MEDIA = {

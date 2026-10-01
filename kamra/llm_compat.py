@@ -11,7 +11,7 @@ tools:
     gpt-5.6-luna in /v1/chat/completions. To use function tools, use
     /v1/responses or set reasoning_effort to 'none'.
 
-Kamra talks to any OpenAI-compatible host (OpenAI, OpenRouter, Groq,
+ZIRI talks to any OpenAI-compatible host (OpenAI, OpenRouter, Groq,
 Ollama, vLLM…), so we stay on ``/chat/completions`` and pin effort to
 ``none`` when tools are sent. See https://github.com/Kamra-PMS/kamra-pms/issues/23
 """

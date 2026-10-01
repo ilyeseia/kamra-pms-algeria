@@ -1,4 +1,4 @@
-"""Kamra's pricing engine.
+"""ZIRI's pricing engine.
 
 Deterministic by design: agents and humans both get quotes from this module;
 no LLM ever computes money. Resolution order per night:

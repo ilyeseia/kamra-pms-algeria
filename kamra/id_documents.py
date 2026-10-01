@@ -1,4 +1,4 @@
-"""Guest ID scans - the only place in Kamra that writes a private file.
+"""Guest ID scans - the only place in ZIRI that writes a private file.
 
 Two callers, one gate: the guest's token-gated self check-in
 (public_api.precheckin_upload_id) and the desk's authenticated counter
