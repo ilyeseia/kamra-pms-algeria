@@ -26,7 +26,8 @@ logins.
 
 ## What does self-hosting really require?
 
-A 2 vCPU / 4 GB / 40 GB VPS (~₹549–$24/month), a domain, and an
+A 2 vCPU / 4 GB / 40 GB VPS (roughly $7–$24/month depending on the
+provider — check their current pricing), a domain, and an
 afternoon. See the [guides](/self-hosting/). You manage updates and
 backups; both are one command.
 

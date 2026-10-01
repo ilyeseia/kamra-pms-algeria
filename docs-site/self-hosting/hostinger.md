@@ -7,7 +7,7 @@ for the server.
 
 Open **[hostinger.com](https://www.hostinger.com/)**, go to **VPS** and
 pick **KVM 2**
-(2 vCPU / 8 GB / ~₹549/mo). For the operating system choose
+(2 vCPU / 8 GB). For the operating system choose
 **Ubuntu 24.04 with Docker** (plain Ubuntu 24.04 also works — the installer
 adds Docker). Set a root password or SSH key and note the IP.
 

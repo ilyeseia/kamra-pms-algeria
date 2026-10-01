@@ -112,7 +112,7 @@ Say the hotel work, not the API:
 - "Quote a deluxe Friday to Sunday, two adults, breakfast."
 - "Book that for Priya Sharma, 98765 43210."
 - "The Rao booking wants to cancel — what's the fee?"
-- "Post ₹450 minibar to 214, not alcohol."
+- "Post DA 450 minibar to 214, not alcohol."
 - "Do we have the hall on 14 December for 180 pax?"
 - "Morning briefing for the owner."
 

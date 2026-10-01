@@ -7,7 +7,7 @@ is for.
 | | Number | Owned by | Where it lives |
 | --- | --- | --- | --- |
 | Kamra core | **2.6.5** | upstream Kamra PMS | `kamra/__init__.py`, `.release-please-manifest.json` |
-| ZIRI PMS distribution | **1.0.0** | this repository | git tag `hotel-mgm-v1.0.0`, `docs/algeria/` |
+| ZIRI PMS distribution | **1.0.0** | this repository | git tag `ziri-v1.0.0`, `docs/algeria/` |
 
 ## Why the core version is not touched
 
@@ -49,7 +49,7 @@ core 2.6.5:
 ## Why the documents say 1.0.0 and the tags say 1.0.0-rc.N
 
 The guides and the reference docs name the distribution **1.0.0**. The git tags
-carry a pre-release suffix — `hotel-mgm-v1.0.0-rc.3` at the time of writing.
+carry a pre-release suffix — `ziri-v1.0.0-rc.1` at the time of writing.
 That is deliberate, not an oversight.
 
 The documents describe the version being built; the tag records which candidate
@@ -64,23 +64,34 @@ the documents need no edit at all.
 
 ## Tagging
 
-Distribution releases are tagged with a `hotel-mgm-v` prefix so they cannot
-collide with upstream's `v2.6.5`-style tags in the same repository:
+Distribution releases are tagged with a `ziri-v` prefix so they cannot collide
+with upstream's `v2.6.5`-style tags in the same repository:
 
 ```bash
-git tag -a hotel-mgm-v1.0.0 -m "ZIRI PMS 1.0.0 on Kamra core 2.6.5"
-git push origin hotel-mgm-v1.0.0
+git tag -a ziri-v1.0.0 -m "ZIRI PMS 1.0.0 on Kamra core 2.6.5"
+git push origin ziri-v1.0.0
 ```
 
-One earlier tag, `algeria-v1.0.0-rc.1`, predates the rename and therefore
-describes a build still branded Kamra. It is left in place rather than deleted,
-because moving or removing a published tag breaks anyone who fetched it — but
-it is superseded and should not be handed to a client.
+### Three prefixes exist in this repository's history
 
-A tag is a claim that the thing works. Do not tag `1.0.0` until at least one
-`bench migrate` has run against a real database — at time of writing, `v36`
-and `v37` have never executed against one, so the honest state is
-**1.0.0-rc**, not `1.0.0`. See `IMPLEMENTATION_STATUS.md`.
+The product was named twice before it settled, and the tags record that rather
+than hiding it:
+
+| Prefix | Era | Status |
+| --- | --- | --- |
+| `algeria-v` | before the product had a name | superseded |
+| `hotel-mgm-v` | the interim name | superseded |
+| `ziri-v` | ZIRI PMS | **current** |
+
+None of the old tags were moved or deleted. Moving a published tag breaks
+anyone who already fetched it, and deleting one hides that the rename happened
+— both worse than a short table explaining the sequence. The superseded tags
+point at builds carrying a name the product no longer uses, so they should not
+be handed to a client; `ziri-v*` is the only line to ship from.
+
+A tag is a claim that the thing works. Do not drop the `-rc` suffix until at
+least one `bench migrate` has run against a real database — at time of writing
+`v36` and `v37` never have.
 
 ## How the two numbers move
 

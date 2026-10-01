@@ -66,7 +66,7 @@ F&B split, Tourism Tax as a folio line, SST registration number),
 VAT-number simplified tax invoices, Riyal), and a clean flat-tax pack
 for everywhere else. **Currency symbols and number formats follow the
 pack** across every screen, report and thermal ticket — an Indonesian
-property reads Rp 3.300.000, an Indian one ₹ and lakhs.
+property reads Rp 3.300.000, an Algerian one DA and TVA, an Indian one ₹ and lakhs.
 
 The pack also sets the front desk's vocabulary: the **ID documents** the
 desk and the guest self check-in accept (Aadhaar and PAN in India,

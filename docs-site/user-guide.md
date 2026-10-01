@@ -9,7 +9,7 @@ the sidebar you see.
 **Today** is home: arrivals, departures, in-house guests and the room
 board, refreshed every 30 seconds.
 
-- Every stay row carries a **payment chip** — `Paid`, `₹X due`, or
+- Every stay row carries a **payment chip** — `Paid`, `DA X due`, or
   `Unpaid` — straight from the folio.
 - Arrival rows link to the **GRC** (registration card) and a
   **copy check-in link** button. Hover it: it tells you whether the link

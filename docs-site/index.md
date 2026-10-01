@@ -21,7 +21,7 @@ hero:
 
 features:
   - title: Self-host in an afternoon
-    details: Runs on a ₹549/month VPS (2 vCPU · 4 GB). Step-by-step guides for Hostinger, DigitalOcean, Linode and AWS.
+    details: Runs on a small VPS (2 vCPU · 4 GB). Step-by-step guides for Hostinger, DigitalOcean, Linode and AWS.
     link: /self-hosting/
   - title: Connect your AI over MCP
     details: 85 governed tools. Click Connect Claude — it quotes, books and posts charges as a permission-checked user, fully audited.

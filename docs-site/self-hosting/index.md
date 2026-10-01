@@ -37,7 +37,7 @@ the server; ports 80/443 open; SSL via Let's Encrypt.
 
 | Provider | Plan that fits | Price | Guide |
 | --- | --- | --- | --- |
-| Hostinger | KVM 2 (2 vCPU / 8 GB) | ~₹549/mo | [Guide](/self-hosting/hostinger) |
+| Hostinger | KVM 2 (2 vCPU / 8 GB) | see provider | [Guide](/self-hosting/hostinger) |
 | DigitalOcean | Basic 4 GB | ~$24/mo | [Guide](/self-hosting/digitalocean) |
 | Linode | Shared 4 GB | ~$24/mo | [Guide](/self-hosting/linode) |
 | AWS | t3.medium + EBS | ~$30/mo | [Guide](/self-hosting/aws) |

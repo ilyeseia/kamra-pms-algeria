@@ -1,4 +1,14 @@
-# Frappe Cloud Marketplace listing — Kamra
+# Frappe Cloud Marketplace listing — ZIRI PMS
+
+> **Read this first.** Most of this file is the paste-ready product copy, and
+> it is branded ZIRI PMS. But the *operational* sections below — the app id
+> `kamra`, the existing marketplace entry, the review-request email and the
+> upstream PR link — record **upstream Kamra PMS's own submission**, which
+> belongs to HeyKoala, not to this project. They are kept as a factual record
+> and are deliberately not rewritten: ZIRI cannot rebrand a listing it does
+> not own. Publishing ZIRI PMS on Frappe Cloud would be a **separate**
+> submission under its own app id, and the build source below is the one
+> that would change first.
 
 Paste-ready copy for the Frappe Cloud publisher form
 (frappecloud.com → Marketplace → Kamra). Keep this file in sync with the
@@ -9,7 +19,8 @@ and [app authoring guidelines](https://docs.frappe.io/cloud/marketplace/app-auth
 short description 40–80 characters, no install steps, no persuasion away
 from Frappe Cloud.
 
-- **Repo / branch to build from:** `Kamra-PMS/kamra-pms`, branch `main`
+- **Repo / branch to build from:** `ilyeseia/kamra-pms-algeria`, branch `develop`
+  (upstream's own listing builds from `Kamra-PMS/kamra-pms`, branch `main`)
 - **Frappe version:** v16
 - **Pricing:** Free
 - **License:** AGPL-3.0
@@ -22,7 +33,7 @@ from Frappe Cloud.
 ## Title
 
 ```
-Kamra — Hotel & Short-Term Rental PMS
+ZIRI PMS — Smart Hospitality Management
 ```
 
 ## Short description (one line / summary field)
@@ -51,7 +62,7 @@ per-module rent.
 
 Most hotel software was built twenty years ago: click-heavy screens, add-on
 fees for night audit and reports, and guest history locked in a vendor
-cloud. Kamra treats every operation as a governed, audited action, so your
+cloud. ZIRI PMS treats every operation as a governed, audited action, so your
 team (and the AI you trust) can actually run the property.
 
 Install it on your Frappe Cloud site from this listing. The `payments` app
@@ -260,9 +271,9 @@ HeyKoala
 ### discuss.frappe.io announcement (after it goes live)
 
 ```
-Title: Kamra PMS — open-source hotel & short-term rental PMS on Frappe v16
+Title: ZIRI PMS — Smart Hospitality Management, on Frappe v16
 
-Kamra is an AGPL property management system for hotels and short-term
+ZIRI PMS is an AGPL property management system for hotels and short-term
 rentals, built on Frappe v16. Front desk, direct booking, villa catalogs,
 POS, housekeeping, folios and tax billing — install from the Frappe Cloud
 Marketplace onto your site.
