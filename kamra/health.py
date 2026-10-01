@@ -6,9 +6,12 @@ Docker / Frappe Cloud) — we never mutate the install from this screen.
 
 from __future__ import annotations
 
+import glob
 import json
+import os
 import re
 import shutil
+import time
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
@@ -119,21 +122,195 @@ def _disk_check() -> dict:
 		return _check("disk", "Disk space", "info", f"Could not measure: {e}")
 
 
+def _fmt_age(seconds: float) -> str:
+	if seconds < 90:
+		return f"{int(seconds)}s ago"
+	if seconds < 5400:
+		return f"{int(seconds // 60)} min ago"
+	if seconds < 172800:
+		return f"{seconds / 3600:.1f} h ago"
+	return f"{int(seconds // 86400)} days ago"
+
+
 def _scheduler_check() -> dict:
+	"""Is the scheduler ENABLED, and has it actually RUN?
+
+	These are two different questions and only the first used to be asked. The
+	setting lives in System Settings; the scheduler itself is a separate
+	process in its own container, and it can be dead while the setting still
+	reads enabled. On the trial install this check reported "passed" with a
+	green tick while `tabScheduled Job Type` held no execution record at all -
+	nothing had ever run, and the night audit with it. A check that cannot
+	distinguish "working" from "switched on" is not a check.
+	"""
 	enabled = cint(frappe.db.get_single_value("System Settings", "enable_scheduler"))
-	if enabled:
+	if not enabled:
 		return _check(
 			"scheduler",
 			"Scheduler",
-			"passed",
-			"Background jobs are enabled (night audit, reminders, sync).",
+			"attention",
+			"Scheduler is off — night audit and reminder jobs will not run.",
+			link="/app/system-settings",
 		)
+
+	try:
+		last = frappe.db.sql(
+			"""SELECT MAX(last_execution) FROM `tabScheduled Job Type`
+			   WHERE last_execution IS NOT NULL"""
+		)
+		last = last[0][0] if last else None
+	except Exception as e:
+		return _check("scheduler", "Scheduler", "info",
+		              f"Enabled, but the job log could not be read: {str(e)[:120]}")
+
+	# The stall that hides itself: Frappe computes a job's next run from
+	# `last_execution or creation`. Change the site's time zone to a lower UTC
+	# offset after the site was built and every one of those rows is suddenly
+	# stamped in the FUTURE, so nothing is ever due. The scheduler process
+	# stays alive, logs nothing, and `bench doctor` reports workers online -
+	# while the night audit never runs. Measured on the trial install: all 51
+	# job types stamped 16:15 against a site clock reading 14:19, and zero
+	# executions since the site was created. Worth naming explicitly, because
+	# "has never run" sends an operator to look at a container that is fine.
+	try:
+		future = frappe.db.sql(
+			"""SELECT COUNT(*) FROM `tabScheduled Job Type`
+			   WHERE COALESCE(last_execution, creation) > %s""",
+			frappe.utils.now_datetime(),
+		)[0][0]
+	except Exception:
+		future = 0
+	if future:
+		return _check(
+			"scheduler",
+			"Scheduler",
+			"failed",
+			f"{future} scheduled job(s) are stamped in the future, so none will "
+			"ever come due and the night audit will not run. This happens when "
+			"the site time zone is moved to a lower UTC offset after the site "
+			"was created. Fix: set last_execution to now on the affected rows.",
+			link="/app/scheduled-job-type",
+		)
+
+	if not last:
+		# Normal for the first minutes of a fresh site; alarming after that.
+		return _check(
+			"scheduler",
+			"Scheduler",
+			"attention",
+			"Enabled, but no scheduled job has ever run. Expected on a site "
+			"created minutes ago; otherwise the scheduler container is not "
+			"running and the night audit is not happening.",
+			link="/app/scheduled-job-type",
+		)
+
+	age = (frappe.utils.now_datetime() - frappe.utils.get_datetime(last)).total_seconds()
+	when = _fmt_age(age)
+	if age > 86400:
+		status, detail = "failed", (
+			f"Enabled, but the last scheduled job ran {when}. The night audit "
+			"has not run for over a day.")
+	elif age > 21600:
+		status, detail = "attention", (
+			f"Enabled, but the last scheduled job ran {when}.")
+	else:
+		status, detail = "passed", f"Running — last job {when}."
+	return _check("scheduler", "Scheduler", status, detail,
+	              link="/app/scheduled-job-type")
+
+
+def _redis_check() -> dict:
+	"""Round-trip a value. A connection that accepts and returns nothing is
+	not a working cache, so this writes and reads back rather than pinging."""
+	try:
+		token = f"health-{time.time()}"
+		frappe.cache.set_value("kamra:health_probe", token, expires_in_sec=60)
+		got = frappe.cache.get_value("kamra:health_probe")
+		if got != token:
+			return _check("redis", "Redis", "failed",
+			              "Cache accepted a write but returned a different value.")
+		return _check("redis", "Redis", "passed", "Cache read-write round trip OK.")
+	except Exception as e:
+		return _check("redis", "Redis", "failed",
+		              f"Cache unreachable: {str(e)[:160]}")
+
+
+def _workers_check() -> dict:
+	"""Are there live RQ workers, and is anything piling up behind them?
+
+	Queues drain to zero on a healthy site. A deep queue with workers present
+	means they are stuck or too slow; no workers at all means nothing queued
+	will ever run - emails, sync and the night audit included.
+	"""
+	try:
+		from frappe.utils.background_jobs import get_queue, get_workers
+	except ImportError as e:
+		return _check("workers", "Background workers", "info",
+		              f"Cannot inspect queues on this Frappe build: {e}")
+	try:
+		workers = get_workers()
+	except Exception as e:
+		return _check("workers", "Background workers", "failed",
+		              f"Could not reach the queue broker: {str(e)[:160]}")
+
+	if not workers:
+		return _check("workers", "Background workers", "failed",
+		              "No worker is running. Queued jobs will never execute.")
+
+	depth, unreadable = 0, []
+	for q in ("short", "default", "long"):
+		try:
+			depth += len(get_queue(q))
+		except Exception:
+			unreadable.append(q)
+
+	n = len(workers)
+	note = f" Queues unreadable: {', '.join(unreadable)}." if unreadable else ""
+	if depth > 1000:
+		status = "attention"
+		detail = f"{n} worker(s), but {depth} jobs are waiting.{note}"
+	else:
+		status = "passed"
+		detail = f"{n} worker(s) running, {depth} job(s) queued.{note}"
+	return _check("workers", "Background workers", status, detail)
+
+
+def _backup_check() -> dict:
+	"""How old is the newest backup this site took itself?
+
+	Deliberately never "failed": a hotel may back up by volume snapshot, by
+	the host's own tooling, or to a destination this process cannot see, and
+	a red cross on a site that is in fact well protected trains people to
+	ignore the panel. It reports what it can see and says what it cannot.
+	"""
+	try:
+		d = frappe.get_site_path("private", "backups")
+		files = glob.glob(os.path.join(d, "*.sql.gz"))
+	except Exception as e:
+		return _check("backup", "Backup", "info",
+		              f"Could not read the backup directory: {str(e)[:140]}")
+
+	if not files:
+		return _check(
+			"backup",
+			"Backup",
+			"attention",
+			"No backup taken by this site. If backups are handled outside the "
+			"application (volume snapshots, host tooling), that is fine and "
+			"this check cannot see them - verify a restore has been tested.",
+		)
+
+	newest = max(files, key=os.path.getmtime)
+	age = time.time() - os.path.getmtime(newest)
+	size_mb = os.path.getsize(newest) / (1024 ** 2)
+	when = _fmt_age(age)
+	status = "attention" if age > 172800 else "passed"
 	return _check(
-		"scheduler",
-		"Scheduler",
-		"attention",
-		"Scheduler is off — night audit and reminder jobs will not run.",
-		link="/app/system-settings",
+		"backup",
+		"Backup",
+		status,
+		f"Newest backup {when} ({size_mb:.1f} MB), {len(files)} on disk. "
+		"Age only - this does not prove it can be restored.",
 	)
 
 
@@ -270,7 +447,10 @@ def system_health(refresh: int = 0):
 		_frappe_check(),
 		_apps_check(),
 		_database_check(),
+		_redis_check(),
+		_workers_check(),
 		_scheduler_check(),
+		_backup_check(),
 		_disk_check(),
 		_timezone_check(),
 	]
