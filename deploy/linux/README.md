@@ -75,8 +75,10 @@ git fetch --depth 1 origin 3d0a0e53d8ab03903f6c3f125976a37d7a0f9875 && git check
 > it is the single most confusing way this build can fail. With Git for
 > Windows' default `autocrlf=true`, the shell scripts in this repository are
 > checked out with CRLF line endings and baked into the image that way. The
-> shebang then reads `#!/bin/bash`, Linux looks for an interpreter literally
-> named `bash`, and every container dies at startup with:
+> shebang then reads `#!/bin/bash
+`, Linux looks for an interpreter literally
+> named `bash
+`, and every container dies at startup with:
 >
 > ```
 > exec /usr/local/bin/entrypoint.sh: no such file or directory
@@ -86,7 +88,8 @@ git fetch --depth 1 origin 3d0a0e53d8ab03903f6c3f125976a37d7a0f9875 && git check
 > missing from the error message. The `configurator` still succeeds, because it
 > overrides the entrypoint with `bash -c`, which makes it look as though the
 > image is fine. Verified on this machine: `head -1` of the baked entrypoint
-> showed `#  !  /  b  i  n  /  b  a  s  h    
+> showed `#  !  /  b  i  n  /  b  a  s  h  
+  
 `.
 
 ```bash
@@ -210,7 +213,9 @@ record. There is no undo. Check your restore works before you ever type it.
 | `DB_PASSWORD is required` on `up` | no `.env`, or the variable is empty — intended, see `.env.example` |
 | Access denied for root after changing `.env` | MariaDB kept the original password; restore the old `DB_PASSWORD` |
 | Night audit never runs | the `scheduler` container is down |
+| Static files load but every page and API call is `502` | nginx resolved `backend` to an IP at its own startup and cached it; `docker compose restart backend` can give that container a new address. Check with `docker compose exec frontend getent hosts backend` against `docker inspect`, and `docker compose restart frontend` to re-resolve. Restarting the backend alone is what causes this — `docker compose up -d` does not |
 | Algeria missing from the setup country list | the image was built from upstream — check `apps.json` and rebuild |
+| `up -d` exits `dependency failed to start: container db is unhealthy` | MariaDB was still booting. On Docker Desktop/WSL2 it can take over a minute to start listening, far past upstream's 5s `start_period` — raised to 180s here. On an older copy of this file, wait for `docker ps` to show db `(healthy)` and run `docker compose up -d` again |
 | Build fails fetching the app | the source repository is not publicly readable |
 | Every container restarts with `exec …entrypoint.sh: no such file or directory` | the image was built from a Windows checkout with CRLF line endings — re-clone with `core.autocrlf=false` and rebuild |
 
@@ -226,19 +231,25 @@ frappe_docker checkout at the new ref and diff against `docker-compose.yml`:
 docker compose -f compose.yaml -f overrides/compose.mariadb.yaml -f overrides/compose.redis.yaml -f overrides/compose.noproxy.yaml config
 ```
 
-Two places here depart from upstream on purpose, both noted in the file:
-`MYSQL_ROOT_PASSWORD` has no `123` fallback and fails loudly instead, and
+Three places here depart from upstream on purpose, all noted in the file:
+`MYSQL_ROOT_PASSWORD` has no `123` fallback and fails loudly instead,
 `configurator` waits for the database healthcheck explicitly rather than
-relying on override merge order.
+relying on override merge order, and the database's `start_period` is 180s
+instead of 5s.
 
-## Not yet proven
+## What has and has not been proven
 
-This compose file has been checked against upstream's four files
-service-by-service — set, images, commands, ports, healthchecks, environment
-keys and volumes all match — but **it has never been started**. There is no
-Docker daemon on the machine it was written on, so `docker compose config`
-never validated it and no container has ever run from it. Treat the first
-`docker compose up -d` as the real test, and read
+This compose file was checked against upstream's four files service-by-service
+— set, images, commands, ports, healthchecks, environment keys and volumes all
+match — and it has now **actually been run**: the full ten-service stack came
+up on Docker Desktop over WSL2, a site was created, migrations `v36` and `v37`
+applied, and the app served. A later `docker compose down` followed by
+`up -d` is what exposed the `start_period` problem above; that cycle is where
+the value came from, not from reading the file.
+
+Still unproven: this has only ever run on Docker Desktop over WSL2, never on
+the Linux server it is written for, and never with a second site or under any
+real load. Read
 [`../../docs/algeria/IMPLEMENTATION_STATUS.md`](../../docs/algeria/IMPLEMENTATION_STATUS.md)
 for what else is unproven — notably that migrations `v36` and `v37` have never
 touched a database.

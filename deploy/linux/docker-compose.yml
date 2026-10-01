@@ -158,7 +158,23 @@ services:
     image: mariadb:11.8
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
-      start_period: 5s
+      # DEPARTURE FROM UPSTREAM (the third - see the header). Upstream sets
+      # start_period to 5s, which is fine on a Linux server where MariaDB is
+      # listening in a couple of seconds. On Docker Desktop over WSL2 it is not
+      # survivable: measured on this machine, the entrypoint logged its first
+      # line at 12:16:29 and did not reach "Switching to dedicated user 'mysql'"
+      # until 12:17:29 - a full minute before the server even began starting.
+      # With 5s + 5x5s the container was marked unhealthy long before it could
+      # answer, every service that waits on `condition: service_healthy` was
+      # cancelled, and `docker compose up -d` exited with "dependency failed to
+      # start: container db is unhealthy" on a database that was simply still
+      # booting.
+      #
+      # start_period only widens the grace window: failures inside it do not
+      # count toward `retries`, and the container is marked healthy the moment
+      # one check passes. So this costs a fast machine nothing - it does not
+      # delay readiness, it only stops a slow one from being declared dead.
+      start_period: 180s
       interval: 5s
       timeout: 5s
       retries: 5
