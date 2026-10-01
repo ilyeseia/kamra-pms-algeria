@@ -35,9 +35,29 @@
 #     -f overrides/compose.redis.yaml -f overrides/compose.noproxy.yaml config
 # run inside the frappe_docker checkout, and diff the result against this.
 
+# DEPARTURE FROM UPSTREAM (the fourth - see the header). Upstream sets no
+# logging options, so Docker's default json-file driver applies and container
+# logs grow without limit. On a hotel server that runs for a year this is a
+# slow disk-exhaustion fault, and nothing in the product can see it coming:
+# health.py's disk check measures the site path inside the sites volume, while
+# these logs live under /var/lib/docker on the host. The first symptom is the
+# database refusing writes at the front desk.
+#
+# 50 MB x 5 files per service, about 2.5 GB across the ten services at worst.
+# Raise max-size if an incident needs deeper history, but do not remove the cap.
+# Changing it only affects containers created afterwards, so apply it with
+# `docker compose up -d` rather than `restart`.
+x-logging: &default_logging
+  logging:
+    driver: json-file
+    options:
+      max-size: "50m"
+      max-file: "5"
+
 x-customizable-image: &customizable_image
   # The locally built image. There is no registry to pull from: this
   # distribution builds on the machine, which is why PULL_POLICY is never.
+  <<: *default_logging
   image: ${CUSTOM_IMAGE:-kamra}:${CUSTOM_TAG:-local}
   pull_policy: ${PULL_POLICY:-never}
   restart: ${RESTART_POLICY:-unless-stopped}
@@ -155,6 +175,7 @@ services:
     command: bench schedule
 
   db:
+    <<: *default_logging
     image: mariadb:11.8
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
@@ -193,10 +214,12 @@ services:
       - db-data:/var/lib/mysql
 
   redis-cache:
+    <<: *default_logging
     image: redis:8.6-alpine
     restart: unless-stopped
 
   redis-queue:
+    <<: *default_logging
     image: redis:8.6-alpine
     restart: unless-stopped
     volumes:

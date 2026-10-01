@@ -213,6 +213,7 @@ record. There is no undo. Check your restore works before you ever type it.
 | `DB_PASSWORD is required` on `up` | no `.env`, or the variable is empty — intended, see `.env.example` |
 | Access denied for root after changing `.env` | MariaDB kept the original password; restore the old `DB_PASSWORD` |
 | Night audit never runs | the `scheduler` container is down |
+| Disk fills up over months with no obvious cause | container logs. Docker's default `json-file` driver is unlimited, and these live under `/var/lib/docker` on the host, where the application's own disk check cannot see them - it measures the site path. This file caps them at 50 MB x 5 per service; check with `docker ps -q \| xargs docker inspect --format '{{.Name}} {{.HostConfig.LogConfig.Config}}'` |
 | Static files load but every page and API call is `502` | nginx resolved `backend` to an IP at its own startup and cached it; `docker compose restart backend` can give that container a new address. Check with `docker compose exec frontend getent hosts backend` against `docker inspect`, and `docker compose restart frontend` to re-resolve. Restarting the backend alone is what causes this — `docker compose up -d` does not |
 | Algeria missing from the setup country list | the image was built from upstream — check `apps.json` and rebuild |
 | `up -d` exits `dependency failed to start: container db is unhealthy` | MariaDB was still booting. On Docker Desktop/WSL2 it can take over a minute to start listening, far past upstream's 5s `start_period` — raised to 180s here. On an older copy of this file, wait for `docker ps` to show db `(healthy)` and run `docker compose up -d` again |
@@ -231,11 +232,12 @@ frappe_docker checkout at the new ref and diff against `docker-compose.yml`:
 docker compose -f compose.yaml -f overrides/compose.mariadb.yaml -f overrides/compose.redis.yaml -f overrides/compose.noproxy.yaml config
 ```
 
-Three places here depart from upstream on purpose, all noted in the file:
+Four places here depart from upstream on purpose, all noted in the file:
 `MYSQL_ROOT_PASSWORD` has no `123` fallback and fails loudly instead,
 `configurator` waits for the database healthcheck explicitly rather than
-relying on override merge order, and the database's `start_period` is 180s
-instead of 5s.
+relying on override merge order, the database's `start_period` is 180s instead
+of 5s, and every service caps its logs at 50 MB x 5 files instead of Docker's
+unlimited default.
 
 ## What has and has not been proven
 
