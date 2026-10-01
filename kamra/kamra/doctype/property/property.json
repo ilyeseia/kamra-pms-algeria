@@ -168,7 +168,7 @@
    "label": "Column Break B"
   },
   {
-   "default": "India",
+   "default": "Algeria",
    "fieldname": "country",
    "fieldtype": "Data",
    "label": "Country"

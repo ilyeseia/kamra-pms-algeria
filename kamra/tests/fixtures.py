@@ -65,6 +65,13 @@ def build() -> dict:
 
 	_upsert("Property", {"property_name": PROPERTY}, {
 		"property_name": PROPERTY, "city": "Testville", "state": "Karnataka",
+		# Stated outright rather than inherited from the doctype default,
+		# which moved from India to Algeria when this distribution stopped
+		# offering other countries. These fixtures carry a GSTIN and a
+		# Karnataka place of supply, so they are an Indian property and
+		# should say so - otherwise a schema default silently decides what
+		# currency the tests expect.
+		"country": "India",
 		"gst_mode": "Slab", "gst_slab_threshold": 7500,
 		"gst_rate_low": 5, "gst_rate_high": 18, "gstin": "29AABCU9603R1ZM",
 	})

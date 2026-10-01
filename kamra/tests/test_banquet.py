@@ -13,6 +13,21 @@ from kamra import banquet as bq
 from kamra.tests.fixtures import PROPERTY, build, enquiry
 
 
+def _needs_india_pack(test):
+	"""Skip a test that asserts India-pack output when India is not registered.
+
+	This distribution registers Algeria alone, so invoice_context falls back to
+	the generic pack and returns "Tax ID" where these tests expect "GSTIN", one
+	TAX line where they expect CGST and SGST, and no per-line SAC codes. The
+	behaviour is gone, not broken, and the assertions are still correct for a
+	build that ships india.py - so they skip instead of being deleted.
+	"""
+	mapping = frappe.get_hooks("kamra_localization") or {}
+	if "India" not in mapping:
+		test.skipTest("India pack is not registered in this distribution")
+
+
+
 class BanquetTestCase(IntegrationTestCase):
 	def setUp(self):
 		frappe.set_user("Administrator")  # nosemgrep: frappe-setuser -- controlled user context switch; target user is validated and scope-limited in this flow
@@ -970,6 +985,7 @@ class TestDocumentCompliance(BanquetTestCase):
 		self.assertTrue(bq.banquet_document(fn, "quote")["header"]["is_final"])
 
 	def test_every_line_carries_its_service_code(self):
+		_needs_india_pack(self)
 		doc = bq.banquet_document(self._sold(), "invoice")
 		codes = {l["item_name"]: l["service_code"] for l in doc["lines"]}
 		# a hall, a menu and a hired LED wall are three different supplies
@@ -977,6 +993,7 @@ class TestDocumentCompliance(BanquetTestCase):
 		self.assertTrue(all(codes.values()))
 
 	def test_the_tax_is_broken_out_by_rate_and_named(self):
+		_needs_india_pack(self)
 		doc = bq.banquet_document(self._sold(), "invoice")
 		rates = {r["rate"] for r in doc["tax_breakup"]}
 		self.assertEqual(rates, {5.0, 18.0})       # food and services
@@ -992,6 +1009,7 @@ class TestDocumentCompliance(BanquetTestCase):
 		self.assertTrue(doc["header"]["amount_in_words"].endswith("Only"))
 
 	def test_it_carries_the_compliance_footer_and_place_of_supply(self):
+		_needs_india_pack(self)
 		h = bq.banquet_document(self._sold(), "invoice")["header"]
 		self.assertIn("computer-generated", h["footer"])
 		self.assertEqual(h["place_of_supply"], "Karnataka")

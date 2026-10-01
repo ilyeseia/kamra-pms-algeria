@@ -112,7 +112,11 @@ jobs:
           bench --site test.localhost set-config allow_tests true
           bench --site test.localhost run-tests --module kamra.tests.test_banquet \
             2>&1 | tee banquet.out
-          grep -qE "^OK$" banquet.out
+          # "OK" and "OK (skipped=N)" pass; "FAILED (...)" does not. The suite
+          # skips the checks that assert India-pack output, which this
+          # distribution no longer registers, so an exact ^OK$ would fail a
+          # run in which every test that can run did pass.
+          grep -qE "^OK( \([^)]*\))?$" banquet.out
 
       - name: Run front-desk persona journey
         run: |
