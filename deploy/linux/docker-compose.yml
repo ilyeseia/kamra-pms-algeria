@@ -1,0 +1,195 @@
+# Hotel MgM — Linux stack, self-contained.
+#
+# WHAT THIS IS
+# This is the flattened equivalent of what deploy/install.sh runs, which is
+# frappe_docker's compose.yaml merged with three of its overrides:
+#
+#   docker compose --project-name kamra --env-file kamra.env \
+#     -f compose.yaml \
+#     -f overrides/compose.mariadb.yaml \
+#     -f overrides/compose.redis.yaml \
+#     -f overrides/compose.noproxy.yaml
+#
+# Every service, image tag, healthcheck, command and environment variable below
+# was read out of frappe_docker at the SHA this distribution pins,
+# 3d0a0e53d8ab03903f6c3f125976a37d7a0f9875 — not reconstructed from memory. The
+# MariaDB and Redis image tags are theirs, not ours.
+#
+# WHY IT EXISTS
+# install.sh clones frappe_docker into /opt/kamra to get these files. That is
+# fine for installing, but it means day-to-day operations — logs, restart,
+# backup, migrate — depend on a clone being present and on remembering a
+# four-flag invocation. With this file, `docker compose up -d` is the whole
+# command and nothing needs cloning.
+#
+# WHAT IT DOES NOT DO
+# It does not build the image. The image is built from frappe_docker's
+# images/layered/Containerfile, which is not vendored here on purpose — forking
+# upstream's build would mean maintaining it. Build it once (see README.md in
+# this directory, or just run deploy/install.sh), then this file runs it.
+#
+# KEEPING IT HONEST
+# If the pinned FRAPPE_DOCKER_REF in deploy/install.sh moves, this file can
+# drift from it silently. Re-derive rather than hand-edit:
+#   docker compose -f compose.yaml -f overrides/compose.mariadb.yaml \
+#     -f overrides/compose.redis.yaml -f overrides/compose.noproxy.yaml config
+# run inside the frappe_docker checkout, and diff the result against this.
+
+x-customizable-image: &customizable_image
+  # The locally built image. There is no registry to pull from: this
+  # distribution builds on the machine, which is why PULL_POLICY is never.
+  image: ${CUSTOM_IMAGE:-kamra}:${CUSTOM_TAG:-local}
+  pull_policy: ${PULL_POLICY:-never}
+  restart: ${RESTART_POLICY:-unless-stopped}
+
+x-depends-on-configurator: &depends_on_configurator
+  depends_on:
+    configurator:
+      condition: service_completed_successfully
+
+x-backend-defaults: &backend_defaults
+  <<: [*depends_on_configurator, *customizable_image]
+  volumes:
+    - sites:/home/frappe/frappe-bench/sites
+
+services:
+  # One-shot. Writes db/redis host config into the shared sites volume, then
+  # exits; every other service waits for it to complete successfully. If this
+  # container is not in state "exited (0)", nothing else will start.
+  configurator:
+    <<: *backend_defaults
+    platform: linux/amd64
+    entrypoint:
+      - bash
+      - -c
+    # redis_socketio is set for backward compatibility, per upstream's comment
+    command:
+      - >
+        ls -1 apps > sites/apps.txt;
+        bench set-config -g db_host $$DB_HOST;
+        bench set-config -gp db_port $$DB_PORT;
+        bench set-config -g redis_cache "redis://$$REDIS_CACHE";
+        bench set-config -g redis_queue "redis://$$REDIS_QUEUE";
+        bench set-config -g redis_socketio "redis://$$REDIS_QUEUE";
+        bench set-config -gp socketio_port $$SOCKETIO_PORT;
+        bench set-config -g chromium_path /usr/bin/chromium-headless-shell;
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      REDIS_CACHE: redis-cache:6379
+      REDIS_QUEUE: redis-queue:6379
+      SOCKETIO_PORT: 9000
+    # Overrides the anchor: the configurator cannot depend on itself. It waits
+    # for the database to pass its healthcheck, not merely to start - bench
+    # set-config against a half-initialised MariaDB is how a first install
+    # fails confusingly.
+    depends_on:
+      db:
+        condition: service_healthy
+      redis-cache:
+        condition: service_started
+      redis-queue:
+        condition: service_started
+    restart: on-failure
+
+  backend:
+    <<: *backend_defaults
+    platform: linux/amd64
+    environment:
+      GUNICORN_THREADS: ${GUNICORN_THREADS:-4}
+      GUNICORN_WORKERS: ${GUNICORN_WORKERS:-2}
+      GUNICORN_TIMEOUT: ${GUNICORN_TIMEOUT:-120}
+
+  # nginx. FRAPPE_SITE_NAME_HEADER must match the Frappe site name or every
+  # request 404s on a site that does exist - this is the single most common
+  # cause of "it installed but shows nothing".
+  frontend:
+    <<: *customizable_image
+    platform: linux/amd64
+    command:
+      - nginx-entrypoint.sh
+    environment:
+      BACKEND: backend:8000
+      SOCKETIO: websocket:9000
+      NGINX_LISTEN_PORT: ${NGINX_LISTEN_PORT:-8080}
+      FRAPPE_SITE_NAME_HEADER: ${FRAPPE_SITE_NAME_HEADER:-$$host}
+      UPSTREAM_REAL_IP_ADDRESS: ${UPSTREAM_REAL_IP_ADDRESS:-127.0.0.1}
+      UPSTREAM_REAL_IP_HEADER: ${UPSTREAM_REAL_IP_HEADER:-X-Forwarded-For}
+      UPSTREAM_REAL_IP_RECURSIVE: ${UPSTREAM_REAL_IP_RECURSIVE:-off}
+      PROXY_READ_TIMEOUT: ${PROXY_READ_TIMEOUT:-120}
+      CLIENT_MAX_BODY_SIZE: ${CLIENT_MAX_BODY_SIZE:-50m}
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+    depends_on:
+      - backend
+      - websocket
+    # From overrides/compose.noproxy.yaml: publish straight to the host. Put
+    # nginx or Caddy in front for TLS - do not serve a hotel over plain HTTP.
+    ports:
+      - ${HTTP_PUBLISH_PORT:-8080}:${NGINX_LISTEN_PORT:-8080}
+
+  websocket:
+    <<: [*depends_on_configurator, *customizable_image]
+    platform: linux/amd64
+    command:
+      - node
+      - /home/frappe/frappe-bench/apps/frappe/socketio.js
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+
+  queue-short:
+    <<: *backend_defaults
+    platform: linux/amd64
+    command: bench worker --queue short,default
+
+  queue-long:
+    <<: *backend_defaults
+    platform: linux/amd64
+    command: bench worker --queue long,default,short
+
+  # Night audit, scheduled emails and the demo reset job all run here. If this
+  # container is down, the night audit silently never happens.
+  scheduler:
+    <<: *backend_defaults
+    platform: linux/amd64
+    command: bench schedule
+
+  db:
+    image: mariadb:11.8
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+    environment:
+      # No default on purpose. Upstream falls back to "123"; a hotel database
+      # with a three-digit root password is not a default worth inheriting, so
+      # this fails loudly if .env is missing instead.
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD is required - copy .env.example to .env and set it}
+      MARIADB_AUTO_UPGRADE: 1
+    volumes:
+      - db-data:/var/lib/mysql
+
+  redis-cache:
+    image: redis:8.6-alpine
+    restart: unless-stopped
+
+  redis-queue:
+    image: redis:8.6-alpine
+    restart: unless-stopped
+    volumes:
+      - redis-queue-data:/data
+
+volumes:
+  # The hotel's data. sites holds the site config, the encryption key and
+  # every uploaded file; db-data holds the database. Losing either loses the
+  # hotel. See docs/algeria/BACKUP.md - and test a restore.
+  sites:
+  db-data:
+  redis-queue-data:
