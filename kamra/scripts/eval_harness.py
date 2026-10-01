@@ -205,6 +205,7 @@ def t3b():
 
 @check("GST slab: 5% below threshold, 18% above")
 def t4():
+	requires_pack("India")
 	from kamra.pricing import quote
 	normal = quote(P, RT, "2030-02-01", "2030-02-02", 2, 0)["nightly"][0]
 	peak = quote(P, RT, "2030-01-11", "2030-01-12", 2, 0)["nightly"][0]
@@ -1895,12 +1896,12 @@ def t34():
 	frappe.set_user("Guest")  # nosemgrep: frappe-setuser -- controlled user context switch; target user is validated and scope-limited in this flow
 	try:
 		public_api.precheckin_submit(
-			tok, "Aadhaar", "987654321012", email="id@x.in", consent=0,
+			tok, "Passport", "987654321012", email="id@x.in", consent=0,
 			id_image=f"data:image/jpeg;base64,{jpg}")
 		# junk uploads are refused
 		try:
 			public_api.precheckin_submit(
-				tok, "Aadhaar", "987654321012",
+				tok, "Passport", "987654321012",
 				id_image="data:text/html;base64,PGI+")
 			raise AssertionError("non-image ID accepted")
 		except frappe.exceptions.ValidationError:
@@ -2448,7 +2449,7 @@ def t51():
 	}).insert(ignore_permissions=True)
 
 	out = update_occupants(res.name, [
-		{"full_name": "Asha Kumar", "age": 34, "id_type": "Aadhaar",
+		{"full_name": "Asha Kumar", "age": 34, "id_type": "Passport",
 		 "id_number": "987654321012"},
 	])
 	assert out["rows"] and out["rows"][0]["row"], out
