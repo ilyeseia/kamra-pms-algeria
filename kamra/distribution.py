@@ -38,7 +38,7 @@ DISTRIBUTION = "ZIRI PMS"
 # suffix is here: the documents describe 1.0.0, the tag records which candidate
 # is actually checked out, and the suffix is dropped once a trial install has
 # proven the migrations against a real database.
-DISTRIBUTION_VERSION = "1.0.0-rc.2"
+DISTRIBUTION_VERSION = "1.0.0-rc.3"
 
 # Releases of THIS distribution, not upstream's. Tags carry a prefix so they
 # cannot collide with upstream's `v2.6.5` style in the same repository.
