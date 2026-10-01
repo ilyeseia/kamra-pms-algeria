@@ -16,6 +16,30 @@ P = "EVAL Hotel"
 RESULTS = []
 
 
+class PackNotRegistered(Exception):
+	"""Raised by a check whose country pack this distribution does not ship.
+
+	This harness is inherited from upstream, which registers packs for India,
+	Indonesia, Thailand, Malaysia, the UAE and Saudi Arabia. This distribution
+	registers Algeria alone, so those checks exercise behaviour that no longer
+	exists here, and they fail for a reason that is not a defect.
+
+	Skipping beats deleting: the pack modules are still on disk, so if one is
+	registered again the check resumes guarding it, and an upstream merge that
+	touches these tests does not have to resurrect them.
+	"""
+
+
+def requires_pack(*countries: str) -> None:
+	mapping = frappe.get_hooks("kamra_localization") or {}
+	missing = [c for c in countries if c not in mapping]
+	if missing:
+		raise PackNotRegistered(", ".join(missing))
+
+
+SKIPPED: list = []
+
+
 def check(name):
 	def wrap(fn):
 		def run():
@@ -26,6 +50,10 @@ def check(name):
 			try:
 				fn()
 				RESULTS.append((name, True, ""))
+			except PackNotRegistered as e:
+				# neither passed nor failed: it never ran
+				frappe.db.rollback(save_point=sp)
+				SKIPPED.append((name, str(e)))
 			except AssertionError as e:
 				frappe.db.rollback(save_point=sp)
 				RESULTS.append((name, False, str(e)))
@@ -2039,6 +2067,7 @@ def t37():
 
 @check("Indonesia pack: PBJT flat tax, NPWP labels, Rupiah locale")
 def t44():
+	requires_pack("Indonesia")
 	from kamra.localization import pack_for
 	from kamra.pricing import quote
 
@@ -2077,6 +2106,7 @@ def t44():
 
 @check("currency follows the pack: locale endpoint + public ui_locale")
 def t45():
+	requires_pack("India")
 	from kamra.api import property_locale
 	from kamra.public_api import _public_locale
 
@@ -2096,6 +2126,7 @@ def t45():
 
 @check("SEA/ME packs: Thai VAT, Malaysian SST room/F&B split, UAE TRN")
 def t46():
+	requires_pack("Thailand", "Malaysia", "United Arab Emirates")
 	from kamra.localization import pack_for
 	from kamra.pricing import quote
 
@@ -2162,6 +2193,7 @@ def t47():
 
 @check("Saudi pack + ZATCA: vocabulary, QR, hash chain, credit note")
 def t47b():
+	requires_pack("Saudi Arabia")
 	from kamra import zatca
 	from kamra.localization import front_desk_vocabulary, pack_for
 	from kamra.zatca import tlv, ubl
@@ -3476,7 +3508,10 @@ def execute():
 		frappe.db.rollback(save_point="eval_start")
 
 	passed = sum(1 for _, ok, _ in RESULTS if ok)
-	print(f"\n=== ZIRI eval harness: {passed}/{len(RESULTS)} passed ===")
+	for _n, _why in SKIPPED:
+		print(f"  SKIP  {_n} - pack not registered: {_why}")
+	_skip = f", {len(SKIPPED)} skipped" if SKIPPED else ""
+	print(f"\n=== ZIRI eval harness: {passed}/{len(RESULTS)} passed{_skip} ===")
 	for name, ok, msg in RESULTS:
 		print(f"  {'PASS' if ok else 'FAIL'}  {name}" + (f" — {msg}" if msg else ""))
 	RESULTS.clear()

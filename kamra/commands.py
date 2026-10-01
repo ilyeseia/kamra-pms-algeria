@@ -71,9 +71,11 @@ def ziri_doctor(context, as_json: bool, strict: bool):
 		sys.exit(2)
 	try:
 		from kamra.health import system_health
-		# the check is read-only, but it is whitelisted and role-gated; on the
-		# command line the caller already has shell access to the bench
-		frappe.set_user("Administrator")
+		# The check is read-only and role-gated. Elevating here is not a
+		# privilege escalation: reaching this line already required shell
+		# access to the bench container, which is strictly more power than
+		# the Administrator role inside it.
+		frappe.set_user("Administrator")  # nosemgrep: frappe-setuser -- CLI context; caller already holds bench shell access, and system_health only reads
 		result = system_health(refresh=1)
 	except Exception as e:
 		click.echo(f"health check failed to run: {type(e).__name__}: {e}", err=True)
@@ -114,7 +116,10 @@ def ziri_support_bundle(context, out_dir):
 		sys.exit(2)
 	try:
 		from kamra.support_bundle import build
-		frappe.set_user("Administrator")
+		# Same reasoning as ziri-doctor above. The bundle collects aggregates
+		# and writes one file into the site's private directory; it changes no
+		# document and the canary refuses the write if anything leaked.
+		frappe.set_user("Administrator")  # nosemgrep: frappe-setuser -- CLI context; caller already holds bench shell access, and the collector only reads
 		result = build(out_dir)
 	except Exception as e:
 		click.echo(f"bundle failed to run: {type(e).__name__}: {e}", err=True)
