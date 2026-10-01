@@ -57,6 +57,9 @@ jobs:
 
   docker:
     name: Publish Docker image
+    # Pushes to ghcr.io/kamra-pms, a namespace only upstream can write to.
+    # In a fork this fails on every release; it never belonged here.
+    if: github.repository == 'Kamra-PMS/kamra-pms'
     runs-on: ubuntu-latest
     steps:
       - name: Resolve tag
@@ -106,6 +109,8 @@ jobs:
 
   deploy-demo:
     name: Deploy demo.kamrapms.com
+    # Upstream's public demo host. A fork must never redeploy it.
+    if: github.repository == 'Kamra-PMS/kamra-pms'
     needs: docker
     runs-on: ubuntu-latest
     timeout-minutes: 30

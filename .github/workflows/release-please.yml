@@ -24,6 +24,15 @@ permissions:
 
 jobs:
   release-please:
+    # Upstream only. This automation versions the Kamra CORE number, which a
+    # fork does not own. Left unguarded it opened a release PR on this
+    # distribution proposing 2.6.2 - a DOWNGRADE from the 2.6.5 in the manifest,
+    # because release-please found no prior release on the fork's own main and
+    # started counting again. Merging that would have rewritten
+    # kamra/__init__.py backwards and made health.py report a version that
+    # never existed. This distribution versions itself with ziri-v* tags and
+    # ziri-release.yml instead; see kamra/distribution.py.
+    if: github.repository == 'Kamra-PMS/kamra-pms'
     runs-on: ubuntu-latest
     outputs:
       release_created: ${{ steps.rp.outputs.release_created }}
