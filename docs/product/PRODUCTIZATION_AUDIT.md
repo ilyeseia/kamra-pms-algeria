@@ -140,11 +140,26 @@ and must not be confused with one.
 
 ### Gaps inside things that do exist
 
-**`health.py` does not check what breaks.** Its seven checks omit: Redis (two instances),
-the queue workers, the scheduler *process* as opposed to its last-heartbeat, container
-state, TLS certificate expiry, backup freshness, and licence validity. On the live
-install the single most common failure in this session was a service being reachable by
-DNS but not by cached IP — nothing in `health.py` would have reported it.
+**`health.py` did not check what breaks.** *(Partly addressed after this audit was
+written — see the note below.)* Its seven checks omitted: Redis (two instances), the
+queue workers, the scheduler *process* as opposed to its setting, container state, TLS
+certificate expiry, backup freshness, and licence validity. On the live install the
+single most common failure in this session was a service being reachable by DNS but not
+by cached IP — nothing in `health.py` would have reported it.
+
+> **Superseded in part.** Redis (write-and-read-back), background workers (RQ worker
+> count and queue depth) and backup age were added in `75ee9eb`, and the scheduler check
+> was rewritten to require a recent execution rather than a enabled setting. Doing so
+> exposed a real stall on the trial install: all 51 `Scheduled Job Type` rows were
+> stamped in the future after the site's time zone moved to a lower UTC offset, so
+> nothing was ever due and the night audit had never run — while the process was alive
+> and `bench doctor` reported workers online. That detection is now in the check.
+>
+> Still missing from `health.py`: container state, TLS certificate expiry, licence
+> validity, and any notion of an *off-host* backup. `_backup_check` is age-only against
+> a hard-coded 48-hour constant and can see only `*.sql.gz` inside the `sites` volume —
+> it cannot see a shipped copy, and it cannot tell whether anything restores. There is
+> still no monitoring or alerting of any kind: the panel must be looked at to be read.
 
 **No backup verification anywhere.** `docs/algeria/BACKUP.md` documents
 `bench backup --with-files` and says to test a restore. Nothing automates or verifies it.
