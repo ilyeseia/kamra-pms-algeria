@@ -50,6 +50,9 @@ source:
 | Guest-facing i18n | `PublicBooking.tsx`, `PublicListing.tsx`, `QrMenu.tsx` + both locales |
 | Algiers time zone | `frontend/src/screens/Settings.tsx` — `Africa/Algiers` was absent |
 | Catalog tooling | `frontend/scripts/i18n-extract.mjs`, `i18n-import.mjs` |
+| Algeria-only country list | `kamra/hooks.py` (`kamra_localization`), `kamra/localization/__init__.py` (blank-country default, `COUNTRY_ALIASES`) |
+| 58 wilayas · 1,541 communes | `kamra/localization/dz_geo.py` (new), `kamra/localization/dz_communes.json` (new) |
+| Wilaya → commune dropdowns | `frontend/src/screens/Setup.tsx`, both locales |
 | Documentation | `docs/architecture/algeria-localization-audit.md`, `docs/algeria/TAXES.md`, this file |
 
 Registering the pack in `hooks.py` is what makes Algeria appear in the setup
@@ -260,6 +263,35 @@ housekeeping and POS strings — had never reached it. Those are translated.
     5. Delete the 34 local formatters.
     6. **Look at a rendered invoice, folio, thermal receipt and booking page**
        before believing any of it.
+
+20. **The commune list is a snapshot of the official division, not a live
+    register.** `dz_communes.json` holds 58 wilayas and 1,541 communes taken
+    from the `othmanus/algeria-cities` open dataset. It was checked rather than
+    trusted — 1,541 records exactly, wilaya codes 1–58 contiguous, no empty
+    names, no duplicate commune within a wilaya, five spot-checks found (Bab El
+    Oued, Hydra, Es Senia, El Khroub, Akbou), and its 58 wilaya names agree with
+    the independently written list in `dz_geo.py`. The two sources differ on
+    four spellings out of 116 name fields, all transliteration variants in real
+    use (`El M'Ghair`/`El Meghaier`, `El Meniaa`/`El Menia`, `عين الدفلى`/`عين
+    الدفلة`, `عين تموشنت`/`عين تيموشنت`), and `ALIASES` accepts both forms.
+
+    **What this does not establish**: that the division has not changed since.
+    Algeria created ten wilayas in 2019 and could again. Nothing in the product
+    notices. The file is plain JSON, loaded lazily and cached per process, so
+    refreshing it is a file replacement and a restart — no code change, no
+    migration. Treat it as data with a date, not as a constant.
+
+    If the file is missing or corrupt, `communes_for()` returns empty,
+    `communes_loaded` goes false, and the commune field degrades to the free
+    text it was before. The front desk does not stop.
+
+21. **`Property.city` and `Property.state` are still free-text `Data` fields.**
+    The setup wizard now writes canonical French names into them, but nothing
+    at the doctype level enforces that, and any other write path — the Frappe
+    desk, the API, an import — can still put anything there. `wilaya_by_name()`
+    resolves whatever was typed (either script, any case, bare code), which is
+    why it exists; it is a reader's defence, not a constraint. A Link field to
+    a real Wilaya doctype would be the proper fix and is a larger change.
 
 ## Technical debt / upstream candidates
 
