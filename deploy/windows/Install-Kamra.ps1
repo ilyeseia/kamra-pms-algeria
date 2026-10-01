@@ -303,7 +303,21 @@ function Test-Docker {
 
     $ver = & wsl.exe -d $script:Distro -- bash -lc 'docker version --format "{{.Server.Version}}" 2>/dev/null' 2>$null
     if ($LASTEXITCODE -ne 0 -or -not $ver) {
-        Write-Bad 'docker daemon not responding' 'Start Docker Desktop and wait for it to report Running.'
+        # "No daemon" and "daemon running but not shared with this distro" are
+        # different problems with different fixes, and saying the wrong one
+        # sends someone restarting Docker Desktop over and over. Ask the
+        # Windows side: if IT can see a server, the daemon is fine and only
+        # the WSL integration is missing.
+        $winVer = & docker.exe version --format "{{.Server.Version}}" 2>$null
+        if ($LASTEXITCODE -eq 0 -and $winVer) {
+            Write-Bad "Docker Desktop is running ($($winVer.Trim())) but is not shared with $($script:Distro)" `
+                      "Docker Desktop > Settings > Resources > WSL integration > turn on '$($script:Distro)' > Apply & restart."
+            Write-Info 'The daemon is healthy - only this distro cannot reach it.'
+            Write-Info "Confirm after: wsl -d $($script:Distro) -- docker version"
+        }
+        else {
+            Write-Bad 'docker daemon not responding' 'Start Docker Desktop and wait for it to report Running.'
+        }
         return
     }
     Write-Ok "docker daemon $($ver.Trim())"
