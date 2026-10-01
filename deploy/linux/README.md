@@ -218,8 +218,33 @@ deliberately and record which one the image was built from.
 sudo /opt/kamra/install.sh update
 ```
 
-That rebuilds the image from `apps.json`, recreates the containers and runs
-`bench --site all migrate`. If you are not using `install.sh`, rebuild the
+It now refuses to start unless the installation is in a state where an update
+is survivable. The pre-flight checks free space where Docker stores images,
+that the backend answers, that the database is healthy, and that a backup
+exists and is under 24 hours old. Any one of those failing stops the update
+before anything has changed.
+
+The backup check is the one that matters: the image can always be put back,
+but `bench migrate` cannot be undone by putting it back, so a recent backup is
+the only way out of a bad migration. Take one first:
+
+```bash
+bash deploy/backup-verify.sh backup && bash deploy/backup-verify.sh verify
+```
+
+The current image is tagged `kamra:rollback-<timestamp>` before it is
+overwritten, and the tag is recorded in `/opt/kamra/.last-rollback-tag`.
+Afterwards the site must pass `ziri-doctor`; if it does not, the script says so,
+prints the way back, and exits non-zero instead of printing a success line over
+a broken hotel.
+
+`UPDATE_MIN_FREE_GB` and `UPDATE_MAX_BACKUP_AGE_H` tune the thresholds.
+`ZIRI_FORCE=1` skips the pre-flight entirely — it exists because an engineer at
+02:00 with a hotel down sometimes has to, and refusing absolutely would just get
+the script edited. It does not belong in a runbook.
+
+The update itself rebuilds the image from `apps.json`, recreates the containers
+and runs `bench --site all migrate`. If you are not using `install.sh`, rebuild the
 image with the command above, then:
 
 ```bash

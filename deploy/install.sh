@@ -237,6 +237,103 @@ wait_for_backend() {
   die "backend did not become ready — check: docker compose -p kamra logs"
 }
 
+# ── update safety ────────────────────────────────────────────────────────
+# `install.sh update` used to build, recreate and migrate with nothing in
+# front of it and nothing behind it. The three things that go wrong on a
+# hotel server are all preventable here: updating onto a full disk, updating
+# with no way back, and updating a database with no recent backup.
+#
+# ZIRI_FORCE=1 skips the gate. It exists because a support engineer at 02:00
+# with a hotel down sometimes has to, and refusing absolutely would just get
+# the script edited. It is not a flag to put in a runbook.
+
+# How much free space the image build and the backup need, in GB. The build
+# alone pulls several GB of layers; 12 is the figure install.sh has always
+# used for a fresh install, so the update should not pretend to need less.
+UPDATE_MIN_FREE_GB="${UPDATE_MIN_FREE_GB:-12}"
+# A backup older than this is not protection against what this update is about
+# to do.
+UPDATE_MAX_BACKUP_AGE_H="${UPDATE_MAX_BACKUP_AGE_H:-24}"
+
+gate_fail() {
+  red "PRE-FLIGHT FAILED: $*"
+  red "The update has NOT been applied and nothing has changed."
+  red "Fix it, or re-run with ZIRI_FORCE=1 if you accept the risk."
+  exit 1
+}
+
+preflight() {
+  echo "Pre-flight…"
+
+  # disk - the build writes layers and the backup writes a dump; running out
+  # halfway leaves a half-pulled image and a site that will not start
+  local free_gb
+  free_gb=$(df -BG --output=avail /var/lib/docker 2>/dev/null | tail -1 | tr -dc '0-9')
+  [ -n "$free_gb" ] || free_gb=$(df -BG --output=avail / | tail -1 | tr -dc '0-9')
+  if [ "${free_gb:-0}" -lt "$UPDATE_MIN_FREE_GB" ]; then
+    gate_fail "${free_gb}GB free where Docker stores images; need ${UPDATE_MIN_FREE_GB}GB"
+  fi
+  echo "  disk: ${free_gb}GB free"
+
+  # the stack has to be answering before we touch it, or "it broke after the
+  # update" will be impossible to tell from "it was already broken"
+  compose exec -T backend bench --version >/dev/null 2>&1     || gate_fail "the backend is not responding; fix the running stack first"
+  echo "  backend: responding"
+
+  compose exec -T db healthcheck.sh --connect --innodb_initialized >/dev/null 2>&1     || gate_fail "the database is not healthy"
+  echo "  database: healthy"
+
+  # a backup, and a recent one. This is the check the whole gate exists for:
+  # the migrate step below is the only part of an update that cannot simply be
+  # rolled back by putting the old image back.
+  local newest age_h
+  newest=$(compose exec -T backend bash -lc 'ls -t /home/frappe/frappe-bench/sites/*/private/backups/*-database.sql.gz 2>/dev/null | head -1' | tr -d '\r')
+  if [ -z "$newest" ]; then
+    gate_fail "no backup exists on this site - take one before updating"
+  fi
+  age_h=$(compose exec -T backend bash -lc "stat -c %Y '$newest'" | tr -d '\r')
+  age_h=$(( ( $(date +%s) - ${age_h:-0} ) / 3600 ))
+  if [ "${age_h:-999}" -ge "$UPDATE_MAX_BACKUP_AGE_H" ]; then
+    gate_fail "newest backup is ${age_h}h old; the limit is ${UPDATE_MAX_BACKUP_AGE_H}h"
+  fi
+  echo "  backup: $(basename "$newest") (${age_h}h old)"
+}
+
+# install.sh builds to one tag and overwrites it, and the VPS workflows run
+# `docker system prune -af`, which deletes untagged images. Without this the
+# only way back from a bad image is a 20-45 minute rebuild against floating
+# dependencies, which is not a rollback.
+tag_rollback() {
+  local cur stamp
+  cur="${KAMRA_IMAGE}:${KAMRA_TAG}"
+  docker image inspect "$cur" >/dev/null 2>&1 || return 0
+  stamp="${KAMRA_IMAGE}:rollback-$(date -u +%Y%m%d-%H%M%S)"
+  docker tag "$cur" "$stamp" && green "Previous image tagged ${stamp}"
+  echo "$stamp" > "$INSTALL_DIR/.last-rollback-tag"
+}
+
+# A migrate that ran is not an update that worked. If the site cannot pass its
+# own checks afterwards, say so plainly and hand over the way back rather than
+# printing a success line over a broken hotel.
+post_update_gate() {
+  local rb; rb=$(cat "$INSTALL_DIR/.last-rollback-tag" 2>/dev/null || true)
+  if compose exec -T backend bench --site all ziri-doctor >/dev/null 2>&1; then
+    echo "  health: passed"
+    return 0
+  fi
+  red ""
+  red "UPDATE APPLIED, BUT THE HEALTH CHECK FAILED."
+  red "Run this to see what is wrong:"
+  red "  ${INSTALL_DIR}/install.sh doctor"
+  if [ -n "$rb" ]; then
+    red ""
+    red "To put the previous image back (this does NOT undo the database"
+    red "migration - read docs/product/ROLLBACK.md before you do):"
+    red "  KAMRA_TAG=${rb#*:} ${INSTALL_DIR}/install.sh update"
+  fi
+  return 1
+}
+
 install_self() {
   # Keep a copy next to the stack so `install.sh update` works later.
   if [ -n "$SELF" ] && [ "$SELF" != "$INSTALL_DIR/install.sh" ]; then
@@ -270,6 +367,12 @@ if [ "$MODE" = update ]; then
   else
     KAMRA_BRANCH=$(grep -o '"branch": *"[^"]*"' "$APPS_JSON" | tail -1 | sed 's/.*"\([^"]*\)"$/\1/')
   fi
+  if [ "${ZIRI_FORCE:-0}" = "1" ]; then
+    red "ZIRI_FORCE=1 - skipping pre-flight. You own what happens next."
+  else
+    preflight
+  fi
+  tag_rollback
   build_image
   echo "Restarting the stack on the new image…"
   compose up -d --force-recreate
@@ -277,8 +380,17 @@ if [ "$MODE" = update ]; then
   echo "Migrating sites…"
   compose exec -T backend bench --site all migrate
   compose exec -T backend bench --site all clear-cache
+  _health_ok=1; post_update_gate || _health_ok=0
   install_self
-  green "ZIRI updated to ${KAMRA_GIT_URL}@${KAMRA_BRANCH}."
+  if [ "$_health_ok" = "1" ]; then
+    green "ZIRI updated to ${KAMRA_GIT_URL}@${KAMRA_BRANCH}."
+  else
+    # Do not print a success line over a site that cannot pass its own
+    # checks, and do not exit 0: a caller scripting this update has to
+    # be able to tell the two outcomes apart.
+    red "Updated to ${KAMRA_GIT_URL}@${KAMRA_BRANCH}, but the site is NOT healthy."
+    exit 1
+  fi
   exit 0
 fi
 
