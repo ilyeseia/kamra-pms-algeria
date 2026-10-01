@@ -69,13 +69,16 @@ required_apps = ["payments"]
 
 # Localization packs by country (regional_overrides style). A future
 # kamra_uae APP declares its own to claim "United Arab Emirates".
+# ZIRI PMS ships for Algeria, so Algeria is the only country the setup wizard
+# offers. The other packs are NOT deleted - india.py, saudi.py, uae.py and the
+# rest still sit in kamra/localization/ untouched, so re-enabling a country is
+# one line here and merging from upstream stays clean.
+#
+# Consequence worth knowing before you re-enable one: a Property whose country
+# is not in this map falls through to the flat-tax `generic` pack. On a site
+# that only ever sells in Algeria that is the right behaviour; on a site with
+# an existing Indian property it would silently change its tax vocabulary.
 kamra_localization = {
-	"India": "kamra.localization.india",
-	"Indonesia": "kamra.localization.indonesia",
-	"Thailand": "kamra.localization.thailand",
-	"Malaysia": "kamra.localization.malaysia",
-	"United Arab Emirates": "kamra.localization.uae",
-	"Saudi Arabia": "kamra.localization.saudi",
 	"Algeria": "kamra.localization.algeria",
 }
 

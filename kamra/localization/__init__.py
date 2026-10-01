@@ -28,7 +28,11 @@ def pack_for(property: str | None = None):
 	country = None
 	if property:
 		country = frappe.get_cached_value("Property", property, "country")
-	return pack_for_country(country or "India")
+	# A blank country used to mean India, from when that was the only pack.
+	# This distribution sells in Algeria, so a property with nothing typed
+	# in the country field gets the Algerian pack rather than a foreign
+	# tax vocabulary it never asked for.
+	return pack_for_country(country or "Algeria")
 
 
 # Alternate spellings a country genuinely arrives as. Property.country is a
