@@ -178,6 +178,40 @@ Back up before every update: updates run migrations. See
 [`../../docs/algeria/BACKUP.md`](../../docs/algeria/BACKUP.md) — and test a
 restore, because a backup nobody has restored is not a backup.
 
+## Which image is running, and how to get back
+
+`CUSTOM_TAG` in `.env` selects the image. This distribution tags its images
+after the distribution version, so the tag and `kamra/distribution.py` agree:
+
+```bash
+grep CUSTOM_TAG .env
+```
+
+**Tag the current image before replacing it.** `install.sh` builds to a single
+tag and overwrites it, and the VPS workflows run `docker system prune -af`,
+which deletes untagged images. Without a deliberate tag the only way back from a
+bad build is a 20-45 minute rebuild against floating dependencies, which is not
+a rollback:
+
+```bash
+docker tag kamra:$(grep -oP 'CUSTOM_TAG=\K.*' .env) kamra:rollback-$(date +%Y%m%d)
+```
+
+To go back, point `CUSTOM_TAG` at that tag and run `docker compose up -d`. The
+volumes are untouched, so the site and database come back as they were; only the
+application code changes. If the newer version ran migrations, see
+[`../../docs/product/ROLLBACK.md`](../../docs/product/ROLLBACK.md) first — a
+database that has been migrated forward does not simply accept an older image.
+
+### The Frappe pin is a decision, not a default
+
+The build takes `FRAPPE_BRANCH`. `ci.yml` pins `v16.25.0` because the
+`version-16` branch tip once shipped an `UnboundLocalError` in
+`frappe/locale.py`. Copying that pin into an image build moved this install's
+framework **backwards** from 16.36.1 to 16.25.0 — everything worked afterwards,
+but a framework downgrade is not generally safe. Choose the branch or tag
+deliberately and record which one the image was built from.
+
 ## Updating
 
 ```bash
