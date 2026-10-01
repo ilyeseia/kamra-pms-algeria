@@ -55,6 +55,28 @@ const STR_LISTING_DEFAULT: RoomTypeRow = {
   weekend_price: "",
 }
 
+// Algerian administrative geography, from kamra.localization.dz_geo.
+// `name` is already in the caller's language; name_fr/name_ar are both carried
+// because what gets DISPLAYED and what gets STORED are deliberately different
+// here - see the comment on dzGeo below.
+interface Wilaya {
+  code: number
+  name: string
+  name_fr: string
+  name_ar: string
+}
+interface Commune {
+  name: string
+  name_fr: string
+  name_ar: string
+  daira: string
+}
+interface DzGeo {
+  wilayas: Wilaya[]
+  communes: Commune[]
+  communes_loaded: boolean
+}
+
 interface CountryPack {
   country: string
   currency: string | null
@@ -64,7 +86,7 @@ interface CountryPack {
 }
 
 export default function Setup() {
-  const { t } = useT()
+  const { t, lang } = useT()
   const [kind, setKind] = useState<PropertyKind>("Hotel")
   const [topology, setTopology] = useState<Topology>("rooms")
   const [step, setStep] = useState(0)
@@ -122,12 +144,93 @@ export default function Setup() {
         setCountries(cs)
         // preselect from the browser clock; the operator can still change it
         const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
-        const guess = cs.find((c) => c.timezone === tz)
+        // Preselect from the browser clock - the operator can still change it.
+        // With exactly one pack installed there is nothing to choose between,
+        // so take it: this distribution ships Algeria alone, and making the
+        // operator open a one-item dropdown to reach the only answer is
+        // friction that also leaves every Algerian default unapplied if they
+        // skip past it.
+        const guess = cs.find((c) => c.timezone === tz) ?? (cs.length === 1 ? cs[0] : null)
         if (guess) pickCountry(guess)
       })
       .catch(() => setCountries([]))
   }, [])
   const pack = countries.find((c) => c.country === prop.country)
+
+  // ── Algeria: wilaya -> commune, as linked dropdowns ─────────────────────
+  // A commune is not a cosmetic address line. It goes on the guest
+  // registration card the hotel files with the police, so a plausible-looking
+  // wrong name there is a document defect nobody notices. Free text invited
+  // "Alger", "Algiers", "الجزائر" and "16" as four spellings of one place;
+  // a dropdown of the official division makes them one value.
+  //
+  // What is displayed and what is stored are different on purpose. The option
+  // VALUE is always the French name, never the localised label, so switching
+  // the UI language relabels both lists without losing the selection, and a
+  // stored address means the same place whichever language it was entered in.
+  // Nothing is lost: the Arabic name is recoverable from the wilaya code, and
+  // the Algerian pack declares locale fr-DZ with a French-facing invoice.
+  const dzGeo = prop.country === "Algeria"
+  const [wilayas, setWilayas] = useState<Wilaya[]>([])
+  const [communes, setCommunes] = useState<Commune[]>([])
+  // Optimistic: assume the data is there, and only fall back to free text once
+  // the server has actually said it is not. Starting false would flash a text
+  // box on every load before the first response lands.
+  const [communesLoaded, setCommunesLoaded] = useState(true)
+  // prop.state holds the French NAME; the API wants the code. Resolved from
+  // the list already in hand rather than sent to the server to be looked up.
+  const wilayaCode = wilayas.find((w) => w.name_fr === prop.state)?.code
+  // Two effects, not one, and the split is deliberate. wilayaCode is derived
+  // from `wilayas`, so a single effect that both fills `wilayas` and depends on
+  // wilayaCode can feed itself: a failed request clears the list, which
+  // un-resolves the code, which is a dependency, which re-runs the request,
+  // which fails again. An earlier version of this file did exactly that and
+  // put 488 requests through the server in a few seconds, alternating 200 and
+  // 417, with the UI flickering between a dropdown and a text box.
+  //
+  // Split, the cycle cannot form: the wilaya list is fetched once and never
+  // written by the commune request, and the commune request writes nothing
+  // anything else depends on.
+
+  // the 58 wilayas - they do not change; re-fetched only to relabel
+  useEffect(() => {
+    if (!dzGeo) {
+      setWilayas([])
+      return
+    }
+    call<DzGeo>("kamra.localization.dz_geo.dz_geo", { lang })
+      .then((g) => {
+        setWilayas(g.wilayas ?? [])
+        setCommunesLoaded(!!g.communes_loaded)
+      })
+      // The desk must still be able to finish setup: an unreachable endpoint
+      // leaves the fields this screen had before. Note this does NOT touch
+      // communes - see above.
+      .catch(() => setWilayas([]))
+  }, [dzGeo, lang])
+
+  // the communes of the chosen wilaya
+  useEffect(() => {
+    if (!dzGeo || !wilayaCode) {
+      setCommunes([])
+      return
+    }
+    // sent as a string: see the annotation note in dz_geo.py
+    call<DzGeo>("kamra.localization.dz_geo.dz_geo", { wilaya: String(wilayaCode), lang })
+      .then((g) => {
+        setCommunes(g.communes ?? [])
+        setCommunesLoaded(!!g.communes_loaded)
+      })
+      .catch(() => {
+        setCommunes([])
+        setCommunesLoaded(false)
+      })
+  }, [dzGeo, wilayaCode, lang])
+  // Changing the wilaya invalidates the commune. Without this you can leave
+  // Hydra selected under Oran, and it would save.
+  function pickWilaya(nameFr: string) {
+    setProp((p) => ({ ...p, state: nameFr, city: "" }))
+  }
   const [roomTypes, setRoomTypes] = useState<RoomTypeRow[]>([{ ...HOTEL_ROOM_DEFAULT }])
   const [mealPlans, setMealPlans] = useState([
     { code: "EP", label: "Room Only", price_per_adult: "0", on: true },
@@ -432,8 +535,9 @@ export default function Setup() {
               {(
                 [
                   ["property_name", t("Property name *"), "text", "Sunrise Residency"],
-                  ["city", t("City"), "text", ""],
-                  ["state", t("State / region"), "text", ""],
+                  // wilaya before commune - the commune list depends on it
+                  ["state", dzGeo ? t("Wilaya *") : t("State / region"), "text", ""],
+                  ["city", dzGeo ? t("Commune") : t("City"), "text", ""],
                   ["phone", t("Phone"), "text", "+…"],
                   ["gstin", pack?.tax_id_label ?? t("Tax ID"), "text", ""],
                   ["checkin_time", t("Check-in Time"), "time", ""],
@@ -446,7 +550,48 @@ export default function Setup() {
               ).map(([k, label, type, ph]) => (
                 <label key={k} className="block">
                   <span className="mb-1.5 block text-sm font-medium text-zinc-600">{label}</span>
-                  {k === "booking_payment_mode" ? (
+                  {dzGeo && k === "state" ? (
+                    <select
+                      className={cn(inputCls, "bg-white")}
+                      value={prop.state}
+                      onChange={(e) => pickWilaya(e.target.value)}
+                    >
+                      <option value="">{t("Select")}</option>
+                      {wilayas.map((w) => (
+                        <option key={w.code} value={w.name_fr}>
+                          {String(w.code).padStart(2, "0")} - {w.name}
+                        </option>
+                      ))}
+                    </select>
+                  ) : dzGeo && k === "city" ? (
+                    // A dropdown with nothing in it and no explanation is the
+                    // one thing worse than a text box, so each empty reason
+                    // says which it is: no wilaya yet, or no data at all.
+                    communesLoaded ? (
+                      <select
+                        className={cn(inputCls, "bg-white")}
+                        value={prop.city}
+                        disabled={!wilayaCode}
+                        onChange={(e) => setProp({ ...prop, city: e.target.value })}
+                      >
+                        <option value="">
+                          {wilayaCode ? t("Select") : t("Choose a wilaya first")}
+                        </option>
+                        {communes.map((c) => (
+                          <option key={c.name_fr} value={c.name_fr}>
+                            {c.name}
+                            {c.daira && c.daira !== c.name ? ` (${c.daira})` : ""}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input
+                        className={inputCls}
+                        value={prop.city}
+                        onChange={(e) => setProp({ ...prop, city: e.target.value })}
+                      />
+                    )
+                  ) : k === "booking_payment_mode" ? (
                     <select
                       className={cn(inputCls, "bg-white")}
                       value={prop[k]}

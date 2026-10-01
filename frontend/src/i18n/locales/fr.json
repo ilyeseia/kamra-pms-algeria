@@ -1309,5 +1309,8 @@
   "{property}, {city} - book direct from {rate}/night": "{property}, {city} - réservez en direct à partir de {rate}/nuit",
   "{time} onwards": "à partir de {time}",
   "Source code": "Code source",
-  "Residence Permit": "Titre de séjour"
+  "Residence Permit": "Titre de séjour",
+  "Wilaya *": "Wilaya *",
+  "Commune": "Commune",
+  "Choose a wilaya first": "Choisissez d'abord une wilaya"
 }

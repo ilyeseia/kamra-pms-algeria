@@ -1362,5 +1362,8 @@
   "{property}, {city} - book direct from {rate}/night": "{property}، {city} - احجز مباشرة ابتداءً من {rate}/ليلة",
   "{time} onwards": "من {time} فصاعداً",
   "Source code": "الكود المصدري",
-  "Residence Permit": "تصريح إقامة"
+  "Residence Permit": "تصريح إقامة",
+  "Wilaya *": "الولاية *",
+  "Commune": "البلدية",
+  "Choose a wilaya first": "اختر الولاية أولا"
 }

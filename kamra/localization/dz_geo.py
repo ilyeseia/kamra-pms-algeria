@@ -164,11 +164,20 @@ def wilaya_by_name(name: str | None) -> dict | None:
 
 
 @frappe.whitelist()
-def dz_geo(wilaya: str | None = None, lang: str = "fr") -> dict:
+def dz_geo(wilaya: int | str | None = None, lang: str = "fr") -> dict:
 	"""Wilayas, and the communes of one of them when asked.
 
 	`communes_loaded` lets the UI decide between a dropdown and a text box
-	without guessing why the list came back empty."""
+	without guessing why the list came back empty.
+
+	`wilaya` is annotated int | str on purpose, and the width is load-bearing
+	rather than sloppy. Frappe v16 validates a whitelisted function's
+	annotations with pydantic BEFORE the body runs, so a narrower `str | None`
+	rejected the integer a JSON caller naturally sends - 417 EXPECTATION
+	FAILED, raised before communes_for ever got to normalise it. The defensive
+	int() below was unreachable from HTTP. The annotation has to describe what
+	the function really takes, not the one shape a Python test happened to
+	pass."""
 	return {
 		"wilayas": wilayas(lang),
 		"communes": communes_for(wilaya, lang) if wilaya else [],
