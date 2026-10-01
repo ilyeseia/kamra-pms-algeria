@@ -56,3 +56,8 @@ node_modules
 # GitHub Release rather than committed. Rebuild it with:
 #   makensis deploy/windows/ZiriPms-Setup.nsi
 deploy/windows/*.exe
+
+# Backup sets written by deploy/backup-verify.sh. Each one contains a full
+# database dump AND site_config.json, which carries the database password and
+# the site encryption key — as sensitive as the database itself.
+.backup-sets/
