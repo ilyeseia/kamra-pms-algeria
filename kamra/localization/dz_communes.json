@@ -1,0 +1,9377 @@
+{
+ "_source": "othmanus/algeria-cities (json/algeria_cities.json), official division",
+ "_counts": {
+  "wilayas": 58,
+  "communes": 1541
+ },
+ "_fields": [
+  "commune_fr",
+  "commune_ar",
+  "daira_fr",
+  "daira_ar"
+ ],
+ "communes": {
+  "1": [
+   [
+    "Adrar",
+    "أدرار",
+    "Adrar",
+    "أدرار"
+   ],
+   [
+    "Akabli",
+    "اقبلي",
+    "Aoulef",
+    "أولف"
+   ],
+   [
+    "Aoulef",
+    "أولف",
+    "Aoulef",
+    "أولف"
+   ],
+   [
+    "Bouda",
+    "بودة",
+    "Adrar",
+    "أدرار"
+   ],
+   [
+    "Fenoughil",
+    "فنوغيل",
+    "Fenoughil",
+    "فنوغيل"
+   ],
+   [
+    "In Zghmir",
+    "إن زغمير",
+    "Zaouiat Kounta",
+    "زاوية كنتة"
+   ],
+   [
+    "Ouled Ahmed Timmi",
+    "أولاد أحمد تيمي",
+    "Adrar",
+    "أدرار"
+   ],
+   [
+    "Reggane",
+    "رقان",
+    "Reggane",
+    "رقان"
+   ],
+   [
+    "Sali",
+    "سالي",
+    "Reggane",
+    "رقان"
+   ],
+   [
+    "Sebaa",
+    "السبع",
+    "Tsabit",
+    "تسابيت"
+   ],
+   [
+    "Tamantit",
+    "تامنطيط",
+    "Fenoughil",
+    "فنوغيل"
+   ],
+   [
+    "Tamest",
+    "تامست",
+    "Fenoughil",
+    "فنوغيل"
+   ],
+   [
+    "Timekten",
+    "تيمقتن",
+    "Aoulef",
+    "أولف"
+   ],
+   [
+    "Tit",
+    "تيت",
+    "Aoulef",
+    "أولف"
+   ],
+   [
+    "Tsabit",
+    "تسابيت",
+    "Tsabit",
+    "تسابيت"
+   ],
+   [
+    "Zaouiet Kounta",
+    "زاوية كنتة",
+    "Zaouiat Kounta",
+    "زاوية كنتة"
+   ]
+  ],
+  "2": [
+   [
+    "Abou El Hassane",
+    "أبو الحسن",
+    "Abou El Hassane",
+    "أبو الحسن"
+   ],
+   [
+    "Ain Merane",
+    "عين مران",
+    "Ain Merane",
+    "عين مران"
+   ],
+   [
+    "Benairia",
+    "بنايرية",
+    "Zeboudja",
+    "الزبوجة"
+   ],
+   [
+    "Beni  Bouattab",
+    "بني بوعتاب",
+    "El Karimia",
+    "الكريمية"
+   ],
+   [
+    "Beni Haoua",
+    "بني حواء",
+    "Beni Haoua",
+    "بني حواء"
+   ],
+   [
+    "Beni Rached",
+    "بني راشد",
+    "Oued Fodda",
+    "وادي الفضة"
+   ],
+   [
+    "Boukadir",
+    "بوقادير",
+    "Boukadir",
+    "بوقادير"
+   ],
+   [
+    "Bouzeghaia",
+    "بوزغاية",
+    "Zeboudja",
+    "الزبوجة"
+   ],
+   [
+    "Breira",
+    "بريرة",
+    "Beni Haoua",
+    "بني حواء"
+   ],
+   [
+    "Chettia",
+    "الشطية",
+    "Ouled Fares",
+    "أولاد فارس"
+   ],
+   [
+    "Chlef",
+    "الشلف",
+    "Chlef",
+    "الشلف"
+   ],
+   [
+    "Dahra",
+    "الظهرة",
+    "Taougrit",
+    "تاوقريت"
+   ],
+   [
+    "El Hadjadj",
+    "الحجاج",
+    "Ouled Ben Abdelkader",
+    "أولاد بن عبد القادر"
+   ],
+   [
+    "El Karimia",
+    "الكريمية",
+    "El Karimia",
+    "الكريمية"
+   ],
+   [
+    "El Marsa",
+    "المرسى",
+    "El Marsa",
+    "المرسى"
+   ],
+   [
+    "Harchoun",
+    "حرشون",
+    "El Karimia",
+    "الكريمية"
+   ],
+   [
+    "Herenfa",
+    "الهرانفة",
+    "Ain Merane",
+    "عين مران"
+   ],
+   [
+    "Labiod Medjadja",
+    "الأبيض مجاجة",
+    "Ouled Fares",
+    "أولاد فارس"
+   ],
+   [
+    "Moussadek",
+    "مصدق",
+    "El Marsa",
+    "المرسى"
+   ],
+   [
+    "Oued Fodda",
+    "وادي الفضة",
+    "Oued Fodda",
+    "وادي الفضة"
+   ],
+   [
+    "Oued Goussine",
+    "وادي قوسين",
+    "Beni Haoua",
+    "بني حواء"
+   ],
+   [
+    "Oued Sly",
+    "وادي سلي",
+    "Boukadir",
+    "بوقادير"
+   ],
+   [
+    "Ouled Abbes",
+    "أولاد عباس",
+    "Oued Fodda",
+    "وادي الفضة"
+   ],
+   [
+    "Ouled Ben Abdelkader",
+    "أولاد بن عبد القادر",
+    "Ouled Ben Abdelkader",
+    "أولاد بن عبد القادر"
+   ],
+   [
+    "Ouled Fares",
+    "أولاد فارس",
+    "Ouled Fares",
+    "أولاد فارس"
+   ],
+   [
+    "Oum Drou",
+    "أم الدروع",
+    "Chlef",
+    "الشلف"
+   ],
+   [
+    "Sendjas",
+    "سنجاس",
+    "Chlef",
+    "الشلف"
+   ],
+   [
+    "Sidi Abderrahmane",
+    "سيدي عبد الرحمن",
+    "Tenes",
+    "تنس"
+   ],
+   [
+    "Sidi Akkacha",
+    "سيدي عكاشة",
+    "Tenes",
+    "تنس"
+   ],
+   [
+    "Sobha",
+    "الصبحة",
+    "Boukadir",
+    "بوقادير"
+   ],
+   [
+    "Tadjena",
+    "تاجنة",
+    "Abou El Hassane",
+    "أبو الحسن"
+   ],
+   [
+    "Talassa",
+    "تلعصة",
+    "Abou El Hassane",
+    "أبو الحسن"
+   ],
+   [
+    "Taougrit",
+    "تاوقريت",
+    "Taougrit",
+    "تاوقريت"
+   ],
+   [
+    "Tenes",
+    "تنس",
+    "Tenes",
+    "تنس"
+   ],
+   [
+    "Zeboudja",
+    "الزبوجة",
+    "Zeboudja",
+    "الزبوجة"
+   ]
+  ],
+  "3": [
+   [
+    "Aflou",
+    "أفلو",
+    "Aflou",
+    "أفلو"
+   ],
+   [
+    "Ain Madhi",
+    "عين ماضي",
+    "Ain Madhi",
+    "عين ماضي"
+   ],
+   [
+    "Ain Sidi Ali",
+    "عين سيدي علي",
+    "Gueltat Sidi Saad",
+    "قتلة سيدي سعيد"
+   ],
+   [
+    "Benacer Benchohra",
+    "بن ناصر بن شهرة",
+    "Ksar El Hirane",
+    "قصر الحيران"
+   ],
+   [
+    "Brida",
+    "بريدة",
+    "Brida",
+    "بريدة"
+   ],
+   [
+    "El Assafia",
+    "العسافية",
+    "Sidi Makhlouf",
+    "سيدي مخلوف"
+   ],
+   [
+    "El Beidha",
+    "البيضاء",
+    "Gueltat Sidi Saad",
+    "قتلة سيدي سعيد"
+   ],
+   [
+    "El Ghicha",
+    "الغيشة",
+    "El Ghicha",
+    "الغيشة"
+   ],
+   [
+    "El Haouaita",
+    "الحويطة",
+    "Ain Madhi",
+    "عين ماضي"
+   ],
+   [
+    "Gueltat Sidi Saad",
+    "قلتة سيدي سعد",
+    "Gueltat Sidi Saad",
+    "قتلة سيدي سعيد"
+   ],
+   [
+    "Hadj Mechri",
+    "الحاج مشري",
+    "Brida",
+    "بريدة"
+   ],
+   [
+    "Hassi Delaa",
+    "حاسي الدلاعة",
+    "Hassi R'mel",
+    "حاسي الرمل"
+   ],
+   [
+    "Hassi R'mel",
+    "حاسي الرمل",
+    "Hassi R'mel",
+    "حاسي الرمل"
+   ],
+   [
+    "Kheneg",
+    "الخنق",
+    "Ain Madhi",
+    "عين ماضي"
+   ],
+   [
+    "Ksar El Hirane",
+    "قصر الحيران",
+    "Ksar El Hirane",
+    "قصر الحيران"
+   ],
+   [
+    "Laghouat",
+    "الأغواط",
+    "Laghouat",
+    "الأغواط"
+   ],
+   [
+    "Oued M'zi",
+    "وادي مزي",
+    "Oued Morra",
+    "وادي مرة"
+   ],
+   [
+    "Oued Morra",
+    "وادي مرة",
+    "Oued Morra",
+    "وادي مرة"
+   ],
+   [
+    "Sebgag",
+    "سبقاق",
+    "Aflou",
+    "أفلو"
+   ],
+   [
+    "Sidi Bouzid",
+    "سيدي بوزيد",
+    "Aflou",
+    "أفلو"
+   ],
+   [
+    "Sidi Makhlouf",
+    "سيدي مخلوف",
+    "Sidi Makhlouf",
+    "سيدي مخلوف"
+   ],
+   [
+    "Tadjemout",
+    "تاجموت",
+    "Ain Madhi",
+    "عين ماضي"
+   ],
+   [
+    "Tadjrouna",
+    "تاجرونة",
+    "Ain Madhi",
+    "عين ماضي"
+   ],
+   [
+    "Taouiala",
+    "تاويالة",
+    "Brida",
+    "بريدة"
+   ]
+  ],
+  "4": [
+   [
+    "Ain Babouche",
+    "عين ببوش",
+    "Ain Babouche",
+    "عين ببوش"
+   ],
+   [
+    "Ain Beida",
+    "عين البيضاء",
+    "Ain Beida",
+    "عين البيضاء"
+   ],
+   [
+    "Ain Diss",
+    "عين الديس",
+    "Ain Babouche",
+    "عين ببوش"
+   ],
+   [
+    "Ain Fekroun",
+    "عين فكرون",
+    "Ain Fekroun",
+    "عين فكرون"
+   ],
+   [
+    "Ain Kercha",
+    "عين كرشة",
+    "Ain Kercha",
+    "عين كرشة"
+   ],
+   [
+    "Ain M'lila",
+    "عين مليلة",
+    "Ain M'lila",
+    "عين مليلة"
+   ],
+   [
+    "Ain Zitoun",
+    "عين الزيتون",
+    "Oum El Bouaghi",
+    "أم البواقي"
+   ],
+   [
+    "Behir Chergui",
+    "بحير الشرقي",
+    "Meskiana",
+    "مسكيانة"
+   ],
+   [
+    "Berriche",
+    "بريش",
+    "Ain Beida",
+    "عين البيضاء"
+   ],
+   [
+    "Bir Chouhada",
+    "بئر الشهداء",
+    "Souk Naamane",
+    "سوق نعمان"
+   ],
+   [
+    "Dhalaa",
+    "الضلعة",
+    "Dhalaa",
+    "الضلعة"
+   ],
+   [
+    "El Amiria",
+    "العامرية",
+    "Sigus",
+    "سيقوس"
+   ],
+   [
+    "El Belala",
+    "البلالة",
+    "Meskiana",
+    "مسكيانة"
+   ],
+   [
+    "El Djazia",
+    "الجازية",
+    "Dhalaa",
+    "الضلعة"
+   ],
+   [
+    "El Fedjoudj Boughrara Sa",
+    "الفجوج بوغرارة سعودي",
+    "Ain Fekroun",
+    "عين فكرون"
+   ],
+   [
+    "El Harmilia",
+    "الحرملية",
+    "Ain Kercha",
+    "عين كرشة"
+   ],
+   [
+    "Fkirina",
+    "فكيرينة",
+    "F'kirina",
+    "فكيرينة"
+   ],
+   [
+    "Hanchir Toumghani",
+    "هنشير تومغني",
+    "Ain Kercha",
+    "عين كرشة"
+   ],
+   [
+    "Ksar Sbahi",
+    "قصر الصباحي",
+    "Ksar Sbahi",
+    "قصر الصباحي"
+   ],
+   [
+    "Meskiana",
+    "مسكيانة",
+    "Meskiana",
+    "مسكيانة"
+   ],
+   [
+    "Oued Nini",
+    "وادي نيني",
+    "F'kirina",
+    "فكيرينة"
+   ],
+   [
+    "Ouled Gacem",
+    "أولاد قاسم",
+    "Ain M'lila",
+    "عين مليلة"
+   ],
+   [
+    "Ouled Hamla",
+    "أولاد حملة",
+    "Ain M'lila",
+    "عين مليلة"
+   ],
+   [
+    "Ouled Zouai",
+    "أولاد زواي",
+    "Souk Naamane",
+    "سوق نعمان"
+   ],
+   [
+    "Oum El Bouaghi",
+    "أم البواقي",
+    "Oum El Bouaghi",
+    "أم البواقي"
+   ],
+   [
+    "Rahia",
+    "الرحية",
+    "Meskiana",
+    "مسكيانة"
+   ],
+   [
+    "Sigus",
+    "سيقوس",
+    "Sigus",
+    "سيقوس"
+   ],
+   [
+    "Souk Naamane",
+    "سوق نعمان",
+    "Souk Naamane",
+    "سوق نعمان"
+   ],
+   [
+    "Zorg",
+    "الزرق",
+    "Ain Beida",
+    "عين البيضاء"
+   ]
+  ],
+  "5": [
+   [
+    "Ain Djasser",
+    "عين جاسر",
+    "Ain Djasser",
+    "عين جاسر"
+   ],
+   [
+    "Ain Touta",
+    "عين التوتة",
+    "Ain Touta",
+    "عين التوتة"
+   ],
+   [
+    "Ain Yagout",
+    "عين ياقوت",
+    "El Madher",
+    "المعذر"
+   ],
+   [
+    "Arris",
+    "أريس",
+    "Arris",
+    "أريس"
+   ],
+   [
+    "Azil Abedelkader",
+    "عزيل عبد القادر",
+    "Djezzar",
+    "الجزار"
+   ],
+   [
+    "Barika",
+    "بريكة",
+    "Barika",
+    "بريكة"
+   ],
+   [
+    "Batna",
+    "باتنة",
+    "Batna",
+    "باتنة"
+   ],
+   [
+    "Beni Foudhala El Hakania",
+    "بني فضالة الحقانية",
+    "Ain Touta",
+    "عين التوتة"
+   ],
+   [
+    "Bitam",
+    "بيطام",
+    "Barika",
+    "بريكة"
+   ],
+   [
+    "Boulhilat",
+    "بولهيلات",
+    "Chemora",
+    "الشمرة"
+   ],
+   [
+    "Boumagueur",
+    "بومقر",
+    "N'gaous",
+    "نقاوس"
+   ],
+   [
+    "Boumia",
+    "بومية",
+    "El Madher",
+    "المعذر"
+   ],
+   [
+    "Bouzina",
+    "بوزينة",
+    "Bouzina",
+    "بوزينة"
+   ],
+   [
+    "Chemora",
+    "الشمرة",
+    "Chemora",
+    "الشمرة"
+   ],
+   [
+    "Chir",
+    "شير",
+    "Theniet El Abed",
+    "ثنية العابد"
+   ],
+   [
+    "Djerma",
+    "جرمة",
+    "El Madher",
+    "المعذر"
+   ],
+   [
+    "Djezzar",
+    "الجزار",
+    "Djezzar",
+    "الجزار"
+   ],
+   [
+    "El Hassi",
+    "الحاسي",
+    "Ain Djasser",
+    "عين جاسر"
+   ],
+   [
+    "El Madher",
+    "المعذر",
+    "El Madher",
+    "المعذر"
+   ],
+   [
+    "Fesdis",
+    "فسديس",
+    "Batna",
+    "باتنة"
+   ],
+   [
+    "Foum Toub",
+    "فم الطوب",
+    "Ichemoul",
+    "إشمول"
+   ],
+   [
+    "Ghassira",
+    "غسيرة",
+    "Tkout",
+    "تكوت"
+   ],
+   [
+    "Gosbat",
+    "القصبات",
+    "Ras El Aioun",
+    "رأس العيون"
+   ],
+   [
+    "Guigba",
+    "القيقبة",
+    "Ras El Aioun",
+    "رأس العيون"
+   ],
+   [
+    "Hidoussa",
+    "حيدوسة",
+    "Merouana",
+    "مروانة"
+   ],
+   [
+    "Ichemoul",
+    "إشمول",
+    "Ichemoul",
+    "إشمول"
+   ],
+   [
+    "Inoughissen",
+    "إينوغيسن",
+    "Ichemoul",
+    "إشمول"
+   ],
+   [
+    "Kimmel",
+    "كيمل",
+    "Tkout",
+    "تكوت"
+   ],
+   [
+    "Ksar Bellezma",
+    "قصر بلزمة",
+    "Merouana",
+    "مروانة"
+   ],
+   [
+    "Larbaa",
+    "لارباع",
+    "Bouzina",
+    "بوزينة"
+   ],
+   [
+    "Lazrou",
+    "لازرو",
+    "Seriana",
+    "سريانة"
+   ],
+   [
+    "Lemcene",
+    "لمسان",
+    "Ouled Si Slimane",
+    "أولاد سي سليمان"
+   ],
+   [
+    "M Doukal",
+    "إمدوكل",
+    "Barika",
+    "بريكة"
+   ],
+   [
+    "Maafa",
+    "معافة",
+    "Ain Touta",
+    "عين التوتة"
+   ],
+   [
+    "Menaa",
+    "منعة",
+    "Menaa",
+    "منعة"
+   ],
+   [
+    "Merouana",
+    "مروانة",
+    "Merouana",
+    "مروانة"
+   ],
+   [
+    "N Gaous",
+    "نقاوس",
+    "N'gaous",
+    "نقاوس"
+   ],
+   [
+    "Oued Chaaba",
+    "وادي الشعبة",
+    "Batna",
+    "باتنة"
+   ],
+   [
+    "Oued El Ma",
+    "وادي الماء",
+    "Merouana",
+    "مروانة"
+   ],
+   [
+    "Oued Taga",
+    "وادي الطاقة",
+    "Theniet El Abed",
+    "ثنية العابد"
+   ],
+   [
+    "Ouled Ammar",
+    "أولاد عمار",
+    "Djezzar",
+    "الجزار"
+   ],
+   [
+    "Ouled Aouf",
+    "أولاد عوف",
+    "Ain Touta",
+    "عين التوتة"
+   ],
+   [
+    "Ouled Fadel",
+    "أولاد فاضل",
+    "Timgad",
+    "تيمقاد"
+   ],
+   [
+    "Ouled Sellem",
+    "أولاد سلام",
+    "Ras El Aioun",
+    "رأس العيون"
+   ],
+   [
+    "Ouled Si Slimane",
+    "أولاد سي سليمان",
+    "Ouled Si Slimane",
+    "أولاد سي سليمان"
+   ],
+   [
+    "Ouyoun El Assafir",
+    "عيون العصافير",
+    "Tazoult",
+    "تازولت"
+   ],
+   [
+    "Rahbat",
+    "الرحبات",
+    "Ras El Aioun",
+    "رأس العيون"
+   ],
+   [
+    "Ras El Aioun",
+    "رأس العيون",
+    "Ras El Aioun",
+    "رأس العيون"
+   ],
+   [
+    "Sefiane",
+    "سفيان",
+    "N'gaous",
+    "نقاوس"
+   ],
+   [
+    "Seggana",
+    "سقانة",
+    "Seggana",
+    "سقانة"
+   ],
+   [
+    "Seriana",
+    "سريانة",
+    "Seriana",
+    "سريانة"
+   ],
+   [
+    "T Kout",
+    "تكوت",
+    "Tkout",
+    "تكوت"
+   ],
+   [
+    "Talkhamt",
+    "تالخمت",
+    "Ras El Aioun",
+    "رأس العيون"
+   ],
+   [
+    "Taxlent",
+    "تاكسلانت",
+    "Ouled Si Slimane",
+    "أولاد سي سليمان"
+   ],
+   [
+    "Tazoult",
+    "تازولت",
+    "Tazoult",
+    "تازولت"
+   ],
+   [
+    "Teniet El Abed",
+    "ثنية العابد",
+    "Theniet El Abed",
+    "ثنية العابد"
+   ],
+   [
+    "Tighanimine",
+    "تيغانمين",
+    "Arris",
+    "أريس"
+   ],
+   [
+    "Tigharghar",
+    "تغرغار",
+    "Menaa",
+    "منعة"
+   ],
+   [
+    "Tilatou",
+    "تيلاطو",
+    "Seggana",
+    "سقانة"
+   ],
+   [
+    "Timgad",
+    "تيمقاد",
+    "Timgad",
+    "تيمقاد"
+   ],
+   [
+    "Zanet El Beida",
+    "زانة البيضاء",
+    "Seriana",
+    "سريانة"
+   ]
+  ],
+  "6": [
+   [
+    "Adekar",
+    "أدكار",
+    "Adekar",
+    "أدكار"
+   ],
+   [
+    "Ait R'zine",
+    "أيت رزين",
+    "Ighil Ali",
+    "إغيل علي"
+   ],
+   [
+    "Ait-Smail",
+    "أيت إسماعيل",
+    "Darguina",
+    "درقينة"
+   ],
+   [
+    "Akbou",
+    "أقبو",
+    "Akbou",
+    "أقبو"
+   ],
+   [
+    "Akfadou",
+    "أكفادو",
+    "Chemini",
+    "شميني"
+   ],
+   [
+    "Amalou",
+    "أمالو",
+    "Seddouk",
+    "صدوق"
+   ],
+   [
+    "Amizour",
+    "أميزور",
+    "Amizour",
+    "أميزور"
+   ],
+   [
+    "Aokas",
+    "أوقاس",
+    "Aokas",
+    "أوقاس"
+   ],
+   [
+    "Barbacha",
+    "برباشة",
+    "Barbacha",
+    "برباشة"
+   ],
+   [
+    "Bejaia",
+    "بجاية",
+    "Bejaia",
+    "بجاية"
+   ],
+   [
+    "Beni Djellil",
+    "بني جليل",
+    "Amizour",
+    "أميزور"
+   ],
+   [
+    "Beni K'sila",
+    "بني كسيلة",
+    "Adekar",
+    "أدكار"
+   ],
+   [
+    "Beni-Mallikeche",
+    "بني مليكش",
+    "Tazmalt",
+    "تازملت"
+   ],
+   [
+    "Benimaouche",
+    "بني معوش",
+    "Beni Maouche",
+    "بني معوش"
+   ],
+   [
+    "Boudjellil",
+    "بو جليل",
+    "Tazmalt",
+    "تازملت"
+   ],
+   [
+    "Bouhamza",
+    "بوحمزة",
+    "Seddouk",
+    "صدوق"
+   ],
+   [
+    "Boukhelifa",
+    "بوخليفة",
+    "Tichy",
+    "تيشي"
+   ],
+   [
+    "Chellata",
+    "شلاطة",
+    "Akbou",
+    "أقبو"
+   ],
+   [
+    "Chemini",
+    "شميني",
+    "Chemini",
+    "شميني"
+   ],
+   [
+    "Darguina",
+    "درقينة",
+    "Darguina",
+    "درقينة"
+   ],
+   [
+    "Dra El Caid",
+    "ذراع القايد",
+    "Kherrata",
+    "خراطة"
+   ],
+   [
+    "El Kseur",
+    "القصر",
+    "El Kseur",
+    "القصر"
+   ],
+   [
+    "Fenaia Il Maten",
+    "فناية الماثن",
+    "El Kseur",
+    "القصر"
+   ],
+   [
+    "Feraoun",
+    "فرعون",
+    "Amizour",
+    "أميزور"
+   ],
+   [
+    "Ighil-Ali",
+    "إغيل علي",
+    "Ighil Ali",
+    "إغيل علي"
+   ],
+   [
+    "Ighram",
+    "اغرم",
+    "Akbou",
+    "أقبو"
+   ],
+   [
+    "Kendira",
+    "كنديرة",
+    "Barbacha",
+    "برباشة"
+   ],
+   [
+    "Kherrata",
+    "خراطة",
+    "Kherrata",
+    "خراطة"
+   ],
+   [
+    "Leflaye",
+    "الفلاي",
+    "Sidi Aich",
+    "سيدي عيش"
+   ],
+   [
+    "M'cisna",
+    "مسيسنة",
+    "Seddouk",
+    "صدوق"
+   ],
+   [
+    "Melbou",
+    "مالبو",
+    "Souk El Tenine",
+    "سوق الإثنين"
+   ],
+   [
+    "Oued Ghir",
+    "وادي غير",
+    "Bejaia",
+    "بجاية"
+   ],
+   [
+    "Ouzellaguen",
+    "أوزلاقن",
+    "Ifri Ouzellaguene",
+    "إفري أوزلاقن"
+   ],
+   [
+    "Seddouk",
+    "صدوق",
+    "Seddouk",
+    "صدوق"
+   ],
+   [
+    "Sidi Ayad",
+    "سيدي عياد",
+    "Sidi Aich",
+    "سيدي عيش"
+   ],
+   [
+    "Sidi-Aich",
+    "سيدي عيش",
+    "Sidi Aich",
+    "سيدي عيش"
+   ],
+   [
+    "Smaoun",
+    "سمعون",
+    "Amizour",
+    "أميزور"
+   ],
+   [
+    "Souk El Tenine",
+    "سوق لإثنين",
+    "Souk El Tenine",
+    "سوق الإثنين"
+   ],
+   [
+    "Souk Oufella",
+    "سوق اوفلا",
+    "Chemini",
+    "شميني"
+   ],
+   [
+    "Tala Hamza",
+    "تالة حمزة",
+    "Tichy",
+    "تيشي"
+   ],
+   [
+    "Tamokra",
+    "تامقرة",
+    "Akbou",
+    "أقبو"
+   ],
+   [
+    "Tamridjet",
+    "تامريجت",
+    "Souk El Tenine",
+    "سوق الإثنين"
+   ],
+   [
+    "Taourit Ighil",
+    "تاوريرت إغيل",
+    "Adekar",
+    "أدكار"
+   ],
+   [
+    "Taskriout",
+    "تاسكريوت",
+    "Darguina",
+    "درقينة"
+   ],
+   [
+    "Tazmalt",
+    "تازمالت",
+    "Tazmalt",
+    "تازملت"
+   ],
+   [
+    "Tibane",
+    "طيبان",
+    "Chemini",
+    "شميني"
+   ],
+   [
+    "Tichy",
+    "تيشي",
+    "Tichy",
+    "تيشي"
+   ],
+   [
+    "Tifra",
+    "تيفرة",
+    "Sidi Aich",
+    "سيدي عيش"
+   ],
+   [
+    "Timezrit",
+    "تيمزريت",
+    "Timezrit",
+    "تيمزريت"
+   ],
+   [
+    "Tinebdar",
+    "تينبدار",
+    "Sidi Aich",
+    "سيدي عيش"
+   ],
+   [
+    "Tizi-N'berber",
+    "تيزي نبربر",
+    "Aokas",
+    "أوقاس"
+   ],
+   [
+    "Toudja",
+    "توجة",
+    "El Kseur",
+    "القصر"
+   ]
+  ],
+  "7": [
+   [
+    "Ain Naga",
+    "عين الناقة",
+    "Sidi Okba",
+    "سيدي عقبة"
+   ],
+   [
+    "Ain Zaatout",
+    "عين زعطوط",
+    "El Kantara",
+    "القنطرة"
+   ],
+   [
+    "Biskra",
+    "بسكرة",
+    "Biskra",
+    "بسكرة"
+   ],
+   [
+    "Bordj Ben Azzouz",
+    "برج بن عزوز",
+    "Tolga",
+    "طولقة"
+   ],
+   [
+    "Bouchakroun",
+    "بوشقرون",
+    "Tolga",
+    "طولقة"
+   ],
+   [
+    "Branis",
+    "برانيس",
+    "Djemorah",
+    "جمورة"
+   ],
+   [
+    "Chetma",
+    "شتمة",
+    "Sidi Okba",
+    "سيدي عقبة"
+   ],
+   [
+    "Djemorah",
+    "جمورة",
+    "Djemorah",
+    "جمورة"
+   ],
+   [
+    "El Feidh",
+    "الفيض",
+    "Zeribet El Oued",
+    "زريبة الوادي"
+   ],
+   [
+    "El Ghrous",
+    "الغروس",
+    "Foughala",
+    "فوغالة"
+   ],
+   [
+    "El Hadjab",
+    "الحاجب",
+    "Biskra",
+    "بسكرة"
+   ],
+   [
+    "El Haouch",
+    "الحوش",
+    "Sidi Okba",
+    "سيدي عقبة"
+   ],
+   [
+    "El Kantara",
+    "القنطرة",
+    "El Kantara",
+    "القنطرة"
+   ],
+   [
+    "El Outaya",
+    "الوطاية",
+    "El Outaya",
+    "الوطاية"
+   ],
+   [
+    "Foughala",
+    "فوغالة",
+    "Foughala",
+    "فوغالة"
+   ],
+   [
+    "Khenguet Sidi Nadji",
+    "خنقة سيدي ناجي",
+    "Zeribet El Oued",
+    "زريبة الوادي"
+   ],
+   [
+    "Lichana",
+    "ليشانة",
+    "Tolga",
+    "طولقة"
+   ],
+   [
+    "Lioua",
+    "ليوة",
+    "Ourlal",
+    "أورلال"
+   ],
+   [
+    "M'chouneche",
+    "مشونش",
+    "Mechouneche",
+    "مشونش"
+   ],
+   [
+    "M'lili",
+    "مليلي",
+    "Ourlal",
+    "أورلال"
+   ],
+   [
+    "Mekhadma",
+    "مخادمة",
+    "Ourlal",
+    "أورلال"
+   ],
+   [
+    "Meziraa",
+    "المزيرعة",
+    "Zeribet El Oued",
+    "زريبة الوادي"
+   ],
+   [
+    "Oumache",
+    "أوماش",
+    "Ourlal",
+    "أورلال"
+   ],
+   [
+    "Ourlal",
+    "أورلال",
+    "Ourlal",
+    "أورلال"
+   ],
+   [
+    "Sidi Okba",
+    "سيدي عقبة",
+    "Sidi Okba",
+    "سيدي عقبة"
+   ],
+   [
+    "Tolga",
+    "طولقة",
+    "Tolga",
+    "طولقة"
+   ],
+   [
+    "Zeribet El Oued",
+    "زريبة الوادي",
+    "Zeribet El Oued",
+    "زريبة الوادي"
+   ]
+  ],
+  "8": [
+   [
+    "Abadla",
+    "العبادلة",
+    "Abadla",
+    "العبادلة"
+   ],
+   [
+    "Bechar",
+    "بشار",
+    "Bechar",
+    "بشار"
+   ],
+   [
+    "Beni-Ounif",
+    "بني ونيف",
+    "Beni Ounif",
+    "بني ونيف"
+   ],
+   [
+    "Boukais",
+    "بوكايس",
+    "Lahmar",
+    "لحمر"
+   ],
+   [
+    "Erg-Ferradj",
+    "عرق فراج",
+    "Abadla",
+    "العبادلة"
+   ],
+   [
+    "Kenadsa",
+    "القنادسة",
+    "Kenadsa",
+    "القنادسة"
+   ],
+   [
+    "Lahmar",
+    "لحمر",
+    "Lahmar",
+    "لحمر"
+   ],
+   [
+    "Machraa-Houari-Boumediene",
+    "مشرع هواري بومدين",
+    "Abadla",
+    "العبادلة"
+   ],
+   [
+    "Meridja",
+    "المريجة",
+    "Kenadsa",
+    "القنادسة"
+   ],
+   [
+    "Mogheul",
+    "موغل",
+    "Lahmar",
+    "لحمر"
+   ],
+   [
+    "Tabelbala",
+    "تبلبالة",
+    "Tabelbala",
+    "تبلبالة"
+   ],
+   [
+    "Taghit",
+    "تاغيت",
+    "Taghit",
+    "تاغيت"
+   ]
+  ],
+  "9": [
+   [
+    "Ain Romana",
+    "عين الرمانة",
+    "Mouzaia",
+    "موزاية"
+   ],
+   [
+    "Beni Mered",
+    "بني مراد",
+    "Ouled Yaich",
+    "أولاد يعيش"
+   ],
+   [
+    "Beni-Tamou",
+    "بني تامو",
+    "Oued El Alleug",
+    "وادي العلايق"
+   ],
+   [
+    "Benkhelil",
+    "بن خليل",
+    "Oued El Alleug",
+    "وادي العلايق"
+   ],
+   [
+    "Blida",
+    "البليدة",
+    "Blida",
+    "البليدة"
+   ],
+   [
+    "Bouarfa",
+    "بوعرفة",
+    "Blida",
+    "البليدة"
+   ],
+   [
+    "Boufarik",
+    "بوفاريك",
+    "Boufarik",
+    "بوفاريك"
+   ],
+   [
+    "Bougara",
+    "بوقرة",
+    "Bougara",
+    "بوقرة"
+   ],
+   [
+    "Bouinan",
+    "بوعينان",
+    "Bouinan",
+    "بوعينان"
+   ],
+   [
+    "Chebli",
+    "الشبلي",
+    "Bouinan",
+    "بوعينان"
+   ],
+   [
+    "Chiffa",
+    "الشفة",
+    "Mouzaia",
+    "موزاية"
+   ],
+   [
+    "Chrea",
+    "الشريعة",
+    "Ouled Yaich",
+    "أولاد يعيش"
+   ],
+   [
+    "Djebabra",
+    "جبابرة",
+    "Meftah",
+    "مفتاح"
+   ],
+   [
+    "El-Affroun",
+    "العفرون",
+    "El Affroun",
+    "العفرون"
+   ],
+   [
+    "Guerrouaou",
+    "قرواو",
+    "Boufarik",
+    "بوفاريك"
+   ],
+   [
+    "Hammam Elouane",
+    "حمام ملوان",
+    "Bougara",
+    "بوقرة"
+   ],
+   [
+    "Larbaa",
+    "الأربعاء",
+    "Larbaa",
+    "الأربعاء"
+   ],
+   [
+    "Meftah",
+    "مفتاح",
+    "Meftah",
+    "مفتاح"
+   ],
+   [
+    "Mouzaia",
+    "موزاية",
+    "Mouzaia",
+    "موزاية"
+   ],
+   [
+    "Oued  Djer",
+    "وادي جر",
+    "El Affroun",
+    "العفرون"
+   ],
+   [
+    "Oued El Alleug",
+    "وادي العلايق",
+    "Oued El Alleug",
+    "وادي العلايق"
+   ],
+   [
+    "Ouled Slama",
+    "اولاد سلامة",
+    "Bougara",
+    "بوقرة"
+   ],
+   [
+    "Ouled Yaich",
+    "أولاد يعيش",
+    "Ouled Yaich",
+    "أولاد يعيش"
+   ],
+   [
+    "Souhane",
+    "صوحان",
+    "Larbaa",
+    "الأربعاء"
+   ],
+   [
+    "Soumaa",
+    "الصومعة",
+    "Boufarik",
+    "بوفاريك"
+   ]
+  ],
+  "10": [
+   [
+    "Aghbalou",
+    "أغبالو",
+    "M'chedallah",
+    "مشد الله"
+   ],
+   [
+    "Ahl El Ksar",
+    "أهل القصر",
+    "Bechloul",
+    "بشلول"
+   ],
+   [
+    "Ain El Hadjar",
+    "عين الحجر",
+    "Ain Bessem",
+    "عين بسام"
+   ],
+   [
+    "Ain Laloui",
+    "عين العلوي",
+    "Ain Bessem",
+    "عين بسام"
+   ],
+   [
+    "Ain Turk",
+    "عين الترك",
+    "Bouira",
+    "البويرة"
+   ],
+   [
+    "Ain-Bessem",
+    "عين بسام",
+    "Ain Bessem",
+    "عين بسام"
+   ],
+   [
+    "Ait Laaziz",
+    "أيت لعزيز",
+    "Bouira",
+    "البويرة"
+   ],
+   [
+    "Aomar",
+    "أعمر",
+    "Kadiria",
+    "القادرية"
+   ],
+   [
+    "Ath Mansour",
+    "آث  منصور",
+    "M'chedallah",
+    "مشد الله"
+   ],
+   [
+    "Bechloul",
+    "بشلول",
+    "Bechloul",
+    "بشلول"
+   ],
+   [
+    "Bir Ghbalou",
+    "بئر غبالو",
+    "Bir Ghbalou",
+    "بئر غبالو"
+   ],
+   [
+    "Bordj Okhriss",
+    "برج أوخريص",
+    "Bordj Okhriss",
+    "برج أوخريص"
+   ],
+   [
+    "Bouderbala",
+    "بودربالة",
+    "Lakhdaria",
+    "الأخضرية"
+   ],
+   [
+    "Bouira",
+    "البويرة",
+    "Bouira",
+    "البويرة"
+   ],
+   [
+    "Boukram",
+    "بوكرم",
+    "Lakhdaria",
+    "الأخضرية"
+   ],
+   [
+    "Chorfa",
+    "شرفة",
+    "M'chedallah",
+    "مشد الله"
+   ],
+   [
+    "Dechmia",
+    "الدشمية",
+    "Sour El Ghozlane",
+    "سور الغزلان"
+   ],
+   [
+    "Dirah",
+    "ديرة",
+    "Sour El Ghozlane",
+    "سور الغزلان"
+   ],
+   [
+    "Djebahia",
+    "جباحية",
+    "Kadiria",
+    "القادرية"
+   ],
+   [
+    "El Adjiba",
+    "العجيبة",
+    "Bechloul",
+    "بشلول"
+   ],
+   [
+    "El Asnam",
+    "الأسنام",
+    "Bechloul",
+    "بشلول"
+   ],
+   [
+    "El Hachimia",
+    "الهاشمية",
+    "El Hachimia",
+    "الهاشمية"
+   ],
+   [
+    "El Khabouzia",
+    "الخبوزية",
+    "Bir Ghbalou",
+    "بئر غبالو"
+   ],
+   [
+    "El-Hakimia",
+    "الحاكمية",
+    "Sour El Ghozlane",
+    "سور الغزلان"
+   ],
+   [
+    "El-Mokrani",
+    "المقراني",
+    "Souk El Khemis",
+    "سوق الخميس"
+   ],
+   [
+    "Guerrouma",
+    "قرومة",
+    "Lakhdaria",
+    "الأخضرية"
+   ],
+   [
+    "Hadjera Zerga",
+    "الحجرة الزرقاء",
+    "Bordj Okhriss",
+    "برج أوخريص"
+   ],
+   [
+    "Haizer",
+    "حيزر",
+    "Haizer",
+    "الحيزر"
+   ],
+   [
+    "Hanif",
+    "حنيف",
+    "M'chedallah",
+    "مشد الله"
+   ],
+   [
+    "Kadiria",
+    "قادرية",
+    "Kadiria",
+    "القادرية"
+   ],
+   [
+    "Lakhdaria",
+    "الأخضرية",
+    "Lakhdaria",
+    "الأخضرية"
+   ],
+   [
+    "M Chedallah",
+    "أمشدالة",
+    "M'chedallah",
+    "مشد الله"
+   ],
+   [
+    "Maala",
+    "معلة",
+    "Lakhdaria",
+    "الأخضرية"
+   ],
+   [
+    "Maamora",
+    "المعمورة",
+    "Sour El Ghozlane",
+    "سور الغزلان"
+   ],
+   [
+    "Mezdour",
+    "مزدور",
+    "Bordj Okhriss",
+    "برج أوخريص"
+   ],
+   [
+    "Oued El Berdi",
+    "وادي البردي",
+    "El Hachimia",
+    "الهاشمية"
+   ],
+   [
+    "Ouled Rached",
+    "أولاد راشد",
+    "Bechloul",
+    "بشلول"
+   ],
+   [
+    "Raouraoua",
+    "روراوة",
+    "Bir Ghbalou",
+    "بئر غبالو"
+   ],
+   [
+    "Ridane",
+    "ريدان",
+    "Sour El Ghozlane",
+    "سور الغزلان"
+   ],
+   [
+    "Saharidj",
+    "سحاريج",
+    "M'chedallah",
+    "مشد الله"
+   ],
+   [
+    "Souk El Khemis",
+    "سوق الخميس",
+    "Souk El Khemis",
+    "سوق الخميس"
+   ],
+   [
+    "Sour El Ghozlane",
+    "سور الغزلان",
+    "Sour El Ghozlane",
+    "سور الغزلان"
+   ],
+   [
+    "Taghzout",
+    "تاغزوت",
+    "Haizer",
+    "الحيزر"
+   ],
+   [
+    "Taguedite",
+    "تاقديت",
+    "Bordj Okhriss",
+    "برج أوخريص"
+   ],
+   [
+    "Z'barbar (El Isseri )",
+    "زبربر",
+    "Lakhdaria",
+    "الأخضرية"
+   ]
+  ],
+  "11": [
+   [
+    "Abelsa",
+    "ابلسة",
+    "Silet",
+    "سيلت"
+   ],
+   [
+    "Ain Amguel",
+    "عين امقل",
+    "Tamanrasset",
+    "تمنراست"
+   ],
+   [
+    "Idles",
+    "أدلس",
+    "Tazrouk",
+    "تاظروك"
+   ],
+   [
+    "Tamanrasset",
+    "تمنراست",
+    "Tamanrasset",
+    "تمنراست"
+   ],
+   [
+    "Tazrouk",
+    "تاظروك",
+    "Tazrouk",
+    "تاظروك"
+   ]
+  ],
+  "12": [
+   [
+    "Ain Zerga",
+    "عين الزرقاء",
+    "Ouenza",
+    "الونزة"
+   ],
+   [
+    "Bedjene",
+    "بجن",
+    "El Ogla",
+    "العقلة"
+   ],
+   [
+    "Bekkaria",
+    "بكارية",
+    "El Kouif",
+    "الكويف"
+   ],
+   [
+    "Bir Dheheb",
+    "بئر الذهب",
+    "Morsott",
+    "مرسط"
+   ],
+   [
+    "Bir Mokkadem",
+    "بئر مقدم",
+    "Bir Mokadem",
+    "بئر مقدم"
+   ],
+   [
+    "Bir-El-Ater",
+    "بئر العاتر",
+    "Bir El Ater",
+    "بئر العاتر"
+   ],
+   [
+    "Boukhadra",
+    "بوخضرة",
+    "El Aouinet",
+    "العوينات"
+   ],
+   [
+    "Boulhaf Dyr",
+    "بولحاف الدير",
+    "El Kouif",
+    "الكويف"
+   ],
+   [
+    "Cheria",
+    "الشريعة",
+    "Cheria",
+    "الشريعة"
+   ],
+   [
+    "El Kouif",
+    "الكويف",
+    "El Kouif",
+    "الكويف"
+   ],
+   [
+    "El Malabiod",
+    "الماء الابيض",
+    "El Malabiod",
+    "الماء الابيض"
+   ],
+   [
+    "El Meridj",
+    "المريج",
+    "Ouenza",
+    "الونزة"
+   ],
+   [
+    "El Mezeraa",
+    "المزرعة",
+    "El Ogla",
+    "العقلة"
+   ],
+   [
+    "El Ogla",
+    "العقلة",
+    "El Ogla",
+    "العقلة"
+   ],
+   [
+    "El Ogla El Malha",
+    "العقلة المالحة",
+    "Bir El Ater",
+    "بئر العاتر"
+   ],
+   [
+    "El-Aouinet",
+    "العوينات",
+    "El Aouinet",
+    "العوينات"
+   ],
+   [
+    "El-Houidjbet",
+    "الحويجبات",
+    "El Malabiod",
+    "الماء الابيض"
+   ],
+   [
+    "Ferkane",
+    "فركان",
+    "Negrine",
+    "نقرين"
+   ],
+   [
+    "Guorriguer",
+    "قريقر",
+    "Bir Mokadem",
+    "بئر مقدم"
+   ],
+   [
+    "Hammamet",
+    "الحمامات",
+    "Bir Mokadem",
+    "بئر مقدم"
+   ],
+   [
+    "Morsott",
+    "مرسط",
+    "Morsott",
+    "مرسط"
+   ],
+   [
+    "Negrine",
+    "نقرين",
+    "Negrine",
+    "نقرين"
+   ],
+   [
+    "Ouenza",
+    "الونزة",
+    "Ouenza",
+    "الونزة"
+   ],
+   [
+    "Oum Ali",
+    "أم علي",
+    "Oum Ali",
+    "أم علي"
+   ],
+   [
+    "Saf Saf El Ouesra",
+    "صفصاف الوسرى",
+    "Oum Ali",
+    "أم علي"
+   ],
+   [
+    "Stah Guentis",
+    "سطح قنطيس",
+    "El Ogla",
+    "العقلة"
+   ],
+   [
+    "Tebessa",
+    "تبسة",
+    "Tebessa",
+    "تبسة"
+   ],
+   [
+    "Telidjen",
+    "ثليجان",
+    "Cheria",
+    "الشريعة"
+   ]
+  ],
+  "13": [
+   [
+    "Ain Fetah",
+    "عين فتاح",
+    "Fellaoucene",
+    "فلاوسن"
+   ],
+   [
+    "Ain Fezza",
+    "عين فزة",
+    "Chetouane",
+    "شتوان"
+   ],
+   [
+    "Ain Ghoraba",
+    "عين غرابة",
+    "Mansourah",
+    "منصورة"
+   ],
+   [
+    "Ain Kebira",
+    "عين الكبيرة",
+    "Fellaoucene",
+    "فلاوسن"
+   ],
+   [
+    "Ain Nehala",
+    "عين النحالة",
+    "Ain Tellout",
+    "عين تالوت"
+   ],
+   [
+    "Ain Tellout",
+    "عين تالوت",
+    "Ain Tellout",
+    "عين تالوت"
+   ],
+   [
+    "Ain Youcef",
+    "عين يوسف",
+    "Remchi",
+    "الرمشي"
+   ],
+   [
+    "Amieur",
+    "عمير",
+    "Chetouane",
+    "شتوان"
+   ],
+   [
+    "Azail",
+    "العزايل",
+    "Beni Snous",
+    "بني سنوس"
+   ],
+   [
+    "Bab El Assa",
+    "باب العسة",
+    "Bab El Assa",
+    "باب العسة"
+   ],
+   [
+    "Beni Bahdel",
+    "بني بهدل",
+    "Beni Snous",
+    "بني سنوس"
+   ],
+   [
+    "Beni Boussaid",
+    "بني بوسعيد",
+    "Beni Boussaid",
+    "بني بوسعيد"
+   ],
+   [
+    "Beni Khellad",
+    "بني خلاد",
+    "Honnaine",
+    "هنين"
+   ],
+   [
+    "Beni Mester",
+    "بني مستر",
+    "Mansourah",
+    "منصورة"
+   ],
+   [
+    "Beni Ouarsous",
+    "بني وارسوس",
+    "Remchi",
+    "الرمشي"
+   ],
+   [
+    "Beni Smiel",
+    "بني صميل",
+    "Ouled Mimoun",
+    "أولاد ميمون"
+   ],
+   [
+    "Beni Snous",
+    "بني سنوس",
+    "Beni Snous",
+    "بني سنوس"
+   ],
+   [
+    "Bensekrane",
+    "بن سكران",
+    "Bensekrane",
+    "بن سكران"
+   ],
+   [
+    "Bouhlou",
+    "بوحلو",
+    "Sabra",
+    "صبرة"
+   ],
+   [
+    "Bouihi",
+    "البويهي",
+    "Sidi Djillali",
+    "سيدي الجيلالي"
+   ],
+   [
+    "Chetouane",
+    "شتوان",
+    "Chetouane",
+    "شتوان"
+   ],
+   [
+    "Dar Yaghmoracen",
+    "دار يغمراسن",
+    "Ghazaouet",
+    "الغزوات"
+   ],
+   [
+    "Djebala",
+    "جبالة",
+    "Nedroma",
+    "ندرومة"
+   ],
+   [
+    "El Aricha",
+    "العريشة",
+    "Sebdou",
+    "سبدو"
+   ],
+   [
+    "El Fehoul",
+    "الفحول",
+    "Remchi",
+    "الرمشي"
+   ],
+   [
+    "El Gor",
+    "القور",
+    "Sebdou",
+    "سبدو"
+   ],
+   [
+    "Fellaoucene",
+    "فلاوسن",
+    "Fellaoucene",
+    "فلاوسن"
+   ],
+   [
+    "Ghazaouet",
+    "الغزوات",
+    "Ghazaouet",
+    "الغزوات"
+   ],
+   [
+    "Hammam Boughrara",
+    "حمام بوغرارة",
+    "Maghnia",
+    "مغنية"
+   ],
+   [
+    "Hennaya",
+    "الحناية",
+    "Hennaya",
+    "الحناية"
+   ],
+   [
+    "Honnaine",
+    "هنين",
+    "Honnaine",
+    "هنين"
+   ],
+   [
+    "M'sirda Fouaga",
+    "مسيردة الفواقة",
+    "Marsa Ben Mehdi",
+    "مرسى بن مهيدي"
+   ],
+   [
+    "Maghnia",
+    "مغنية",
+    "Maghnia",
+    "مغنية"
+   ],
+   [
+    "Mansourah",
+    "منصورة",
+    "Mansourah",
+    "منصورة"
+   ],
+   [
+    "Marsa Ben M'hidi",
+    "مرسى بن مهيدي",
+    "Marsa Ben Mehdi",
+    "مرسى بن مهيدي"
+   ],
+   [
+    "Nedroma",
+    "ندرومة",
+    "Nedroma",
+    "ندرومة"
+   ],
+   [
+    "Oued Lakhdar",
+    "وادي الخضر",
+    "Ouled Mimoun",
+    "أولاد ميمون"
+   ],
+   [
+    "Ouled Mimoun",
+    "أولاد ميمون",
+    "Ouled Mimoun",
+    "أولاد ميمون"
+   ],
+   [
+    "Ouled Riyah",
+    "أولاد رياح",
+    "Hennaya",
+    "الحناية"
+   ],
+   [
+    "Remchi",
+    "الرمشي",
+    "Remchi",
+    "الرمشي"
+   ],
+   [
+    "Sabra",
+    "صبرة",
+    "Sabra",
+    "صبرة"
+   ],
+   [
+    "Sebbaa Chioukh",
+    "سبعة شيوخ",
+    "Remchi",
+    "الرمشي"
+   ],
+   [
+    "Sebdou",
+    "سبدو",
+    "Sebdou",
+    "سبدو"
+   ],
+   [
+    "Sidi Abdelli",
+    "سيدي العبدلي",
+    "Bensekrane",
+    "بن سكران"
+   ],
+   [
+    "Sidi Djillali",
+    "سيدي الجيلالي",
+    "Sidi Djillali",
+    "سيدي الجيلالي"
+   ],
+   [
+    "Sidi Medjahed",
+    "سيدي مجاهد",
+    "Beni Boussaid",
+    "بني بوسعيد"
+   ],
+   [
+    "Souahlia",
+    "السواحلية",
+    "Ghazaouet",
+    "الغزوات"
+   ],
+   [
+    "Souani",
+    "السواني",
+    "Bab El Assa",
+    "باب العسة"
+   ],
+   [
+    "Souk Tleta",
+    "سوق الثلاثاء",
+    "Bab El Assa",
+    "باب العسة"
+   ],
+   [
+    "Terny Beni Hediel",
+    "تيرني بني هديل",
+    "Mansourah",
+    "منصورة"
+   ],
+   [
+    "Tianet",
+    "تيانت",
+    "Ghazaouet",
+    "الغزوات"
+   ],
+   [
+    "Tlemcen",
+    "تلمسان",
+    "Tlemcen",
+    "تلمسان"
+   ],
+   [
+    "Zenata",
+    "زناتة",
+    "Hennaya",
+    "الحناية"
+   ]
+  ],
+  "14": [
+   [
+    "Ain Bouchekif",
+    "عين بوشقيف",
+    "Dahmouni",
+    "دحموني"
+   ],
+   [
+    "Ain Deheb",
+    "عين الذهب",
+    "Ain Deheb",
+    "عين الذهب"
+   ],
+   [
+    "Ain Dzarit",
+    "عين دزاريت",
+    "Mahdia",
+    "مهدية"
+   ],
+   [
+    "Ain El Hadid",
+    "عين الحديد",
+    "Frenda",
+    "فرندة"
+   ],
+   [
+    "Ain Kermes",
+    "عين كرمس",
+    "Ain Kermes",
+    "عين كرمس"
+   ],
+   [
+    "Bougara",
+    "بوقرة",
+    "Hamadia",
+    "حمادية"
+   ],
+   [
+    "Chehaima",
+    "شحيمة",
+    "Ain Deheb",
+    "عين الذهب"
+   ],
+   [
+    "Dahmouni",
+    "دحموني",
+    "Dahmouni",
+    "دحموني"
+   ],
+   [
+    "Djebilet Rosfa",
+    "جبيلات الرصفاء",
+    "Ain Kermes",
+    "عين كرمس"
+   ],
+   [
+    "Djillali Ben Amar",
+    "جيلالي بن عمار",
+    "Mechraa Sfa",
+    "مشرع الصفا"
+   ],
+   [
+    "Faidja",
+    "الفايجة",
+    "Sougueur",
+    "السوقر"
+   ],
+   [
+    "Frenda",
+    "فرندة",
+    "Frenda",
+    "فرندة"
+   ],
+   [
+    "Guertoufa",
+    "قرطوفة",
+    "Rahouia",
+    "رحوية"
+   ],
+   [
+    "Hamadia",
+    "حمادية",
+    "Hamadia",
+    "حمادية"
+   ],
+   [
+    "Ksar Chellala",
+    "قصر الشلالة",
+    "Ksar Chellala",
+    "قصر الشلالة"
+   ],
+   [
+    "Madna",
+    "مادنة",
+    "Ain Kermes",
+    "عين كرمس"
+   ],
+   [
+    "Mahdia",
+    "مهدية",
+    "Mahdia",
+    "مهدية"
+   ],
+   [
+    "Mechraa Safa",
+    "مشرع الصفا",
+    "Mechraa Sfa",
+    "مشرع الصفا"
+   ],
+   [
+    "Medrissa",
+    "مدريسة",
+    "Ain Kermes",
+    "عين كرمس"
+   ],
+   [
+    "Medroussa",
+    "مدروسة",
+    "Medroussa",
+    "مدروسة"
+   ],
+   [
+    "Meghila",
+    "مغيلة",
+    "Meghila",
+    "مغيلة"
+   ],
+   [
+    "Mellakou",
+    "ملاكو",
+    "Medroussa",
+    "مدروسة"
+   ],
+   [
+    "Nadorah",
+    "الناظورة",
+    "Mahdia",
+    "مهدية"
+   ],
+   [
+    "Naima",
+    "النعيمة",
+    "Ain Deheb",
+    "عين الذهب"
+   ],
+   [
+    "Oued Lilli",
+    "وادي ليلي",
+    "Oued Lili",
+    "وادي ليلي"
+   ],
+   [
+    "Rahouia",
+    "الرحوية",
+    "Rahouia",
+    "رحوية"
+   ],
+   [
+    "Rechaiga",
+    "الرشايقة",
+    "Hamadia",
+    "حمادية"
+   ],
+   [
+    "Sebaine",
+    "السبعين",
+    "Mahdia",
+    "مهدية"
+   ],
+   [
+    "Sebt",
+    "السبت",
+    "Meghila",
+    "مغيلة"
+   ],
+   [
+    "Serghine",
+    "سرغين",
+    "Ksar Chellala",
+    "قصر الشلالة"
+   ],
+   [
+    "Si Abdelghani",
+    "سي عبد الغني",
+    "Sougueur",
+    "السوقر"
+   ],
+   [
+    "Sidi Abderrahmane",
+    "سيدي عبد الرحمن",
+    "Ain Kermes",
+    "عين كرمس"
+   ],
+   [
+    "Sidi Ali Mellal",
+    "سيدي علي ملال",
+    "Oued Lili",
+    "وادي ليلي"
+   ],
+   [
+    "Sidi Bakhti",
+    "سيدي بختي",
+    "Medroussa",
+    "مدروسة"
+   ],
+   [
+    "Sidi Hosni",
+    "سيدي حسني",
+    "Meghila",
+    "مغيلة"
+   ],
+   [
+    "Sougueur",
+    "السوقر",
+    "Sougueur",
+    "السوقر"
+   ],
+   [
+    "Tagdempt",
+    "تاقدمت",
+    "Mechraa Sfa",
+    "مشرع الصفا"
+   ],
+   [
+    "Takhemaret",
+    "تخمرت",
+    "Frenda",
+    "فرندة"
+   ],
+   [
+    "Tiaret",
+    "تيارت",
+    "Tiaret",
+    "تيارت"
+   ],
+   [
+    "Tidda",
+    "تيدة",
+    "Oued Lili",
+    "وادي ليلي"
+   ],
+   [
+    "Tousnina",
+    "توسنينة",
+    "Sougueur",
+    "السوقر"
+   ],
+   [
+    "Zmalet El Emir Abdelkade",
+    "زمالة  الأمير عبد القادر",
+    "Ksar Chellala",
+    "قصر الشلالة"
+   ]
+  ],
+  "15": [
+   [
+    "Abi-Youcef",
+    "أبي يوسف",
+    "Ain El Hammam",
+    "عين الحمام"
+   ],
+   [
+    "Aghribs",
+    "أغريب",
+    "Azeffoun",
+    "أزفون"
+   ],
+   [
+    "Agouni-Gueghrane",
+    "أقني قغران",
+    "Ouadhias",
+    "واضية"
+   ],
+   [
+    "Ain-El-Hammam",
+    "عين الحمام",
+    "Ain El Hammam",
+    "عين الحمام"
+   ],
+   [
+    "Ain-Zaouia",
+    "عين الزاوية",
+    "Draa El Mizan",
+    "ذراع الميزان"
+   ],
+   [
+    "Ait Aggouacha",
+    "أيت عقـواشة",
+    "Larbaa Nath Iraten",
+    "الأربعاء ناث إيراثن"
+   ],
+   [
+    "Ait Bouaddou",
+    "أيت بــوادو",
+    "Ouadhias",
+    "واضية"
+   ],
+   [
+    "Ait Boumahdi",
+    "أيت بومهدي",
+    "Ouacif",
+    "واسيف"
+   ],
+   [
+    "Ait Khellili",
+    "أيت خليلي",
+    "Mekla",
+    "مقلع"
+   ],
+   [
+    "Ait Yahia Moussa",
+    "أيت يحي موسى",
+    "Draa El Mizan",
+    "ذراع الميزان"
+   ],
+   [
+    "Ait-Aissa-Mimoun",
+    "أيت عيسى ميمون",
+    "Ouaguenoun",
+    "واقنون"
+   ],
+   [
+    "Ait-Chafaa",
+    "أيت شافع",
+    "Azeffoun",
+    "أزفون"
+   ],
+   [
+    "Ait-Mahmoud",
+    "أيت محمود",
+    "Beni Douala",
+    "بني دوالة"
+   ],
+   [
+    "Ait-Oumalou",
+    "أيت  أومالو",
+    "Tizi Rached",
+    "تيزي راشد"
+   ],
+   [
+    "Ait-Toudert",
+    "أيت تودرت",
+    "Ouacif",
+    "واسيف"
+   ],
+   [
+    "Ait-Yahia",
+    "أيت يحيى",
+    "Ain El Hammam",
+    "عين الحمام"
+   ],
+   [
+    "Akbil",
+    "اقبيل",
+    "Ain El Hammam",
+    "عين الحمام"
+   ],
+   [
+    "Akerrou",
+    "أقرو",
+    "Azeffoun",
+    "أزفون"
+   ],
+   [
+    "Assi-Youcef",
+    "أسي يوسف",
+    "Boghni",
+    "بوغني"
+   ],
+   [
+    "Azazga",
+    "عزازقة",
+    "Azazga",
+    "عزازقة"
+   ],
+   [
+    "Azeffoun",
+    "أزفون",
+    "Azeffoun",
+    "أزفون"
+   ],
+   [
+    "Beni Zmenzer",
+    "بنــــي زمنزار",
+    "Beni Douala",
+    "بني دوالة"
+   ],
+   [
+    "Beni-Aissi",
+    "بني عيسي",
+    "Beni Douala",
+    "بني دوالة"
+   ],
+   [
+    "Beni-Douala",
+    "بني دوالة",
+    "Beni Douala",
+    "بني دوالة"
+   ],
+   [
+    "Beni-Yenni",
+    "بني يني",
+    "Benni Yenni",
+    "بني يني"
+   ],
+   [
+    "Beni-Zikki",
+    "بني زيكــي",
+    "Bouzeguene",
+    "بوزقن"
+   ],
+   [
+    "Boghni",
+    "بوغني",
+    "Boghni",
+    "بوغني"
+   ],
+   [
+    "Boudjima",
+    "بوجيمة",
+    "Makouda",
+    "ماكودة"
+   ],
+   [
+    "Bounouh",
+    "بونوح",
+    "Boghni",
+    "بوغني"
+   ],
+   [
+    "Bouzeguene",
+    "بوزقــن",
+    "Bouzeguene",
+    "بوزقن"
+   ],
+   [
+    "Draa-Ben-Khedda",
+    "ذراع بن خدة",
+    "Draa Ben Khedda",
+    "ذراع بن خدة"
+   ],
+   [
+    "Draa-El-Mizan",
+    "ذراع الميزان",
+    "Draa El Mizan",
+    "ذراع الميزان"
+   ],
+   [
+    "Freha",
+    "فريحة",
+    "Azazga",
+    "عزازقة"
+   ],
+   [
+    "Frikat",
+    "فريقات",
+    "Draa El Mizan",
+    "ذراع الميزان"
+   ],
+   [
+    "Iboudrarene",
+    "إبودرارن",
+    "Benni Yenni",
+    "بني يني"
+   ],
+   [
+    "Idjeur",
+    "إيجــار",
+    "Bouzeguene",
+    "بوزقن"
+   ],
+   [
+    "Iferhounene",
+    "إفــرحــونان",
+    "Iferhounene",
+    "إفرحونان"
+   ],
+   [
+    "Ifigha",
+    "إيفيغاء",
+    "Azazga",
+    "عزازقة"
+   ],
+   [
+    "Iflissen",
+    "إفليـــسن",
+    "Tigzirt",
+    "تيقزيرت"
+   ],
+   [
+    "Illilten",
+    "إيلـيــلتـن",
+    "Iferhounene",
+    "إفرحونان"
+   ],
+   [
+    "Illoula Oumalou",
+    "إيلولة أومـــالو",
+    "Bouzeguene",
+    "بوزقن"
+   ],
+   [
+    "Imsouhal",
+    "إمســوحال",
+    "Iferhounene",
+    "إفرحونان"
+   ],
+   [
+    "Irdjen",
+    "إيرجـــن",
+    "Larbaa Nath Iraten",
+    "الأربعاء ناث إيراثن"
+   ],
+   [
+    "Larbaa Nath Irathen",
+    "الأربعــاء ناث إيراثن",
+    "Larbaa Nath Iraten",
+    "الأربعاء ناث إيراثن"
+   ],
+   [
+    "M'kira",
+    "مكيرة",
+    "Tizi-Ghenif",
+    "تيزي غنيف"
+   ],
+   [
+    "Maatkas",
+    "معـــاتقة",
+    "Maatkas",
+    "معاتقة"
+   ],
+   [
+    "Makouda",
+    "ماكودة",
+    "Makouda",
+    "ماكودة"
+   ],
+   [
+    "Mechtras",
+    "مشطراس",
+    "Boghni",
+    "بوغني"
+   ],
+   [
+    "Mekla",
+    "مقــلع",
+    "Mekla",
+    "مقلع"
+   ],
+   [
+    "Mizrana",
+    "ميزرانـــة",
+    "Tigzirt",
+    "تيقزيرت"
+   ],
+   [
+    "Ouacif",
+    "واسيف",
+    "Ouacif",
+    "واسيف"
+   ],
+   [
+    "Ouadhias",
+    "واضية",
+    "Ouadhias",
+    "واضية"
+   ],
+   [
+    "Ouaguenoun",
+    "واقنون",
+    "Ouaguenoun",
+    "واقنون"
+   ],
+   [
+    "Sidi Namane",
+    "سيدي نعمان",
+    "Draa Ben Khedda",
+    "ذراع بن خدة"
+   ],
+   [
+    "Souama",
+    "صوامـــع",
+    "Mekla",
+    "مقلع"
+   ],
+   [
+    "Souk-El-Tenine",
+    "سوق الإثنين",
+    "Maatkas",
+    "معاتقة"
+   ],
+   [
+    "Tadmait",
+    "تادمايت",
+    "Draa Ben Khedda",
+    "ذراع بن خدة"
+   ],
+   [
+    "Tigzirt",
+    "تيقـزيرت",
+    "Tigzirt",
+    "تيقزيرت"
+   ],
+   [
+    "Timizart",
+    "تيمـيزار",
+    "Ouaguenoun",
+    "واقنون"
+   ],
+   [
+    "Tirmitine",
+    "تيرمتين",
+    "Draa Ben Khedda",
+    "ذراع بن خدة"
+   ],
+   [
+    "Tizi N'tleta",
+    "تيزي نثلاثة",
+    "Ouadhias",
+    "واضية"
+   ],
+   [
+    "Tizi-Gheniff",
+    "تيزي غنيف",
+    "Tizi-Ghenif",
+    "تيزي غنيف"
+   ],
+   [
+    "Tizi-Ouzou",
+    "تيزي وزو",
+    "Tizi Ouzou",
+    "تيزي وزو"
+   ],
+   [
+    "Tizi-Rached",
+    "تيزي راشد",
+    "Tizi Rached",
+    "تيزي راشد"
+   ],
+   [
+    "Yakourene",
+    "إعــكورن",
+    "Azazga",
+    "عزازقة"
+   ],
+   [
+    "Yatafene",
+    "يطــافن",
+    "Benni Yenni",
+    "بني يني"
+   ],
+   [
+    "Zekri",
+    "زكري",
+    "Azazga",
+    "عزازقة"
+   ]
+  ],
+  "16": [
+   [
+    "Ain Benian",
+    "عين بنيان",
+    "Cheraga",
+    "الشراقة"
+   ],
+   [
+    "Ain Taya",
+    "عين طاية",
+    "Dar El Beida",
+    "الدار البيضاء"
+   ],
+   [
+    "Alger Centre",
+    "الجزائر الوسطى",
+    "Sidi M'hamed",
+    "سيدي امحمد"
+   ],
+   [
+    "Bab El Oued",
+    "باب الوادي",
+    "Bab El Oued",
+    "باب الوادي"
+   ],
+   [
+    "Bab Ezzouar",
+    "باب الزوار",
+    "Dar El Beida",
+    "الدار البيضاء"
+   ],
+   [
+    "Baba Hassen",
+    "بابا حسن",
+    "Draria",
+    "الدرارية"
+   ],
+   [
+    "Bachedjerah",
+    "باش جراح",
+    "El Harrach",
+    "الحراش"
+   ],
+   [
+    "Baraki",
+    "براقي",
+    "Baraki",
+    "براقي"
+   ],
+   [
+    "Ben Aknoun",
+    "ابن عكنون",
+    "Bouzareah",
+    "بوزريعة"
+   ],
+   [
+    "Beni Messous",
+    "بني مسوس",
+    "Bouzareah",
+    "بوزريعة"
+   ],
+   [
+    "Bir Mourad Rais",
+    "بئر مراد رايس",
+    "Bir Mourad Rais",
+    "بئر مراد رايس"
+   ],
+   [
+    "Bir Touta",
+    "بئر توتة",
+    "Birtouta",
+    "بئر توتة"
+   ],
+   [
+    "Birkhadem",
+    "بئر خادم",
+    "Bir Mourad Rais",
+    "بئر مراد رايس"
+   ],
+   [
+    "Bologhine Ibnou Ziri",
+    "بولوغين بن زيري",
+    "Bab El Oued",
+    "باب الوادي"
+   ],
+   [
+    "Bordj El Bahri",
+    "برج البحري",
+    "Dar El Beida",
+    "الدار البيضاء"
+   ],
+   [
+    "Bordj El Kiffan",
+    "برج الكيفان",
+    "Dar El Beida",
+    "الدار البيضاء"
+   ],
+   [
+    "Bourouba",
+    "بوروبة",
+    "El Harrach",
+    "الحراش"
+   ],
+   [
+    "Bouzareah",
+    "بوزريعة",
+    "Bouzareah",
+    "بوزريعة"
+   ],
+   [
+    "Casbah",
+    "القصبة",
+    "Bab El Oued",
+    "باب الوادي"
+   ],
+   [
+    "Cheraga",
+    "الشراقة",
+    "Cheraga",
+    "الشراقة"
+   ],
+   [
+    "Dar El Beida",
+    "الدار البيضاء",
+    "Dar El Beida",
+    "الدار البيضاء"
+   ],
+   [
+    "Dely Ibrahim",
+    "دالي ابراهيم",
+    "Cheraga",
+    "الشراقة"
+   ],
+   [
+    "Djasr Kasentina",
+    "جسر قسنطينة",
+    "Bir Mourad Rais",
+    "بئر مراد رايس"
+   ],
+   [
+    "Douira",
+    "الدويرة",
+    "Draria",
+    "الدرارية"
+   ],
+   [
+    "Draria",
+    "الدرارية",
+    "Draria",
+    "الدرارية"
+   ],
+   [
+    "El Achour",
+    "العاشور",
+    "Draria",
+    "الدرارية"
+   ],
+   [
+    "El Biar",
+    "الابيار",
+    "Bouzareah",
+    "بوزريعة"
+   ],
+   [
+    "El Harrach",
+    "الحراش",
+    "El Harrach",
+    "الحراش"
+   ],
+   [
+    "El Madania",
+    "المدنية",
+    "Sidi M'hamed",
+    "سيدي امحمد"
+   ],
+   [
+    "El Magharia",
+    "المغارية",
+    "Hussein Dey",
+    "حسين داي"
+   ],
+   [
+    "El Marsa",
+    "المرسى",
+    "Dar El Beida",
+    "الدار البيضاء"
+   ],
+   [
+    "El Mouradia",
+    "المرادية",
+    "Sidi M'hamed",
+    "سيدي امحمد"
+   ],
+   [
+    "Hammamet",
+    "الحمامات",
+    "Cheraga",
+    "الشراقة"
+   ],
+   [
+    "Herraoua",
+    "هراوة",
+    "Rouiba",
+    "الرويبة"
+   ],
+   [
+    "Hussein Dey",
+    "حسين داي",
+    "Hussein Dey",
+    "حسين داي"
+   ],
+   [
+    "Hydra",
+    "حيدرة",
+    "Bir Mourad Rais",
+    "بئر مراد رايس"
+   ],
+   [
+    "Khraissia",
+    "الخرايسية",
+    "Draria",
+    "الدرارية"
+   ],
+   [
+    "Kouba",
+    "القبة",
+    "Hussein Dey",
+    "حسين داي"
+   ],
+   [
+    "Les Eucalyptus",
+    "الكاليتوس",
+    "Baraki",
+    "براقي"
+   ],
+   [
+    "Maalma",
+    "المعالمة",
+    "Zeralda",
+    "زرالدة"
+   ],
+   [
+    "Mohamed Belouzdad",
+    "محمد بلوزداد",
+    "Hussein Dey",
+    "حسين داي"
+   ],
+   [
+    "Mohammadia",
+    "المحمدية",
+    "Dar El Beida",
+    "الدار البيضاء"
+   ],
+   [
+    "Oued Koriche",
+    "وادي قريش",
+    "Bab El Oued",
+    "باب الوادي"
+   ],
+   [
+    "Oued Smar",
+    "وادي السمار",
+    "El Harrach",
+    "الحراش"
+   ],
+   [
+    "Ouled Chebel",
+    "اولاد شبل",
+    "Birtouta",
+    "بئر توتة"
+   ],
+   [
+    "Ouled Fayet",
+    "اولاد فايت",
+    "Cheraga",
+    "الشراقة"
+   ],
+   [
+    "Rahmania",
+    "الرحمانية",
+    "Zeralda",
+    "زرالدة"
+   ],
+   [
+    "Rais Hamidou",
+    "الرايس حميدو",
+    "Bab El Oued",
+    "باب الوادي"
+   ],
+   [
+    "Reghaia",
+    "رغاية",
+    "Rouiba",
+    "الرويبة"
+   ],
+   [
+    "Rouiba",
+    "الرويبة",
+    "Rouiba",
+    "الرويبة"
+   ],
+   [
+    "Sehaoula",
+    "السحاولة",
+    "Bir Mourad Rais",
+    "بئر مراد رايس"
+   ],
+   [
+    "Sidi M'hamed",
+    "سيدي امحمد",
+    "Sidi M'hamed",
+    "سيدي امحمد"
+   ],
+   [
+    "Sidi Moussa",
+    "سيدي موسى",
+    "Baraki",
+    "براقي"
+   ],
+   [
+    "Souidania",
+    "سويدانية",
+    "Zeralda",
+    "زرالدة"
+   ],
+   [
+    "Staoueli",
+    "سطاوالي",
+    "Zeralda",
+    "زرالدة"
+   ],
+   [
+    "Tessala El Merdja",
+    "تسالة المرجة",
+    "Birtouta",
+    "بئر توتة"
+   ],
+   [
+    "Zeralda",
+    "زرالدة",
+    "Zeralda",
+    "زرالدة"
+   ]
+  ],
+  "17": [
+   [
+    "Ain Chouhada",
+    "عين الشهداء",
+    "El Idrissia",
+    "الادريسية"
+   ],
+   [
+    "Ain El Ibel",
+    "عين الإبل",
+    "Ain El Ibel",
+    "عين الإبل"
+   ],
+   [
+    "Ain Fekka",
+    "عين فقه",
+    "Had Sahary",
+    "حد الصحاري"
+   ],
+   [
+    "Ain Maabed",
+    "عين معبد",
+    "Hassi Bahbah",
+    "حاسي بحبح"
+   ],
+   [
+    "Ain Oussera",
+    "عين وسارة",
+    "Ain Oussera",
+    "عين وسارة"
+   ],
+   [
+    "Amourah",
+    "عمورة",
+    "Faidh El Botma",
+    "فيض البطمة"
+   ],
+   [
+    "Benhar",
+    "بنهار",
+    "Birine",
+    "بيرين"
+   ],
+   [
+    "Benyagoub",
+    "بن يعقوب",
+    "Charef",
+    "الشارف"
+   ],
+   [
+    "Birine",
+    "بيرين",
+    "Birine",
+    "بيرين"
+   ],
+   [
+    "Bouira Lahdab",
+    "بويرة الأحداب",
+    "Had Sahary",
+    "حد الصحاري"
+   ],
+   [
+    "Charef",
+    "الشارف",
+    "Charef",
+    "الشارف"
+   ],
+   [
+    "Dar Chioukh",
+    "دار الشيوخ",
+    "Dar Chioukh",
+    "دار الشيوخ"
+   ],
+   [
+    "Deldoul",
+    "دلدول",
+    "Messaad",
+    "مسعد"
+   ],
+   [
+    "Djelfa",
+    "الجلفة",
+    "Djelfa",
+    "الجلفة"
+   ],
+   [
+    "Douis",
+    "دويس",
+    "El Idrissia",
+    "الادريسية"
+   ],
+   [
+    "El Guedid",
+    "القديد",
+    "Charef",
+    "الشارف"
+   ],
+   [
+    "El Idrissia",
+    "الادريسية",
+    "El Idrissia",
+    "الادريسية"
+   ],
+   [
+    "El Khemis",
+    "الخميس",
+    "Sidi Laadjel",
+    "سيدي لعجال"
+   ],
+   [
+    "Faidh El Botma",
+    "فيض البطمة",
+    "Faidh El Botma",
+    "فيض البطمة"
+   ],
+   [
+    "Guernini",
+    "قرنيني",
+    "Ain Oussera",
+    "عين وسارة"
+   ],
+   [
+    "Guettara",
+    "قطارة",
+    "Messaad",
+    "مسعد"
+   ],
+   [
+    "Had Sahary",
+    "حد الصحاري",
+    "Had Sahary",
+    "حد الصحاري"
+   ],
+   [
+    "Hassi Bahbah",
+    "حاسي بحبح",
+    "Hassi Bahbah",
+    "حاسي بحبح"
+   ],
+   [
+    "Hassi El Euch",
+    "حاسي العش",
+    "Hassi Bahbah",
+    "حاسي بحبح"
+   ],
+   [
+    "Hassi Fedoul",
+    "حاسي فدول",
+    "Sidi Laadjel",
+    "سيدي لعجال"
+   ],
+   [
+    "M'liliha",
+    "مليليحة",
+    "Dar Chioukh",
+    "دار الشيوخ"
+   ],
+   [
+    "Messaad",
+    "مسعد",
+    "Messaad",
+    "مسعد"
+   ],
+   [
+    "Moudjebara",
+    "مجبارة",
+    "Ain El Ibel",
+    "عين الإبل"
+   ],
+   [
+    "Oum Laadham",
+    "أم العظام",
+    "Faidh El Botma",
+    "فيض البطمة"
+   ],
+   [
+    "Sed Rahal",
+    "سد الرحال",
+    "Messaad",
+    "مسعد"
+   ],
+   [
+    "Selmana",
+    "سلمانة",
+    "Messaad",
+    "مسعد"
+   ],
+   [
+    "Sidi Baizid",
+    "سيدي بايزيد",
+    "Dar Chioukh",
+    "دار الشيوخ"
+   ],
+   [
+    "Sidi Laadjel",
+    "سيدي لعجال",
+    "Sidi Laadjel",
+    "سيدي لعجال"
+   ],
+   [
+    "Taadmit",
+    "تعظميت",
+    "Ain El Ibel",
+    "عين الإبل"
+   ],
+   [
+    "Zaafrane",
+    "زعفران",
+    "Hassi Bahbah",
+    "حاسي بحبح"
+   ],
+   [
+    "Zaccar",
+    "زكار",
+    "Ain El Ibel",
+    "عين الإبل"
+   ]
+  ],
+  "18": [
+   [
+    "Bordj T'har",
+    "برج الطهر",
+    "Chekfa",
+    "الشقفة"
+   ],
+   [
+    "Boudria Beniyadjis",
+    "بودريعة بني  ياجيس",
+    "Djimla",
+    "جيملة"
+   ],
+   [
+    "Bouraoui Belhadef",
+    "بوراوي بلهادف",
+    "El Ancer",
+    "العنصر"
+   ],
+   [
+    "Boussif Ouled Askeur",
+    "بوسيف أولاد عسكر",
+    "Taher",
+    "الطاهير"
+   ],
+   [
+    "Chahna",
+    "الشحنة",
+    "Taher",
+    "الطاهير"
+   ],
+   [
+    "Chekfa",
+    "الشقفة",
+    "Chekfa",
+    "الشقفة"
+   ],
+   [
+    "Djemaa Beni Habibi",
+    "الجمعة بني حبيبي",
+    "El Ancer",
+    "العنصر"
+   ],
+   [
+    "Djimla",
+    "جيملة",
+    "Djimla",
+    "جيملة"
+   ],
+   [
+    "El Ancer",
+    "العنصر",
+    "El Ancer",
+    "العنصر"
+   ],
+   [
+    "El Aouana",
+    "العوانة",
+    "El Aouana",
+    "العوانة"
+   ],
+   [
+    "El Kennar Nouchfi",
+    "القنار نشفي",
+    "Chekfa",
+    "الشقفة"
+   ],
+   [
+    "El Milia",
+    "الميلية",
+    "El Milia",
+    "الميلية"
+   ],
+   [
+    "Emir Abdelkader",
+    "الامير عبد القادر",
+    "Taher",
+    "الطاهير"
+   ],
+   [
+    "Erraguene Souissi",
+    "أراقن سويسي",
+    "Ziamah Mansouriah",
+    "زيامة منصورية"
+   ],
+   [
+    "Ghebala",
+    "غبالة",
+    "Settara",
+    "السطارة"
+   ],
+   [
+    "Jijel",
+    "جيجل",
+    "Jijel",
+    "جيجل"
+   ],
+   [
+    "Kaous",
+    "قاوس",
+    "Texenna",
+    "تاكسنة"
+   ],
+   [
+    "Khiri Oued Adjoul",
+    "خيري واد عجول",
+    "El Ancer",
+    "العنصر"
+   ],
+   [
+    "Oudjana",
+    "وجانة",
+    "Taher",
+    "الطاهير"
+   ],
+   [
+    "Ouled Rabah",
+    "أولاد رابح",
+    "Sidi Marouf",
+    "سيدي معروف"
+   ],
+   [
+    "Ouled Yahia Khadrouch",
+    "أولاد يحيى خدروش",
+    "El Milia",
+    "الميلية"
+   ],
+   [
+    "Selma Benziada",
+    "سلمى بن زيادة",
+    "El Aouana",
+    "العوانة"
+   ],
+   [
+    "Settara",
+    "السطارة",
+    "Settara",
+    "السطارة"
+   ],
+   [
+    "Sidi Abdelaziz",
+    "سيدي عبد العزيز",
+    "Chekfa",
+    "الشقفة"
+   ],
+   [
+    "Sidi Marouf",
+    "سيدي معروف",
+    "Sidi Marouf",
+    "سيدي معروف"
+   ],
+   [
+    "Taher",
+    "الطاهير",
+    "Taher",
+    "الطاهير"
+   ],
+   [
+    "Texenna",
+    "تاكسنة",
+    "Texenna",
+    "تاكسنة"
+   ],
+   [
+    "Ziama Mansouriah",
+    "زيامة منصورية",
+    "Ziamah Mansouriah",
+    "زيامة منصورية"
+   ]
+  ],
+  "19": [
+   [
+    "Ain Abessa",
+    "عين عباسة",
+    "Ain Arnat",
+    "عين أرنات"
+   ],
+   [
+    "Ain Arnat",
+    "عين أرنات",
+    "Ain Arnat",
+    "عين أرنات"
+   ],
+   [
+    "Ain Azel",
+    "عين أزال",
+    "Ain Azel",
+    "عين أزال"
+   ],
+   [
+    "Ain El Kebira",
+    "عين الكبيرة",
+    "Ain El Kebira",
+    "عين الكبيرة"
+   ],
+   [
+    "Ain Lahdjar",
+    "عين الحجر",
+    "Ain Azel",
+    "عين أزال"
+   ],
+   [
+    "Ain Oulmene",
+    "عين ولمان",
+    "Ain Oulmene",
+    "عين ولمان"
+   ],
+   [
+    "Ain-Legradj",
+    "عين لقراج",
+    "Beni Ourtilane",
+    "بني ورتيلان"
+   ],
+   [
+    "Ain-Roua",
+    "عين الروى",
+    "Bougaa",
+    "بوقاعة"
+   ],
+   [
+    "Ain-Sebt",
+    "عين السبت",
+    "Beni Aziz",
+    "بني عزيز"
+   ],
+   [
+    "Ait Naoual Mezada",
+    "أيت نوال مزادة",
+    "Bouandas",
+    "بوعنداس"
+   ],
+   [
+    "Ait-Tizi",
+    "ايت تيزي",
+    "Bouandas",
+    "بوعنداس"
+   ],
+   [
+    "Amoucha",
+    "عموشة",
+    "Amoucha",
+    "عموشة"
+   ],
+   [
+    "Babor",
+    "بابور",
+    "Babor",
+    "بابور"
+   ],
+   [
+    "Bazer-Sakra",
+    "بازر سكرة",
+    "El Eulma",
+    "العلمة"
+   ],
+   [
+    "Beidha Bordj",
+    "بيضاء برج",
+    "Ain Azel",
+    "عين أزال"
+   ],
+   [
+    "Bellaa",
+    "بلاعة",
+    "Bir El Arch",
+    "بئر العرش"
+   ],
+   [
+    "Beni Chebana",
+    "بني شبانة",
+    "Beni Ourtilane",
+    "بني ورتيلان"
+   ],
+   [
+    "Beni Fouda",
+    "بني فودة",
+    "Djemila",
+    "جميلة"
+   ],
+   [
+    "Beni Ourtilane",
+    "بني ورتيلان",
+    "Beni Ourtilane",
+    "بني ورتيلان"
+   ],
+   [
+    "Beni Oussine",
+    "بني وسين",
+    "Bougaa",
+    "بوقاعة"
+   ],
+   [
+    "Beni-Aziz",
+    "بني عزيز",
+    "Beni Aziz",
+    "بني عزيز"
+   ],
+   [
+    "Beni-Mouhli",
+    "بني موحلي",
+    "Beni Ourtilane",
+    "بني ورتيلان"
+   ],
+   [
+    "Bir Haddada",
+    "بئر حدادة",
+    "Ain Azel",
+    "عين أزال"
+   ],
+   [
+    "Bir-El-Arch",
+    "بئر العرش",
+    "Bir El Arch",
+    "بئر العرش"
+   ],
+   [
+    "Bouandas",
+    "بوعنداس",
+    "Bouandas",
+    "بوعنداس"
+   ],
+   [
+    "Bougaa",
+    "بوقاعة",
+    "Bougaa",
+    "بوقاعة"
+   ],
+   [
+    "Bousselam",
+    "بوسلام",
+    "Bouandas",
+    "بوعنداس"
+   ],
+   [
+    "Boutaleb",
+    "بوطالب",
+    "Salah Bey",
+    "صالح باي"
+   ],
+   [
+    "Dehamcha",
+    "الدهامشة",
+    "Ain El Kebira",
+    "عين الكبيرة"
+   ],
+   [
+    "Djemila",
+    "جميلة",
+    "Djemila",
+    "جميلة"
+   ],
+   [
+    "Draa-Kebila",
+    "ذراع قبيلة",
+    "Hammam Guergour",
+    "حمام قرقور"
+   ],
+   [
+    "El Eulma",
+    "العلمة",
+    "El Eulma",
+    "العلمة"
+   ],
+   [
+    "El Ouricia",
+    "أوريسيا",
+    "Ain Arnat",
+    "عين أرنات"
+   ],
+   [
+    "El-Ouldja",
+    "الولجة",
+    "Bir El Arch",
+    "بئر العرش"
+   ],
+   [
+    "Guellal",
+    "قلال",
+    "Ain Oulmene",
+    "عين ولمان"
+   ],
+   [
+    "Guelta Zerka",
+    "قلتة زرقاء",
+    "El Eulma",
+    "العلمة"
+   ],
+   [
+    "Guenzet",
+    "قنزات",
+    "Guenzet",
+    "قنزات"
+   ],
+   [
+    "Guidjel",
+    "قجال",
+    "Guidjel",
+    "قجال"
+   ],
+   [
+    "Hamam Soukhna",
+    "حمام السخنة",
+    "Hammam Sokhna",
+    "حمام السخنة"
+   ],
+   [
+    "Hamma",
+    "الحامة",
+    "Salah Bey",
+    "صالح باي"
+   ],
+   [
+    "Hammam Guergour",
+    "حمام قرقور",
+    "Hammam Guergour",
+    "حمام قرقور"
+   ],
+   [
+    "Harbil",
+    "حربيل",
+    "Guenzet",
+    "قنزات"
+   ],
+   [
+    "Kasr El Abtal",
+    "قصر الابطال",
+    "Ain Oulmene",
+    "عين ولمان"
+   ],
+   [
+    "Maaouia",
+    "معاوية",
+    "Beni Aziz",
+    "بني عزيز"
+   ],
+   [
+    "Maouaklane",
+    "ماوكلان",
+    "Maoklane",
+    "ماوكلان"
+   ],
+   [
+    "Mezloug",
+    "مزلوق",
+    "Ain Arnat",
+    "عين أرنات"
+   ],
+   [
+    "Oued El Bared",
+    "واد البارد",
+    "Amoucha",
+    "عموشة"
+   ],
+   [
+    "Ouled Addouane",
+    "أولاد عدوان",
+    "Ain El Kebira",
+    "عين الكبيرة"
+   ],
+   [
+    "Ouled Sabor",
+    "أولاد صابر",
+    "Guidjel",
+    "قجال"
+   ],
+   [
+    "Ouled Si Ahmed",
+    "أولاد سي أحمد",
+    "Ain Oulmene",
+    "عين ولمان"
+   ],
+   [
+    "Ouled Tebben",
+    "أولاد تبان",
+    "Salah Bey",
+    "صالح باي"
+   ],
+   [
+    "Rosfa",
+    "الرصفة",
+    "Salah Bey",
+    "صالح باي"
+   ],
+   [
+    "Salah Bey",
+    "صالح باي",
+    "Salah Bey",
+    "صالح باي"
+   ],
+   [
+    "Serdj-El-Ghoul",
+    "سرج الغول",
+    "Babor",
+    "بابور"
+   ],
+   [
+    "Setif",
+    "سطيف",
+    "Setif",
+    "سطيف"
+   ],
+   [
+    "Tachouda",
+    "تاشودة",
+    "Bir El Arch",
+    "بئر العرش"
+   ],
+   [
+    "Tala-Ifacene",
+    "تالة إيفاسن",
+    "Maoklane",
+    "ماوكلان"
+   ],
+   [
+    "Taya",
+    "الطاية",
+    "Hammam Sokhna",
+    "حمام السخنة"
+   ],
+   [
+    "Tella",
+    "التلة",
+    "Hammam Sokhna",
+    "حمام السخنة"
+   ],
+   [
+    "Tizi N'bechar",
+    "تيزي نبشار",
+    "Amoucha",
+    "عموشة"
+   ]
+  ],
+  "20": [
+   [
+    "Ain El Hadjar",
+    "عين الحجر",
+    "Ain El Hadjar",
+    "عين الحجر"
+   ],
+   [
+    "Ain Sekhouna",
+    "عين السخونة",
+    "El Hassasna",
+    "الحساسنة"
+   ],
+   [
+    "Ain Soltane",
+    "عين السلطان",
+    "Ouled Brahim",
+    "أولاد ابراهيم"
+   ],
+   [
+    "Doui Thabet",
+    "دوي ثابت",
+    "Youb",
+    "يوب"
+   ],
+   [
+    "El Hassasna",
+    "الحساسنة",
+    "El Hassasna",
+    "الحساسنة"
+   ],
+   [
+    "Hounet",
+    "هونت",
+    "Sidi Boubekeur",
+    "سيدي بوبكر"
+   ],
+   [
+    "Maamora",
+    "المعمورة",
+    "El Hassasna",
+    "الحساسنة"
+   ],
+   [
+    "Moulay Larbi",
+    "مولاي العربي",
+    "Ain El Hadjar",
+    "عين الحجر"
+   ],
+   [
+    "Ouled Brahim",
+    "أولاد إبراهيم",
+    "Ouled Brahim",
+    "أولاد ابراهيم"
+   ],
+   [
+    "Ouled Khaled",
+    "أولاد خالد",
+    "Sidi Boubekeur",
+    "سيدي بوبكر"
+   ],
+   [
+    "Saida",
+    "سعيدة",
+    "Saida",
+    "سعيدة"
+   ],
+   [
+    "Sidi Ahmed",
+    "سيدي احمد",
+    "Ain El Hadjar",
+    "عين الحجر"
+   ],
+   [
+    "Sidi Amar",
+    "سيدي عمر",
+    "Sidi Boubekeur",
+    "سيدي بوبكر"
+   ],
+   [
+    "Sidi Boubekeur",
+    "سيدي بوبكر",
+    "Sidi Boubekeur",
+    "سيدي بوبكر"
+   ],
+   [
+    "Tircine",
+    "تيرسين",
+    "Ouled Brahim",
+    "أولاد ابراهيم"
+   ],
+   [
+    "Youb",
+    "يوب",
+    "Youb",
+    "يوب"
+   ]
+  ],
+  "21": [
+   [
+    "Ain Bouziane",
+    "عين بوزيان",
+    "Sidi Mezghiche",
+    "سيدي مزغيش"
+   ],
+   [
+    "Ain Charchar",
+    "عين شرشار",
+    "Azzaba",
+    "عزابة"
+   ],
+   [
+    "Ain Kechra",
+    "عين قشرة",
+    "Ain Kechra",
+    "عين قشرة"
+   ],
+   [
+    "Ain Zouit",
+    "عين زويت",
+    "El Hadaiek",
+    "الحدائق"
+   ],
+   [
+    "Azzaba",
+    "عزابة",
+    "Azzaba",
+    "عزابة"
+   ],
+   [
+    "Bekkouche Lakhdar",
+    "بكوش لخضر",
+    "Ben Azzouz",
+    "بن عزوز"
+   ],
+   [
+    "Ben Azzouz",
+    "بن عزوز",
+    "Ben Azzouz",
+    "بن عزوز"
+   ],
+   [
+    "Beni Bechir",
+    "بني بشير",
+    "Ramdane Djamel",
+    "رمضان جمال"
+   ],
+   [
+    "Beni Oulbane",
+    "بني ولبان",
+    "Sidi Mezghiche",
+    "سيدي مزغيش"
+   ],
+   [
+    "Beni Zid",
+    "بني زيد",
+    "Collo",
+    "القل"
+   ],
+   [
+    "Bin El Ouiden",
+    "بين الويدان",
+    "Tamalous",
+    "تمالوس"
+   ],
+   [
+    "Bouchetata",
+    "بوشطاطة",
+    "El Hadaiek",
+    "الحدائق"
+   ],
+   [
+    "Cheraia",
+    "الشرايع",
+    "Collo",
+    "القل"
+   ],
+   [
+    "Collo",
+    "القل",
+    "Collo",
+    "القل"
+   ],
+   [
+    "Djendel Saadi Mohamed",
+    "جندل سعدي محمد",
+    "Azzaba",
+    "عزابة"
+   ],
+   [
+    "El Arrouch",
+    "الحروش",
+    "El Harrouch",
+    "الحروش"
+   ],
+   [
+    "El Ghedir",
+    "الغدير",
+    "Azzaba",
+    "عزابة"
+   ],
+   [
+    "El Hadaiek",
+    "الحدائق",
+    "El Hadaiek",
+    "الحدائق"
+   ],
+   [
+    "El Marsa",
+    "المرسى",
+    "Ben Azzouz",
+    "بن عزوز"
+   ],
+   [
+    "Emjez Edchich",
+    "مجاز الدشيش",
+    "El Harrouch",
+    "الحروش"
+   ],
+   [
+    "Es Sebt",
+    "السبت",
+    "Azzaba",
+    "عزابة"
+   ],
+   [
+    "Filfila",
+    "فلفلة",
+    "Skikda",
+    "سكيكدة"
+   ],
+   [
+    "Hammadi Krouma",
+    "حمادي كرومة",
+    "Skikda",
+    "سكيكدة"
+   ],
+   [
+    "Kanoua",
+    "قنواع",
+    "Zitouna",
+    "الزيتونة"
+   ],
+   [
+    "Kerkara",
+    "الكركرة",
+    "Tamalous",
+    "تمالوس"
+   ],
+   [
+    "Khenag Maoune",
+    "خناق مايو",
+    "Ouled Attia",
+    "أولاد عطية"
+   ],
+   [
+    "Oued Zhour",
+    "وادي الزهور",
+    "Ouled Attia",
+    "أولاد عطية"
+   ],
+   [
+    "Ouldja Boulbalout",
+    "الولجة بولبلوط",
+    "Ain Kechra",
+    "عين قشرة"
+   ],
+   [
+    "Ouled Attia",
+    "أولاد عطية",
+    "Ouled Attia",
+    "أولاد عطية"
+   ],
+   [
+    "Ouled Habbaba",
+    "أولاد حبابة",
+    "El Harrouch",
+    "الحروش"
+   ],
+   [
+    "Oum Toub",
+    "أم الطوب",
+    "Oum Toub",
+    "أم الطوب"
+   ],
+   [
+    "Ramdane Djamel",
+    "رمضان جمال",
+    "Ramdane Djamel",
+    "رمضان جمال"
+   ],
+   [
+    "Salah Bouchaour",
+    "صالح بو الشعور",
+    "El Harrouch",
+    "الحروش"
+   ],
+   [
+    "Sidi Mezghiche",
+    "سيدي مزغيش",
+    "Sidi Mezghiche",
+    "سيدي مزغيش"
+   ],
+   [
+    "Skikda",
+    "سكيكدة",
+    "Skikda",
+    "سكيكدة"
+   ],
+   [
+    "Tamalous",
+    "تمالوس",
+    "Tamalous",
+    "تمالوس"
+   ],
+   [
+    "Zerdezas",
+    "زردازة",
+    "El Harrouch",
+    "الحروش"
+   ],
+   [
+    "Zitouna",
+    "الزيتونة",
+    "Zitouna",
+    "الزيتونة"
+   ]
+  ],
+  "22": [
+   [
+    "Ain El Berd",
+    "عين البرد",
+    "Ain El Berd",
+    "عين البرد"
+   ],
+   [
+    "Ain Kada",
+    "عين قادة",
+    "Sidi Ali Boussidi",
+    "سيدي علي بوسيدي"
+   ],
+   [
+    "Ain Thrid",
+    "عين الثريد",
+    "Tessala",
+    "تسالة"
+   ],
+   [
+    "Ain Tindamine",
+    "عين تندمين",
+    "Moulay Slissen",
+    "مولاي سليسن"
+   ],
+   [
+    "Ain- Adden",
+    "عين أدن",
+    "Sfisef",
+    "سفيزف"
+   ],
+   [
+    "Amarnas",
+    "العمارنة",
+    "Sidi Lahcene",
+    "سيدي لحسن"
+   ],
+   [
+    "Bedrabine El Mokrani",
+    "بضرابين المقراني",
+    "Ben Badis",
+    "بن باديس"
+   ],
+   [
+    "Belarbi",
+    "بلعربي",
+    "Mostefa  Ben Brahim",
+    "مصطفى بن ابراهيم"
+   ],
+   [
+    "Ben Badis",
+    "بن باديس",
+    "Ben Badis",
+    "بن باديس"
+   ],
+   [
+    "Benachiba Chelia",
+    "بن عشيبة شلية",
+    "Tenira",
+    "تنيرة"
+   ],
+   [
+    "Bir El Hammam",
+    "بئر الحمام",
+    "Marhoum",
+    "مرحوم"
+   ],
+   [
+    "Boudjebaa El Bordj",
+    "بوجبهة البرج",
+    "Sfisef",
+    "سفيزف"
+   ],
+   [
+    "Boukhanefis",
+    "بوخنفيس",
+    "Sidi Ali Ben Youb",
+    "سيدي علي بن يوب"
+   ],
+   [
+    "Chetouane Belaila",
+    "شيطوان البلايلة",
+    "Ben Badis",
+    "بن باديس"
+   ],
+   [
+    "Dhaya",
+    "الضاية",
+    "Telagh",
+    "تلاغ"
+   ],
+   [
+    "El Hacaiba",
+    "الحصيبة",
+    "Moulay Slissen",
+    "مولاي سليسن"
+   ],
+   [
+    "Hassi Dahou",
+    "حاسي دحو",
+    "Tenira",
+    "تنيرة"
+   ],
+   [
+    "Hassi Zahana",
+    "حاسي زهانة",
+    "Ben Badis",
+    "بن باديس"
+   ],
+   [
+    "Lamtar",
+    "لمطار",
+    "Sidi Ali Boussidi",
+    "سيدي علي بوسيدي"
+   ],
+   [
+    "M'cid",
+    "مسيد",
+    "Sfisef",
+    "سفيزف"
+   ],
+   [
+    "Makedra",
+    "مكدرة",
+    "Ain El Berd",
+    "عين البرد"
+   ],
+   [
+    "Marhoum",
+    "مرحوم",
+    "Marhoum",
+    "مرحوم"
+   ],
+   [
+    "Merine",
+    "مرين",
+    "Merine",
+    "مرين"
+   ],
+   [
+    "Mezaourou",
+    "مزاورو",
+    "Telagh",
+    "تلاغ"
+   ],
+   [
+    "Mostefa  Ben Brahim",
+    "مصطفى بن ابراهيم",
+    "Mostefa  Ben Brahim",
+    "مصطفى بن ابراهيم"
+   ],
+   [
+    "Moulay Slissen",
+    "مولاي سليسن",
+    "Moulay Slissen",
+    "مولاي سليسن"
+   ],
+   [
+    "Oued Sebaa",
+    "وادي السبع",
+    "Ras El Ma",
+    "راس الماء"
+   ],
+   [
+    "Oued Sefioun",
+    "وادي سفيون",
+    "Tenira",
+    "تنيرة"
+   ],
+   [
+    "Oued Taourira",
+    "وادي تاوريرة",
+    "Merine",
+    "مرين"
+   ],
+   [
+    "Ras El Ma",
+    "راس الماء",
+    "Ras El Ma",
+    "راس الماء"
+   ],
+   [
+    "Redjem Demouche",
+    "رجم دموش",
+    "Ras El Ma",
+    "راس الماء"
+   ],
+   [
+    "Sehala Thaoura",
+    "السهالة الثورة",
+    "Tessala",
+    "تسالة"
+   ],
+   [
+    "Sfisef",
+    "سفيزف",
+    "Sfisef",
+    "سفيزف"
+   ],
+   [
+    "Sidi Ali Benyoub",
+    "سيدي علي بن يوب",
+    "Sidi Ali Ben Youb",
+    "سيدي علي بن يوب"
+   ],
+   [
+    "Sidi Ali Boussidi",
+    "سيدي علي بوسيدي",
+    "Sidi Ali Boussidi",
+    "سيدي علي بوسيدي"
+   ],
+   [
+    "Sidi Bel-Abbes",
+    "سيدي بلعباس",
+    "Sidi Bel Abbes",
+    "سيدي بلعباس"
+   ],
+   [
+    "Sidi Brahim",
+    "سيدي ابراهيم",
+    "Ain El Berd",
+    "عين البرد"
+   ],
+   [
+    "Sidi Chaib",
+    "سيدي شعيب",
+    "Marhoum",
+    "مرحوم"
+   ],
+   [
+    "Sidi Dahou Zairs",
+    "سيدي دحو الزاير",
+    "Sidi Ali Boussidi",
+    "سيدي علي بوسيدي"
+   ],
+   [
+    "Sidi Hamadouche",
+    "سيدي حمادوش",
+    "Ain El Berd",
+    "عين البرد"
+   ],
+   [
+    "Sidi Khaled",
+    "سيدي خالد",
+    "Sidi Lahcene",
+    "سيدي لحسن"
+   ],
+   [
+    "Sidi Lahcene",
+    "سيدي لحسن",
+    "Sidi Lahcene",
+    "سيدي لحسن"
+   ],
+   [
+    "Sidi Yacoub",
+    "سيدي يعقوب",
+    "Sidi Lahcene",
+    "سيدي لحسن"
+   ],
+   [
+    "Tabia",
+    "طابية",
+    "Sidi Ali Ben Youb",
+    "سيدي علي بن يوب"
+   ],
+   [
+    "Taoudmout",
+    "تاودموت",
+    "Merine",
+    "مرين"
+   ],
+   [
+    "Tefessour",
+    "تفسور",
+    "Merine",
+    "مرين"
+   ],
+   [
+    "Teghalimet",
+    "تغاليمت",
+    "Telagh",
+    "تلاغ"
+   ],
+   [
+    "Telagh",
+    "تلاغ",
+    "Telagh",
+    "تلاغ"
+   ],
+   [
+    "Tenira",
+    "تنيرة",
+    "Tenira",
+    "تنيرة"
+   ],
+   [
+    "Tessala",
+    "تسالة",
+    "Tessala",
+    "تسالة"
+   ],
+   [
+    "Tilmouni",
+    "تلموني",
+    "Mostefa  Ben Brahim",
+    "مصطفى بن ابراهيم"
+   ],
+   [
+    "Zerouala",
+    "زروالة",
+    "Mostefa  Ben Brahim",
+    "مصطفى بن ابراهيم"
+   ]
+  ],
+  "23": [
+   [
+    "Ain El Berda",
+    "عين الباردة",
+    "Ain El Berda",
+    "عين الباردة"
+   ],
+   [
+    "Annaba",
+    "عنابة",
+    "Annaba",
+    "عنابة"
+   ],
+   [
+    "Berrahal",
+    "برحال",
+    "Berrahal",
+    "برحال"
+   ],
+   [
+    "Chetaibi",
+    "شطايبي",
+    "Chetaibi",
+    "شطايبي"
+   ],
+   [
+    "Cheurfa",
+    "الشرفة",
+    "Ain El Berda",
+    "عين الباردة"
+   ],
+   [
+    "El Bouni",
+    "البوني",
+    "El Bouni",
+    "البوني"
+   ],
+   [
+    "El Eulma",
+    "العلمة",
+    "Ain El Berda",
+    "عين الباردة"
+   ],
+   [
+    "El Hadjar",
+    "الحجار",
+    "El Hadjar",
+    "الحجار"
+   ],
+   [
+    "Oued El Aneb",
+    "واد العنب",
+    "Berrahal",
+    "برحال"
+   ],
+   [
+    "Seraidi",
+    "سرايدي",
+    "Annaba",
+    "عنابة"
+   ],
+   [
+    "Sidi Amar",
+    "سيدي عمار",
+    "El Hadjar",
+    "الحجار"
+   ],
+   [
+    "Treat",
+    "التريعات",
+    "Berrahal",
+    "برحال"
+   ]
+  ],
+  "24": [
+   [
+    "Ain Ben Beida",
+    "عين بن بيضاء",
+    "Bouchegouf",
+    "بوشقوف"
+   ],
+   [
+    "Ain Larbi",
+    "عين العربي",
+    "Ain Makhlouf",
+    "عين مخلوف"
+   ],
+   [
+    "Ain Makhlouf",
+    "عين مخلوف",
+    "Ain Makhlouf",
+    "عين مخلوف"
+   ],
+   [
+    "Ain Regada",
+    "عين رقادة",
+    "Oued Zenati",
+    "وادي الزناتي"
+   ],
+   [
+    "Ain Sandel",
+    "عين صندل",
+    "Khezaras",
+    "خزارة"
+   ],
+   [
+    "Belkheir",
+    "بلخير",
+    "Guelaat Bousbaa",
+    "قلعة بوصبع"
+   ],
+   [
+    "Bendjarah",
+    "بن جراح",
+    "Guelma",
+    "قالمة"
+   ],
+   [
+    "Beni Mezline",
+    "بني مزلين",
+    "Guelaat Bousbaa",
+    "قلعة بوصبع"
+   ],
+   [
+    "Bordj Sabath",
+    "برج صباط",
+    "Oued Zenati",
+    "وادي الزناتي"
+   ],
+   [
+    "Bou Hachana",
+    "بوحشانة",
+    "Khezaras",
+    "خزارة"
+   ],
+   [
+    "Bou Hamdane",
+    "بوحمدان",
+    "Hammam Debagh",
+    "حمام دباغ"
+   ],
+   [
+    "Bouati Mahmoud",
+    "بوعاتي محمود",
+    "Heliopolis",
+    "هيليوبوليس"
+   ],
+   [
+    "Bouchegouf",
+    "بوشقوف",
+    "Bouchegouf",
+    "بوشقوف"
+   ],
+   [
+    "Boumahra Ahmed",
+    "بومهرة أحمد",
+    "Guelaat Bousbaa",
+    "قلعة بوصبع"
+   ],
+   [
+    "Dahouara",
+    "الدهوارة",
+    "Hammam N'bails",
+    "حمام النبايل"
+   ],
+   [
+    "Djeballah Khemissi",
+    "جبالة الخميسي",
+    "Guelaat Bousbaa",
+    "قلعة بوصبع"
+   ],
+   [
+    "El Fedjoudj",
+    "الفجوج",
+    "Heliopolis",
+    "هيليوبوليس"
+   ],
+   [
+    "Guelaat Bou Sbaa",
+    "قلعة بوصبع",
+    "Guelaat Bousbaa",
+    "قلعة بوصبع"
+   ],
+   [
+    "Guelma",
+    "قالمة",
+    "Guelma",
+    "قالمة"
+   ],
+   [
+    "Hammam Debagh",
+    "حمام دباغ",
+    "Hammam Debagh",
+    "حمام دباغ"
+   ],
+   [
+    "Hammam N'bail",
+    "حمام النبايل",
+    "Hammam N'bails",
+    "حمام النبايل"
+   ],
+   [
+    "Heliopolis",
+    "هيليوبوليس",
+    "Heliopolis",
+    "هيليوبوليس"
+   ],
+   [
+    "Houari Boumedienne",
+    "هواري بومدين",
+    "Ain Hessainia",
+    "عين حساينية"
+   ],
+   [
+    "Khezaras",
+    "لخزارة",
+    "Khezaras",
+    "خزارة"
+   ],
+   [
+    "Medjez Amar",
+    "مجاز عمار",
+    "Ain Hessainia",
+    "عين حساينية"
+   ],
+   [
+    "Medjez Sfa",
+    "مجاز الصفاء",
+    "Bouchegouf",
+    "بوشقوف"
+   ],
+   [
+    "Nechmaya",
+    "نشماية",
+    "Guelaat Bousbaa",
+    "قلعة بوصبع"
+   ],
+   [
+    "Oued Cheham",
+    "وادي الشحم",
+    "Hammam N'bails",
+    "حمام النبايل"
+   ],
+   [
+    "Oued Ferragha",
+    "وادي فراغة",
+    "Bouchegouf",
+    "بوشقوف"
+   ],
+   [
+    "Oued Zenati",
+    "وادي الزناتي",
+    "Oued Zenati",
+    "وادي الزناتي"
+   ],
+   [
+    "Ras El Agba",
+    "رأس العقبة",
+    "Ain Hessainia",
+    "عين حساينية"
+   ],
+   [
+    "Roknia",
+    "الركنية",
+    "Hammam Debagh",
+    "حمام دباغ"
+   ],
+   [
+    "Sellaoua Announa",
+    "سلاوة عنونة",
+    "Ain Hessainia",
+    "عين حساينية"
+   ],
+   [
+    "Tamlouka",
+    "تاملوكة",
+    "Ain Makhlouf",
+    "عين مخلوف"
+   ]
+  ],
+  "25": [
+   [
+    "Ain Abid",
+    "عين عبيد",
+    "Ain Abid",
+    "عين عبيد"
+   ],
+   [
+    "Ain Smara",
+    "عين السمارة",
+    "El Khroub",
+    "الخروب"
+   ],
+   [
+    "Ben Badis",
+    "أبن باديس الهرية",
+    "Ain Abid",
+    "عين عبيد"
+   ],
+   [
+    "Beni Hamidane",
+    "بني حميدان",
+    "Zighoud Youcef",
+    "زيغود يوسف"
+   ],
+   [
+    "Constantine",
+    "قسنطينة",
+    "Constantine",
+    "قسنطينة"
+   ],
+   [
+    "Didouche Mourad",
+    "ديدوش مراد",
+    "Hamma Bouziane",
+    "حامة بوزيان"
+   ],
+   [
+    "El Khroub",
+    "الخروب",
+    "El Khroub",
+    "الخروب"
+   ],
+   [
+    "Hamma Bouziane",
+    "حامة بوزيان",
+    "Hamma Bouziane",
+    "حامة بوزيان"
+   ],
+   [
+    "Ibn Ziad",
+    "ابن زياد",
+    "Ibn Ziad",
+    "ابن زياد"
+   ],
+   [
+    "Messaoud Boudjeriou",
+    "بوجريو مسعود",
+    "Ibn Ziad",
+    "ابن زياد"
+   ],
+   [
+    "Ouled Rahmoun",
+    "أولاد رحمون",
+    "El Khroub",
+    "الخروب"
+   ],
+   [
+    "Zighoud Youcef",
+    "زيغود يوسف",
+    "Zighoud Youcef",
+    "زيغود يوسف"
+   ]
+  ],
+  "26": [
+   [
+    "Ain Boucif",
+    "عين بوسيف",
+    "Ain Boucif",
+    "عين بوسيف"
+   ],
+   [
+    "Ain Ouksir",
+    "عين اقصير",
+    "Chellalat El Adhaoura",
+    "شلالة العذاورة"
+   ],
+   [
+    "Aissaouia",
+    "العيساوية",
+    "Tablat",
+    "تابلاط"
+   ],
+   [
+    "Aziz",
+    "عزيز",
+    "Aziz",
+    "عزيز"
+   ],
+   [
+    "Baata",
+    "بعطة",
+    "El Omaria",
+    "العمارية"
+   ],
+   [
+    "Ben Chicao",
+    "بن شكاو",
+    "Ouzera",
+    "وزرة"
+   ],
+   [
+    "Beni Slimane",
+    "بني سليمان",
+    "Beni Slimane",
+    "بني سليمان"
+   ],
+   [
+    "Berrouaghia",
+    "البرواقية",
+    "Berrouaghia",
+    "البرواقية"
+   ],
+   [
+    "Bir Ben Laabed",
+    "بئر بن عابد",
+    "Guelb El Kebir",
+    "القلب الكبير"
+   ],
+   [
+    "Boghar",
+    "بوغار",
+    "Ouled Antar",
+    "أولاد عنتر"
+   ],
+   [
+    "Bouaiche",
+    "بوعيش",
+    "Chahbounia",
+    "الشهبونية"
+   ],
+   [
+    "Bouaichoune",
+    "بوعيشون",
+    "Si Mahdjoub",
+    "سي المحجوب"
+   ],
+   [
+    "Bouchrahil",
+    "بوشراحيل",
+    "Sidi Naamane",
+    "سيدي نعمان"
+   ],
+   [
+    "Boughzoul",
+    "بوغزول",
+    "Chahbounia",
+    "الشهبونية"
+   ],
+   [
+    "Bouskene",
+    "بوسكن",
+    "Beni Slimane",
+    "بني سليمان"
+   ],
+   [
+    "Chabounia",
+    "الشهبونية",
+    "Chahbounia",
+    "الشهبونية"
+   ],
+   [
+    "Chelalet El Adhaoura",
+    "شلالة العذاورة",
+    "Chellalat El Adhaoura",
+    "شلالة العذاورة"
+   ],
+   [
+    "Cheniguel",
+    "شنيقل",
+    "Chellalat El Adhaoura",
+    "شلالة العذاورة"
+   ],
+   [
+    "Derrag",
+    "دراق",
+    "Aziz",
+    "عزيز"
+   ],
+   [
+    "Djouab",
+    "جواب",
+    "Souaghi",
+    "السواقي"
+   ],
+   [
+    "Draa Esmar",
+    "ذراع السمار",
+    "Medea",
+    "المدية"
+   ],
+   [
+    "El Azizia",
+    "العزيزية",
+    "El Azizia",
+    "العزيزية"
+   ],
+   [
+    "El Guelbelkebir",
+    "القلب الكبير",
+    "Guelb El Kebir",
+    "القلب الكبير"
+   ],
+   [
+    "El Hamdania",
+    "الحمدانية",
+    "Ouzera",
+    "وزرة"
+   ],
+   [
+    "El Haoudane",
+    "الحوضان",
+    "Tablat",
+    "تابلاط"
+   ],
+   [
+    "El Omaria",
+    "العمارية",
+    "El Omaria",
+    "العمارية"
+   ],
+   [
+    "El Ouinet",
+    "العوينات",
+    "Ain Boucif",
+    "عين بوسيف"
+   ],
+   [
+    "Hannacha",
+    "حناشة",
+    "Ouamri",
+    "عوامري"
+   ],
+   [
+    "Kef Lakhdar",
+    "الكاف الاخضر",
+    "Ain Boucif",
+    "عين بوسيف"
+   ],
+   [
+    "Khams Djouamaa",
+    "خمس جوامع",
+    "Sidi Naamane",
+    "سيدي نعمان"
+   ],
+   [
+    "Ksar El Boukhari",
+    "قصر البخاري",
+    "Ksar El Boukhari",
+    "قصر البخاري"
+   ],
+   [
+    "M'fatha",
+    "مفاتحة",
+    "Ksar El Boukhari",
+    "قصر البخاري"
+   ],
+   [
+    "Maghraoua",
+    "مغراوة",
+    "El Azizia",
+    "العزيزية"
+   ],
+   [
+    "Medea",
+    "المدية",
+    "Medea",
+    "المدية"
+   ],
+   [
+    "Medjebar",
+    "مجبر",
+    "Seghouane",
+    "سغوان"
+   ],
+   [
+    "Mezerana",
+    "مزغنة",
+    "Tablat",
+    "تابلاط"
+   ],
+   [
+    "Mihoub",
+    "ميهوب",
+    "El Azizia",
+    "العزيزية"
+   ],
+   [
+    "Ouamri",
+    "عوامري",
+    "Ouamri",
+    "عوامري"
+   ],
+   [
+    "Oued Harbil",
+    "وادي حربيل",
+    "Ouamri",
+    "عوامري"
+   ],
+   [
+    "Ouled Antar",
+    "أولاد عنتر",
+    "Ouled Antar",
+    "أولاد عنتر"
+   ],
+   [
+    "Ouled Bouachra",
+    "أولاد بوعشرة",
+    "Si Mahdjoub",
+    "سي المحجوب"
+   ],
+   [
+    "Ouled Brahim",
+    "أولاد إبراهيم",
+    "El Omaria",
+    "العمارية"
+   ],
+   [
+    "Ouled Deid",
+    "أولاد دايد",
+    "Berrouaghia",
+    "البرواقية"
+   ],
+   [
+    "Ouled Emaaraf",
+    "أولاد امعرف",
+    "Ain Boucif",
+    "عين بوسيف"
+   ],
+   [
+    "Ouled Hellal",
+    "أولاد هلال",
+    "Ouled Antar",
+    "أولاد عنتر"
+   ],
+   [
+    "Oum El Djellil",
+    "أم الجليل",
+    "Aziz",
+    "عزيز"
+   ],
+   [
+    "Ouzera",
+    "وزرة",
+    "Ouzera",
+    "وزرة"
+   ],
+   [
+    "Rebaia",
+    "الربعية",
+    "Berrouaghia",
+    "البرواقية"
+   ],
+   [
+    "Saneg",
+    "السانق",
+    "Ksar El Boukhari",
+    "قصر البخاري"
+   ],
+   [
+    "Sedraya",
+    "سدراية",
+    "Guelb El Kebir",
+    "القلب الكبير"
+   ],
+   [
+    "Seghouane",
+    "سغوان",
+    "Seghouane",
+    "سغوان"
+   ],
+   [
+    "Si Mahdjoub",
+    "سي المحجوب",
+    "Si Mahdjoub",
+    "سي المحجوب"
+   ],
+   [
+    "Sidi Demed",
+    "سيدي دامد",
+    "Ain Boucif",
+    "عين بوسيف"
+   ],
+   [
+    "Sidi Naamane",
+    "سيدي نعمان",
+    "Sidi Naamane",
+    "سيدي نعمان"
+   ],
+   [
+    "Sidi Rabie",
+    "سيدي الربيع",
+    "Beni Slimane",
+    "بني سليمان"
+   ],
+   [
+    "Sidi Zahar",
+    "سيدي زهار",
+    "Souaghi",
+    "السواقي"
+   ],
+   [
+    "Sidi Ziane",
+    "سيدي زيان",
+    "Souaghi",
+    "السواقي"
+   ],
+   [
+    "Souagui",
+    "السواقي",
+    "Souaghi",
+    "السواقي"
+   ],
+   [
+    "Tablat",
+    "تابلاط",
+    "Tablat",
+    "تابلاط"
+   ],
+   [
+    "Tafraout",
+    "تفراوت",
+    "Chellalat El Adhaoura",
+    "شلالة العذاورة"
+   ],
+   [
+    "Tamesguida",
+    "تمسقيدة",
+    "Medea",
+    "المدية"
+   ],
+   [
+    "Tizi Mahdi",
+    "تيزي مهدي",
+    "Ouzera",
+    "وزرة"
+   ],
+   [
+    "Tletat Ed Douair",
+    "ثلاث دوائر",
+    "Seghouane",
+    "سغوان"
+   ],
+   [
+    "Zoubiria",
+    "الزبيرية",
+    "Seghouane",
+    "سغوان"
+   ]
+  ],
+  "27": [
+   [
+    "Achaacha",
+    "عشعاشة",
+    "Achaacha",
+    "عشعاشة"
+   ],
+   [
+    "Ain-Boudinar",
+    "عين بودينار",
+    "Kheir Eddine",
+    "خير الدين"
+   ],
+   [
+    "Ain-Nouissy",
+    "عين نويسي",
+    "Ain Nouicy",
+    "عين نويسي"
+   ],
+   [
+    "Ain-Sidi Cherif",
+    "عين سيدي الشريف",
+    "Mesra",
+    "ماسرة"
+   ],
+   [
+    "Ain-Tedles",
+    "عين تادلس",
+    "Ain Tedeles",
+    "عين تادلس"
+   ],
+   [
+    "Benabdelmalek Ramdane",
+    "بن عبد المالك رمضان",
+    "Sidi Lakhdar",
+    "سيدي لخضر"
+   ],
+   [
+    "Bouguirat",
+    "بوقيراط",
+    "Bouguirat",
+    "بوقيراط"
+   ],
+   [
+    "Fornaka",
+    "فرناقة",
+    "Ain Nouicy",
+    "عين نويسي"
+   ],
+   [
+    "Hadjadj",
+    "حجاج",
+    "Sidi Lakhdar",
+    "سيدي لخضر"
+   ],
+   [
+    "Hassi Mameche",
+    "حاسي ماماش",
+    "Hassi Mameche",
+    "حاسي ماماش"
+   ],
+   [
+    "Hassiane",
+    "الحسيان (بني ياحي",
+    "Ain Nouicy",
+    "عين نويسي"
+   ],
+   [
+    "Khadra",
+    "خضرة",
+    "Achaacha",
+    "عشعاشة"
+   ],
+   [
+    "Kheir-Eddine",
+    "خير الدين",
+    "Kheir Eddine",
+    "خير الدين"
+   ],
+   [
+    "Mansourah",
+    "منصورة",
+    "Mesra",
+    "ماسرة"
+   ],
+   [
+    "Mazagran",
+    "مزغران",
+    "Hassi Mameche",
+    "حاسي ماماش"
+   ],
+   [
+    "Mesra",
+    "ماسرة",
+    "Mesra",
+    "ماسرة"
+   ],
+   [
+    "Mostaganem",
+    "مستغانم",
+    "Mostaganem",
+    "مستغانم"
+   ],
+   [
+    "Nekmaria",
+    "نكمارية",
+    "Achaacha",
+    "عشعاشة"
+   ],
+   [
+    "Oued El Kheir",
+    "وادي الخير",
+    "Ain Tedeles",
+    "عين تادلس"
+   ],
+   [
+    "Ouled Boughalem",
+    "أولاد بوغالم",
+    "Achaacha",
+    "عشعاشة"
+   ],
+   [
+    "Ouled-Maalah",
+    "أولاد مع الله",
+    "Sidi Ali",
+    "سيدي علي"
+   ],
+   [
+    "Safsaf",
+    "صفصاف",
+    "Bouguirat",
+    "بوقيراط"
+   ],
+   [
+    "Sayada",
+    "صيادة",
+    "Kheir Eddine",
+    "خير الدين"
+   ],
+   [
+    "Sidi Ali",
+    "سيدي علي",
+    "Sidi Ali",
+    "سيدي علي"
+   ],
+   [
+    "Sidi Belaattar",
+    "سيدي بلعطار",
+    "Ain Tedeles",
+    "عين تادلس"
+   ],
+   [
+    "Sidi-Lakhdar",
+    "سيدي لخضر",
+    "Sidi Lakhdar",
+    "سيدي لخضر"
+   ],
+   [
+    "Sirat",
+    "سيرات",
+    "Bouguirat",
+    "بوقيراط"
+   ],
+   [
+    "Souaflia",
+    "السوافلية",
+    "Bouguirat",
+    "بوقيراط"
+   ],
+   [
+    "Sour",
+    "سور",
+    "Ain Tedeles",
+    "عين تادلس"
+   ],
+   [
+    "Stidia",
+    "ستيدية",
+    "Hassi Mameche",
+    "حاسي ماماش"
+   ],
+   [
+    "Tazgait",
+    "تزقايت",
+    "Sidi Ali",
+    "سيدي علي"
+   ],
+   [
+    "Touahria",
+    "الطواهرية",
+    "Mesra",
+    "ماسرة"
+   ]
+  ],
+  "28": [
+   [
+    "Ain El Hadjel",
+    "عين الحجل",
+    "Ain El Hadjel",
+    "عين الحجل"
+   ],
+   [
+    "Ain El Melh",
+    "عين الملح",
+    "Ain El Melh",
+    "عين الملح"
+   ],
+   [
+    "Ain Fares",
+    "عين فارس",
+    "Ain El Melh",
+    "عين الملح"
+   ],
+   [
+    "Ain Khadra",
+    "عين الخضراء",
+    "Magra",
+    "مقرة"
+   ],
+   [
+    "Ain Rich",
+    "عين الريش",
+    "Ain El Melh",
+    "عين الملح"
+   ],
+   [
+    "Belaiba",
+    "بلعايبة",
+    "Magra",
+    "مقرة"
+   ],
+   [
+    "Ben Srour",
+    "بن سرور",
+    "Ben Srour",
+    "بن سرور"
+   ],
+   [
+    "Beni Ilmane",
+    "بني يلمان",
+    "Sidi Aissa",
+    "سيدي عيسى"
+   ],
+   [
+    "Benzouh",
+    "بن زوه",
+    "Ouled Sidi Brahim",
+    "أولاد سيدي ابراهيم"
+   ],
+   [
+    "Berhoum",
+    "برهوم",
+    "Magra",
+    "مقرة"
+   ],
+   [
+    "Bir Foda",
+    "بئر فضة",
+    "Ain El Melh",
+    "عين الملح"
+   ],
+   [
+    "Bou Saada",
+    "بوسعادة",
+    "Bousaada",
+    "بوسعادة"
+   ],
+   [
+    "Bouti Sayeh",
+    "بوطي السايح",
+    "Sidi Aissa",
+    "سيدي عيسى"
+   ],
+   [
+    "Chellal",
+    "شلال",
+    "Chellal",
+    "شلال"
+   ],
+   [
+    "Dehahna",
+    "دهاهنة",
+    "Magra",
+    "مقرة"
+   ],
+   [
+    "Djebel Messaad",
+    "جبل مساعد",
+    "Djebel Messaad",
+    "جبل مساعد"
+   ],
+   [
+    "El Hamel",
+    "الهامل",
+    "Bousaada",
+    "بوسعادة"
+   ],
+   [
+    "El Houamed",
+    "الحوامد",
+    "Khoubana",
+    "خبانة"
+   ],
+   [
+    "Hammam Dalaa",
+    "حمام الضلعة",
+    "Hammam Dalaa",
+    "حمام الضلعة"
+   ],
+   [
+    "Khettouti Sed-El-Jir",
+    "خطوطي سد الجير",
+    "Chellal",
+    "شلال"
+   ],
+   [
+    "Khoubana",
+    "خبانة",
+    "Khoubana",
+    "خبانة"
+   ],
+   [
+    "M'cif",
+    "مسيف",
+    "Khoubana",
+    "خبانة"
+   ],
+   [
+    "M'sila",
+    "المسيلة",
+    "M'sila",
+    "المسيلة"
+   ],
+   [
+    "M'tarfa",
+    "المطارفة",
+    "Ouled Derradj",
+    "أولاد دراج"
+   ],
+   [
+    "Maadid",
+    "المعاضيد",
+    "Ouled Derradj",
+    "أولاد دراج"
+   ],
+   [
+    "Maarif",
+    "معاريف",
+    "Chellal",
+    "شلال"
+   ],
+   [
+    "Magra",
+    "مقرة",
+    "Magra",
+    "مقرة"
+   ],
+   [
+    "Medjedel",
+    "امجدل",
+    "Medjedel",
+    "امجدل"
+   ],
+   [
+    "Menaa",
+    "مناعة",
+    "Medjedel",
+    "امجدل"
+   ],
+   [
+    "Mohamed Boudiaf",
+    "محمد بوضياف",
+    "Ben Srour",
+    "بن سرور"
+   ],
+   [
+    "Ouanougha",
+    "ونوغة",
+    "Hammam Dalaa",
+    "حمام الضلعة"
+   ],
+   [
+    "Ouled Addi Guebala",
+    "أولاد عدي لقبالة",
+    "Ouled Derradj",
+    "أولاد دراج"
+   ],
+   [
+    "Ouled Derradj",
+    "أولاد دراج",
+    "Ouled Derradj",
+    "أولاد دراج"
+   ],
+   [
+    "Ouled Madhi",
+    "أولاد ماضي",
+    "Chellal",
+    "شلال"
+   ],
+   [
+    "Ouled Mansour",
+    "أولاد منصور",
+    "Hammam Dalaa",
+    "حمام الضلعة"
+   ],
+   [
+    "Ouled Sidi Brahim",
+    "أولاد سيدي ابراهيم",
+    "Ouled Sidi Brahim",
+    "أولاد سيدي ابراهيم"
+   ],
+   [
+    "Ouled Slimane",
+    "أولاد سليمان",
+    "Ben Srour",
+    "بن سرور"
+   ],
+   [
+    "Oulteme",
+    "ولتام",
+    "Bousaada",
+    "بوسعادة"
+   ],
+   [
+    "Sidi Aissa",
+    "سيدي عيسى",
+    "Sidi Aissa",
+    "سيدي عيسى"
+   ],
+   [
+    "Sidi Ameur",
+    "سيدي عامر",
+    "Sidi Ameur",
+    "سيدي عامر"
+   ],
+   [
+    "Sidi Hadjeres",
+    "سيدي هجرس",
+    "Ain El Hadjel",
+    "عين الحجل"
+   ],
+   [
+    "Sidi M'hamed",
+    "سيدي امحمد",
+    "Ain El Melh",
+    "عين الملح"
+   ],
+   [
+    "Slim",
+    "سليم",
+    "Djebel Messaad",
+    "جبل مساعد"
+   ],
+   [
+    "Souamaa",
+    "السوامع",
+    "Ouled Derradj",
+    "أولاد دراج"
+   ],
+   [
+    "Tamsa",
+    "تامسة",
+    "Sidi Ameur",
+    "سيدي عامر"
+   ],
+   [
+    "Tarmount",
+    "تارمونت",
+    "Hammam Dalaa",
+    "حمام الضلعة"
+   ],
+   [
+    "Zarzour",
+    "زرزور",
+    "Ben Srour",
+    "بن سرور"
+   ]
+  ],
+  "29": [
+   [
+    "Ain Fares",
+    "عين فارس",
+    "Ain Fares",
+    "عين فارس"
+   ],
+   [
+    "Ain Fekan",
+    "عين فكان",
+    "Ain Fekan",
+    "عين فكان"
+   ],
+   [
+    "Ain Ferah",
+    "عين فراح",
+    "Oued El Abtal",
+    "وادي الأبطال"
+   ],
+   [
+    "Ain Frass",
+    "عين أفرص",
+    "Ain Fekan",
+    "عين فكان"
+   ],
+   [
+    "Alaimia",
+    "العلايمية",
+    "Oggaz",
+    "عقاز"
+   ],
+   [
+    "Aouf",
+    "عوف",
+    "Aouf",
+    "عوف"
+   ],
+   [
+    "Benian",
+    "بنيان",
+    "Aouf",
+    "عوف"
+   ],
+   [
+    "Bou Henni",
+    "بوهني",
+    "Sig",
+    "سيق"
+   ],
+   [
+    "Bouhanifia",
+    "بوحنيفية",
+    "Bouhanifia",
+    "بوحنيفية"
+   ],
+   [
+    "Chorfa",
+    "الشرفاء",
+    "Sig",
+    "سيق"
+   ],
+   [
+    "El Bordj",
+    "البرج",
+    "El Bordj",
+    "البرج"
+   ],
+   [
+    "El Gaada",
+    "القعدة",
+    "Zahana",
+    "زهانة"
+   ],
+   [
+    "El Ghomri",
+    "الغمري",
+    "Mohammadia",
+    "المحمدية"
+   ],
+   [
+    "El Gueitena",
+    "القطنة",
+    "Bouhanifia",
+    "بوحنيفية"
+   ],
+   [
+    "El Hachem",
+    "الحشم",
+    "Hachem",
+    "الحشم"
+   ],
+   [
+    "El Keurt",
+    "القرط",
+    "Tizi",
+    "تيزي"
+   ],
+   [
+    "El Mamounia",
+    "المأمونية",
+    "Ain Fares",
+    "عين فارس"
+   ],
+   [
+    "El Menaouer",
+    "المنور",
+    "El Bordj",
+    "البرج"
+   ],
+   [
+    "Ferraguig",
+    "فراقيق",
+    "Mohammadia",
+    "المحمدية"
+   ],
+   [
+    "Froha",
+    "فروحة",
+    "Tizi",
+    "تيزي"
+   ],
+   [
+    "Gharrous",
+    "غروس",
+    "Aouf",
+    "عوف"
+   ],
+   [
+    "Ghriss",
+    "غريس",
+    "Ghriss",
+    "غريس"
+   ],
+   [
+    "Guerdjoum",
+    "قرجوم",
+    "Oued Taria",
+    "وادي التاغية"
+   ],
+   [
+    "Hacine",
+    "حسين",
+    "Bouhanifia",
+    "بوحنيفية"
+   ],
+   [
+    "Khalouia",
+    "خلوية",
+    "El Bordj",
+    "البرج"
+   ],
+   [
+    "Makhda",
+    "ماقضة",
+    "Ghriss",
+    "غريس"
+   ],
+   [
+    "Maoussa",
+    "ماوسة",
+    "Ghriss",
+    "غريس"
+   ],
+   [
+    "Mascara",
+    "معسكر",
+    "Mascara",
+    "معسكر"
+   ],
+   [
+    "Matemore",
+    "المطمور",
+    "Ghriss",
+    "غريس"
+   ],
+   [
+    "Mocta-Douz",
+    "مقطع الدوز",
+    "Mohammadia",
+    "المحمدية"
+   ],
+   [
+    "Mohammadia",
+    "المحمدية",
+    "Mohammadia",
+    "المحمدية"
+   ],
+   [
+    "Nesmot",
+    "نسمط",
+    "Hachem",
+    "الحشم"
+   ],
+   [
+    "Oggaz",
+    "عقاز",
+    "Oggaz",
+    "عقاز"
+   ],
+   [
+    "Oued El Abtal",
+    "وادي الأبطال",
+    "Oued El Abtal",
+    "وادي الأبطال"
+   ],
+   [
+    "Oued Taria",
+    "وادي التاغية",
+    "Oued Taria",
+    "وادي التاغية"
+   ],
+   [
+    "Ras El Ain Amirouche",
+    "رأس عين عميروش",
+    "Oggaz",
+    "عقاز"
+   ],
+   [
+    "Sedjerara",
+    "سجرارة",
+    "Mohammadia",
+    "المحمدية"
+   ],
+   [
+    "Sehailia",
+    "السهايلية",
+    "Tighennif",
+    "تيغنيف"
+   ],
+   [
+    "Sidi Abdeldjebar",
+    "سيدي عبد الجبار",
+    "Oued El Abtal",
+    "وادي الأبطال"
+   ],
+   [
+    "Sidi Abdelmoumene",
+    "سيدي عبد المومن",
+    "Mohammadia",
+    "المحمدية"
+   ],
+   [
+    "Sidi Boussaid",
+    "سيدي بوسعيد",
+    "Ghriss",
+    "غريس"
+   ],
+   [
+    "Sidi Kada",
+    "سيدي قادة",
+    "Tighennif",
+    "تيغنيف"
+   ],
+   [
+    "Sig",
+    "سيق",
+    "Sig",
+    "سيق"
+   ],
+   [
+    "Tighennif",
+    "تيغنيف",
+    "Tighennif",
+    "تيغنيف"
+   ],
+   [
+    "Tizi",
+    "تيزي",
+    "Tizi",
+    "تيزي"
+   ],
+   [
+    "Zahana",
+    "زهانة",
+    "Zahana",
+    "زهانة"
+   ],
+   [
+    "Zelamta",
+    "زلامطة",
+    "Hachem",
+    "الحشم"
+   ]
+  ],
+  "30": [
+   [
+    "Ain Beida",
+    "عين البيضاء",
+    "Sidi Khouiled",
+    "سيدي خويلد"
+   ],
+   [
+    "El Borma",
+    "البرمة",
+    "El Borma",
+    "البرمة"
+   ],
+   [
+    "Hassi Ben Abdellah",
+    "حاسي بن عبد الله",
+    "Sidi Khouiled",
+    "سيدي خويلد"
+   ],
+   [
+    "Hassi Messaoud",
+    "حاسي مسعود",
+    "Hassi Messaoud",
+    "حاسي مسعود"
+   ],
+   [
+    "N'goussa",
+    "انقوسة",
+    "N'goussa",
+    "انقوسة"
+   ],
+   [
+    "Ouargla",
+    "ورقلة",
+    "Ouargla",
+    "ورقلة"
+   ],
+   [
+    "Rouissat",
+    "الرويسات",
+    "Ouargla",
+    "ورقلة"
+   ],
+   [
+    "Sidi Khouiled",
+    "سيدي خويلد",
+    "Sidi Khouiled",
+    "سيدي خويلد"
+   ]
+  ],
+  "31": [
+   [
+    "Ain Biya",
+    "عين البية",
+    "Bethioua",
+    "بطيوة"
+   ],
+   [
+    "Ain Kerma",
+    "عين الكرمة",
+    "Boutlelis",
+    "بوتليليس"
+   ],
+   [
+    "Ain Turk",
+    "عين الترك",
+    "Ain Turk",
+    "عين الترك"
+   ],
+   [
+    "Arzew",
+    "أرزيو",
+    "Arzew",
+    "أرزيو"
+   ],
+   [
+    "Ben Freha",
+    "بن فريحة",
+    "Gdyel",
+    "قديل"
+   ],
+   [
+    "Bethioua",
+    "بطيوة",
+    "Bethioua",
+    "بطيوة"
+   ],
+   [
+    "Bir El Djir",
+    "بئر الجير",
+    "Bir El Djir",
+    "بئر الجير"
+   ],
+   [
+    "Boufatis",
+    "بوفاتيس",
+    "Oued Tlelat",
+    "وادي تليلات"
+   ],
+   [
+    "Bousfer",
+    "بوسفر",
+    "Ain Turk",
+    "عين الترك"
+   ],
+   [
+    "Boutlelis",
+    "بوتليليس",
+    "Boutlelis",
+    "بوتليليس"
+   ],
+   [
+    "El Ancor",
+    "العنصر",
+    "Ain Turk",
+    "عين الترك"
+   ],
+   [
+    "El Braya",
+    "البراية",
+    "Oued Tlelat",
+    "وادي تليلات"
+   ],
+   [
+    "El Kerma",
+    "الكرمة",
+    "Es Senia",
+    "السانية"
+   ],
+   [
+    "Es Senia",
+    "السانية",
+    "Es Senia",
+    "السانية"
+   ],
+   [
+    "Gdyel",
+    "قديل",
+    "Gdyel",
+    "قديل"
+   ],
+   [
+    "Hassi Ben Okba",
+    "حاسي بن عقبة",
+    "Bir El Djir",
+    "بئر الجير"
+   ],
+   [
+    "Hassi Bounif",
+    "حاسي بونيف",
+    "Bir El Djir",
+    "بئر الجير"
+   ],
+   [
+    "Hassi Mefsoukh",
+    "حاسي مفسوخ",
+    "Gdyel",
+    "قديل"
+   ],
+   [
+    "Marsat El Hadjadj",
+    "مرسى الحجاج",
+    "Bethioua",
+    "بطيوة"
+   ],
+   [
+    "Mers El Kebir",
+    "المرسى الكبير",
+    "Ain Turk",
+    "عين الترك"
+   ],
+   [
+    "Messerghin",
+    "مسرغين",
+    "Boutlelis",
+    "بوتليليس"
+   ],
+   [
+    "Oran",
+    "وهران",
+    "Oran",
+    "وهران"
+   ],
+   [
+    "Oued Tlelat",
+    "وادي تليلات",
+    "Oued Tlelat",
+    "وادي تليلات"
+   ],
+   [
+    "Sidi Ben Yebka",
+    "سيدي بن يبقى",
+    "Arzew",
+    "أرزيو"
+   ],
+   [
+    "Sidi Chami",
+    "سيدي الشحمي",
+    "Es Senia",
+    "السانية"
+   ],
+   [
+    "Tafraoui",
+    "طفراوي",
+    "Oued Tlelat",
+    "وادي تليلات"
+   ]
+  ],
+  "32": [
+   [
+    "Ain El Orak",
+    "عين العراك",
+    "Labiodh Sidi Cheikh",
+    "الأبيض سيدي الشيخ"
+   ],
+   [
+    "Arbaouat",
+    "اربوات",
+    "Labiodh Sidi Cheikh",
+    "الأبيض سيدي الشيخ"
+   ],
+   [
+    "Boualem",
+    "بوعلام",
+    "Boualem",
+    "بوعلام"
+   ],
+   [
+    "Bougtoub",
+    "بوقطب",
+    "Bougtoub",
+    "بوقطب"
+   ],
+   [
+    "Boussemghoun",
+    "بوسمغون",
+    "Boussemghoun",
+    "بوسمغون"
+   ],
+   [
+    "Brezina",
+    "بريزينة",
+    "Brezina",
+    "بريزينة"
+   ],
+   [
+    "Cheguig",
+    "الشقيق",
+    "Rogassa",
+    "رقاصة"
+   ],
+   [
+    "Chellala",
+    "شلالة",
+    "Chellala",
+    "شلالة"
+   ],
+   [
+    "El Bayadh",
+    "البيض",
+    "El Bayadh",
+    "البيض"
+   ],
+   [
+    "El Bnoud",
+    "البنود",
+    "Labiodh Sidi Cheikh",
+    "الأبيض سيدي الشيخ"
+   ],
+   [
+    "El Kheiter",
+    "الخيثر",
+    "Bougtoub",
+    "بوقطب"
+   ],
+   [
+    "El Mehara",
+    "المحرة",
+    "Chellala",
+    "شلالة"
+   ],
+   [
+    "Ghassoul",
+    "الغاسول",
+    "Brezina",
+    "بريزينة"
+   ],
+   [
+    "Kef El Ahmar",
+    "الكاف الأحمر",
+    "Rogassa",
+    "رقاصة"
+   ],
+   [
+    "Krakda",
+    "كراكدة",
+    "Brezina",
+    "بريزينة"
+   ],
+   [
+    "Labiodh Sidi Cheikh",
+    "الأبيض سيدي الشيخ",
+    "Labiodh Sidi Cheikh",
+    "الأبيض سيدي الشيخ"
+   ],
+   [
+    "Rogassa",
+    "رقاصة",
+    "Rogassa",
+    "رقاصة"
+   ],
+   [
+    "Sidi Ameur",
+    "سيدي عامر",
+    "Boualem",
+    "بوعلام"
+   ],
+   [
+    "Sidi Slimane",
+    "سيدي سليمان",
+    "Boualem",
+    "بوعلام"
+   ],
+   [
+    "Sidi Tiffour",
+    "سيدي طيفور",
+    "Boualem",
+    "بوعلام"
+   ],
+   [
+    "Stitten",
+    "ستيتن",
+    "Boualem",
+    "بوعلام"
+   ],
+   [
+    "Tousmouline",
+    "توسمولين",
+    "Bougtoub",
+    "بوقطب"
+   ]
+  ],
+  "33": [
+   [
+    "Bordj Omar Driss",
+    "برج عمر إدريس",
+    "In Amenas",
+    "إن أمناس"
+   ],
+   [
+    "Debdeb",
+    "دبداب",
+    "In Amenas",
+    "إن أمناس"
+   ],
+   [
+    "Illizi",
+    "إيليزي",
+    "Illizi",
+    "إيليزي"
+   ],
+   [
+    "In Amenas",
+    "إن أمناس",
+    "In Amenas",
+    "إن أمناس"
+   ]
+  ],
+  "34": [
+   [
+    "Ain Taghrout",
+    "عين تاغروت",
+    "Ain Taghrout",
+    "عين تاغروت"
+   ],
+   [
+    "Ain Tesra",
+    "عين تسرة",
+    "Ras El Oued",
+    "رأس الوادي"
+   ],
+   [
+    "B. B. Arreridj",
+    "برج بوعريرج",
+    "Bordj Bou Arreridj",
+    "برج بوعريريج"
+   ],
+   [
+    "Belimour",
+    "بليمور",
+    "Bordj Ghedir",
+    "برج الغدير"
+   ],
+   [
+    "Ben Daoud",
+    "بن داود",
+    "Mansourah",
+    "المنصورة"
+   ],
+   [
+    "Bir Kasdali",
+    "بئر قاصد علي",
+    "Bir Kasdali",
+    "بئر قاصد علي"
+   ],
+   [
+    "Bordj Ghedir",
+    "برج الغدير",
+    "Bordj Ghedir",
+    "برج الغدير"
+   ],
+   [
+    "Bordj Zemmoura",
+    "برج زمورة",
+    "Bordj Zemmoura",
+    "برج زمورة"
+   ],
+   [
+    "Colla",
+    "القلة",
+    "Djaafra",
+    "جعافرة"
+   ],
+   [
+    "Djaafra",
+    "جعافرة",
+    "Djaafra",
+    "جعافرة"
+   ],
+   [
+    "El Achir",
+    "الياشير",
+    "Medjana",
+    "مجانة"
+   ],
+   [
+    "El Annasseur",
+    "العناصر",
+    "Bordj Ghedir",
+    "برج الغدير"
+   ],
+   [
+    "El Euch",
+    "العش",
+    "El Hamadia",
+    "الحمادية"
+   ],
+   [
+    "El M'hir",
+    "المهير",
+    "Mansourah",
+    "المنصورة"
+   ],
+   [
+    "El Main",
+    "الماين",
+    "Djaafra",
+    "جعافرة"
+   ],
+   [
+    "Elhammadia",
+    "الحمادية",
+    "El Hamadia",
+    "الحمادية"
+   ],
+   [
+    "Ghailasa",
+    "غيلاسة",
+    "Bordj Ghedir",
+    "برج الغدير"
+   ],
+   [
+    "Haraza",
+    "حرازة",
+    "Mansourah",
+    "المنصورة"
+   ],
+   [
+    "Hasnaoua",
+    "حسناوة",
+    "Medjana",
+    "مجانة"
+   ],
+   [
+    "Khelil",
+    "خليل",
+    "Bir Kasdali",
+    "بئر قاصد علي"
+   ],
+   [
+    "Ksour",
+    "القصور",
+    "El Hamadia",
+    "الحمادية"
+   ],
+   [
+    "Mansoura",
+    "المنصورة",
+    "Mansourah",
+    "المنصورة"
+   ],
+   [
+    "Medjana",
+    "مجانة",
+    "Medjana",
+    "مجانة"
+   ],
+   [
+    "Ouled Brahem",
+    "أولاد أبراهم",
+    "Ras El Oued",
+    "رأس الوادي"
+   ],
+   [
+    "Ouled Dahmane",
+    "أولاد دحمان",
+    "Bordj Zemmoura",
+    "برج زمورة"
+   ],
+   [
+    "Ouled Sidi-Brahim",
+    "أولاد سيدي ابراهيم",
+    "Mansourah",
+    "المنصورة"
+   ],
+   [
+    "Rabta",
+    "الرابطة",
+    "El Hamadia",
+    "الحمادية"
+   ],
+   [
+    "Ras El Oued",
+    "رأس الوادي",
+    "Ras El Oued",
+    "رأس الوادي"
+   ],
+   [
+    "Sidi-Embarek",
+    "سيدي أمبارك",
+    "Bir Kasdali",
+    "بئر قاصد علي"
+   ],
+   [
+    "Taglait",
+    "تقلعيت",
+    "Bordj Ghedir",
+    "برج الغدير"
+   ],
+   [
+    "Tassamert",
+    "تسامرت",
+    "Bordj Zemmoura",
+    "برج زمورة"
+   ],
+   [
+    "Tefreg",
+    "تفرق",
+    "Djaafra",
+    "جعافرة"
+   ],
+   [
+    "Teniet En Nasr",
+    "ثنية النصر",
+    "Medjana",
+    "مجانة"
+   ],
+   [
+    "Tixter",
+    "تيكستار",
+    "Ain Taghrout",
+    "عين تاغروت"
+   ]
+  ],
+  "35": [
+   [
+    "Afir",
+    "أعفير",
+    "Dellys",
+    "دلس"
+   ],
+   [
+    "Ammal",
+    "عمال",
+    "Thenia",
+    "الثنية"
+   ],
+   [
+    "Baghlia",
+    "بغلية",
+    "Baghlia",
+    "بغلية"
+   ],
+   [
+    "Ben Choud",
+    "بن شود",
+    "Dellys",
+    "دلس"
+   ],
+   [
+    "Beni Amrane",
+    "بني عمران",
+    "Thenia",
+    "الثنية"
+   ],
+   [
+    "Bordj Menaiel",
+    "برج منايل",
+    "Bordj Menaiel",
+    "برج منايل"
+   ],
+   [
+    "Boudouaou",
+    "بودواو",
+    "Boudouaou",
+    "بودواو"
+   ],
+   [
+    "Boudouaou El Bahri",
+    "بودواو البحري",
+    "Boudouaou",
+    "بودواو"
+   ],
+   [
+    "Boumerdes",
+    "بومرداس",
+    "Boumerdes",
+    "بومرداس"
+   ],
+   [
+    "Bouzegza Keddara",
+    "بوزقزة قدارة",
+    "Boudouaou",
+    "بودواو"
+   ],
+   [
+    "Chabet El Ameur",
+    "شعبة العامر",
+    "Isser",
+    "يسر"
+   ],
+   [
+    "Corso",
+    "قورصو",
+    "Boumerdes",
+    "بومرداس"
+   ],
+   [
+    "Dellys",
+    "دلس",
+    "Dellys",
+    "دلس"
+   ],
+   [
+    "Djinet",
+    "جنات",
+    "Bordj Menaiel",
+    "برج منايل"
+   ],
+   [
+    "El Kharrouba",
+    "الخروبة",
+    "Boudouaou",
+    "بودواو"
+   ],
+   [
+    "Hammedi",
+    "حمادي",
+    "Khemis El Khechna",
+    "خميس الخشنة"
+   ],
+   [
+    "Isser",
+    "يسر",
+    "Isser",
+    "يسر"
+   ],
+   [
+    "Khemis El Khechna",
+    "خميس الخشنة",
+    "Khemis El Khechna",
+    "خميس الخشنة"
+   ],
+   [
+    "Larbatache",
+    "الاربعطاش",
+    "Khemis El Khechna",
+    "خميس الخشنة"
+   ],
+   [
+    "Leghata",
+    "لقاطة",
+    "Bordj Menaiel",
+    "برج منايل"
+   ],
+   [
+    "Naciria",
+    "الناصرية",
+    "Naciria",
+    "الناصرية"
+   ],
+   [
+    "Ouled Aissa",
+    "أولاد عيسى",
+    "Naciria",
+    "الناصرية"
+   ],
+   [
+    "Ouled Hedadj",
+    "أولاد هداج",
+    "Boudouaou",
+    "بودواو"
+   ],
+   [
+    "Ouled Moussa",
+    "أولاد موسى",
+    "Khemis El Khechna",
+    "خميس الخشنة"
+   ],
+   [
+    "Si Mustapha",
+    "سي مصطفى",
+    "Isser",
+    "يسر"
+   ],
+   [
+    "Sidi Daoud",
+    "سيدي داود",
+    "Baghlia",
+    "بغلية"
+   ],
+   [
+    "Souk El Had",
+    "سوق الحد",
+    "Thenia",
+    "الثنية"
+   ],
+   [
+    "Taourga",
+    "تاورقة",
+    "Baghlia",
+    "بغلية"
+   ],
+   [
+    "Thenia",
+    "الثنية",
+    "Thenia",
+    "الثنية"
+   ],
+   [
+    "Tidjelabine",
+    "تيجلابين",
+    "Boumerdes",
+    "بومرداس"
+   ],
+   [
+    "Timezrit",
+    "تيمزريت",
+    "Isser",
+    "يسر"
+   ],
+   [
+    "Zemmouri",
+    "زموري",
+    "Bordj Menaiel",
+    "برج منايل"
+   ]
+  ],
+  "36": [
+   [
+    "Ain El Assel",
+    "عين العسل",
+    "El Tarf",
+    "الطارف"
+   ],
+   [
+    "Ain Kerma",
+    "عين الكرمة",
+    "Bouhadjar",
+    "بوحجار"
+   ],
+   [
+    "Asfour",
+    "عصفور",
+    "Besbes",
+    "البسباس"
+   ],
+   [
+    "Ben M Hidi",
+    "بن مهيدي",
+    "Ben M'hidi",
+    "بن مهيدي"
+   ],
+   [
+    "Berrihane",
+    "بريحان",
+    "Ben M'hidi",
+    "بن مهيدي"
+   ],
+   [
+    "Besbes",
+    "البسباس",
+    "Besbes",
+    "البسباس"
+   ],
+   [
+    "Bougous",
+    "بوقوس",
+    "El Tarf",
+    "الطارف"
+   ],
+   [
+    "Bouhadjar",
+    "بوحجار",
+    "Bouhadjar",
+    "بوحجار"
+   ],
+   [
+    "Bouteldja",
+    "بوثلجة",
+    "Bouteldja",
+    "بوثلجة"
+   ],
+   [
+    "Chebaita Mokhtar",
+    "شبيطة مختار",
+    "Drean",
+    "الذرعان"
+   ],
+   [
+    "Chefia",
+    "الشافية",
+    "Bouteldja",
+    "بوثلجة"
+   ],
+   [
+    "Chihani",
+    "شحاني",
+    "Drean",
+    "الذرعان"
+   ],
+   [
+    "Drean",
+    "الذرعـان",
+    "Drean",
+    "الذرعان"
+   ],
+   [
+    "Echatt",
+    "الشط",
+    "Ben M'hidi",
+    "بن مهيدي"
+   ],
+   [
+    "El Aioun",
+    "العيون",
+    "El Kala",
+    "القالة"
+   ],
+   [
+    "El Kala",
+    "القالة",
+    "El Kala",
+    "القالة"
+   ],
+   [
+    "El Tarf",
+    "الطارف",
+    "El Tarf",
+    "الطارف"
+   ],
+   [
+    "Hammam Beni Salah",
+    "حمام بني صالح",
+    "Bouhadjar",
+    "بوحجار"
+   ],
+   [
+    "Lac Des Oiseaux",
+    "بحيرة الطيور",
+    "Bouteldja",
+    "بوثلجة"
+   ],
+   [
+    "Oued Zitoun",
+    "وادي الزيتون",
+    "Bouhadjar",
+    "بوحجار"
+   ],
+   [
+    "Raml Souk",
+    "رمل السوق",
+    "El Kala",
+    "القالة"
+   ],
+   [
+    "Souarekh",
+    "السوارخ",
+    "El Kala",
+    "القالة"
+   ],
+   [
+    "Zerizer",
+    "زريزر",
+    "Besbes",
+    "البسباس"
+   ],
+   [
+    "Zitouna",
+    "الزيتونة",
+    "El Tarf",
+    "الطارف"
+   ]
+  ],
+  "37": [
+   [
+    "Oum El Assel",
+    "أم العسل",
+    "Tindouf",
+    "تندوف"
+   ],
+   [
+    "Tindouf",
+    "تندوف",
+    "Tindouf",
+    "تندوف"
+   ]
+  ],
+  "38": [
+   [
+    "Ammari",
+    "عماري",
+    "Ammari",
+    "عماري"
+   ],
+   [
+    "Beni Chaib",
+    "بني شعيب",
+    "Bordj Bounaama",
+    "برج بونعامة"
+   ],
+   [
+    "Beni Lahcene",
+    "بني لحسن",
+    "Bordj Bounaama",
+    "برج بونعامة"
+   ],
+   [
+    "Bordj Bounaama",
+    "برج بونعامة",
+    "Bordj Bounaama",
+    "برج بونعامة"
+   ],
+   [
+    "Bordj El Emir Abdelkader",
+    "برج الأمير عبد القادر",
+    "Bordj Emir Abdelkader",
+    "برج الأمير عبد القادر"
+   ],
+   [
+    "Boucaid",
+    "بوقائد",
+    "Lazharia",
+    "الأزهرية"
+   ],
+   [
+    "Khemisti",
+    "خميستي",
+    "Khemisti",
+    "خميستي"
+   ],
+   [
+    "Larbaa",
+    "الأربعاء",
+    "Lazharia",
+    "الأزهرية"
+   ],
+   [
+    "Lardjem",
+    "لرجام",
+    "Lardjem",
+    "لرجام"
+   ],
+   [
+    "Layoune",
+    "العيون",
+    "Khemisti",
+    "خميستي"
+   ],
+   [
+    "Lazharia",
+    "الأزهرية",
+    "Lazharia",
+    "الأزهرية"
+   ],
+   [
+    "Maacem",
+    "المعاصم",
+    "Ammari",
+    "عماري"
+   ],
+   [
+    "Melaab",
+    "الملعب",
+    "Lardjem",
+    "لرجام"
+   ],
+   [
+    "Ouled Bessam",
+    "أولاد بسام",
+    "Tissemsilt",
+    "تيسمسيلت"
+   ],
+   [
+    "Sidi Abed",
+    "سيدي عابد",
+    "Ammari",
+    "عماري"
+   ],
+   [
+    "Sidi Boutouchent",
+    "سيدي بوتوشنت",
+    "Theniet El Had",
+    "ثنية الاحد"
+   ],
+   [
+    "Sidi Lantri",
+    "سيدي العنتري",
+    "Lardjem",
+    "لرجام"
+   ],
+   [
+    "Sidi Slimane",
+    "سيدي سليمان",
+    "Bordj Bounaama",
+    "برج بونعامة"
+   ],
+   [
+    "Tamellahet",
+    "تملاحت",
+    "Lardjem",
+    "لرجام"
+   ],
+   [
+    "Theniet El Had",
+    "ثنية الاحد",
+    "Theniet El Had",
+    "ثنية الاحد"
+   ],
+   [
+    "Tissemsilt",
+    "تيسمسيلت",
+    "Tissemsilt",
+    "تيسمسيلت"
+   ],
+   [
+    "Youssoufia",
+    "اليوسفية",
+    "Bordj Emir Abdelkader",
+    "برج الأمير عبد القادر"
+   ]
+  ],
+  "39": [
+   [
+    "Bayadha",
+    "البياضة",
+    "Bayadha",
+    "البياضة"
+   ],
+   [
+    "Ben Guecha",
+    "بن  قشة",
+    "Taleb Larbi",
+    "الطالب العربي"
+   ],
+   [
+    "Debila",
+    "الدبيلة",
+    "Debila",
+    "الدبيلة"
+   ],
+   [
+    "Douar El Maa",
+    "دوار الماء",
+    "Taleb Larbi",
+    "الطالب العربي"
+   ],
+   [
+    "El Ogla",
+    "العقلة",
+    "Robbah",
+    "الرباح"
+   ],
+   [
+    "El-Oued",
+    "الوادي",
+    "El Oued",
+    "الوادي"
+   ],
+   [
+    "Guemar",
+    "قمار",
+    "Guemar",
+    "قمار"
+   ],
+   [
+    "Hamraia",
+    "الحمراية",
+    "Reguiba",
+    "الرقيبة"
+   ],
+   [
+    "Hassani Abdelkrim",
+    "حساني عبد الكريم",
+    "Debila",
+    "الدبيلة"
+   ],
+   [
+    "Hassi Khalifa",
+    "حاسي خليفة",
+    "Hassi Khalifa",
+    "حاسي خليفة"
+   ],
+   [
+    "Kouinine",
+    "كوينين",
+    "El Oued",
+    "الوادي"
+   ],
+   [
+    "Magrane",
+    "المقرن",
+    "Magrane",
+    "المقرن"
+   ],
+   [
+    "Mih Ouansa",
+    "اميه وانسة",
+    "Mih Ouensa",
+    "اميه وانسة"
+   ],
+   [
+    "Nakhla",
+    "النخلة",
+    "Robbah",
+    "الرباح"
+   ],
+   [
+    "Oued El Alenda",
+    "وادي العلندة",
+    "Mih Ouensa",
+    "اميه وانسة"
+   ],
+   [
+    "Ourmes",
+    "ورماس",
+    "Guemar",
+    "قمار"
+   ],
+   [
+    "Reguiba",
+    "الرقيبة",
+    "Reguiba",
+    "الرقيبة"
+   ],
+   [
+    "Robbah",
+    "الرباح",
+    "Robbah",
+    "الرباح"
+   ],
+   [
+    "Sidi Aoun",
+    "سيدي عون",
+    "Magrane",
+    "المقرن"
+   ],
+   [
+    "Taghzout",
+    "تغزوت",
+    "Guemar",
+    "قمار"
+   ],
+   [
+    "Taleb Larbi",
+    "الطالب العربي",
+    "Taleb Larbi",
+    "الطالب العربي"
+   ],
+   [
+    "Trifaoui",
+    "الطريفاوي",
+    "Hassi Khalifa",
+    "حاسي خليفة"
+   ]
+  ],
+  "40": [
+   [
+    "Ain Touila",
+    "عين الطويلة",
+    "Ain Touila",
+    "عين الطويلة"
+   ],
+   [
+    "Babar",
+    "بابار",
+    "Babar",
+    "بابار"
+   ],
+   [
+    "Baghai",
+    "بغاي",
+    "El Hamma",
+    "الحامة"
+   ],
+   [
+    "Bouhmama",
+    "بوحمامة",
+    "Bouhmama",
+    "بوحمامة"
+   ],
+   [
+    "Chechar",
+    "ششار",
+    "Chechar",
+    "ششار"
+   ],
+   [
+    "Chelia",
+    "شلية",
+    "Bouhmama",
+    "بوحمامة"
+   ],
+   [
+    "Djellal",
+    "جلال",
+    "Chechar",
+    "ششار"
+   ],
+   [
+    "El Hamma",
+    "الحامة",
+    "El Hamma",
+    "الحامة"
+   ],
+   [
+    "El Mahmal",
+    "المحمل",
+    "Ouled Rechache",
+    "أولاد رشاش"
+   ],
+   [
+    "El Oueldja",
+    "الولجة",
+    "Chechar",
+    "ششار"
+   ],
+   [
+    "Ensigha",
+    "انسيغة",
+    "El Hamma",
+    "الحامة"
+   ],
+   [
+    "Kais",
+    "قايس",
+    "Kais",
+    "قايس"
+   ],
+   [
+    "Khenchela",
+    "خنشلة",
+    "Khenchela",
+    "خنشلة"
+   ],
+   [
+    "Khirane",
+    "خيران",
+    "Chechar",
+    "ششار"
+   ],
+   [
+    "M'sara",
+    "مصارة",
+    "Bouhmama",
+    "بوحمامة"
+   ],
+   [
+    "M'toussa",
+    "متوسة",
+    "Ain Touila",
+    "عين الطويلة"
+   ],
+   [
+    "Ouled Rechache",
+    "أولاد رشاش",
+    "Ouled Rechache",
+    "أولاد رشاش"
+   ],
+   [
+    "Remila",
+    "الرميلة",
+    "Kais",
+    "قايس"
+   ],
+   [
+    "Tamza",
+    "طامزة",
+    "El Hamma",
+    "الحامة"
+   ],
+   [
+    "Taouzianat",
+    "تاوزيانت",
+    "Kais",
+    "قايس"
+   ],
+   [
+    "Yabous",
+    "يابوس",
+    "Bouhmama",
+    "بوحمامة"
+   ]
+  ],
+  "41": [
+   [
+    "Ain Soltane",
+    "عين سلطان",
+    "Sedrata",
+    "سدراتة"
+   ],
+   [
+    "Ain Zana",
+    "عين الزانة",
+    "Ouled Driss",
+    "أولاد إدريس"
+   ],
+   [
+    "Bir Bouhouche",
+    "بئر بوحوش",
+    "Bir Bouhouche",
+    "بئر بوحوش"
+   ],
+   [
+    "Drea",
+    "الدريعة",
+    "Taoura",
+    "تاورة"
+   ],
+   [
+    "Haddada",
+    "الحدادة",
+    "Haddada",
+    "الحدادة"
+   ],
+   [
+    "Hanencha",
+    "الحنانشة",
+    "Mechroha",
+    "المشروحة"
+   ],
+   [
+    "Khedara",
+    "الخضارة",
+    "Haddada",
+    "الحدادة"
+   ],
+   [
+    "Khemissa",
+    "خميسة",
+    "Sedrata",
+    "سدراتة"
+   ],
+   [
+    "M'daourouche",
+    "مداوروش",
+    "M'daourouche",
+    "مداوروش"
+   ],
+   [
+    "Machroha",
+    "المشروحة",
+    "Mechroha",
+    "المشروحة"
+   ],
+   [
+    "Merahna",
+    "المراهنة",
+    "Merahna",
+    "المراهنة"
+   ],
+   [
+    "Oued Kebrit",
+    "وادي الكبريت",
+    "Oum El Adhaim",
+    "أم العظايم"
+   ],
+   [
+    "Ouillen",
+    "ويلان",
+    "Merahna",
+    "المراهنة"
+   ],
+   [
+    "Ouled Driss",
+    "أولاد إدريس",
+    "Ouled Driss",
+    "أولاد إدريس"
+   ],
+   [
+    "Ouled Moumen",
+    "أولاد مومن",
+    "Haddada",
+    "الحدادة"
+   ],
+   [
+    "Oum El Adhaim",
+    "أم العظايم",
+    "Oum El Adhaim",
+    "أم العظايم"
+   ],
+   [
+    "Ragouba",
+    "الراقوبة",
+    "M'daourouche",
+    "مداوروش"
+   ],
+   [
+    "Safel El Ouiden",
+    "سافل الويدان",
+    "Bir Bouhouche",
+    "بئر بوحوش"
+   ],
+   [
+    "Sedrata",
+    "سدراتة",
+    "Sedrata",
+    "سدراتة"
+   ],
+   [
+    "Sidi Fredj",
+    "سيدي فرج",
+    "Merahna",
+    "المراهنة"
+   ],
+   [
+    "Souk Ahras",
+    "سوق أهراس",
+    "Souk Ahras",
+    "سوق أهراس"
+   ],
+   [
+    "Taoura",
+    "تاورة",
+    "Taoura",
+    "تاورة"
+   ],
+   [
+    "Terraguelt",
+    "ترقالت",
+    "Oum El Adhaim",
+    "أم العظايم"
+   ],
+   [
+    "Tiffech",
+    "تيفاش",
+    "M'daourouche",
+    "مداوروش"
+   ],
+   [
+    "Zaarouria",
+    "الزعرورية",
+    "Taoura",
+    "تاورة"
+   ],
+   [
+    "Zouabi",
+    "الزوابي",
+    "Bir Bouhouche",
+    "بئر بوحوش"
+   ]
+  ],
+  "42": [
+   [
+    "Aghbal",
+    "أغبال",
+    "Gouraya",
+    "قوراية"
+   ],
+   [
+    "Ahmer El Ain",
+    "أحمر العين",
+    "Ahmar El Ain",
+    "أحمر العين"
+   ],
+   [
+    "Ain Tagourait",
+    "عين تاقورايت",
+    "Bou Ismail",
+    "بواسماعيل"
+   ],
+   [
+    "Attatba",
+    "الحطاطبة",
+    "Kolea",
+    "القليعة"
+   ],
+   [
+    "Beni Mileuk",
+    "بني ميلك",
+    "Damous",
+    "الداموس"
+   ],
+   [
+    "Bou Haroun",
+    "بوهارون",
+    "Bou Ismail",
+    "بواسماعيل"
+   ],
+   [
+    "Bou Ismail",
+    "بواسماعيل",
+    "Bou Ismail",
+    "بواسماعيل"
+   ],
+   [
+    "Bourkika",
+    "بورقيقة",
+    "Ahmar El Ain",
+    "أحمر العين"
+   ],
+   [
+    "Chaiba",
+    "الشعيبة",
+    "Kolea",
+    "القليعة"
+   ],
+   [
+    "Cherchell",
+    "شرشال",
+    "Cherchell",
+    "شرشال"
+   ],
+   [
+    "Damous",
+    "الداموس",
+    "Damous",
+    "الداموس"
+   ],
+   [
+    "Douaouda",
+    "دواودة",
+    "Fouka",
+    "فوكة"
+   ],
+   [
+    "Fouka",
+    "فوكة",
+    "Fouka",
+    "فوكة"
+   ],
+   [
+    "Gouraya",
+    "قوراية",
+    "Gouraya",
+    "قوراية"
+   ],
+   [
+    "Hadjout",
+    "حجوط",
+    "Hadjout",
+    "حجوط"
+   ],
+   [
+    "Hadjret Ennous",
+    "حجرة النص",
+    "Cherchell",
+    "شرشال"
+   ],
+   [
+    "Khemisti",
+    "خميستي",
+    "Bou Ismail",
+    "بواسماعيل"
+   ],
+   [
+    "Kolea",
+    "القليعة",
+    "Kolea",
+    "القليعة"
+   ],
+   [
+    "Larhat",
+    "الأرهاط",
+    "Damous",
+    "الداموس"
+   ],
+   [
+    "Menaceur",
+    "مناصر",
+    "Sidi Amar",
+    "سيدي أعمر"
+   ],
+   [
+    "Merad",
+    "مراد",
+    "Hadjout",
+    "حجوط"
+   ],
+   [
+    "Messelmoun",
+    "مسلمون",
+    "Gouraya",
+    "قوراية"
+   ],
+   [
+    "Nador",
+    "الناظور",
+    "Sidi Amar",
+    "سيدي أعمر"
+   ],
+   [
+    "Sidi Ghiles",
+    "سيدي غيلاس",
+    "Cherchell",
+    "شرشال"
+   ],
+   [
+    "Sidi Rached",
+    "سيدي راشد",
+    "Ahmar El Ain",
+    "أحمر العين"
+   ],
+   [
+    "Sidi Semiane",
+    "سيدي سميان",
+    "Cherchell",
+    "شرشال"
+   ],
+   [
+    "Sidi-Amar",
+    "سيدي عامر",
+    "Sidi Amar",
+    "سيدي أعمر"
+   ],
+   [
+    "Tipaza",
+    "تيبازة",
+    "Tipaza",
+    "تيبازة"
+   ]
+  ],
+  "43": [
+   [
+    "Ahmed Rachedi",
+    "أحمد راشدي",
+    "Oued Endja",
+    "وادي النجاء"
+   ],
+   [
+    "Ain Beida Harriche",
+    "عين البيضاء أحريش",
+    "Ain Beida Harriche",
+    "عين البيضاء أحريش"
+   ],
+   [
+    "Ain Mellouk",
+    "عين الملوك",
+    "Chelghoum Laid",
+    "شلغوم العيد"
+   ],
+   [
+    "Ain Tine",
+    "عين التين",
+    "Mila",
+    "ميلة"
+   ],
+   [
+    "Amira Arres",
+    "اعميرة اراس",
+    "Terrai Bainen",
+    "ترعي باينان"
+   ],
+   [
+    "Benyahia Abderrahmane",
+    "بن يحي عبد الرحمن",
+    "Tadjenanet",
+    "تاجنانت"
+   ],
+   [
+    "Bouhatem",
+    "بوحاتم",
+    "Bouhatem",
+    "بوحاتم"
+   ],
+   [
+    "Chelghoum Laid",
+    "شلغوم العيد",
+    "Chelghoum Laid",
+    "شلغوم العيد"
+   ],
+   [
+    "Chigara",
+    "الشيقارة",
+    "Sidi Merouane",
+    "سيدي مروان"
+   ],
+   [
+    "Derrahi Bousselah",
+    "دراحي بوصلاح",
+    "Bouhatem",
+    "بوحاتم"
+   ],
+   [
+    "El Ayadi Barbes",
+    "العياضي برباس",
+    "Ain Beida Harriche",
+    "عين البيضاء أحريش"
+   ],
+   [
+    "El Mechira",
+    "مشيرة",
+    "Teleghma",
+    "التلاغمة"
+   ],
+   [
+    "Ferdjioua",
+    "فرجيوة",
+    "Ferdjioua",
+    "فرجيوة"
+   ],
+   [
+    "Grarem Gouga",
+    "القرارم قوقة",
+    "Grarem Gouga",
+    "القرارم قوقة"
+   ],
+   [
+    "Hamala",
+    "حمالة",
+    "Grarem Gouga",
+    "القرارم قوقة"
+   ],
+   [
+    "Mila",
+    "ميلة",
+    "Mila",
+    "ميلة"
+   ],
+   [
+    "Minar Zarza",
+    "مينار زارزة",
+    "Tassadane Haddada",
+    "تسدان حدادة"
+   ],
+   [
+    "Oued Athmenia",
+    "وادي العثمانية",
+    "Chelghoum Laid",
+    "شلغوم العيد"
+   ],
+   [
+    "Oued Endja",
+    "وادي النجاء",
+    "Oued Endja",
+    "وادي النجاء"
+   ],
+   [
+    "Oued Seguen",
+    "وادي سقان",
+    "Teleghma",
+    "التلاغمة"
+   ],
+   [
+    "Ouled Khalouf",
+    "أولاد اخلوف",
+    "Tadjenanet",
+    "تاجنانت"
+   ],
+   [
+    "Rouached",
+    "الرواشد",
+    "Rouached",
+    "الرواشد"
+   ],
+   [
+    "Sidi Khelifa",
+    "سيدي خليفة",
+    "Mila",
+    "ميلة"
+   ],
+   [
+    "Sidi Merouane",
+    "سيدي مروان",
+    "Sidi Merouane",
+    "سيدي مروان"
+   ],
+   [
+    "Tadjenanet",
+    "تاجنانت",
+    "Tadjenanet",
+    "تاجنانت"
+   ],
+   [
+    "Tassadane Haddada",
+    "تسدان حدادة",
+    "Tassadane Haddada",
+    "تسدان حدادة"
+   ],
+   [
+    "Tassala Lematai",
+    "تسالة لمطاعي",
+    "Terrai Bainen",
+    "ترعي باينان"
+   ],
+   [
+    "Teleghma",
+    "التلاغمة",
+    "Teleghma",
+    "التلاغمة"
+   ],
+   [
+    "Terrai Bainen",
+    "ترعي باينان",
+    "Terrai Bainen",
+    "ترعي باينان"
+   ],
+   [
+    "Tiberguent",
+    "تيبرقنت",
+    "Rouached",
+    "الرواشد"
+   ],
+   [
+    "Yahia Beniguecha",
+    "يحي بني قشة",
+    "Ferdjioua",
+    "فرجيوة"
+   ],
+   [
+    "Zeghaia",
+    "زغاية",
+    "Oued Endja",
+    "وادي النجاء"
+   ]
+  ],
+  "44": [
+   [
+    "Ain-Benian",
+    "عين البنيان",
+    "Hammam Righa",
+    "حمام ريغة"
+   ],
+   [
+    "Ain-Bouyahia",
+    "عين بويحيى",
+    "El Abadia",
+    "العبادية"
+   ],
+   [
+    "Ain-Defla",
+    "عين الدفلى",
+    "Ain Defla",
+    "عين الدفلى"
+   ],
+   [
+    "Ain-Lechiakh",
+    "عين الاشياخ",
+    "Ain Lechiakh",
+    "عين الاشياخ"
+   ],
+   [
+    "Ain-Soltane",
+    "عين السلطان",
+    "Ain Lechiakh",
+    "عين الاشياخ"
+   ],
+   [
+    "Ain-Torki",
+    "عين التركي",
+    "Hammam Righa",
+    "حمام ريغة"
+   ],
+   [
+    "Arib",
+    "عريب",
+    "El Amra",
+    "العامرة"
+   ],
+   [
+    "Bathia",
+    "بطحية",
+    "Bathia",
+    "بطحية"
+   ],
+   [
+    "Belaas",
+    "بلعاص",
+    "Bathia",
+    "بطحية"
+   ],
+   [
+    "Ben Allal",
+    "بن علال",
+    "Miliana",
+    "مليانة"
+   ],
+   [
+    "Bir-Ould-Khelifa",
+    "بئر ولد خليفة",
+    "Bordj El Emir Khaled",
+    "برج الأمير خالد"
+   ],
+   [
+    "Birbouche",
+    "بربوش",
+    "Djendel",
+    "جندل"
+   ],
+   [
+    "Bordj-Emir-Khaled",
+    "برج الأمير خالد",
+    "Bordj El Emir Khaled",
+    "برج الأمير خالد"
+   ],
+   [
+    "Boumedfaa",
+    "بومدفع",
+    "Boumedfaa",
+    "بومدفع"
+   ],
+   [
+    "Bourached",
+    "بوراشد",
+    "Djelida",
+    "جليدة"
+   ],
+   [
+    "Djelida",
+    "جليدة",
+    "Djelida",
+    "جليدة"
+   ],
+   [
+    "Djemaa Ouled Cheikh",
+    "جمعة أولاد الشيخ",
+    "Djelida",
+    "جليدة"
+   ],
+   [
+    "Djendel",
+    "جندل",
+    "Djendel",
+    "جندل"
+   ],
+   [
+    "El-Abadia",
+    "العبادية",
+    "El Abadia",
+    "العبادية"
+   ],
+   [
+    "El-Amra",
+    "العامرة",
+    "El Amra",
+    "العامرة"
+   ],
+   [
+    "El-Attaf",
+    "العطاف",
+    "El Attaf",
+    "العطاف"
+   ],
+   [
+    "El-Maine",
+    "الماين",
+    "Rouina",
+    "الروينة"
+   ],
+   [
+    "Hammam-Righa",
+    "حمام ريغة",
+    "Hammam Righa",
+    "حمام ريغة"
+   ],
+   [
+    "Hassania",
+    "الحسانية",
+    "Bathia",
+    "بطحية"
+   ],
+   [
+    "Hoceinia",
+    "الحسينية",
+    "Boumedfaa",
+    "بومدفع"
+   ],
+   [
+    "Khemis-Miliana",
+    "خميس مليانة",
+    "Khemis",
+    "خميس"
+   ],
+   [
+    "Mekhatria",
+    "المخاطرية",
+    "El Amra",
+    "العامرة"
+   ],
+   [
+    "Miliana",
+    "مليانة",
+    "Miliana",
+    "مليانة"
+   ],
+   [
+    "Oued Chorfa",
+    "وادي الشرفاء",
+    "Djendel",
+    "جندل"
+   ],
+   [
+    "Oued Djemaa",
+    "واد الجمعة",
+    "Ain Lechiakh",
+    "عين الاشياخ"
+   ],
+   [
+    "Rouina",
+    "الروينة",
+    "Rouina",
+    "الروينة"
+   ],
+   [
+    "Sidi-Lakhdar",
+    "سيدي الأخضر",
+    "Khemis",
+    "خميس"
+   ],
+   [
+    "Tacheta Zegagha",
+    "تاشتة زقاغة",
+    "El Abadia",
+    "العبادية"
+   ],
+   [
+    "Tarik-Ibn-Ziad",
+    "طارق بن زياد",
+    "Bordj El Emir Khaled",
+    "برج الأمير خالد"
+   ],
+   [
+    "Tiberkanine",
+    "تبركانين",
+    "El Attaf",
+    "العطاف"
+   ],
+   [
+    "Zeddine",
+    "زدين",
+    "Rouina",
+    "الروينة"
+   ]
+  ],
+  "45": [
+   [
+    "Ain Ben Khelil",
+    "عين بن خليل",
+    "Mecheria",
+    "المشرية"
+   ],
+   [
+    "Ain Sefra",
+    "عين الصفراء",
+    "Ain Sefra",
+    "عين الصفراء"
+   ],
+   [
+    "Asla",
+    "عسلة",
+    "Asla",
+    "عسلة"
+   ],
+   [
+    "Djenienne Bourezg",
+    "جنين بورزق",
+    "Moghrar",
+    "مغرار"
+   ],
+   [
+    "El Biodh",
+    "البيوض",
+    "Mecheria",
+    "المشرية"
+   ],
+   [
+    "Kasdir",
+    "القصدير",
+    "Mekmen Ben Amar",
+    "مكمن بن عمار"
+   ],
+   [
+    "Makmen Ben Amar",
+    "مكمن بن عمار",
+    "Mekmen Ben Amar",
+    "مكمن بن عمار"
+   ],
+   [
+    "Mecheria",
+    "المشرية",
+    "Mecheria",
+    "المشرية"
+   ],
+   [
+    "Moghrar",
+    "مغرار",
+    "Moghrar",
+    "مغرار"
+   ],
+   [
+    "Naama",
+    "النعامة",
+    "Naama",
+    "النعامة"
+   ],
+   [
+    "Sfissifa",
+    "سفيسيفة",
+    "Sfissifa",
+    "سفيسيفة"
+   ],
+   [
+    "Tiout",
+    "تيوت",
+    "Ain Sefra",
+    "عين الصفراء"
+   ]
+  ],
+  "46": [
+   [
+    "Aghlal",
+    "أغلال",
+    "Ain Kihel",
+    "عين الكيحل"
+   ],
+   [
+    "Ain El Arbaa",
+    "عين الأربعاء",
+    "Ain Larbaa",
+    "عين الأربعاء"
+   ],
+   [
+    "Ain Kihal",
+    "عين الكيحل",
+    "Ain Kihel",
+    "عين الكيحل"
+   ],
+   [
+    "Ain Temouchent",
+    "عين تموشنت",
+    "Ain Temouchent",
+    "عين تموشنت"
+   ],
+   [
+    "Ain Tolba",
+    "عين الطلبة",
+    "Ain Kihel",
+    "عين الكيحل"
+   ],
+   [
+    "Aoubellil",
+    "عقب الليل",
+    "Ain Kihel",
+    "عين الكيحل"
+   ],
+   [
+    "Beni Saf",
+    "بني صاف",
+    "Beni Saf",
+    "بني صاف"
+   ],
+   [
+    "Bouzedjar",
+    "بوزجار",
+    "El Amria",
+    "العامرية"
+   ],
+   [
+    "Chaabat El Ham",
+    "شعبة اللحم",
+    "El Maleh",
+    "المالح"
+   ],
+   [
+    "Chentouf",
+    "شنتوف",
+    "Hammam Bou Hadjar",
+    "حمام بوحجر"
+   ],
+   [
+    "El Amria",
+    "العامرية",
+    "El Amria",
+    "العامرية"
+   ],
+   [
+    "El Maleh",
+    "المالح",
+    "El Maleh",
+    "المالح"
+   ],
+   [
+    "El Messaid",
+    "المساعيد",
+    "El Amria",
+    "العامرية"
+   ],
+   [
+    "Emir Abdelkader",
+    "الأمير عبد القادر",
+    "Beni Saf",
+    "بني صاف"
+   ],
+   [
+    "Hammam Bou Hadjar",
+    "حمام بوحجر",
+    "Hammam Bou Hadjar",
+    "حمام بوحجر"
+   ],
+   [
+    "Hassasna",
+    "الحساسنة",
+    "Hammam Bou Hadjar",
+    "حمام بوحجر"
+   ],
+   [
+    "Hassi El Ghella",
+    "حاسي الغلة",
+    "El Amria",
+    "العامرية"
+   ],
+   [
+    "Oued Berkeche",
+    "وادي برقش",
+    "Hammam Bou Hadjar",
+    "حمام بوحجر"
+   ],
+   [
+    "Oued Sebbah",
+    "وادي الصباح",
+    "Ain Larbaa",
+    "عين الأربعاء"
+   ],
+   [
+    "Ouled Boudjemaa",
+    "أولاد بوجمعة",
+    "El Amria",
+    "العامرية"
+   ],
+   [
+    "Ouled Kihal",
+    "أولاد الكيحل",
+    "El Maleh",
+    "المالح"
+   ],
+   [
+    "Oulhaca El Gheraba",
+    "ولهاصة الغرابة",
+    "Oulhassa Gheraba",
+    "ولهاصة الغرابة"
+   ],
+   [
+    "Sidi Ben Adda",
+    "سيدي بن عدة",
+    "Ain Temouchent",
+    "عين تموشنت"
+   ],
+   [
+    "Sidi Boumediene",
+    "سيدي بومدين",
+    "Ain Larbaa",
+    "عين الأربعاء"
+   ],
+   [
+    "Sidi Ouriache",
+    "سيدي ورياش",
+    "Oulhassa Gheraba",
+    "ولهاصة الغرابة"
+   ],
+   [
+    "Sidi Safi",
+    "سيدي صافي",
+    "Beni Saf",
+    "بني صاف"
+   ],
+   [
+    "Tamzoura",
+    "تامزورة",
+    "Ain Larbaa",
+    "عين الأربعاء"
+   ],
+   [
+    "Terga",
+    "تارقة",
+    "El Maleh",
+    "المالح"
+   ]
+  ],
+  "47": [
+   [
+    "Berriane",
+    "بريان",
+    "Berriane",
+    "بريان"
+   ],
+   [
+    "Bounoura",
+    "بونورة",
+    "Bounoura",
+    "بونورة"
+   ],
+   [
+    "Dhayet Bendhahoua",
+    "ضاية بن ضحوة",
+    "Dhayet Ben Dhahoua",
+    "ضاية بن ضحوة"
+   ],
+   [
+    "El Atteuf",
+    "العطف",
+    "Bounoura",
+    "بونورة"
+   ],
+   [
+    "El Guerrara",
+    "القرارة",
+    "El Guerrara",
+    "القرارة"
+   ],
+   [
+    "Ghardaia",
+    "غرداية",
+    "Ghardaia",
+    "غرداية"
+   ],
+   [
+    "Mansoura",
+    "المنصورة",
+    "Mansourah",
+    "المنصورة"
+   ],
+   [
+    "Metlili",
+    "متليلي",
+    "Metlili",
+    "متليلي"
+   ],
+   [
+    "Sebseb",
+    "سبسب",
+    "Metlili",
+    "متليلي"
+   ],
+   [
+    "Zelfana",
+    "زلفانة",
+    "Zelfana",
+    "زلفانة"
+   ]
+  ],
+  "48": [
+   [
+    "Ain Rahma",
+    "عين الرحمة",
+    "Yellel",
+    "يلل"
+   ],
+   [
+    "Ain-Tarek",
+    "عين طارق",
+    "Ain Tarek",
+    "عين طارق"
+   ],
+   [
+    "Ammi Moussa",
+    "عمي موسى",
+    "Ammi Moussa",
+    "عمي موسى"
+   ],
+   [
+    "Belaassel Bouzagza",
+    "بلعسل بوزقزة",
+    "El Matmar",
+    "المطمر"
+   ],
+   [
+    "Bendaoud",
+    "بن داود",
+    "Relizane",
+    "غليزان"
+   ],
+   [
+    "Beni Dergoun",
+    "بني درقن",
+    "Zemmoura",
+    "زمورة"
+   ],
+   [
+    "Beni Zentis",
+    "بني زنطيس",
+    "Sidi M'hamed Ben Ali",
+    "سيدي أمحمد بن علي"
+   ],
+   [
+    "Dar Ben Abdelah",
+    "دار بن عبد الله",
+    "Zemmoura",
+    "زمورة"
+   ],
+   [
+    "Djidiouia",
+    "جديوية",
+    "Djidiouia",
+    "جديوية"
+   ],
+   [
+    "El H'madna",
+    "الحمادنة",
+    "El H'madna",
+    "الحمادنة"
+   ],
+   [
+    "El Hassi",
+    "الحاسي",
+    "Ammi Moussa",
+    "عمي موسى"
+   ],
+   [
+    "El Ouldja",
+    "الولجة",
+    "Ammi Moussa",
+    "عمي موسى"
+   ],
+   [
+    "El-Guettar",
+    "القطار",
+    "Mazouna",
+    "مازونة"
+   ],
+   [
+    "El-Matmar",
+    "المطمر",
+    "El Matmar",
+    "المطمر"
+   ],
+   [
+    "Had Echkalla",
+    "حد الشكالة",
+    "Ain Tarek",
+    "عين طارق"
+   ],
+   [
+    "Hamri",
+    "حمري",
+    "Djidiouia",
+    "جديوية"
+   ],
+   [
+    "Kalaa",
+    "القلعة",
+    "Yellel",
+    "يلل"
+   ],
+   [
+    "Lahlef",
+    "لحلاف",
+    "Oued Rhiou",
+    "وادي رهيو"
+   ],
+   [
+    "Mazouna",
+    "مازونة",
+    "Mazouna",
+    "مازونة"
+   ],
+   [
+    "Mediouna",
+    "مديونة",
+    "Sidi M'hamed Ben Ali",
+    "سيدي أمحمد بن علي"
+   ],
+   [
+    "Mendes",
+    "منداس",
+    "Mendes",
+    "منداس"
+   ],
+   [
+    "Merdja Sidi Abed",
+    "مرجة سيدي عابد",
+    "Oued Rhiou",
+    "وادي رهيو"
+   ],
+   [
+    "Ouarizane",
+    "واريزان",
+    "Oued Rhiou",
+    "وادي رهيو"
+   ],
+   [
+    "Oued El Djemaa",
+    "وادي الجمعة",
+    "El H'madna",
+    "الحمادنة"
+   ],
+   [
+    "Oued Essalem",
+    "وادي السلام",
+    "Mendes",
+    "منداس"
+   ],
+   [
+    "Oued-Rhiou",
+    "وادي رهيو",
+    "Oued Rhiou",
+    "وادي رهيو"
+   ],
+   [
+    "Ouled Aiche",
+    "أولاد يعيش",
+    "Ammi Moussa",
+    "عمي موسى"
+   ],
+   [
+    "Ouled Sidi Mihoub",
+    "أولاد سيدي الميهوب",
+    "Djidiouia",
+    "جديوية"
+   ],
+   [
+    "Ramka",
+    "الرمكة",
+    "Ramka",
+    "الرمكة"
+   ],
+   [
+    "Relizane",
+    "غليزان",
+    "Relizane",
+    "غليزان"
+   ],
+   [
+    "Sidi Khettab",
+    "سيدي  خطاب",
+    "El Matmar",
+    "المطمر"
+   ],
+   [
+    "Sidi Lazreg",
+    "سيدي لزرق",
+    "Mendes",
+    "منداس"
+   ],
+   [
+    "Sidi M'hamed Benali",
+    "سيدي أمحمد بن علي",
+    "Sidi M'hamed Ben Ali",
+    "سيدي أمحمد بن علي"
+   ],
+   [
+    "Sidi M'hamed Benaouda",
+    "سيدي امحمد بن عودة",
+    "El Matmar",
+    "المطمر"
+   ],
+   [
+    "Sidi Saada",
+    "سيدي سعادة",
+    "Yellel",
+    "يلل"
+   ],
+   [
+    "Souk El Had",
+    "سوق الحد",
+    "Ramka",
+    "الرمكة"
+   ],
+   [
+    "Yellel",
+    "يلل",
+    "Yellel",
+    "يلل"
+   ],
+   [
+    "Zemmoura",
+    "زمورة",
+    "Zemmoura",
+    "زمورة"
+   ]
+  ],
+  "49": [
+   [
+    "Aougrout",
+    "أوقروت",
+    "Aougrout",
+    "أوقروت"
+   ],
+   [
+    "Charouine",
+    "شروين",
+    "Charouine",
+    "شروين"
+   ],
+   [
+    "Deldoul",
+    "دلدول",
+    "Aougrout",
+    "أوقروت"
+   ],
+   [
+    "Ksar Kaddour",
+    "قصر قدور",
+    "Tinerkouk",
+    "تنركوك"
+   ],
+   [
+    "Metarfa",
+    "المطارفة",
+    "Aougrout",
+    "أوقروت"
+   ],
+   [
+    "Ouled Aissa",
+    "أولاد عيسى",
+    "Charouine",
+    "شروين"
+   ],
+   [
+    "Ouled Said",
+    "أولاد السعيد",
+    "Timimoun",
+    "تيميمون"
+   ],
+   [
+    "Talmine",
+    "طالمين",
+    "Charouine",
+    "شروين"
+   ],
+   [
+    "Timimoun",
+    "تيميمون",
+    "Timimoun",
+    "تيميمون"
+   ],
+   [
+    "Tinerkouk",
+    "تنركوك",
+    "Tinerkouk",
+    "تنركوك"
+   ]
+  ],
+  "50": [
+   [
+    "Bordj Badji Mokhtar",
+    "برج باجي مختار",
+    "Bordj Badji Mokhtar",
+    "برج باجي مختار"
+   ],
+   [
+    "Timiaouine",
+    "تيمياوين",
+    "Bordj Badji Mokhtar",
+    "برج باجي مختار"
+   ]
+  ],
+  "51": [
+   [
+    "Besbes",
+    "بسباس",
+    "Sidi Khaled",
+    "سيدي  خالد"
+   ],
+   [
+    "Chaiba",
+    "الشعيبة",
+    "Ouled Djellal",
+    "أولاد جلال"
+   ],
+   [
+    "Doucen",
+    "الدوسن",
+    "Ouled Djellal",
+    "أولاد جلال"
+   ],
+   [
+    "Ouled Djellal",
+    "أولاد جلال",
+    "Ouled Djellal",
+    "أولاد جلال"
+   ],
+   [
+    "Ras El Miad",
+    "رأس الميعاد",
+    "Sidi Khaled",
+    "سيدي  خالد"
+   ],
+   [
+    "Sidi Khaled",
+    "سيدي  خالد",
+    "Sidi Khaled",
+    "سيدي  خالد"
+   ]
+  ],
+  "52": [
+   [
+    "Beni-Abbes",
+    "بني عباس",
+    "Beni Abbes",
+    "بني عباس"
+   ],
+   [
+    "Beni-Ikhlef",
+    "بن يخلف",
+    "Kerzaz",
+    "كرزاز"
+   ],
+   [
+    "El Ouata",
+    "الواتة",
+    "El Ouata",
+    "الواتة"
+   ],
+   [
+    "Igli",
+    "إقلي",
+    "Igli",
+    "إقلي"
+   ],
+   [
+    "Kerzaz",
+    "كرزاز",
+    "Kerzaz",
+    "كرزاز"
+   ],
+   [
+    "Ksabi",
+    "القصابي",
+    "Ouled Khodeir",
+    "أولاد خضير"
+   ],
+   [
+    "Ouled-Khodeir",
+    "أولاد خضير",
+    "Ouled Khodeir",
+    "أولاد خضير"
+   ],
+   [
+    "Tamtert",
+    "تامترت",
+    "Beni Abbes",
+    "بني عباس"
+   ],
+   [
+    "Timoudi",
+    "تيمودي",
+    "Kerzaz",
+    "كرزاز"
+   ]
+  ],
+  "53": [
+   [
+    "Ain Salah",
+    "عين صالح",
+    "In Salah",
+    "عين صالح"
+   ],
+   [
+    "Foggaret Ezzoua",
+    "فقارة الزوى",
+    "In Salah",
+    "عين صالح"
+   ],
+   [
+    "Inghar",
+    "إينغر",
+    "In Ghar",
+    "إينغر"
+   ]
+  ],
+  "54": [
+   [
+    "Ain Guezzam",
+    "عين قزام",
+    "In Guezzam",
+    "عين قزام"
+   ],
+   [
+    "Tin Zouatine",
+    "تين زواتين",
+    "Tin Zouatine",
+    "تين زواتين"
+   ]
+  ],
+  "55": [
+   [
+    "Benaceur",
+    "بن ناصر",
+    "Taibet",
+    "الطيبات"
+   ],
+   [
+    "Blidet Amor",
+    "بلدة اعمر",
+    "Temacine",
+    "تماسين"
+   ],
+   [
+    "El Alia",
+    "العالية",
+    "El-Hadjira",
+    "الحجيرة"
+   ],
+   [
+    "El-Hadjira",
+    "الحجيرة",
+    "El-Hadjira",
+    "الحجيرة"
+   ],
+   [
+    "M'naguer",
+    "المنقر",
+    "Taibet",
+    "الطيبات"
+   ],
+   [
+    "Megarine",
+    "المقارين",
+    "Megarine",
+    "المقارين"
+   ],
+   [
+    "Nezla",
+    "النزلة",
+    "Touggourt",
+    "تقرت"
+   ],
+   [
+    "Sidi Slimane",
+    "سيدي سليمان",
+    "Megarine",
+    "المقارين"
+   ],
+   [
+    "Taibet",
+    "الطيبات",
+    "Taibet",
+    "الطيبات"
+   ],
+   [
+    "Tebesbest",
+    "تبسبست",
+    "Touggourt",
+    "تقرت"
+   ],
+   [
+    "Temacine",
+    "تماسين",
+    "Temacine",
+    "تماسين"
+   ],
+   [
+    "Touggourt",
+    "تقرت",
+    "Touggourt",
+    "تقرت"
+   ],
+   [
+    "Zaouia El Abidia",
+    "الزاوية العابدية",
+    "Touggourt",
+    "تقرت"
+   ]
+  ],
+  "56": [
+   [
+    "Bordj El Haouass",
+    "برج الحواس",
+    "Djanet",
+    "جانت"
+   ],
+   [
+    "Djanet",
+    "جانت",
+    "Djanet",
+    "جانت"
+   ]
+  ],
+  "57": [
+   [
+    "Djamaa",
+    "جامعة",
+    "Djamaa",
+    "جامعة"
+   ],
+   [
+    "El-M'ghaier",
+    "المغير",
+    "El Meghaier",
+    "المغير"
+   ],
+   [
+    "M'rara",
+    "المرارة",
+    "Djamaa",
+    "جامعة"
+   ],
+   [
+    "Oum Touyour",
+    "أم الطيور",
+    "El Meghaier",
+    "المغير"
+   ],
+   [
+    "Sidi Amrane",
+    "سيدي عمران",
+    "Djamaa",
+    "جامعة"
+   ],
+   [
+    "Sidi Khelil",
+    "سيدي خليل",
+    "El Meghaier",
+    "المغير"
+   ],
+   [
+    "Still",
+    "سطيل",
+    "El Meghaier",
+    "المغير"
+   ],
+   [
+    "Tenedla",
+    "تندلة",
+    "Djamaa",
+    "جامعة"
+   ]
+  ],
+  "58": [
+   [
+    "El Meniaa",
+    "المنيعة",
+    "El Menia",
+    "المنيعة"
+   ],
+   [
+    "Hassi Fehal",
+    "حاسي الفحل",
+    "Mansourah",
+    "المنصورة"
+   ],
+   [
+    "Hassi Gara",
+    "حاسي القارة",
+    "El Menia",
+    "المنيعة"
+   ]
+  ]
+ }
+}

@@ -8,21 +8,31 @@ Each entry carries both names because the two scripts are not decoration
 here: a fiche de police is filed in Arabic, an invoice and a booking
 confirmation are usually French, and the same hotel writes both in a day.
 
-WHAT IS AND IS NOT IN THIS FILE
-The wilayas are complete and verifiable - 58 rows, numbered, and anyone from
-the country can check them at a glance.
+WHERE THE DATA COMES FROM
+The 58 wilayas are written out below. The 1,541 communes are too many to write
+from memory without inventing names, and a commune is not cosmetic - it goes on
+the guest registration card the hotel files with the police, where a
+plausible-looking wrong name is worse than a blank. So they load from
+dz_communes.json, taken from the othmanus/algeria-cities open dataset of the
+official division.
 
-The communes are NOT complete. Algeria has roughly 1,541 of them, and a list
-that size cannot be written from memory without inventing names. A commune is
-not cosmetic: it goes on the guest registration card the hotel files with the
-police, so a plausible-looking wrong name is worse than an empty field. So
-COMMUNES below holds only what has been confirmed, `communes_for()` returns an
-empty list for a wilaya that has none yet, and the UI must fall back to free
-text rather than forcing a choice from a partial list.
+That dataset was checked rather than trusted: 1,541 records exactly, wilaya
+codes 1-58 contiguous, no empty names, no duplicate commune within a wilaya,
+all five spot-checks found (Bab El Oued and Hydra in Alger, Es Senia in Oran,
+El Khroub in Constantine, Akbou in Bejaia), and - the useful one - its 58
+wilaya names agree with the list below, which was written independently before
+the dataset was fetched. Two sources agreeing on all 58 is the strongest check
+available here.
 
-Filling it in is a data task, not a code task: drop an authoritative source
-into COMMUNES keyed by wilaya code and everything downstream starts working.
+They disagree on four spellings out of 116 name fields, all legitimate
+transliteration variants in common use (El M'Ghair / El Meghaier, El Meniaa /
+El Menia, عين الدفلى / عين الدفلة, عين تموشنت / عين تيموشنت). ALIASES below
+accepts both forms so a stored value resolves whichever way it was typed.
 """
+
+import json
+import pathlib
+from functools import lru_cache
 
 import frappe
 
@@ -88,10 +98,32 @@ WILAYAS: tuple[tuple[int, str, str], ...] = (
 	(58, "El Meniaa", "المنيعة"),
 )
 
-# wilaya code -> ((name_fr, name_ar), ...)
-# Deliberately empty until an authoritative source is loaded. See the module
-# docstring: a guessed commune lands on a police document.
-COMMUNES: dict[int, tuple[tuple[str, str], ...]] = {}
+# Wilaya names this file spells one way and the dataset spells another. Both
+# are in use on real documents, so both must resolve.
+ALIASES = {
+	"el meghaier": 57,
+	"el menia": 58,
+	"عين الدفلة": 44,
+	"عين تيموشنت": 46,
+}
+
+_COMMUNES_FILE = pathlib.Path(__file__).parent / "dz_communes.json"
+
+
+@lru_cache(maxsize=1)
+def _communes() -> dict[int, list[list[str]]]:
+	"""Loaded once per process. 150 KB of JSON is not worth re-reading, and
+	not worth holding as a Python literal either - this keeps the module
+	readable and lets the data be replaced without touching code."""
+	try:
+		raw = json.loads(_COMMUNES_FILE.read_text(encoding="utf-8"))
+	except (OSError, ValueError):
+		# A missing or corrupt data file must not take the front desk down:
+		# the UI falls back to free text, which is what it did before the
+		# data existed at all.
+		frappe.log_error(title="dz_geo: commune data unavailable")
+		return {}
+	return {int(k): v for k, v in (raw.get("communes") or {}).items()}
 
 
 def wilayas(lang: str = "fr") -> list[dict]:
@@ -102,17 +134,19 @@ def wilayas(lang: str = "fr") -> list[dict]:
 
 
 def communes_for(code: int | str, lang: str = "fr") -> list[dict]:
-	"""The communes of one wilaya - empty where the data is not loaded yet.
+	"""The communes of one wilaya, with the daira each belongs to.
 
-	An empty list is a real answer, not an error: the caller shows a free-text
-	field instead of an empty dropdown nobody can satisfy."""
+	An empty list is a real answer, not an error - an unknown wilaya, or a
+	data file that failed to load. The caller shows a free-text field rather
+	than an empty dropdown nobody can satisfy."""
 	try:
 		code = int(code)
 	except (TypeError, ValueError):
 		return []
 	key = 1 if lang == "ar" else 0
-	return [{"name": c[key], "name_fr": c[0], "name_ar": c[1]}
-	        for c in COMMUNES.get(code, ())]
+	return [{"name": c[key], "name_fr": c[0], "name_ar": c[1],
+	         "daira": c[3] if lang == "ar" else c[2]}
+	        for c in _communes().get(code, ())]
 
 
 def wilaya_by_name(name: str | None) -> dict | None:
@@ -122,8 +156,9 @@ def wilaya_by_name(name: str | None) -> dict | None:
 	if not name:
 		return None
 	needle = " ".join(str(name).split()).casefold()
+	target = ALIASES.get(needle)
 	for code, fr, ar in WILAYAS:
-		if needle in (str(code), f"{code:02d}", fr.casefold(), ar.casefold()):
+		if target == code or needle in (str(code), f"{code:02d}", fr.casefold(), ar.casefold()):
 			return {"code": code, "name_fr": fr, "name_ar": ar}
 	return None
 
@@ -137,5 +172,5 @@ def dz_geo(wilaya: str | None = None, lang: str = "fr") -> dict:
 	return {
 		"wilayas": wilayas(lang),
 		"communes": communes_for(wilaya, lang) if wilaya else [],
-		"communes_loaded": bool(COMMUNES),
+		"communes_loaded": bool(_communes()),
 	}
