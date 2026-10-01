@@ -224,7 +224,7 @@ fails silently.**
 
 - Pick **Algeria** from the country list. Not a variant spelling, not the French
   or Arabic name — the entry that reads `Algeria`.
-- Then confirm, on screen: amounts display in **DZD**, and the tax column is
+- Then confirm, on screen: amounts display in **DA** (the dinar symbol; `DZD` is the currency code behind it), and the tax column is
   labelled **TVA** (not VAT, not GST).
 - Also confirm the property form offers the **NIF** field, plus **RC**, **NIS**
   and **AI**, and that the room levy is labelled **Taxe de séjour**.
@@ -260,7 +260,7 @@ list.
 
 1. **The login page loads** at `http://localhost:8080/kamra` and you can sign in
    as `Administrator`.
-2. **Algeria, DZD and TVA** are confirmed on screen, as in Step 3.
+2. **Algeria, DA and TVA** are confirmed on screen, as in Step 3.
 3. **The time zone list contains `Africa/Algiers`.**
 4. **A reservation saves.** Create a throwaway reservation, save it, reopen it.
    This is the first honest proof the database is healthy — see Section 9.

@@ -46,6 +46,22 @@ core 2.6.5:
 - `Dinars` / `Centimes` in amounts-in-words
 - the Windows 10 installer (`deploy/windows/Install-Kamra.ps1`)
 
+## Why the documents say 1.0.0 and the tags say 1.0.0-rc.N
+
+The guides and the reference docs name the distribution **1.0.0**. The git tags
+carry a pre-release suffix — `hotel-mgm-v1.0.0-rc.3` at the time of writing.
+That is deliberate, not an oversight.
+
+The documents describe the version being built; the tag records which candidate
+of it was published. Writing `rc.3` into nine guides would mean editing nine
+guides on every tag, and the first one missed makes them contradict each other —
+which is exactly what happened once already and had to be repaired.
+
+**So: this file is the only place that tracks the current candidate.** Ask
+`git describe --tags` for what is actually checked out. When a trial install
+proves `v36` and `v37` against a real database, the tag loses its suffix and
+the documents need no edit at all.
+
 ## Tagging
 
 Distribution releases are tagged with a `hotel-mgm-v` prefix so they cannot

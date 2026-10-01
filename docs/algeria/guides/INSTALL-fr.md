@@ -244,7 +244,7 @@ silence.**
 
 - Sélectionnez **Algeria** dans la liste des pays. Pas une variante
   orthographique, ni le nom français ou arabe : l'entrée qui affiche `Algeria`.
-- Vérifiez ensuite à l'écran : les montants s'affichent en **DZD**, et la colonne
+- Vérifiez ensuite à l'écran : les montants s'affichent en **DA** (le symbole du dinar ; `DZD` est le code de la devise), et la colonne
   de taxe porte l'intitulé **TVA** (ni VAT, ni GST).
 - Vérifiez également que la fiche de l'établissement propose le champ **NIF**,
   ainsi que **RC**, **NIS** et **AI**, et que le prélèvement par nuitée est
@@ -284,7 +284,7 @@ s'affiche. Déroulez cette liste.
 
 1. **La page de connexion s'ouvre** sur `http://localhost:8080/kamra` et vous
    pouvez vous connecter en tant qu'`Administrator`.
-2. **Algeria, DZD et TVA** sont confirmés à l'écran, comme à l'étape 3.
+2. **Algeria, DA et TVA** sont confirmés à l'écran, comme à l'étape 3.
 3. **La liste des fuseaux horaires contient `Africa/Algiers`.**
 4. **Une réservation s'enregistre.** Créez une réservation jetable,
    enregistrez-la, rouvrez-la. C'est la première preuve honnête que la base de
