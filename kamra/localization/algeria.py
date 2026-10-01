@@ -159,13 +159,27 @@ def invoice_context(prop_doc) -> dict:
 
 def locale(prop_doc) -> dict:
 	currency = prop_doc.get("currency") or DEFAULT_CURRENCY
-	# An Algerian bill is written in DA, so that is what the desk sees. The
-	# Currency master wins if an operator has set a symbol there (some prefer
-	# د.ج); otherwise DA, never the bare "DZD" code. The trailing space is
-	# deliberate - the frontend prefixes the symbol, so "DA 1 500" needs it.
-	symbol = frappe.db.get_value("Currency", currency, "symbol")
+	# An Algerian bill is written in DA, so that is what the desk sees.
+	#
+	# For DZD the pack decides and does NOT defer to the Currency master.
+	# That reads backwards until you check a real site: Frappe ships DZD with
+	# the symbol already set to د.ج, so deferring meant the master always won
+	# and DA never appeared once. The master's value there is stock framework
+	# data, not something an operator chose, and this product standardises on
+	# DA - so the pack overrides it. An operator who genuinely wants د.ج
+	# changes it here, which is a visible decision rather than a silent one.
+	#
+	# Every other currency still prefers the master: those symbols ARE the
+	# right answer, and a pack has no business second-guessing them.
+	#
+	# The trailing space is deliberate - fmtMoney prefixes the symbol, so
+	# "DA 1 500" needs it.
+	if currency == "DZD":
+		symbol = "DA "
+	else:
+		symbol = frappe.db.get_value("Currency", currency, "symbol") or f"{currency} "
 	return {
-		"currency_symbol": symbol or ("DA " if currency == "DZD" else f"{currency} "),
+		"currency_symbol": symbol,
 		# the invoice and the front desk speak French in most houses
 		"locale": "fr-DZ",
 		"currency": currency,
