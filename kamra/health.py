@@ -172,6 +172,17 @@ def _scheduler_check() -> dict:
 	# job types stamped 16:15 against a site clock reading 14:19, and zero
 	# executions since the site was created. Worth naming explicitly, because
 	# "has never run" sends an operator to look at a container that is fine.
+	#
+	# The repair is NOT just "set last_execution to now", which is what an
+	# earlier version of this message said. Restarting a schedule that has been
+	# stalled for days is a business event, not a maintenance one: the first
+	# pass of expire_holds (every 15 min, kamra/reservation_state.py) cancels
+	# every Held / Pending Payment reservation whose window lapsed while the
+	# scheduler was down - including ones the guest has since paid for - and
+	# run_night_audit handles exactly one business date per run and does not
+	# catch up, so the missed nights are not charged by simply switching it
+	# back on. The detail therefore points at the runbook rather than handing
+	# an operator a one-line UPDATE for a live property.
 	try:
 		future = frappe.db.sql(
 			"""SELECT COUNT(*) FROM `tabScheduled Job Type`
@@ -188,7 +199,10 @@ def _scheduler_check() -> dict:
 			f"{future} scheduled job(s) are stamped in the future, so none will "
 			"ever come due and the night audit will not run. This happens when "
 			"the site time zone is moved to a lower UTC offset after the site "
-			"was created. Fix: set last_execution to now on the affected rows.",
+			"was created. Repairing it restarts the whole schedule at once - "
+			"read the runbook before you do, the first run cancels holds that "
+			"lapsed during the stall and the night audit does not back-fill "
+			"the days it missed.",
 			link="/app/scheduled-job-type",
 		)
 

@@ -148,6 +148,41 @@ checkout_frappe_docker() {
     git -C "$INSTALL_DIR/frappe_docker" checkout -q --force FETCH_HEAD
   fi
   cd "$INSTALL_DIR/frappe_docker"
+  write_kamra_override
+}
+
+# Upstream's compose.mariadb.yaml gives the database a 5s start_period, which
+# is right for a Linux server where MariaDB is listening almost immediately.
+# It is not survivable everywhere: measured on Docker Desktop over WSL2, the
+# entrypoint took a full minute to reach "Switching to dedicated user mysql",
+# so with 5s plus five 5s retries the container was declared unhealthy roughly
+# ninety seconds before it could have answered. Every service waiting on
+# `condition: service_healthy` was then cancelled and the install aborted
+# mid-way with "dependency failed to start: container db is unhealthy" - on a
+# database that was simply still booting.
+#
+# deploy/linux/docker-compose.yml already carries this fix, but that file is
+# the flattened stack for day-to-day operation; this script is the path an
+# actual customer installs through, and it reads upstream's overrides straight
+# from the frappe_docker checkout. Fixing only the first one left the installer
+# exposed, and the Windows installer drives this script.
+#
+# Written as a separate override rather than by editing upstream's file, so
+# `git checkout --force` on a new FRAPPE_DOCKER_REF cannot silently revert it.
+# start_period only widens the grace window - failures inside it do not count
+# toward `retries`, and the container is healthy the moment one check passes -
+# so a fast machine loses nothing.
+write_kamra_override() {
+  cat > "$INSTALL_DIR/frappe_docker/kamra.override.yaml" <<'EOF'
+services:
+  db:
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 180s
+      interval: 5s
+      timeout: 5s
+      retries: 5
+EOF
 }
 
 write_apps_json() {
@@ -180,7 +215,8 @@ compose() {
     -f compose.yaml \
     -f overrides/compose.mariadb.yaml \
     -f overrides/compose.redis.yaml \
-    -f overrides/compose.noproxy.yaml "$@"
+    -f overrides/compose.noproxy.yaml \
+    -f kamra.override.yaml "$@"
 }
 
 wait_for_backend() {
