@@ -41,9 +41,7 @@ clone present.
 The simplest correct path is still the project installer:
 
 ```bash
-export KAMRA_GIT_URL=https://github.com/ilyeseia/kamra-pms-algeria
-export KAMRA_BRANCH=feature/algeria-hospitality-platform
-curl -fsSL https://raw.githubusercontent.com/ilyeseia/kamra-pms-algeria/feature/algeria-hospitality-platform/deploy/install.sh -o install.sh
+curl -fsSL https://raw.githubusercontent.com/ilyeseia/kamra-pms-algeria/main/deploy/install.sh -o install.sh
 ```
 
 Read it, then run it:
@@ -52,9 +50,11 @@ Read it, then run it:
 sudo bash install.sh
 ```
 
-**Those two environment variables are not optional.** `install.sh` defaults to
-upstream Kamra on `main`; without the overrides a 20–45 minute build produces
-upstream with no Algerian localization in it at all.
+`install.sh` now defaults to this distribution on `main`, so no environment
+variables are needed. That default used to point at upstream Kamra, and a build
+that forgot to override it spent 20-45 minutes producing upstream with no
+Algerian localization in it at all — while reporting success. `KAMRA_GIT_URL`
+and `KAMRA_BRANCH` still exist for building a fork or a specific tag.
 
 It will ask for the site domain, an admin email and an admin password
 (10 characters minimum, no default). Then see
@@ -215,7 +215,7 @@ record. There is no undo. Check your restore works before you ever type it.
 | Night audit never runs | the `scheduler` container is down |
 | Disk fills up over months with no obvious cause | container logs. Docker's default `json-file` driver is unlimited, and these live under `/var/lib/docker` on the host, where the application's own disk check cannot see them - it measures the site path. This file caps them at 50 MB x 5 per service; check with `docker ps -q \| xargs docker inspect --format '{{.Name}} {{.HostConfig.LogConfig.Config}}'` |
 | Static files load but every page and API call is `502` | nginx resolved `backend` to an IP at its own startup and cached it; `docker compose restart backend` can give that container a new address. Check with `docker compose exec frontend getent hosts backend` against `docker inspect`, and `docker compose restart frontend` to re-resolve. Restarting the backend alone is what causes this — `docker compose up -d` does not |
-| Algeria missing from the setup country list | the image was built from upstream — check `apps.json` and rebuild |
+| Algeria missing from the setup country list | the image was built from upstream — check `apps.json` and rebuild. `install.sh` defaults to this distribution now, but an older copy of the script, or a stale `KAMRA_GIT_URL` in the environment, still points at upstream |
 | `up -d` exits `dependency failed to start: container db is unhealthy` | MariaDB was still booting. On Docker Desktop/WSL2 it can take over a minute to start listening, far past upstream's 5s `start_period` — raised to 180s here. On an older copy of this file, wait for `docker ps` to show db `(healthy)` and run `docker compose up -d` again |
 | Build fails fetching the app | the source repository is not publicly readable |
 | Every container restarts with `exec …entrypoint.sh: no such file or directory` | the image was built from a Windows checkout with CRLF line endings — re-clone with `core.autocrlf=false` and rebuild |

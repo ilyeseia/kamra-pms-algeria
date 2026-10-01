@@ -20,20 +20,58 @@ from frappe.utils import cint
 
 from kamra import __version__ as KAMRA_VERSION
 from kamra.authz import require_roles
+from kamra.distribution import (DISTRIBUTION, DISTRIBUTION_VERSION,
+                                tag_prefix)
 
-GITHUB_REPO = "Kamra-PMS/kamra-pms"
-GITHUB_LATEST = f"https://api.github.com/repos/{GITHUB_REPO}/releases/latest"
-GITHUB_RELEASES = f"https://github.com/{GITHUB_REPO}/releases"
+# Resolved per site, not fixed at import: see kamra/distribution.py for why a
+# ZIRI install must not ask upstream what version it should be running.
+def _repo() -> str:
+	from kamra.distribution import update_repo
+	return update_repo()
+
+
+def _latest_url(repo: str) -> str:
+	return f"https://api.github.com/repos/{repo}/releases/latest"
+
+
+def _releases_url(repo: str) -> str:
+	return f"https://github.com/{repo}/releases"
 CACHE_KEY = "kamra:github_latest_release"
 CACHE_TTL = 3600  # 1 hour — polite to GitHub's unauthenticated rate limit
 
 
-def _parse_semver(tag: str) -> tuple[int, int, int] | None:
-	"""v2.6.2 / 2.6.2 → (2, 6, 2). Ignores prerelease suffixes for compare."""
-	m = re.match(r"^v?(\d+)\.(\d+)\.(\d+)", (tag or "").strip())
+def _strip_prefix(tag: str, prefix: str = "") -> str:
+	t = (tag or "").strip()
+	if prefix and t.startswith(prefix):
+		t = t[len(prefix):]
+	return t
+
+
+def _parse_semver(tag: str, prefix: str = ""):
+	"""`ziri-v1.0.0-rc.2` / `v2.6.2` / `2.6.2` -> comparable key.
+
+	Returns (major, minor, patch, release_rank, prerelease_parts) where
+	release_rank is 1 for a final release and 0 for a prerelease, so that
+	1.0.0-rc.2 sorts BEFORE 1.0.0 as semver requires.
+
+	The prerelease part used to be discarded outright, with a docstring saying
+	so. That made `2.6.6-beta.1` compare EQUAL to `2.6.6`, so an install on the
+	beta would have been told it was current - which is precisely backwards for
+	the one channel where knowing your exact build matters.
+	"""
+	t = _strip_prefix(tag, prefix)
+	m = re.match(r"^v?(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?", t)
 	if not m:
 		return None
-	return int(m.group(1)), int(m.group(2)), int(m.group(3))
+	core = (int(m.group(1)), int(m.group(2)), int(m.group(3)))
+	pre = m.group(4)
+	if not pre:
+		# a final release outranks every prerelease of the same core version
+		return core + (1, ())
+	# numeric identifiers compare numerically and rank below alphanumeric ones,
+	# so rc.2 < rc.10 rather than the string order that would put rc.10 first
+	parts = tuple((0, int(x)) if x.isdigit() else (1, x) for x in pre.split("."))
+	return core + (0, parts)
 
 
 def _cmp_semver(a: str, b: str) -> int | None:
@@ -49,44 +87,95 @@ def _cmp_semver(a: str, b: str) -> int | None:
 
 
 def _fetch_github_latest() -> dict:
+	"""Newest published release of THIS distribution.
+
+	`no_releases` is distinct from `ok: False`. A repository that has simply
+	not published a release yet is a normal state - it is where this
+	distribution starts - and reporting it as a failed update check would
+	train the operator to ignore a panel that is telling the truth.
+	"""
+	repo = _repo()
+	if not repo:
+		return {"ok": False, "disabled": True, "no_releases": False,
+		        "error": None, "tag": None, "name": None, "url": None,
+		        "published_at": None}
+
 	cached = frappe.cache.get_value(CACHE_KEY)
-	if isinstance(cached, dict) and cached.get("tag"):
+	if isinstance(cached, dict) and cached.get("repo") == repo:
 		return cached
 
 	req = Request(
-		GITHUB_LATEST,
+		_latest_url(repo),
 		headers={
 			"Accept": "application/vnd.github+json",
-			"User-Agent": f"Kamra-PMS/{KAMRA_VERSION}",
+			"User-Agent": f"ZIRI-PMS/{DISTRIBUTION_VERSION}",
 			"X-GitHub-Api-Version": "2022-11-28",
 		},
 	)
+	base = {"ok": False, "disabled": False, "no_releases": False,
+	        "repo": repo, "tag": None, "name": None,
+	        "url": _releases_url(repo), "published_at": None}
 	try:
 		with urlopen(req, timeout=8) as resp:  # nosemgrep: python.lang.security - public GitHub API over HTTPS
 			payload = json.loads(resp.read().decode("utf-8"))
-	except (HTTPError, URLError, TimeoutError, ValueError, OSError) as e:
-		return {
-			"ok": False,
-			"error": str(e)[:200],
-			"tag": None,
-			"name": None,
-			"url": GITHUB_RELEASES,
-			"published_at": None,
-		}
+	except HTTPError as e:
+		# GitHub answers 404 both for "no releases yet" and for a repository
+		# that is private or misspelt. They are not the same situation and the
+		# caller has to tell them apart, so ask whether the repo itself exists.
+		if e.code == 404:
+			# Confirm the repository itself resolves, so a typo in
+			# kamra_update_repo does not masquerade as "no releases yet".
+			#
+			# Only an HTTP answer settles this. An earlier version caught every
+			# exception here and reported "not reachable or not public", which
+			# turned an ordinary network timeout into a confident claim about
+			# the repository's visibility - and it fired on a repository that
+			# answers 200. A timeout is evidence of nothing.
+			try:
+				probe = Request(
+					f"https://api.github.com/repos/{repo}",
+					headers={"Accept": "application/vnd.github+json",
+					         "User-Agent": f"ZIRI-PMS/{DISTRIBUTION_VERSION}"},
+				)
+				with urlopen(probe, timeout=6) as r2:  # nosemgrep: python.lang.security - public GitHub API over HTTPS
+					r2.read(1)
+			except HTTPError as e2:
+				# a definite answer: the repo is absent, private, or we are
+				# rate limited - each worth saying precisely
+				if e2.code in (404, 403):
+					out = dict(base, no_releases=False, error=(
+						f"{repo} returned HTTP {e2.code} - check the name, "
+						"its visibility, or wait out a rate limit"))
+				else:
+					out = dict(base, no_releases=False,
+					           error=f"{repo} returned HTTP {e2.code}")
+				frappe.cache.set_value(CACHE_KEY, out, expires_in_sec=CACHE_TTL)
+				return out
+			except (URLError, TimeoutError, OSError):
+				# inconclusive: say so, and do NOT cache a guess
+				return dict(base, no_releases=False, error=(
+					"no release found, and the repository could not be "
+					"reached to confirm why"))
+			out = dict(base, error=None, no_releases=True)
+			frappe.cache.set_value(CACHE_KEY, out, expires_in_sec=CACHE_TTL)
+			return out
+		return dict(base, error=f"HTTP {e.code}")
+	except (URLError, TimeoutError, ValueError, OSError) as e:
+		return dict(base, error=str(e)[:200])
 
 	tag = (payload.get("tag_name") or "").strip()
-	out = {
-		"ok": True,
-		"error": None,
-		"tag": tag,
-		"name": payload.get("name") or tag,
-		"url": payload.get("html_url") or GITHUB_RELEASES,
-		"published_at": payload.get("published_at"),
-		"body_preview": (payload.get("body") or "")[:400],
-	}
+	out = dict(
+		base,
+		ok=True,
+		error=None,
+		tag=tag,
+		name=payload.get("name") or tag,
+		url=payload.get("html_url") or _releases_url(repo),
+		published_at=payload.get("published_at"),
+		body_preview=(payload.get("body") or "")[:400],
+	)
 	frappe.cache.set_value(CACHE_KEY, out, expires_in_sec=CACHE_TTL)
 	return out
-
 
 def _check(id_: str, title: str, status: str, detail: str, *,
            link: str | None = None) -> dict:
@@ -401,52 +490,53 @@ def _timezone_check() -> dict:
 
 
 def _version_check(latest: dict) -> dict:
-	installed = KAMRA_VERSION
-	tag = latest.get("tag")
-	url = latest.get("url") or GITHUB_RELEASES
-	if not latest.get("ok") or not tag:
-		return _check(
-			"version",
-			"Version",
-			"info",
-			f"Installed {installed}. Could not reach GitHub "
-			f"({latest.get('error') or 'unknown'}).",
-			link=url,
-		)
-	cmp = _cmp_semver(installed, tag)
-	if cmp is None:
-		return _check(
-			"version",
-			"Version",
-			"info",
-			f"Installed {installed}; latest on GitHub is {tag}.",
-			link=url,
-		)
-	if cmp < 0:
-		return _check(
-			"version",
-			"Version",
-			"attention",
-			f"Installed {installed} — latest stable is {tag.lstrip('v')}.",
-			link=url,
-		)
-	if cmp > 0:
-		return _check(
-			"version",
-			"Version",
-			"info",
-			f"Installed {installed} is ahead of latest GitHub release {tag} "
-			"(develop / pre-release build).",
-			link=url,
-		)
-	return _check(
-		"version",
-		"Version",
-		"passed",
-		f"Installed {installed} matches latest stable {tag}.",
-		link=url,
-	)
+	"""Is this DISTRIBUTION current against ITS OWN releases?
 
+	It used to read the Kamra CORE version and compare it against upstream's
+	releases, which told a ZIRI install that 2.6.6 was available and linked to
+	upstream's release page. Acting on that rebuilds the site from upstream and
+	removes everything this distribution adds. See kamra/distribution.py.
+	"""
+	installed = DISTRIBUTION_VERSION
+	prefix = tag_prefix()
+	tag = latest.get("tag")
+	url = latest.get("url")
+	both = f"{DISTRIBUTION} {installed} (Kamra core {KAMRA_VERSION})"
+
+	if latest.get("disabled"):
+		return _check("version", "Version", "info",
+		              f"{both}. Update checking is switched off for this site "
+		              "(kamra_update_repo is empty).")
+
+	repo = latest.get("repo") or ""
+	if latest.get("no_releases"):
+		# Not a failure. It is where a new distribution starts, and saying so
+		# is more useful than an error the operator cannot act on.
+		return _check("version", "Version", "info",
+		              f"{both}. {repo} has published no releases yet, so there "
+		              "is nothing to compare against.", link=url)
+
+	if not latest.get("ok") or not tag:
+		return _check("version", "Version", "info",
+		              f"{both}. Could not check {repo} "
+		              f"({latest.get('error') or 'unknown'}).", link=url)
+
+	shown = _strip_prefix(tag, prefix)
+	cmp = _cmp_semver(_strip_prefix(installed, prefix), shown)
+	if cmp is None:
+		return _check("version", "Version", "info",
+		              f"{both}. Latest published is {tag}; the two cannot be "
+		              "compared as versions.", link=url)
+	if cmp < 0:
+		return _check("version", "Version", "attention",
+		              f"{both}. {shown} is available. Read the release notes "
+		              "and UPDATES.md before applying it.", link=url)
+	if cmp > 0:
+		return _check("version", "Version", "info",
+		              f"{both} is ahead of the newest published release "
+		              f"({shown}) - a development build.", link=url)
+	return _check("version", "Version", "passed",
+	              f"{both} is the newest published release.", link=url)
 
 @frappe.whitelist()
 @require_roles("Hotel Admin", "System Manager", "Administrator")
@@ -485,25 +575,27 @@ def system_health(refresh: int = 0):
 		"overall": overall,
 		"summary": summary,
 		"installed": {
+			"distribution": DISTRIBUTION,
+			"distribution_version": DISTRIBUTION_VERSION,
 			"kamra": KAMRA_VERSION,
 			"frappe": getattr(frappe, "__version__", None),
 			"site": frappe.local.site,
 		},
 		"latest": latest,
+		# Every instruction here names THIS distribution. The previous version
+		# of this block handed the operator `bench get-app` against upstream
+		# and a ghcr.io/kamra-pms image, either of which replaces the app with
+		# upstream Kamra and silently removes the Algeria localization.
 		"upgrade": {
-			"docs": "https://kamrapms.com/docs/self-hosting/",
-			"releases": GITHUB_RELEASES,
-			"docker_latest": "ghcr.io/kamra-pms/kamra:latest",
-			"docker_nightly": "ghcr.io/kamra-pms/kamra:nightly",
-			"bench": (
-				"bench get-app kamra https://github.com/Kamra-PMS/kamra-pms "
-				"--branch main && bench --site <site> migrate && bench build "
-				"--app kamra && bench restart"
-			),
+			"repo": latest.get("repo") or "",
+			"releases": latest.get("url"),
+			"docs": "docs/product/UPDATES.md",
 			"note": (
-				"Kamra does not auto-upgrade the site from this screen. "
-				"Self-host: pull the new image or bench update, then migrate. "
-				"Frappe Cloud: create a Marketplace release from main."
+				f"{DISTRIBUTION} does not upgrade itself from this screen. "
+				"Back up first, read docs/product/UPDATES.md, and apply the "
+				"update from the distribution's own release - never by "
+				"pointing bench or Docker at upstream Kamra, which would "
+				"replace this build and remove its localization."
 			),
 		},
 		"checks": checks,

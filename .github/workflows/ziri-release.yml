@@ -1,0 +1,78 @@
+# Publishes a GitHub Release for a ZIRI PMS distribution tag.
+#
+# WHY THIS IS SEPARATE FROM release.yml
+# release.yml triggers on `v*`, which is upstream Kamra's core tag shape, and
+# it does three things: create the Release, push a Docker image to
+# ghcr.io/kamra-pms, and deploy demo.kamrapms.com. The last two belong to
+# upstream's infrastructure. Widening its trigger to `ziri-v*` would therefore
+# either fail on a registry this fork cannot write to, or - worse - redeploy
+# someone else's demo site on every distribution release. So distribution tags
+# get their own workflow that does exactly one thing.
+#
+# WHY IT EXISTS AT ALL
+# `kamra/health.py` asks the GitHub API for the newest *release* of this
+# distribution. A pushed tag is not a release: the API returns 404 for
+# /releases/latest until a Release object exists. Tagging `ziri-v1.0.0-rc.2`
+# by hand, as this repository has done twice, therefore left the update check
+# with nothing to read. This closes that gap.
+#
+# The distribution version is also carried in kamra/distribution.py, and the
+# two must agree - the check below fails the release rather than publishing a
+# tag that disagrees with what the running software reports about itself.
+
+name: ZIRI release
+
+on:
+  push:
+    tags: ["ziri-v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Distribution tag (ziri-vX.Y.Z)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Publish distribution release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.tag || github.ref_name }}
+
+      - name: Tag must match kamra/distribution.py
+        run: |
+          TAG="${{ inputs.tag || github.ref_name }}"
+          VER="${TAG#ziri-v}"
+          CODE="$(python3 - <<'PY'
+          import re, pathlib
+          s = pathlib.Path("kamra/distribution.py").read_text(encoding="utf-8")
+          print(re.search(r'DISTRIBUTION_VERSION\s*=\s*"([^"]+)"', s).group(1))
+          PY
+          )"
+          echo "tag=$TAG  ->  version=$VER"
+          echo "kamra/distribution.py DISTRIBUTION_VERSION=$CODE"
+          if [ "$VER" != "$CODE" ]; then
+            echo "::error::tag $TAG implies $VER but kamra/distribution.py says $CODE."
+            echo "::error::health.py reports the value in the code, so publishing this"
+            echo "::error::would tell every install it is running a version that was"
+            echo "::error::never released. Update distribution.py, or retag."
+            exit 1
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
+        with:
+          tag_name: ${{ inputs.tag || github.ref_name }}
+          name: ZIRI PMS ${{ inputs.tag || github.ref_name }}
+          # An -rc tag is a prerelease. health.py ranks prereleases below the
+          # final release of the same version, and GitHub's /releases/latest
+          # skips prereleases entirely - so a release candidate never presents
+          # itself to a hotel as an available update.
+          prerelease: ${{ contains(inputs.tag || github.ref_name, '-rc') || contains(inputs.tag || github.ref_name, '-beta') }}
+          generate_release_notes: true

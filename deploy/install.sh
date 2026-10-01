@@ -37,7 +37,14 @@ esac
 
 KAMRA_IMAGE="${KAMRA_IMAGE:-kamra}"
 KAMRA_TAG="${KAMRA_TAG:-local}"
-KAMRA_GIT_URL="${KAMRA_GIT_URL:-https://github.com/Kamra-PMS/kamra-pms}"
+# THIS distribution, not upstream. The default used to be upstream Kamra,
+# which meant `install.sh update` on a ZIRI server rebuilt the site from a
+# repository that has none of the Algeria localization in it - no country
+# pack, no wilayas or communes, no DZD - and did so reporting success.
+# deploy/linux/README.md had to warn in bold that two environment variables
+# were "not optional"; a default that destroys the product unless the
+# operator remembers to override it is not a default worth keeping.
+KAMRA_GIT_URL="${KAMRA_GIT_URL:-https://github.com/ilyeseia/kamra-pms-algeria}"
 KAMRA_BRANCH_OVERRIDE="${KAMRA_BRANCH:-}"
 KAMRA_BRANCH="${KAMRA_BRANCH:-main}"
 FRAPPE_BRANCH="${FRAPPE_BRANCH:-version-16}"
