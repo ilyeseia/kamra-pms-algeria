@@ -53,8 +53,8 @@ def setup():
 	# to a missing user yields no roles, which turns every "role X may not do
 	# Y" check into a pass for the wrong reason.
 	for email, first, role in (
-		("frontdesk@kamra.local", "Ravi", "Front Desk"),
-		("hk@kamra.local", "Lakshmi", "Housekeeping"),
+		("frontdesk@ziri.local", "Ravi", "Front Desk"),
+		("hk@ziri.local", "Lakshmi", "Housekeeping"),
 	):
 		if not frappe.db.exists("User", email):
 			frappe.get_doc({
@@ -71,7 +71,7 @@ def setup():
 	# a demo-seeded site pins these personas to its demo hotel; property
 	# scope is enforced now, so give them the eval property too (rolled
 	# back with everything else)
-	for email in ("frontdesk@kamra.local", "hk@kamra.local"):
+	for email in ("frontdesk@ziri.local", "hk@ziri.local"):
 		if frappe.db.exists("User Permission", {"user": email, "allow": "Property"}) \
 				and not frappe.db.exists("User Permission", {
 					"user": email, "allow": "Property", "for_value": P}):
@@ -723,7 +723,7 @@ def t23():
 @check("CRS access guard: a property-restricted user is blocked from others")
 def t24():
 	from kamra.crs import assert_property_access, permitted_properties
-	u = "eval.pinned@kamra.local"
+	u = "eval.pinned@ziri.local"
 	if not frappe.db.exists("User", u):
 		frappe.get_doc({
 			"doctype": "User", "email": u, "first_name": "Pinned",
@@ -1641,7 +1641,7 @@ def t41():
 	# looking is not moving: Front Desk reads stock, Finance moves it
 	me = frappe.session.user
 	try:
-		frappe.set_user("frontdesk@kamra.local")  # nosemgrep: frappe-setuser -- controlled user context switch; target user is validated and scope-limited in this flow
+		frappe.set_user("frontdesk@ziri.local")  # nosemgrep: frappe-setuser -- controlled user context switch; target user is validated and scope-limited in this flow
 		inventory.stock_list(P, outlet)  # allowed
 		try:
 			inventory.receive_stock(P, outlet, [{"ingredient": paneer, "qty": 1}])
@@ -1785,7 +1785,7 @@ def t43():
 	token = frappe.db.get_value("Reservation", res.name, "precheckin_token")
 
 	# the desk captures at the counter for a guest who never uploaded
-	frappe.set_user("frontdesk@kamra.local")  # nosemgrep: frappe-setuser -- controlled user context switch; target user is validated and scope-limited in this flow
+	frappe.set_user("frontdesk@ziri.local")  # nosemgrep: frappe-setuser -- controlled user context switch; target user is validated and scope-limited in this flow
 	try:
 		api.upload_id_document(res.name, _id_photo())
 		assert frappe.db.get_value("Reservation", res.name, "id_document_source") == "Desk"
@@ -1804,7 +1804,7 @@ def t43():
 		api.verify_precheckin(res.name)
 		assert frappe.db.get_value("Reservation", res.name, "precheckin_status") == "Verified"
 		assert frappe.db.get_value("Reservation", res.name,
-		                           "precheckin_verified_by") == "frontdesk@kamra.local"
+		                           "precheckin_verified_by") == "frontdesk@ziri.local"
 		assert frappe.db.get_value("Reservation", res.name, "precheckin_verified_on")
 		try:
 			api.verify_precheckin(res.name)
@@ -1822,7 +1822,7 @@ def t43():
 		pass
 
 	# looking is not everyone's business
-	frappe.set_user("hk@kamra.local")  # nosemgrep: frappe-setuser -- controlled user context switch; target user is validated and scope-limited in this flow
+	frappe.set_user("hk@ziri.local")  # nosemgrep: frappe-setuser -- controlled user context switch; target user is validated and scope-limited in this flow
 	try:
 		for fn, args in (("id_document_image", (res.name,)),
 		                 ("verify_precheckin", (res.name,)),
@@ -3372,7 +3372,7 @@ def t84():
 	at_p = set(frappe.get_all("Agent Action Log", {"property": P}, pluck="name"))
 	assert at_p, "no activity at P to test the feed against"
 
-	u = "eval.scoped@kamra.local"
+	u = "eval.scoped@ziri.local"
 	if not frappe.db.exists("User", u):
 		frappe.get_doc({
 			"doctype": "User", "email": u, "first_name": "Scoped",
@@ -3476,7 +3476,7 @@ def execute():
 		frappe.db.rollback(save_point="eval_start")
 
 	passed = sum(1 for _, ok, _ in RESULTS if ok)
-	print(f"\n=== Kamra eval harness: {passed}/{len(RESULTS)} passed ===")
+	print(f"\n=== ZIRI eval harness: {passed}/{len(RESULTS)} passed ===")
 	for name, ok, msg in RESULTS:
 		print(f"  {'PASS' if ok else 'FAIL'}  {name}" + (f" — {msg}" if msg else ""))
 	RESULTS.clear()

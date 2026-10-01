@@ -33,7 +33,7 @@ Linux distribution has its own release number while the kernel keeps its.
 
 ## What "Algeria Distribution 1.0.0" covers
 
-1.0.0 is the first version of the Algerian localization layer on top of Kamra
+1.0.0 is the first version of the Algerian localization layer on top of ZIRI
 core 2.6.5:
 
 - the Algeria country pack (`kamra/localization/algeria.py`) with DZD, TVA/NIF,
@@ -113,7 +113,7 @@ ZIRI PMS - Algeria Distribution 1.0.0
 on Kamra core 2.6.5 - AGPL-3.0
 ```
 
-That pairing is what a support request needs. "Kamra 2.6.5" alone does not say
+That pairing is what a support request needs. "ZIRI 2.6.5" alone does not say
 whether the Algeria pack is present, and "Algeria 1.0.0" alone does not say
 which core it sits on.
 

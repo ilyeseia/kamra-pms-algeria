@@ -58,7 +58,7 @@ def execute():
 			"city": "Bengaluru",
 			"state": "Karnataka",
 			"phone": "+91 80 4000 8000",
-			"email": "demo@kamra.local",
+			"email": "demo@ziri.local",
 			"gstin": "29ABCDE1234F1Z5",
 		}
 	).insert(ignore_permissions=True)

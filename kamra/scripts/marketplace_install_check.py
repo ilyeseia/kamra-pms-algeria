@@ -130,7 +130,7 @@ def check_listing_copy() -> None:
 
 
 def main() -> int:
-	print("Kamra marketplace install simulation (offline)\n")
+	print("ZIRI marketplace install simulation (offline)\n")
 	check_pyproject()
 	check_hooks()
 	check_shipped_spa()

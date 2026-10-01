@@ -1,5 +1,5 @@
 #!/bin/bash
-# Linode / Akamai Marketplace One-Click — Kamra StackScript stub.
+# Linode / Akamai Marketplace One-Click — ZIRI StackScript stub.
 #
 # Submit via https://www.linode.com/marketplace/app-partners/ with Ansible
 # playbooks per https://github.com/linode-solutions/marketplace-apps
@@ -30,4 +30,4 @@ chmod +x /tmp/kamra-install.sh
 bash /tmp/kamra-install.sh
 
 unset ADMIN_PASSWORD
-echo "Kamra Linode One-Click finished. Open http://$(hostname -I | awk '{print $1}'):8080/kamra"
+echo "ZIRI Linode One-Click finished. Open http://$(hostname -I | awk '{print $1}'):8080/kamra"

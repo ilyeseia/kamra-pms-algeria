@@ -1,4 +1,4 @@
-# Self-hosting Kamra
+# Self-hosting ZIRI
 
 Own your PMS end to end. Two supported paths: **Docker (recommended)** or a
 classic bench install.
@@ -28,7 +28,7 @@ classic bench install.
 
 - SMTP credentials for email ([email setup](email-setup.md))
 - Razorpay/Stripe keys for payment links (configure in the payments app)
-- An LLM API key on your side if you connect an AI agent (BYOK — Kamra
+- An LLM API key on your side if you connect an AI agent (BYOK — ZIRI
   never proxies or marks up model calls)
 
 ## Install (Docker, recommended)

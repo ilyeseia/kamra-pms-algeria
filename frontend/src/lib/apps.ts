@@ -1,10 +1,10 @@
-/*  The Kamra app suite. One PMS, several apps - like a workspace suite:
+/*  The ZIRI app suite. One PMS, several apps - like a workspace suite:
     Front Desk is where the day happens; Housekeeping, Operations, Events,
     Revenue, Finance and Admin are their own rooms. The switcher in the top
     bar and the /apps launcher move between them; Search (Ctrl/Cmd+K) jumps
     anywhere and the sidebar follows.
 
-    Every app is open and included - Kamra is fully open source. */
+    Every app is open and included - ZIRI is fully open source. */
 
 import {
   BadgePercent,

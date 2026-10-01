@@ -46,7 +46,7 @@ night audit, pricing — with deterministic money (never from an LLM).
 ## Contents
 
 - [What's new](#whats-new)
-- [Why Kamra](#why-kamra)
+- [Why ZIRI](#why-kamra)
 - [What makes it different](#what-makes-it-different)
 - [Screenshots](#screenshots)
 - [Short-term rentals](#short-term-rentals)
@@ -82,7 +82,7 @@ Most hotel PMS software was built twenty years ago: per-room SaaS rent, locked-i
 
 ZIRI PMS is the alternative we wanted:
 
-| Pain with legacy PMS | With Kamra |
+| Pain with legacy PMS | With ZIRI |
 |---|---|
 | Per-room / per-module pricing | **Free forever** (AGPL) — cost doesn't scale with rooms |
 | Data lock-in | **You host it** — on-prem, VPS, or Frappe Cloud |
@@ -169,7 +169,7 @@ Going live? Use the **[go-live checklist](https://kamrapms.com/docs/go-live)**.
 
 ### REST & agents
 
-Kamra exposes **170+ REST endpoints** — the same governed layer the UI and AI use:
+ZIRI exposes **170+ REST endpoints** — the same governed layer the UI and AI use:
 
 - [REST API reference](https://kamrapms.com/docs/api-reference)
 - [Postman collection](https://kamrapms.com/docs/kamra.postman_collection.json)
@@ -194,7 +194,7 @@ In-repo: [`docs/`](docs/) · [user guide](docs/user-guide.md) · [AI & API](docs
 | **Hostinger VPS** | Cheapest self-host (India / SEA) | Buy KVM 2 via the [Kamra referral link](https://www.hostinger.com/in?REFERRALCODE=kamrapms) (20% off), paste the Docker one-liner below · [guide](https://kamrapms.com/docs/self-hosting/hostinger) |
 | **Docker on any VPS** | DigitalOcean, Linode, AWS, your own box | One-liner below · [quickstart](https://kamrapms.com/docs/quickstart) |
 | **Bench** | Existing Frappe / ERPNext benches | Commands below · [guide](https://kamrapms.com/docs/self-hosting/bench) |
-| **Frappe Cloud Marketplace** | Managed Frappe hosting | [Install Kamra](https://cloud.frappe.io/marketplace/apps/kamra) on a private bench |
+| **Frappe Cloud Marketplace** | Managed Frappe hosting | [Install ZIRI](https://cloud.frappe.io/marketplace/apps/kamra) on a private bench |
 
 **Docker (builds on your server):**
 
@@ -260,7 +260,7 @@ claude mcp add --transport http kamra https://pms.yourhotel.com/mcp
 
 ## License & contributors
 
-**AGPL-3.0** — free forever. Anyone offering Kamra as a hosted service must share modifications back.
+**AGPL-3.0** — free forever. Anyone offering ZIRI as a hosted service must share modifications back.
 
 Contributions welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). The full list lives on the docs site: [Contributors](https://kamrapms.com/docs/contributors).
 
@@ -293,4 +293,4 @@ Built by [HeyKoala](https://heykoala.ai).
 
 ---
 
-*Kamra means "room". The door in our logo is open on purpose.*
+*ZIRI means "room". The door in our logo is open on purpose.*

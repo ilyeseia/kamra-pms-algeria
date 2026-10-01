@@ -517,7 +517,7 @@ Restoring into an older server than made the dump is not covered.
 
 An accidentally deleted reservation does not justify rolling back everyone's
 work. Try Frappe's own recovery first (the Deleted Document list and its
-Restore action - core Frappe **[confirm that the Kamra doctypes keep deletion
+Restore action - core Frappe **[confirm that the ZIRI doctypes keep deletion
 history]**). Failing that: restore the set into a disposable Level 2 stack
 (section 2.3, with all of rule 1 in force), read the record there and re-enter
 it, or export it with `bench export-json` **[confirm]** and import it live.

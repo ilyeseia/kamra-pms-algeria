@@ -187,7 +187,7 @@ Desktop, the WSL2 VM and Windows itself all want memory on top. In practice:
 
 | | Works | Comfortable |
 | --- | --- | --- |
-| Windows 10 + WSL2 + Docker Desktop + Kamra | 8 GB RAM, 60 GB free | **16 GB RAM, 100 GB free** |
+| Windows 10 + WSL2 + Docker Desktop + ZIRI | 8 GB RAM, 60 GB free | **16 GB RAM, 100 GB free** |
 
 Note that WSL2's virtual disk grows and does not shrink on its own, and the
 image build is disk-hungry. 40 GB free on `C:` is not enough headroom for a
@@ -927,7 +927,7 @@ technical decision.
 | --- | --- |
 | `need 'docker' on PATH` | Docker Desktop WSL integration off for the distro |
 | `docker buildx is required` | BuildKit missing; the layered Containerfile needs `RUN --mount=type=secret` |
-| Build fails at the Kamra clone | Repository is private — see §3 |
+| Build fails at the ZIRI clone | Repository is private — see §3 |
 | Build killed / out of memory | Under the 8 GB floor and swap could not be created; raise Docker Desktop's memory limit |
 | `docker build failed` after a long run | Usually disk full. WSL2's virtual disk grows; check free space on `C:` |
 | Backend never becomes ready | `<COMPOSE> logs backend` and `logs db`; `install.sh` waits 5 minutes (`deploy/install.sh:186-195`) |

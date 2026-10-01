@@ -1,6 +1,6 @@
 # AI & API setup
 
-Kamra is agent-native: everything staff can do, an agent can do — through
+ZIRI is agent-native: everything staff can do, an agent can do — through
 the same governed tool layer. Prices come from the pricing engine,
 guardrails and policies apply, and every action lands in the **Agent
 Action Log** with who/what/why and the minutes it saved.
@@ -18,9 +18,9 @@ everyone at that property.
 - **Any OpenAI-compatible provider works.** Settings presets cover
   OpenAI, Gemini, Groq, OpenRouter, and Ollama (OpenAI-compatible base
   URL + Test connection). Set the base URL and model to taste.
-- **Your key, your data.** Kamra adds no markup and proxies nothing
+- **Your key, your data.** ZIRI adds no markup and proxies nothing
   through third parties — requests go from your server to your provider.
-- **Governed:** the model can only call Kamra's tools (quote, book,
+- **Governed:** the model can only call ZIRI's tools (quote, book,
   check-in/out, folios, splits, payments, cancellations with policy
   preview, rates within guardrails, night audit). It cannot invent a
   price or skip a fee — the tools refuse.

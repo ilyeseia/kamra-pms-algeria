@@ -1,6 +1,6 @@
 # Email setup (self-hosted)
 
-Kamra uses Frappe's built-in email stack — no custom mailer to maintain.
+ZIRI uses Frappe's built-in email stack — no custom mailer to maintain.
 You need one **outgoing** account (confirmations, invoices, briefings) and
 optionally an **incoming** one (replies → Frappe inbox).
 

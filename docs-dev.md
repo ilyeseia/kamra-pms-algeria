@@ -1,6 +1,6 @@
-# Kamra — local development
+# ZIRI — local development
 
-Kamra is an open-source, AI-native hotel PMS built on Frappe v16.
+ZIRI is an open-source, AI-native hotel PMS built on Frappe v16.
 This workspace holds the local dev environment (Docker) and the `kamra` app.
 
 ## Layout
@@ -168,7 +168,7 @@ bench --site kamra.localhost migrate
 | Role | Meaning |
 |---|---|
 | System Manager | IT/platform admin — everything incl. schema |
-| Hotel Admin | Owner/GM — full rights on all Kamra doctypes |
+| Hotel Admin | Owner/GM — full rights on all ZIRI doctypes |
 | Front Desk / Revenue Manager / Finance | Scoped module rights |
 | Kamra Agent | What AI agents get — ops rights, no desk access |
 

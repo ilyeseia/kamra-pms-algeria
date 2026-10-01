@@ -311,7 +311,7 @@ The installation requires **both**, in this order, and refuses on the first fail
 ### Image: pull by digest, or rebuild?
 
 `install.sh` builds the image on the customer's machine (`install.sh:164-176`; the
-comment at `install.sh:9` says ghcr is kept private for Kamra's own hosts). A signature
+comment at `install.sh:9` says ghcr is kept private for ZIRI's own hosts). A signature
 over the `kamra` source commit does **not** cover a locally built image, because Frappe
 (`version-16`) and `payments` (`develop`) are fetched fresh and unpinned (§1 item 3).
 

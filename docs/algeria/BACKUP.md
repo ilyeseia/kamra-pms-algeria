@@ -410,7 +410,7 @@ Then run it by hand once and read the output before you schedule it.
 $action = New-ScheduledTaskAction -Execute "wsl.exe" `
   -Argument "-d Ubuntu -- bash -lc '/opt/kamra/backup.sh >> /opt/kamra/backup.log 2>&1'"
 $trigger = New-ScheduledTaskTrigger -Daily -At 3:30am
-Register-ScheduledTask -TaskName "Kamra backup" -Action $action -Trigger $trigger `
+Register-ScheduledTask -TaskName "ZIRI backup" -Action $action -Trigger $trigger `
   -Description "Nightly ZIRI PMS backup (Algeria Distribution)"
 ```
 
@@ -441,7 +441,7 @@ machine you are protecting against.
 The day after you set it up:
 
 ```powershell
-Get-ScheduledTaskInfo -TaskName "Kamra backup"   # LastRunTime, LastTaskResult
+Get-ScheduledTaskInfo -TaskName "ZIRI backup"   # LastRunTime, LastTaskResult
 ```
 
 `LastTaskResult` must be `0`. Then look at the archive dates and at

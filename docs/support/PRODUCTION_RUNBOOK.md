@@ -619,7 +619,7 @@ dc exec -T backend ls -lh "sites/$SITE/private/backups/"
 tail -n 30 /var/log/kamra-backup.log        # Linux: the cron job's log (BACKUP.md §7)
 ```
 
-Windows: `Get-ScheduledTaskInfo -TaskName "Kamra backup"` — `LastTaskResult` must be
+Windows: `Get-ScheduledTaskInfo -TaskName "ZIRI backup"` — `LastTaskResult` must be
 `0` (`BACKUP.md` §6). Then run the real command by hand and read the error:
 
 ```bash

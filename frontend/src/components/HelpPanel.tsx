@@ -5,7 +5,7 @@ import { call, getCurrentProperty } from "../lib/api"
 import { cn } from "../lib/utils"
 import { Markdown } from "../lib/markdown"
 
-/** How-to help assistant - explains how to use Kamra (it never acts on data;
+/** How-to help assistant - explains how to use ZIRI (it never acts on data;
  *  that's Kamra Agent). Streams answers, grounded in the app. */
 
 interface Msg {

@@ -107,7 +107,7 @@ def execute():
 	add_reservation_fields()
 
 	frappe.db.commit()  # nosemgrep: frappe-manual-commit -- batch/seed/migration script runs outside the request cycle; explicit commit persists the staged writes
-	print("Kamra v1 schema (meal plans, seasons, vouchers, groups, corporate) ready.")
+	print("ZIRI v1 schema (meal plans, seasons, vouchers, groups, corporate) ready.")
 
 
 def add_reservation_fields():

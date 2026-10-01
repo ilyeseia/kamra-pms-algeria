@@ -925,7 +925,7 @@ def hosting_enquiry(full_name: str, email: str, phone: str = "",
 	try:
 		frappe.sendmail(
 			recipients=["hello@kamrapms.com"],
-			subject=f"Kamra {doc.interest or 'Cloud'} enquiry: {doc.full_name}"
+			subject=f"ZIRI {doc.interest or 'Cloud'} enquiry: {doc.full_name}"
 			        + (f" ({doc.property_name})" if doc.property_name else ""),
 			message=(
 				f"<p><b>{doc.full_name}</b> &lt;{doc.email}&gt;"

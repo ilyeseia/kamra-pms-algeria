@@ -303,7 +303,7 @@ upgrade-breaking changes (removed doctypes / API contracts).
 
 ## [2.5.0](https://github.com/Kamra-PMS/kamra-pms/compare/v2.4.0...v2.5.0) (2026-08-13)
 
-**Short-term rentals.** Kamra is no longer hotel-only. A property can be a
+**Short-term rentals.** ZIRI is no longer hotel-only. A property can be a
 hotel *or* a short-term rental portfolio: several villas at different
 addresses, sold room-wise or as the whole house, with deposits, cleaning fees,
 and a guest catalog that looks like a listing site.
@@ -488,7 +488,7 @@ sellable-unit inventory.
   split/transfer/allowance gymnastics.
 - Localization seam: country packs decide tax rates and invoice fields;
   India ships as the reference pack.
-- Kamra as an app suite (Front Desk, Housekeeping, Operations, Events &
+- ZIRI as an app suite (Front Desk, Housekeeping, Operations, Events &
   Groups, Revenue, Finance, Admin) with an app switcher and launcher.
 - Marketplace: connect HeyKoala (voice/WhatsApp), bring your own AI
   (Claude over MCP, or an OpenAI key for the in-app Copilot chat).
@@ -506,7 +506,7 @@ sellable-unit inventory.
 - Centralized auth (`/login` route, consistent 401/403 handling).
 
 ### Changed
-- **Kamra is fully open** — removed all "Premium" tier labeling from the
+- **ZIRI is fully open** — removed all "Premium" tier labeling from the
   app switcher, launcher and marketplace. Every app ships included.
 - The Copilot is a plain chat over governed tools, not a bundle of named
   personas.
@@ -519,7 +519,7 @@ sellable-unit inventory.
 - **Native seeded agents** (NOVA, IRA, TARA, ORION, MAYA) and the underlying
   `Agent`, `Agent Autonomy Rule`, `Agent Tool` and `Pending Agent Action`
   doctypes, the autonomy/approval gate, and the Approvals inbox.
-  Kamra ships the governed tools, MCP access, RBAC and an audit log; the AI
+  ZIRI ships the governed tools, MCP access, RBAC and an audit log; the AI
   itself is brought in — your own Claude over MCP, or HeyKoala for
   voice/WhatsApp.
   **If you installed `v1.0.0` and configured agents, upgrading deletes that

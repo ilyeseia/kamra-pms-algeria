@@ -1,6 +1,6 @@
 # Aiosell Channel Manager — Developer Guide
 
-> How Kamra syncs with **Aiosell** (channel manager). Read this to understand the
+> How ZIRI syncs with **Aiosell** (channel manager). Read this to understand the
 > flow before touching the code. Companion files: `aiosell-api-context.md` (exact
 > API/wire format) and `aiosell-sync-rules.md` (behavior rules).
 
@@ -8,11 +8,11 @@
 
 ## 1. What it does (the whole idea in two pipes)
 
-Aiosell is the middleman between Kamra (the PMS) and every OTA (Booking.com,
+Aiosell is the middleman between ZIRI (the PMS) and every OTA (Booking.com,
 Goibibo/MMT, Airbnb, Expedia…). There are exactly **two directions**:
 
 ```
-  PIPE IN  — bookings come to Kamra
+  PIPE IN  — bookings come to ZIRI
   ─────────────────────────────────
   Guest books/changes/cancels on an OTA
         │
@@ -20,12 +20,12 @@ Goibibo/MMT, Airbnb, Expedia…). There are exactly **two directions**:
      Aiosell  (channel manager)
         │  POST webhook (action: book | modify | cancel)
         ▼
-     Kamra    → creates / replaces / cancels the reservation
+     ZIRI    → creates / replaces / cancels the reservation
 
 
   PIPE OUT — availability & rates go to the OTAs
   ──────────────────────────────────────────────
-  A room is booked, or a rate changes, in Kamra
+  A room is booked, or a rate changes, in ZIRI
         │
         ▼   push availability + rates
      Aiosell
@@ -34,14 +34,14 @@ Goibibo/MMT, Airbnb, Expedia…). There are exactly **two directions**:
   All connected OTAs update  → no double-booking
 ```
 
-**Golden rule:** money & availability are computed **deterministically in Kamra**,
+**Golden rule:** money & availability are computed **deterministically in ZIRI**,
 never by the OTA. An OTA booking obeys the exact same rules a front-desk booking does.
 
 ---
 
 ## 2. Architecture (the seam)
 
-Kamra never talks to an OTA directly. It uses a provider-agnostic **seam**:
+ZIRI never talks to an OTA directly. It uses a provider-agnostic **seam**:
 
 ```
 kamra/channels/*        ← ADAPTERS: protocol translation ONLY (aiosell, channex, staah)
@@ -53,8 +53,8 @@ Each adapter implements just two functions:
 
 | Function | Direction | Purpose |
 |----------|-----------|---------|
-| `push_ari(conn, snapshot)` | Kamra → Aiosell | deliver availability + rates |
-| `parse_webhook(conn, payload)` | Aiosell → Kamra | normalize an inbound booking event |
+| `push_ari(conn, snapshot)` | ZIRI → Aiosell | deliver availability + rates |
+| `parse_webhook(conn, payload)` | Aiosell → ZIRI | normalize an inbound booking event |
 
 Everything with consequences lives in `channel_manager.py`, so all providers behave
 identically.
@@ -68,7 +68,7 @@ identically.
 | `kamra/hooks.py` | `doc_events["Reservation"]` → `on_reservation_change` (Pipeline-1 trigger) |
 | `kamra/kamra/doctype/reservation/reservation.py` | `validate_villa_lockout` — the write-time double-booking guard |
 | `channel_manager_connection.json` | Connection settings (creds, hotelCode, PMS slug) |
-| `channel_room_mapping` | Maps a Kamra Room Type ↔ Aiosell room/rateplan code |
+| `channel_room_mapping` | Maps a ZIRI Room Type ↔ Aiosell room/rateplan code |
 
 ---
 
@@ -89,7 +89,7 @@ identically.
 
 ---
 
-## 4. PIPE IN — inbound bookings (Aiosell → Kamra)
+## 4. PIPE IN — inbound bookings (Aiosell → ZIRI)
 
 **Endpoint we host:** `/api/method/kamra.channels.aiosell.reservation_webhook`
 
@@ -111,7 +111,7 @@ process_webhook_events(connection, payload)           [channel_manager.py]
 
 `_apply_event` maps each action to the same path a human would take:
 
-| action | Kamra behavior |
+| action | ZIRI behavior |
 |--------|----------------|
 | `book` | Create a Reservation (`source=OTA`, `ota_ref=bookingId`). Idempotent on `bookingId`. |
 | `modify` | **Full replace** — overwrite the reservation's fields (never merge/patch). |
@@ -124,9 +124,9 @@ Notes:
 
 ---
 
-## 5. PIPE OUT — availability & rates (Kamra → Aiosell)
+## 5. PIPE OUT — availability & rates (ZIRI → Aiosell)
 
-Kamra computes a snapshot and pushes it. Triggered:
+ZIRI computes a snapshot and pushes it. Triggered:
 - **hourly** (cron `push_all_ari`),
 - **after any reservation change** (`on_reservation_change` doc_event),
 - **after a rate change** (`set_room_rate` → `enqueue_property_push`),
@@ -160,9 +160,9 @@ It's enforced in **three layers** (all consistent):
 
 | Layer | Where | Purpose |
 |-------|-------|---------|
-| **Write-time guard** | `reservation.py :: validate_villa_lockout` | Kamra *rejects* a conflicting booking (manual + OTA + modify all run `validate()`) |
+| **Write-time guard** | `reservation.py :: validate_villa_lockout` | ZIRI *rejects* a conflicting booking (manual + OTA + modify all run `validate()`) |
 | **Front-desk availability** | `api.py :: available_rooms`, `availability_calendar` (via `_villa_lock_conflict`) | UI *shows* rooms as full when the villa is booked (and vice-versa) |
-| **Push-side** | `channel_manager.py :: _apply_villa_lockout` | Kamra *pushes 0* to the OTAs so they never surface the conflict |
+| **Push-side** | `channel_manager.py :: _apply_villa_lockout` | ZIRI *pushes 0* to the OTAs so they never surface the conflict |
 
 Per night: villa is sold → all member rooms push `0`; any member sold → villa pushes `0`.
 A property with no Villa-category room type is a no-op (unchanged behavior).
@@ -171,7 +171,7 @@ A property with no Villa-category room type is a no-op (unchanged behavior).
 
 ## 7. Cancellation policy (no OTA exception)
 
-On **every** cancel (direct or OTA-sourced), Kamra applies the property's money terms:
+On **every** cancel (direct or OTA-sourced), ZIRI applies the property's money terms:
 100% advance already collected → **no cash refund** → issues a **credit note valid
 6 months** (a `CN-…` Discount Voucher). OTA cancels reuse the exact front-desk path
 (`api._do_cancel(..., issue_credit_note=1)`), so there is no separate refund logic.
@@ -208,7 +208,7 @@ until partner onboarding — `push_ari` reports "pending" rather than faking a s
    (webhook parsing, villa lockout math, push-body shapes, credentials gate).
 4. **One-command demo**: `bench --site <site> execute kamra.scripts.demo_aiosell.run`
    (book → modify → cancel + credit note + villa lockout) and `...demo_aiosell.preview`
-   (shows the exact JSON Kamra would POST).
+   (shows the exact JSON ZIRI would POST).
 
 ---
 
@@ -216,7 +216,7 @@ until partner onboarding — `push_ari` reports "pending" rather than faking a s
 
 The code is one thing; going live also needs **credentials** and **deployment**:
 
-1. **Register** the property on Aiosell; ask the partner team to **add Kamra as a partner PMS**.
+1. **Register** the property on Aiosell; ask the partner team to **add ZIRI as a partner PMS**.
 2. Receive **API username + password**, **PMS slug**, and **hotelCode** per property.
 3. Enter them on the Channel Manager Connection; create Room Mappings.
 4. **Deploy the code** to the live server (`git pull` + `bench migrate` + `bench build`) —

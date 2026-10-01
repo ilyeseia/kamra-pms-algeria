@@ -74,7 +74,7 @@ def execute():
 	"""Bench entry: refuse loudly if this is not a playground."""
 	if not is_playground():
 		frappe.throw(
-			"Refusing to reset: this site is not a Kamra demo playground. "
+			"Refusing to reset: this site is not a ZIRI demo playground. "
 			"Set kamra_demo_mode and use demo.kamrapms.com / nightly / localhost."
 		)
 	return reset()
@@ -118,7 +118,7 @@ def reset() -> dict:
 def _wipe_kamra_doctypes() -> int:
 	rows = frappe.get_all(
 		"DocType",
-		filters={"module": "Kamra"},
+		filters={"module": "ZIRI"},
 		fields=["name", "istable", "issingle"],
 	)
 	# Children first so parent deletes don't fight leftover rows.

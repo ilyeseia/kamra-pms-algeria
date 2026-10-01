@@ -1,7 +1,7 @@
-# Kamra front-desk guide
+# ZIRI front-desk guide
 
 The working manual for a day at the desk. Everything here assumes you're
-signed in at your hotel's Kamra URL; your role decides which sections of
+signed in at your hotel's ZIRI URL; your role decides which sections of
 the sidebar you see.
 
 ## The day at a glance — Today

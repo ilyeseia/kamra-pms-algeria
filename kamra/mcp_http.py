@@ -165,12 +165,12 @@ def _unauthorized() -> Response:
 	resp = _json(
 		{
 			"error": "invalid_token",
-			"error_description": "Sign in with OAuth to use Kamra MCP.",
+			"error_description": "Sign in with OAuth to use ZIRI MCP.",
 		},
 		401,
 	)
 	resp.headers["WWW-Authenticate"] = (
-		'Bearer realm="Kamra", '
+		'Bearer realm="ZIRI", '
 		f'resource_metadata="{protected_resource_url()}", '
 		'scope="kamra.mcp"'
 	)

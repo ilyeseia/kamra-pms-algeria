@@ -65,23 +65,23 @@ ROLE_GRANTS = {
 }
 
 USERS = [
-	{"email": "admin@kamra.local", "first_name": "Demo", "last_name": "Admin",
-	 "password": "KamraAdmin1!", "roles": ["System Manager"]},
+	{"email": "admin@ziri.local", "first_name": "Demo", "last_name": "Admin",
+	 "password": "ZiriAdmin1!", "roles": ["System Manager"]},
 	# The GM / Hotel Admin — business super-user (ops + finance + revenue +
 	# high-level settings) but NOT an IT admin: no users, developers or Desk.
-	{"email": "gm@kamra.local", "first_name": "Gita", "last_name": "Menon",
-	 "password": "KamraGM1!", "roles": ["Hotel Admin"]},
-	{"email": "frontdesk@kamra.local", "first_name": "Ravi",
-	 "last_name": "FrontDesk", "password": "KamraDesk1!",
+	{"email": "gm@ziri.local", "first_name": "Gita", "last_name": "Menon",
+	 "password": "ZiriGM1!", "roles": ["Hotel Admin"]},
+	{"email": "frontdesk@ziri.local", "first_name": "Ravi",
+	 "last_name": "FrontDesk", "password": "ZiriDesk1!",
 	 "roles": ["Front Desk"]},
-	{"email": "revenue@kamra.local", "first_name": "Anita",
-	 "last_name": "Revenue", "password": "KamraRev1!",
+	{"email": "revenue@ziri.local", "first_name": "Anita",
+	 "last_name": "Revenue", "password": "ZiriRev1!",
 	 "roles": ["Revenue Manager", "Front Desk"]},
-	{"email": "finance@kamra.local", "first_name": "Suresh",
-	 "last_name": "Finance", "password": "KamraFin1!",
+	{"email": "finance@ziri.local", "first_name": "Suresh",
+	 "last_name": "Finance", "password": "ZiriFin1!",
 	 "roles": ["Finance"]},
-	{"email": "hk@kamra.local", "first_name": "Lakshmi",
-	 "last_name": "Housekeeping", "password": "KamraHK1!",
+	{"email": "hk@ziri.local", "first_name": "Lakshmi",
+	 "last_name": "Housekeeping", "password": "ZiriHK1!",
 	 "roles": ["Housekeeping"]},
 ]
 

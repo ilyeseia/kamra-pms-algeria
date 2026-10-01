@@ -10,7 +10,7 @@ import frappe
 
 from kamra.scripts.bootstrap_schema import f
 
-MODULE = "Kamra"
+MODULE = "ZIRI"
 
 
 def _dt(name, fields, *, istable=0, autoname=None, naming_rule=None,
@@ -119,4 +119,4 @@ def execute():
 	], naming_rule="Expression", autoname="format:AUDIT-{business_date}")
 
 	frappe.db.commit()  # nosemgrep: frappe-manual-commit -- batch/seed/migration script runs outside the request cycle; explicit commit persists the staged writes
-	print("Kamra v2 schema (folio, night audit) ready.")
+	print("ZIRI v2 schema (folio, night audit) ready.")

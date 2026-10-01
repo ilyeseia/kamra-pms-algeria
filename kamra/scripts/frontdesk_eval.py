@@ -19,7 +19,7 @@ from frappe.utils import add_days, nowdate
 from kamra.scripts import eval_harness
 
 P = eval_harness.P  # same EVAL Hotel sandbox
-FD_USER = "eval.frontdesk@kamra.local"
+FD_USER = "eval.frontdesk@ziri.local"
 RESULTS = []
 RT = ROOM = ROOM2 = None
 

@@ -184,4 +184,4 @@ def execute():
 	print("perms granted for v8 doctypes")
 
 	frappe.db.commit()  # nosemgrep: frappe-manual-commit -- batch/seed/migration script runs outside the request cycle; explicit commit persists the staged writes
-	print("Kamra v8 schema (operational long tail) ready.")
+	print("ZIRI v8 schema (operational long tail) ready.")

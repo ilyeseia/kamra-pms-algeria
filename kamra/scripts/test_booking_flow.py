@@ -5,7 +5,7 @@ from kamra.pricing import quote
 
 
 def run_tests():
-	print("--- Running Generic Kamra Setup & Booking Flow Tests ---")
+	print("--- Running Generic ZIRI Setup & Booking Flow Tests ---")
 
 	# Use dynamic name prefix to avoid hardcoded client conflicts
 	prop_name = "Test Dynamic Property"
@@ -22,7 +22,7 @@ def run_tests():
 		"city": "Test City",
 		"state": "Test State",
 		"phone": "+91 99999 88888",
-		"email": "test_dynamic@kamra.local",
+		"email": "test_dynamic@ziri.local",
 		"gstin": "29ABCDE1234F3Z3",
 		"checkin_time": "14:00:00",
 		"checkout_time": "11:00:00",

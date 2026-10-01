@@ -145,7 +145,7 @@ def preview(property=None, days=5):
 	snap = ari_snapshot(property, conn, days=int(days))
 	inv, rates = build_push_bodies(HOTEL_CODE, snap)
 	_line("═")
-	print(f"  OUTBOUND PREVIEW · what Kamra would send Aiosell for {property}")
+	print(f"  OUTBOUND PREVIEW · what ZIRI would send Aiosell for {property}")
 	print(f"  (first {days} days · villa lockout already applied)")
 	_line("═")
 	print("POST /api/v2/cm/update/<PMS_SLUG>   (availability)")
@@ -202,12 +202,12 @@ def push_to_sandbox(password, property=None, days=14):
 	_line("═")
 	print(f"  KAMRA → AIOSELL SANDBOX   ({property}, next {days} days)")
 	_line("═")
-	print("Kamra room type  →  sandbox code:")
+	print("ZIRI room type  →  sandbox code:")
 	for rt, rc, rp in sandbox_map:
 		if rt:
 			print(f"   {rt}  →  {rc} / {rp}")
 	print(f"\nAbout to send {len(inv)} inventory + {len(rates)} rate blocks "
-	      f"(Kamra's real availability & pricing).")
+	      f"(ZIRI's real availability & pricing).")
 	try:
 		res = push_ari(conn.name, days=int(days))
 		print("RESULT:", res)
@@ -273,7 +273,7 @@ def run(property=None):
 
 	# 1 ── a booking arrives from an OTA
 	_line()
-	print("STEP 1 · A guest books on Goibibo → Aiosell → Kamra")
+	print("STEP 1 · A guest books on Goibibo → Aiosell → ZIRI")
 	_webhook(conn, {
 		"action": "book", "hotelCode": HOTEL_CODE, "channel": "Goibibo",
 		"bookingId": "DEMO-501", "checkin": str(ci), "checkout": str(co),
@@ -285,9 +285,9 @@ def run(property=None):
 		           "prices": [{"date": str(ci), "sellRate": 1700},
 		                      {"date": str(add_days(ci, 1)), "sellRate": 1700}]}]})
 	r = _res("DEMO-501")
-	print(f"   → Kamra created reservation {r.name}: {r.guest_name} "
+	print(f"   → ZIRI created reservation {r.name}: {r.guest_name} "
 	      f"({r.channel}), {r.check_in_date}→{r.check_out_date}, ₹{r.amount_after_tax:.0f}")
-	print("   Nobody typed it in. Open Kamra → Today/Reservations to show it.")
+	print("   Nobody typed it in. Open ZIRI → Today/Reservations to show it.")
 
 	# 2 ── the guest changes dates (full replace)
 	_line()
@@ -324,7 +324,7 @@ def run(property=None):
 	# 4 ── villa <-> room lockout (only if this property has a real villa)
 	if villa_rt:
 		_line()
-		print("STEP 4 · Villa ↔ Room lockout (what Kamra pushes back to OTAs)")
+		print("STEP 4 · Villa ↔ Room lockout (what ZIRI pushes back to OTAs)")
 		d = add_days(nowdate(), 5)
 		before_v = _avail(property, conn, villa_rt, d)
 		before_m = _avail(property, conn, member_rt, d)

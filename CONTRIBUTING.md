@@ -75,7 +75,7 @@ deliberately sets it (see [`RELEASING.md`](RELEASING.md)).
 
 ## Versioning & releases
 
-Kamra follows [Semantic Versioning](https://semver.org/) with a **patch-first**
+ZIRI follows [Semantic Versioning](https://semver.org/) with a **patch-first**
 cadence on the current minor line:
 
 - **PATCH** (default) — fixes and small features (`2.6.1`, `2.6.2`, …).

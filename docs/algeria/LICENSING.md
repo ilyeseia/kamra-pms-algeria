@@ -58,7 +58,7 @@ What the licence constrains is not whether you charge, but **what the recipient
 receives along with it**. That is §3.
 
 One note in passing, because it sits in this repository:
-`deploy/README.md` says *"Do not put a price on AGPL Kamra itself"* in the
+`deploy/README.md` says *"Do not put a price on AGPL ZIRI itself"* in the
 context of hyperscaler marketplace listings. That is the upstream project's own
 commercial posture for its own storefronts. It is not a licence term and it does
 not bind you.
@@ -172,7 +172,7 @@ What this does **not** prevent:
 - **Configuration is not derivative work.** Rates, room types, tax percentages,
   property records, the hotel's own data — all just data. Nothing about the
   licence touches it, and the hotel owns it.
-- **Genuinely separate programs** that talk to Kamra over its HTTP API or MCP
+- **Genuinely separate programs** that talk to ZIRI over its HTTP API or MCP
   tools are a different matter from code linked into the app. Where the boundary
   falls is a fact-specific legal question, and it is exactly the sort of
   question to put to a lawyer *before* you build the thing, not after you have

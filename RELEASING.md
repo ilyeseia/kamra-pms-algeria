@@ -33,7 +33,7 @@ fixes do **not** need a new `vX.Y.Z` the same day.
 
 ### What bumps what
 
-Kamra defaults to **PATCH** releases (`2.6.0` → `2.6.1` → `2.6.2`). Small
+ZIRI defaults to **PATCH** releases (`2.6.0` → `2.6.1` → `2.6.2`). Small
 features, polish, and fixes all ship as patches. We do **not** auto-bump to
 `2.7.0` just because a commit used `feat:`.
 
@@ -103,7 +103,7 @@ A month of small work should usually be one or two PATCHes, not a MINOR.
       `frontend/`'s `npm run build`; keep committing the build output —
       marketplace benches don't run npm)
 - [x] Root `package.json` build script for Frappe Cloud
-- [x] README compatibility table (Kamra `main` releases ↔ Frappe v16)
+- [x] README compatibility table (ZIRI `main` releases ↔ Frappe v16)
 - [x] Publisher account on frappecloud.com; Marketplace App `kamra` exists
       (public page is Draft / **Not Available** until a release is approved)
 - [x] Listing title, summary, logo, Support + Privacy + docs URLs

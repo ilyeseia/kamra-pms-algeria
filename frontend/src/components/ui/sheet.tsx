@@ -4,7 +4,7 @@ import { Button } from "./button"
 import { useT } from "../../lib/i18n"
 
 /**
- * Inline-end drawer for create/edit forms - Kamra's standard form surface.
+ * Inline-end drawer for create/edit forms - ZIRI's standard form surface.
  * Content scrolls; header and footer stay pinned.
  *
  * Anchored with `end-0`, not `right-0`, so it enters from the side the reader

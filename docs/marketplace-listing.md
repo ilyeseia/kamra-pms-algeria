@@ -11,7 +11,7 @@
 > that would change first.
 
 Paste-ready copy for the Frappe Cloud publisher form
-(frappecloud.com → Marketplace → Kamra). Keep this file in sync with the
+(frappecloud.com → Marketplace → ZIRI). Keep this file in sync with the
 README when the feature set changes.
 
 Copy follows the [marketplace guidelines](https://docs.frappe.io/cloud/marketplace/marketplace-guidelines)
@@ -223,7 +223,7 @@ Before publishing a new SHA:
 python kamra/scripts/marketplace_install_check.py
 ```
 
-In https://frappecloud.com/dashboard → **Marketplace** → **Kamra**:
+In https://frappecloud.com/dashboard → **Marketplace** → **ZIRI**:
 
 1. **Overview** — paste Title, Short description, Long description above.
 2. **Category** — Hospitality or Other (currently E-Commerce).
@@ -240,11 +240,11 @@ In https://frappecloud.com/dashboard → **Marketplace** → **Kamra**:
 ### Support ticket (paste)
 
 ```
-Subject: Marketplace listing for Kamra (kamra) — request to complete review
+Subject: Marketplace listing for ZIRI (kamra) — request to complete review
 
 Hi Frappe Cloud team,
 
-The Kamra marketplace app is at https://frappecloud.com/marketplace/apps/kamra
+The ZIRI marketplace app is at https://frappecloud.com/marketplace/apps/kamra
 and still shows "Not Available" (Draft / no approved public release).
 
 We submitted earlier; Semgrep findings from that review were fixed in

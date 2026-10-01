@@ -20,7 +20,7 @@ add_to_apps_screen = [
 	{
 		"name": "kamra",
 		"logo": "/assets/kamra/ziri-mark.png",
-		"title": "Kamra",
+		"title": "ZIRI",
 		"route": "/kamra",
 	}
 ]

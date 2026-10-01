@@ -35,7 +35,7 @@ def execute():
 	prop.hero_image = f"{U}/photo-1566073771259-6a8506099945?w=1600"
 	prop.star_category = "Boutique"
 	prop.google_reviews_url = "https://www.google.com/maps/search/Kamra+Demo+Palace+reviews"
-	prop.tripadvisor_url = "https://www.tripadvisor.in/Search?q=Kamra%20Demo%20Palace"
+	prop.tripadvisor_url = "https://www.tripadvisor.in/Search?q=ZIRI%20Demo%20Palace"
 	prop.property_amenities = "Free WiFi, Breakfast, Airport pickup, Parking, Laundry, 24x7 desk"
 	prop.booking_engine_enabled = 1
 	prop.save(ignore_permissions=True)

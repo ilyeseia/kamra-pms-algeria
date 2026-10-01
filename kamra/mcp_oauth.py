@@ -120,7 +120,7 @@ def authorization_server_doc() -> dict:
 
 def claude_install_url(property_name: str, mcp_url: str | None = None) -> str:
 	url = mcp_url or mcp_resource_url()
-	name = f"{property_name} (Kamra)"
+	name = f"{property_name} (ZIRI)"
 	return (
 		"https://claude.ai/customize/connectors"
 		"?modal=add-custom-connector"
@@ -444,7 +444,7 @@ def _error_page(message: str) -> str:
 	return _html_shell(
 		"Could not connect",
 		f"<p>{frappe.utils.escape_html(message)}</p>"
-		"<p><a href='/kamra/assistant'>Back to Kamra</a></p>",
+		"<p><a href='/kamra/assistant'>Back to ZIRI</a></p>",
 	)
 
 
@@ -493,7 +493,7 @@ def _html_shell(title: str, body: str) -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{frappe.utils.escape_html(title)} · Kamra</title>
+<title>{frappe.utils.escape_html(title)} · ZIRI</title>
 <style>
   :root {{ color-scheme: light; }}
   body {{ margin:0; font: 16px/1.45 ui-sans-serif, system-ui, sans-serif;

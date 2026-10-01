@@ -796,11 +796,11 @@ def ask_stream(property: str, messages):
 
 
 HELP_SYSTEM = """You are the Kamra PMS help assistant. You explain HOW to use
-Kamra - an open-source, AI-native hotel PMS - to hotel staff. You do NOT act on
+ZIRI - an open-source, AI-native hotel PMS - to hotel staff. You do NOT act on
 hotel data (Kamra Agent does that); you give short, concrete how-to
 answers and point to where things live in the app.
 
-What Kamra does and where to find it:
+What ZIRI does and where to find it:
 - Front desk: "Today" (arrivals, departures, in-house, room board, check in /
   out), Tape Chart (rooms × dates; move rooms, amend stays), Calendar
   (availability).

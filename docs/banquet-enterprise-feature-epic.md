@@ -1,7 +1,7 @@
 # Banquet Enterprise — Opera-class guest journey & department orchestration
 
 **Status:** Phase 1 MVP shipping on `develop` (desk-led; guest portal out of scope)  
-**Target:** Kamra `develop` → stable after phased delivery  
+**Target:** ZIRI `develop` → stable after phased delivery  
 **Related:** Venue Booking (`EVT-*`), `kamra/banquet.py`, `kamra/banquet_ops.py`, Events app in SPA  
 **Design decision:** No guest portal for banquet — quotes, confirmation, and payment chase stay on the sales desk (email/WhatsApp/PDF + desk actions). Matches Opera’s print/email quote workflow.
 
@@ -9,7 +9,7 @@
 
 ## Executive summary
 
-Kamra already ships a **strong banquet core**: function sheet (Venue Booking), catalogue, quotation versioning, BEO, pack list, payment milestones, advances/deposits, pipeline, registers, kitchen indent, and internal sales reminders.
+ZIRI already ships a **strong banquet core**: function sheet (Venue Booking), catalogue, quotation versioning, BEO, pack list, payment milestones, advances/deposits, pipeline, registers, kitchen indent, and internal sales reminders.
 
 What large hotels expect from **Opera Banquet / Event Management** — and what this epic adds — is the **guest-facing commercial loop** (send quote → customer confirms → chase payments) and the **internal operations loop** (on confirmation, every department gets a checklist and alerts: HK, F&B, Engineering, Finance, HR).
 
@@ -26,7 +26,7 @@ What large hotels expect from **Opera Banquet / Event Management** — and what 
 
 ## Requirement matrix (your list)
 
-| # | Requirement | Kamra today | Gap | Epic phase |
+| # | Requirement | ZIRI today | Gap | Epic phase |
 |---|-------------|-------------|-----|------------|
 | 1 | Build quotation | **Yes** — `generate_quote`, line items, revisions, margin advisor | — | — |
 | 2 | Send quotation to guest | **Partial** — print/PDF from `/banquet/:name/quote`; stamps `quote_sent_on` | Email/WhatsApp with PDF; no guest portal | **P1** |
@@ -51,7 +51,7 @@ What large hotels expect from **Opera Banquet / Event Management** — and what 
 
 ---
 
-## What Kamra already has (don't rebuild)
+## What ZIRI already has (don't rebuild)
 
 ### DocTypes & data model
 - **Venue Booking** — central function sheet (`EVT-{YYYY}-{####}`)
@@ -83,7 +83,7 @@ Delivery: WhatsApp → `sales_owner`, else Front Desk role notify.
 
 ## Opera Banquet Management — capability map
 
-| Opera area | Opera typical behaviour | Kamra today | Epic adds |
+| Opera area | Opera typical behaviour | ZIRI today | Epic adds |
 |------------|-------------------------|-------------|-----------|
 | **CRM / Lead** | Lead → function conversion | Enquiry on Venue Booking | Optional Lead DocType (P3) |
 | **Quotation** | Build, email, track opens | Build + print | Email send + tracking (P1) |

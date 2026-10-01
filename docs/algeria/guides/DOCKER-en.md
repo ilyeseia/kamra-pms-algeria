@@ -1,6 +1,6 @@
 # ZIRI PMS — Docker on Linux Installation Guide
 
-**Version installed:** ZIRI PMS, Algeria Distribution **1.0.0**, on Kamra
+**Version installed:** ZIRI PMS, Algeria Distribution **1.0.0**, on ZIRI
 core **2.6.5**
 
 This guide takes you from a bare Linux server to a working ZIRI PMS site with

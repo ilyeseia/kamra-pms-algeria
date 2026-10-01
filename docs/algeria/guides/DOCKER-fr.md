@@ -114,7 +114,7 @@ pile en marche.
 
 > ### ⚠ Les deux variables d'environnement ne sont pas optionnelles
 >
-> `install.sh` pointe par défaut sur **Kamra amont, branche `main`**. Sans ces
+> `install.sh` pointe par défaut sur **ZIRI amont, branche `main`**. Sans ces
 > deux surcharges, une construction de 20 à 45 minutes produit le logiciel amont
 > **sans aucune localisation algérienne** — pas de pack pays Algérie, pas de
 > TVA, pas de NIF, pas de taxe de séjour. Et cela aura l'apparence d'un système

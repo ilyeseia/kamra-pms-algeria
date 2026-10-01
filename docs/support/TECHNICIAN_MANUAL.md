@@ -211,7 +211,7 @@ sudo bash install.sh
 ```
 
 Do not skip the two `export` lines: without them the build produces upstream
-Kamra with no Algerian localisation, after 20–45 minutes. The installer asks
+ZIRI with no Algerian localisation, after 20–45 minutes. The installer asks
 for the site domain, an admin email and an admin password (10 characters
 minimum, no default). The repository named in `KAMRA_GIT_URL` must be publicly
 readable; it is cloned from inside the build with no credentials.

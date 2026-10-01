@@ -242,7 +242,7 @@ A person deletes reservations, a guest, or runs a bulk delete.
 - **Immediate.** Stop the person retrying. Write down what and when. Do not
   restore anything yet.
 - **Recovery.** Frappe's Deleted Document restore first **[confirm it covers
-  the Kamra doctypes]**; else extract from a set into a side site
+  the ZIRI doctypes]**; else extract from a set into a side site
   (`RESTORE.md` section 4.7). Roll the whole site back only if the deletion was
   massive, and accept it discards everyone else's work since the set.
 - **Lost.** Nothing if the record is recovered. Otherwise whatever was edited

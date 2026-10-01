@@ -19,7 +19,7 @@ def execute():
 			"city": "Gokarna",
 			"state": "Karnataka",
 			"phone": "+91 83 4000 2000",
-			"email": "beach@kamra.local",
+			"email": "beach@ziri.local",
 			"gstin": "29ABCDE1234F2Z4",
 			"star_category": "Homestay",
 			"showcase_description": "Six rooms, one cliff, endless sea. "
@@ -57,16 +57,16 @@ def execute():
 	# Ravi (front desk) works only at the Palace
 	if not frappe.db.exists(
 		"User Permission",
-		{"user": "frontdesk@kamra.local", "allow": "Property"},
+		{"user": "frontdesk@ziri.local", "allow": "Property"},
 	):
 		frappe.get_doc({
 			"doctype": "User Permission",
-			"user": "frontdesk@kamra.local",
+			"user": "frontdesk@ziri.local",
 			"allow": "Property",
 			"for_value": P1,
 			"apply_to_all_doctypes": 1,
 		}).insert(ignore_permissions=True)
-		print("frontdesk@kamra.local restricted to ZIRI Demo")
+		print("frontdesk@ziri.local restricted to ZIRI Demo")
 
 	frappe.db.commit()  # nosemgrep: frappe-manual-commit -- batch/seed/migration script runs outside the request cycle; explicit commit persists the staged writes
 	print("Portfolio demo ready.")

@@ -1,4 +1,4 @@
-"""Bench commands: `bench kamra-doctor` and `bench kamra-support-bundle`.
+"""Bench commands: `bench ziri-doctor` and `bench ziri-support-bundle`.
 
 Both capabilities already existed as whitelisted functions, reachable only
 through `bench --site X execute kamra.health.system_health`, which returns a
@@ -38,7 +38,7 @@ _MARK = {
 def _print_human(result: dict) -> None:
 	inst = result.get("installed", {})
 	click.echo("")
-	click.echo(f"  {inst.get('distribution', 'Kamra')} "
+	click.echo(f"  {inst.get('distribution', 'ZIRI')} "
 	           f"{inst.get('distribution_version', '')}"
 	           f"  (core {inst.get('kamra', '?')}, Frappe {inst.get('frappe', '?')})")
 	click.echo(f"  site: {inst.get('site', '?')}")
@@ -54,13 +54,13 @@ def _print_human(result: dict) -> None:
 	click.echo("")
 
 
-@click.command("kamra-doctor")
+@click.command("ziri-doctor")
 @click.option("--json", "as_json", is_flag=True,
               help="Machine-readable output instead of the table.")
 @click.option("--strict", is_flag=True,
               help="Exit non-zero on advisories too, for a pre-update gate.")
 @pass_context
-def kamra_doctor(context, as_json: bool, strict: bool):
+def ziri_doctor(context, as_json: bool, strict: bool):
 	"""Check this installation and say what is actually wrong."""
 	site = get_site(context)
 	try:
@@ -94,11 +94,11 @@ def kamra_doctor(context, as_json: bool, strict: bool):
 	sys.exit(0)
 
 
-@click.command("kamra-support-bundle")
+@click.command("ziri-support-bundle")
 @click.option("--out", "out_dir", default=None,
               help="Directory to write into. Defaults to the site's private files.")
 @pass_context
-def kamra_support_bundle(context, out_dir):
+def ziri_support_bundle(context, out_dir):
 	"""Build a redacted diagnostic bundle for support.
 
 	Refuses to produce anything if its canary scan finds a live secret in the
@@ -145,4 +145,4 @@ def kamra_support_bundle(context, out_dir):
 	sys.exit(0)
 
 
-commands = [kamra_doctor, kamra_support_bundle]
+commands = [ziri_doctor, ziri_support_bundle]

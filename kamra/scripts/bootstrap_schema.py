@@ -10,7 +10,7 @@ Idempotent: skips any DocType that already exists.
 
 import frappe
 
-MODULE = "Kamra"
+MODULE = "ZIRI"
 
 
 def _dt(name, fields, *, autoname=None, title_field=None, naming_rule=None,
@@ -259,4 +259,4 @@ def execute():
        extra={"in_create": 0})
 
     frappe.db.commit()  # nosemgrep: frappe-manual-commit -- batch/seed/migration script runs outside the request cycle; explicit commit persists the staged writes
-    print("Kamra v0 schema bootstrapped.")
+    print("ZIRI v0 schema bootstrapped.")
