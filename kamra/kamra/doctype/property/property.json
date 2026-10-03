@@ -358,7 +358,8 @@
   },
   {
    "default": "Slab",
-   "description": "Slab: rate decides GST (India). Fixed: use the room type's tax_percent.",
+   "description": "India only. Read by the India localization pack, which this distribution does not register — an Algerian property bills TVA from the room type's tax_percent instead. Slab: rate decides GST. Fixed: use the room type's tax_percent.",
+   "depends_on": "eval:doc.country=='India'",
    "fieldname": "gst_mode",
    "fieldtype": "Select",
    "label": "Room GST Mode",
@@ -366,18 +367,21 @@
   },
   {
    "default": "7500",
+   "depends_on": "eval:doc.country=='India'",
    "fieldname": "gst_slab_threshold",
    "fieldtype": "Currency",
    "label": "Slab Threshold (\u20b9/night)"
   },
   {
    "default": "5",
+   "depends_on": "eval:doc.country!='Algeria'",
    "fieldname": "gst_rate_low",
    "fieldtype": "Percent",
    "label": "GST at/below threshold"
   },
   {
    "default": "18",
+   "depends_on": "eval:doc.country=='India'",
    "fieldname": "gst_rate_high",
    "fieldtype": "Percent",
    "label": "GST above threshold"
