@@ -5,6 +5,12 @@ import frappe
 from frappe.model.document import Document
 from frappe.utils import nowdate
 
+# Module level and not inside each function, unlike the pack_for
+# imports elsewhere in this file: kamra.localization imports only
+# importlib and frappe, and its packs import only decimal and frappe,
+# so there is no cycle to avoid here - checked, not assumed.
+from kamra.localization import currency_symbol
+
 
 class POSOrder(Document):
 	def validate(self):
@@ -68,5 +74,5 @@ class POSOrder(Document):
 		from kamra.savings import log_action
 		log_action("post_pos_order", "POS Order", self.name, self.property,
 		           minutes_saved=5 if self.source in ("AI Agent", "QR") else 0,
-		           rationale=f"₹{self.order_total:,.0f} {detail} → {folio.name}",
+		           rationale=f"{currency_symbol()}{self.order_total:,.0f} {detail} → {folio.name}",
 		           channel="API")

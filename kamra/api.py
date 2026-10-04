@@ -12,6 +12,12 @@ from frappe.utils import add_days, get_datetime, now_datetime, nowdate
 
 from kamra.authz import require_it_admin, require_roles
 
+# Module level and not inside each function, unlike the pack_for
+# imports elsewhere in this file: kamra.localization imports only
+# importlib and frappe, and its packs import only decimal and frappe,
+# so there is no cycle to avoid here - checked, not assumed.
+from kamra.localization import currency_symbol
+
 # The apps a property actually runs. The launcher and the sidebar read
 # this so a serviced-apartment operator never sees an empty restaurant.
 ALL_MODULES = ("front-desk", "housekeeping", "operations", "fnb", "events",
@@ -141,13 +147,13 @@ def set_room_rate(property: str, room_type: str, start_date: str,
 	if rail:
 		if rate < float(rail.floor_price):
 			frappe.throw(
-				f"Blocked by guardrail {rail.name}: ₹{rate:,.0f} is below "
-				f"the floor of ₹{float(rail.floor_price):,.0f}."
+				f"Blocked by guardrail {rail.name}: {currency_symbol()}{rate:,.0f} is below "
+				f"the floor of {currency_symbol()}{float(rail.floor_price):,.0f}."
 			)
 		if rate > float(rail.ceiling_price):
 			frappe.throw(
-				f"Blocked by guardrail {rail.name}: ₹{rate:,.0f} is above "
-				f"the ceiling of ₹{float(rail.ceiling_price):,.0f}."
+				f"Blocked by guardrail {rail.name}: {currency_symbol()}{rate:,.0f} is above "
+				f"the ceiling of {currency_symbol()}{float(rail.ceiling_price):,.0f}."
 			)
 
 	# the hurdle is the DYNAMIC floor: when demand tiers are active for any
@@ -163,7 +169,7 @@ def set_room_rate(property: str, room_type: str, start_date: str,
 			frappe.throw(
 				f"Blocked by the hurdle rate: occupancy for {day} is "
 				f"{tier['occupancy']:.0f}%, so the minimum sell rate is "
-				f"₹{tier['min_rate']:,.0f} - ₹{rate:,.0f} undercuts it."
+				f"{currency_symbol()}{tier['min_rate']:,.0f} - {currency_symbol()}{rate:,.0f} undercuts it."
 			)
 
 	from frappe.utils import date_diff
@@ -189,7 +195,7 @@ def set_room_rate(property: str, room_type: str, start_date: str,
 	from kamra.savings import log_action
 	log_action("set_room_rate", "Season", season.name, property,
 	           minutes_saved=6, rationale=reason or (
-	               f"Set {room_type.split('-')[-1]} rate ₹{rate:,.0f} "
+	               f"Set {room_type.split('-')[-1]} rate {currency_symbol()}{rate:,.0f} "
 	               f"for {start_date}→{end_date}"))
 	return {
 		"season": season.name, "rate": rate,
@@ -1164,7 +1170,7 @@ def hk_post_consumable(room: str, charge_type: str, description: str,
 		frappe.set_user(me)  # nosemgrep: frappe-setuser -- controlled user context switch; target user is validated and scope-limited in this flow
 	from kamra.savings import log_action
 	log_action("hk_charge", "Folio", out.get("folio"), res.property,
-	           rationale=f"{charge_type} ₹{amount} to {room} ({description})")
+	           rationale=f"{charge_type} {currency_symbol()}{amount} to {room} ({description})")
 	return {"ok": True, "folio": out.get("folio"), "balance": out.get("balance")}
 
 
@@ -1296,7 +1302,7 @@ def add_folio_charge(folio: str, charge_type: str, description: str,
 		frappe.log_error(title="[APP-010] ledger charge write failed")
 	from kamra.savings import log_action
 	log_action("post_charge", "Folio", doc.name, doc.property,
-	           rationale=f"{charge_type}: {description} ₹{amount}")
+	           rationale=f"{charge_type}: {description} {currency_symbol()}{amount}")
 	return doc.as_dict()
 
 
@@ -1380,7 +1386,7 @@ def refund_folio_payment(folio: str, amount: float, mode: str,
 	refunded = -sum(float(p.amount or 0) for p in doc.payments
 	                if float(p.amount or 0) < 0)
 	if float(amount) > received - refunded:
-		frappe.throw(f"Only ₹{received - refunded:,.2f} was collected on "
+		frappe.throw(f"Only {currency_symbol()}{received - refunded:,.2f} was collected on "
 		             "this folio - can't refund more than that.")
 	from kamra.business_date import get_business_date
 	from kamra.cashier import record_cashier_txn, require_open_session
@@ -1640,7 +1646,7 @@ def split_folio_charge(from_folio: str, charge_row: str, to_folio: str,
 	                   amount=float(amount) if amount else None)
 	from kamra.savings import log_action
 	log_action("split_charge", "Folio", to_folio,
-	           rationale=f"Split ₹{out['moved']:,.2f} of {charge_row} "
+	           rationale=f"Split {currency_symbol()}{out['moved']:,.2f} of {charge_row} "
 	                     f"{from_folio} → {to_folio}")
 	return out
 
@@ -1728,7 +1734,7 @@ def post_allowance(folio: str, amount: float, reason: str,
 	_allow(folio, float(amount), reason, float(gst_rate or 0))
 	from kamra.savings import log_action
 	log_action("allowance", "Folio", folio,
-	           rationale=f"Allowance ₹{abs(float(amount)):,.2f}: {reason}")
+	           rationale=f"Allowance {currency_symbol()}{abs(float(amount)):,.2f}: {reason}")
 	return {"ok": True, "folio": folio}
 
 
@@ -2126,7 +2132,7 @@ def guest_journey(guest: str):
 			timeline.append({
 				"ts": str(r.actual_check_out), "type": "check_out",
 				"title": "Checked out",
-				"detail": f"Folio ₹{float(r.amount_after_tax or 0):,.0f}",
+				"detail": f"Folio {currency_symbol()}{float(r.amount_after_tax or 0):,.0f}",
 				"reference": r.name,
 			})
 		if r.status == "Cancelled":
@@ -3699,7 +3705,7 @@ def amend_stay(reservation: str, check_in_date: str, check_out_date: str):
 	from kamra.savings import log_action
 	log_action("amend_stay", "Reservation", doc.name, doc.property,
 	           rationale=f"{old} → {check_in_date}→{check_out_date}; "
-	                     f"new total ₹{doc.amount_after_tax or 0:,.0f}")
+	                     f"new total {currency_symbol()}{doc.amount_after_tax or 0:,.0f}")
 	return {"ok": True, "nights": doc.nights,
 	        "amount_after_tax": doc.amount_after_tax}
 

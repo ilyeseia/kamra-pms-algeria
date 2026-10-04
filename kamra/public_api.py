@@ -14,6 +14,12 @@ from frappe.utils import cint, date_diff
 from kamra import __version__
 from kamra.booking_slugs import resolve_public_slug, slugify
 
+# Module level and not inside each function, unlike the pack_for
+# imports elsewhere in this file: kamra.localization imports only
+# importlib and frappe, and its packs import only decimal and frappe,
+# so there is no cycle to avoid here - checked, not assumed.
+from kamra.localization import currency_symbol
+
 # Where the Corresponding Source of THIS running build lives. AGPL-3.0 §13
 # requires that anyone interacting with the app over a network be offered it,
 # and a hotel's guests interact with the booking engine over a network. A fork
@@ -269,7 +275,11 @@ def _public_locale(property: str) -> dict:
 	loc = pack.locale(prop)
 	# "" is a valid symbol (generic pack shows bare numbers) - only the
 	# missing key falls back to the rupee
-	return {"currency_symbol": loc.get("currency_symbol", "₹"),
+	# A DEFAULT, not a formatted string - so this one takes the resolver's
+	# return value rather than interpolating it. It read "₹" until now, which
+	# meant a pack that failed to state a symbol silently handed the public
+	# booking page a rupee sign.
+	return {"currency_symbol": loc.get("currency_symbol") or currency_symbol(),
 	        "locale": loc.get("locale") or "en-IN",
 	        **privacy_terms(pack)}
 
@@ -673,10 +683,10 @@ def _advance_terms(prop, total: float) -> tuple[float, str]:
 	if mode == "Advance percent":
 		pct = float(prop.get("advance_percent") or 0)
 		due = round(total * pct / 100, 2)
-		return due, f"{pct:g}% advance (₹{due:,.0f}) now, rest at the hotel"
+		return due, f"{pct:g}% advance ({currency_symbol()}{due:,.0f}) now, rest at the hotel"
 	if mode == "Registration fee":
 		due = min(float(prop.get("registration_fee") or 0), total)
-		return due, f"₹{due:,.0f} registration fee now, rest at the hotel"
+		return due, f"{currency_symbol()}{due:,.0f} registration fee now, rest at the hotel"
 	if mode == "Full online":
 		return total, "Full amount paid online"
 	return 0.0, "Pay at the hotel"
@@ -837,7 +847,7 @@ def check_voucher(property: str, code: str, nights: int = 1):
 	except Exception as e:
 		return {"ok": False, "message": str(e)}
 	label = (f"{v.value:g}% off" if v.discount_type == "Percent"
-	         else f"₹{v.value:,.0f} off")
+	         else f"{currency_symbol()}{v.value:,.0f} off")
 	return {"ok": True, "message": f"'{v.voucher_code}' applied - {label}.",
 	        "discount_type": v.discount_type, "value": float(v.value)}
 

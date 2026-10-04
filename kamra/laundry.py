@@ -15,6 +15,12 @@ from frappe.utils import add_to_date, get_datetime, now_datetime
 
 from kamra.authz import require_roles
 
+# Module level and not inside each function, unlike the pack_for
+# imports elsewhere in this file: kamra.localization imports only
+# importlib and frappe, and its packs import only decimal and frappe,
+# so there is no cycle to avoid here - checked, not assumed.
+from kamra.localization import currency_symbol
+
 LAUNDRY_ROLES = ("Housekeeping", "Front Desk", "Kamra Agent")
 RATE_ROLES = ("Front Desk", "Finance", "Kamra Agent")
 SERVICES = ("Wash & Iron", "Dry Clean", "Iron Only")
@@ -340,7 +346,7 @@ def deliver_laundry(order: str, shortage_note: str | None = None):
 	if posted:
 		from kamra.savings import log_action
 		log_action("laundry_bill", "Laundry Order", doc.name, doc.property,
-		           rationale=f"₹{doc.total:,.0f} laundry → {doc.room} "
+		           rationale=f"{currency_symbol()}{doc.total:,.0f} laundry → {doc.room} "
 		                     f"({doc.reservation})", channel="API")
 	return {"ok": True, "status": "Delivered", "posted_to_folio": posted,
 	        "total": doc.total}

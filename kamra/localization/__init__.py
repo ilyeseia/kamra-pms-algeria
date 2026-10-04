@@ -109,6 +109,68 @@ def tax_split(pack, prop_doc, buyer_tax_id: str | None = None):
 	return pack.invoice_context(prop_doc)["split"]
 
 
+def currency_symbol(property: str | None = None) -> str:
+	"""How money is written on this property's screens, e.g. "DA " or "₹".
+
+	WHY THIS EXISTS
+
+	The front end has always formatted money correctly: it reads
+	`currency_symbol` out of `locale()` and the Algerian pack deliberately
+	returns "DA " there. The BACK END did not. Twenty-eight message strings
+	across api.py, banquet.py, folio.py, ledger.py, inventory.py, laundry.py,
+	pos_order.py and public_api.py had the rupee sign typed into them, so an
+	Algerian hotel was told "Blocked by guardrail: ₹12,000 is below the floor"
+	and read "Allowance ₹5,000" in its own audit trail. api.py even carries a
+	docstring promising that "no screen hardcodes ₹ or GST %" - true of the
+	screens, and not of the sentences the server sent them.
+
+	The property is optional because most of those call sites are error
+	messages and audit rationales that do not have one in scope, and plumbing
+	one through every signature would be a far larger change than the defect
+	warrants. pack_for(None) resolves to Algeria for this distribution, which
+	is the right answer on a single-country install and a defensible one
+	anywhere - and a call site that does have a property should pass it.
+
+	Never raises, and never returns an empty string: a message that has lost
+	its currency is worse than one with a plain code in it.
+	"""
+	pack = None
+	try:
+		pack = pack_for(property)
+		if property:
+			prop_doc = frappe.get_cached_doc("Property", property)
+		else:
+			# No property in scope: the sole property on a single-hotel site
+			# is the honest answer, and there is no answer worth guessing on
+			# a multi-property site, so fall through to the pack's default.
+			name = frappe.get_all("Property", pluck="name", limit=2)
+			prop_doc = (frappe.get_cached_doc("Property", name[0])
+			            if len(name) == 1 else None)
+		if prop_doc is not None:
+			sym = (pack.locale(prop_doc) or {}).get("currency_symbol")
+			if sym:
+				return sym
+	except Exception:
+		# A property name that does not exist, a pack that raises, a locale
+		# that is missing a key. The first version of this returned "" here
+		# and the docstring above claimed it never would - caught by passing
+		# a nonexistent property, which printed an amount with no currency at
+		# all. In a money message that is worse than a blunt code, so the
+		# fallbacks below run on this path too.
+		pass
+
+	for candidate in (pack, None):
+		try:
+			code = getattr(candidate or pack_for(None), "DEFAULT_CURRENCY", None)
+			if code:
+				return f"{code} "
+		except Exception:
+			continue
+	# Only reachable if even the default pack cannot be loaded, which means
+	# the install is broken in a way no message string can paper over.
+	return "DZD "
+
+
 def amount_in_words(pack, prop_doc, amount) -> str:
 	fn = getattr(pack, "amount_in_words", None)
 	if fn:

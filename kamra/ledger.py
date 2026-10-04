@@ -15,6 +15,12 @@ from frappe.utils import now_datetime, nowdate
 from kamra.authz import require_roles
 from kamra.business_date import get_business_date
 
+# Module level and not inside each function, unlike the pack_for
+# imports elsewhere in this file: kamra.localization imports only
+# importlib and frappe, and its packs import only decimal and frappe,
+# so there is no cycle to avoid here - checked, not assumed.
+from kamra.localization import currency_symbol
+
 CHARGE_TYPE_TO_CODE = {
 	"Room": ("1000", "Room Charge", "Rooms", "Room"),
 	"Meal Plan": ("1100", "Meal Plan", "F&B", "Meal Plan"),
@@ -732,7 +738,7 @@ def quick_checkout(reservation: str, pin: str | None = None):
 			transfer_to_city_ledger(folio_name, company)
 		else:
 			frappe.throw(
-				f"Balance ₹{float(folio.balance):,.2f} remains - collect payment "
+				f"Balance {currency_symbol()}{float(folio.balance):,.2f} remains - collect payment "
 				"or transfer to city ledger first.")
 	close_folio(folio_name, pin=pin)
 	return check_out(reservation)

@@ -45,6 +45,12 @@ from frappe.utils import (
 
 from kamra.authz import require_roles
 
+# Module level and not inside each function, unlike the pack_for
+# imports elsewhere in this file: kamra.localization imports only
+# importlib and frappe, and its packs import only decimal and frappe,
+# so there is no cycle to avoid here - checked, not assumed.
+from kamra.localization import currency_symbol
+
 # who sells and runs functions
 BANQUET_ROLES = ("Front Desk", "Revenue Manager", "Kamra Agent")
 # who may change what things cost
@@ -692,8 +698,8 @@ def record_receipt(function: str, amount: float, mode: str = "Bank Transfer",
 	doc.save()
 	from kamra.savings import log_action
 	log_action("banquet_receipt", "Venue Booking", doc.name, doc.property,
-	           rationale=f"{kind} ₹{float(amount):,.0f} ({mode}) for "
-	                     f"{doc.customer_name} - balance ₹{doc.balance_due:,.0f}")
+	           rationale=f"{kind} {currency_symbol()}{float(amount):,.0f} ({mode}) for "
+	                     f"{doc.customer_name} - balance {currency_symbol()}{doc.balance_due:,.0f}")
 	return {"ok": True, "received": doc.advance_received,
 	        "balance_due": doc.balance_due}
 
@@ -1350,7 +1356,7 @@ def generate_quote(function: str, valid_days: int = 15,
 	log_action("banquet_quote", "Venue Booking", doc.name, doc.property,
 	           minutes_saved=20,
 	           rationale=f"Quote v{doc.quote_version} for {doc.customer_name}: "
-	                     f"₹{doc.grand_total:,.0f} ({len(doc.items)} lines)")
+	                     f"{currency_symbol()}{doc.grand_total:,.0f} ({len(doc.items)} lines)")
 	return banquet_document(function, "quote")
 
 
@@ -1400,7 +1406,7 @@ def generate_invoice(function: str):
 		log_action("banquet_invoice", "Venue Booking", doc.name, doc.property,
 		           minutes_saved=10,
 		           rationale=f"Invoice {doc.invoice_number} for "
-		                     f"{doc.customer_name}: ₹{doc.grand_total:,.0f}")
+		                     f"{doc.customer_name}: {currency_symbol()}{doc.grand_total:,.0f}")
 	return banquet_document(function, "invoice")
 
 
@@ -1557,7 +1563,7 @@ def close_out(function: str, damage_amount: float = 0,
 	           minutes_saved=10,
 	           rationale=f"{doc.customer_name} closed out - "
 	                     f"{doc.billable_pax} actual pax, "
-	                     f"₹{damage:,.0f} damages, ₹{refund:,.0f} returned")
+	                     f"{currency_symbol()}{damage:,.0f} damages, {currency_symbol()}{refund:,.0f} returned")
 	return {"ok": True, "status": doc.status, "damage": damage,
 	        "refunded": refund, "deposit_held": doc.deposit_held,
 	        "balance_due": doc.balance_due, "grand_total": doc.grand_total}
