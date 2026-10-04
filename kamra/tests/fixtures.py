@@ -56,12 +56,40 @@ def ensure_roles_and_users():
 		}).insert(ignore_permissions=True)
 
 
+TEST_TZ = "Asia/Kolkata"
+
+
+def _pin_site_clock() -> None:
+	"""Make the suite's clock a stated precondition, not a side effect.
+
+	Setting `timezone` on the fixture property below is not enough on its own.
+	Property.on_update only syncs the site clock when the property is the SOLE
+	one, and by the time this runs the eval harness has already created six -
+	so the property save returns early and whatever clock the first property
+	set is the clock this suite inherits. That is how a change to a schema
+	default in a completely different file moved these tests onto a different
+	calendar day.
+
+	So the suite says what it needs out loud. The banquet tests book halls by
+	date and hour; a clock they did not choose is not a detail.
+	"""
+	try:
+		if frappe.db.get_single_value("System Settings", "time_zone") != TEST_TZ:
+			frappe.db.set_single_value("System Settings", "time_zone", TEST_TZ)
+			frappe.clear_cache()
+	except Exception:
+		# A site that will not take the setting still runs the suite; the
+		# tests will say so far more clearly than a failure here would.
+		pass
+
+
 def build() -> dict:
 	"""A property with a hall, an ingredient shelf, a costed dish library and
 	a menu whose starter course offers a choice. Everything the banquet
 	tests need and nothing they don't."""
 	ensure_roles_and_users()
 	f = {"property": PROPERTY}
+	_pin_site_clock()
 
 	_upsert("Property", {"property_name": PROPERTY}, {
 		"property_name": PROPERTY, "city": "Testville", "state": "Karnataka",
@@ -71,7 +99,24 @@ def build() -> dict:
 		# Karnataka place of supply, so they are an Indian property and
 		# should say so - otherwise a schema default silently decides what
 		# currency the tests expect.
+		#
+		# The comment above was written about `country` and was right about
+		# the danger, then timezone and currency were left to the default
+		# anyway - and the default moving to Africa/Algiers broke the banquet
+		# suite in CI. Property.on_update syncs the timezone of a SOLE
+		# property into System Settings.time_zone, so the fixture was
+		# silently rewriting the site clock as it was built. CI ran at 19:15
+		# UTC, where Asia/Kolkata is already 05 October and Africa/Algiers is
+		# still 04: a whole calendar day apart, under a suite that books halls
+		# by date. Verified on the live stack - saving the single Property did
+		# rewrite System Settings, and the rollback restored it.
+		#
+		# So every field the pack has an opinion about is stated here. The
+		# distribution default stays Africa/Algiers; these fixtures are an
+		# Indian property and now say so in full rather than in part.
 		"country": "India",
+		"timezone": "Asia/Kolkata",
+		"currency": "INR",
 		"gst_mode": "Slab", "gst_slab_threshold": 7500,
 		"gst_rate_low": 5, "gst_rate_high": 18, "gstin": "29AABCU9603R1ZM",
 	})

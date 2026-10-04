@@ -91,8 +91,23 @@ def setup():
 				"send_welcome_email": 0, "roles": [{"role": role}],
 			}).insert(ignore_permissions=True)
 	if not frappe.db.exists("Property", P):
+		# country, timezone and currency are stated and not inherited.
+		#
+		# This is the FIRST property on a fresh test site, and
+		# Property.on_update syncs the timezone of a sole property into
+		# System Settings.time_zone - so whatever this property's timezone
+		# resolves to becomes the clock for every suite that runs after it.
+		# Leaving it to the schema default meant that moving that default to
+		# Africa/Algiers moved the test site's clock, and the banquet suite
+		# failed in CI at 19:15 UTC, where Asia/Kolkata is already 05 October
+		# and Africa/Algiers is still 04 - a whole calendar day apart.
+		#
+		# The GST slab fields below only make sense for an Indian property,
+		# so saying India here is not a workaround for the default; it is
+		# this fixture finally agreeing with itself.
 		frappe.get_doc({
 			"doctype": "Property", "property_name": P, "city": "Testville",
+			"country": "India", "timezone": "Asia/Kolkata", "currency": "INR",
 			"gst_mode": "Slab", "gst_slab_threshold": 7500,
 			"gst_rate_low": 5, "gst_rate_high": 18,
 		}).insert(ignore_permissions=True)
