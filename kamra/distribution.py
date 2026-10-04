@@ -34,11 +34,21 @@ import frappe
 
 DISTRIBUTION = "ZIRI PMS"
 
-# Keep in step with the newest `ziri-v*` tag. VERSIONING.md explains why the
-# suffix is here: the documents describe 1.0.0, the tag records which candidate
-# is actually checked out, and the suffix is dropped once a trial install has
-# proven the migrations against a real database.
-DISTRIBUTION_VERSION = "1.0.0-rc.3"
+# Keep in step with the newest `ziri-v*` tag.
+#
+# The -rc suffix is gone, and it is gone because the condition this comment
+# itself set has been met. It used to read: "the suffix is dropped once a trial
+# install has proven the migrations against a real database." That install
+# exists, `bench migrate` has run against it repeatedly across real schema
+# changes - Cancelled Invoice tracking, the Property locale defaults - and a
+# backup set taken from it has been restored into a clean MariaDB and verified
+# table by table against a manifest, with the verifier's own negative controls
+# proving it can fail. So this is the release the comment was waiting for
+# rather than a number chosen because the work felt finished.
+#
+# ziri-release.yml refuses to publish a tag that disagrees with this line, so
+# the two cannot drift apart by accident.
+DISTRIBUTION_VERSION = "1.0.0"
 
 # Releases of THIS distribution, not upstream's. Tags carry a prefix so they
 # cannot collide with upstream's `v2.6.5` style in the same repository.

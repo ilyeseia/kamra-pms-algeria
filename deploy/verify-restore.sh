@@ -85,6 +85,14 @@ V_PW=$(head -c16 /dev/urandom | od -An -tx1 | tr -d ' \n')
 cat > "$WORK/verify.env" <<EOF
 DB_PASSWORD=$V_PW
 CUSTOM_IMAGE=${CUSTOM_IMAGE:-kamra}
+# This is an IMAGE tag, not the distribution version, and the two only look
+# alike. It must name an image that exists on this host, because PULL_POLICY
+# below is `never` - the verifier deliberately refuses to reach a registry.
+# The running backend is kamra:v1.0.0-rc.3, so that is what this says; do not
+# "fix" it to match DISTRIBUTION_VERSION, which would leave the verifier
+# looking for an image nobody has built.
+#
+# Override it when you build a new one:  CUSTOM_TAG=v1.0.0 ./verify-restore.sh
 CUSTOM_TAG=${CUSTOM_TAG:-v1.0.0-rc.3}
 PULL_POLICY=never
 FRAPPE_SITE_NAME_HEADER=$VSITE
