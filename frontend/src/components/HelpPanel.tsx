@@ -4,6 +4,8 @@ import { HelpCircle, Loader2, Send, X } from "lucide-react"
 import { call, getCurrentProperty } from "../lib/api"
 import { cn } from "../lib/utils"
 import { Markdown } from "../lib/markdown"
+import { useT } from "../lib/i18n"
+import { getLang } from "../lib/dir"
 
 /** How-to help assistant - explains how to use ZIRI (it never acts on data;
  *  that's Kamra Agent). Streams answers, grounded in the app. */
@@ -13,15 +15,18 @@ interface Msg {
   content: string
 }
 
-const SUGGESTIONS = [
-  "How do I check a guest in?",
-  "How do I add photos to a room type?",
-  "How do I waitlist a booking?",
-  "What is RevPAX?",
-  "Where do I manage users?",
+// See AssistantPanel for why these are built through t() and not held as a
+// bare array of strings.
+const suggestions = (t: (s: string) => string) => [
+  t("How do I check a guest in?"),
+  t("How do I add photos to a room type?"),
+  t("How do I waitlist a booking?"),
+  t("What is RevPAX?"),
+  t("Where do I manage users?"),
 ]
 
 export default function HelpPanel() {
+  const { t } = useT()
   const [enabled, setEnabled] = useState(false)
   const [open, setOpen] = useState(false)
   const [msgs, setMsgs] = useState<Msg[]>([])
@@ -58,6 +63,7 @@ export default function HelpPanel() {
     const payload = {
       property: getCurrentProperty(),
       messages: history.map(({ role, content }) => ({ role, content })),
+      lang: getLang(),
     }
     try {
       const csrf = (window as unknown as { csrf_token?: string }).csrf_token
@@ -136,7 +142,7 @@ export default function HelpPanel() {
                 <p className="text-sm text-zinc-600">
                   Ask how to do anything in ZIRI PMS - I'll walk you through it.
                 </p>
-                {SUGGESTIONS.map((s) => (
+                {suggestions(t).map((s) => (
                   <button
                     key={s}
                     className="block w-full rounded-lg border border-zinc-200 px-3 py-1.5 text-left text-sm text-zinc-600 hover:border-brand-600"

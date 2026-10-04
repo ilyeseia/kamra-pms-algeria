@@ -179,7 +179,7 @@
    "label": "Pincode"
   },
   {
-   "default": "Asia/Kolkata",
+   "default": "Africa/Algiers",
    "fieldname": "timezone",
    "fieldtype": "Data",
    "label": "Timezone"
@@ -190,7 +190,7 @@
    "label": "Operations"
   },
   {
-   "default": "INR",
+   "default": "DZD",
    "fieldname": "currency",
    "fieldtype": "Link",
    "label": "Currency",

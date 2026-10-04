@@ -4,6 +4,8 @@ import { call, getCurrentProperty } from "../lib/api"
 import { serverError } from "../lib/resource"
 import { cn } from "../lib/utils"
 import { Markdown } from "../lib/markdown"
+import { useT } from "../lib/i18n"
+import { getLang } from "../lib/dir"
 
 /** Kamra Agent, docked to the front desk - appears only when the property has enabled
  * it with their own key. Model talks; the governed tool layer acts. */
@@ -14,11 +16,24 @@ interface Msg {
   actions?: { tool: string; ok: boolean }[]
 }
 
-const SUGGESTIONS = [
-  "Who's arriving today?",
-  "Any departures with money due?",
-  "Quote a double room for this weekend",
-  "What does cancelling RES-… cost?",
+/** Built THROUGH t() rather than held as an array of plain strings.
+ *
+ * scripts/i18n-extract.mjs scans for `t("literal")`. An array of bare strings
+ * rendered with `t(s)` is invisible to it: the key never reaches catalog.csv,
+ * no translator ever sees it, and the suggestion stays English in every
+ * language - silently, because t() falls back to its own argument. The
+ * extractor's header warns about exactly this for `options:` arrays; this is
+ * the same trap one level further out, and the first version of this change
+ * fell into it (nine keys, zero extracted).
+ *
+ * The translated text is also what gets SENT. Tapping an Arabic suggestion
+ * puts Arabic in the conversation, which is a stronger signal to the model
+ * than any system-prompt directive. */
+const suggestions = (t: (s: string) => string) => [
+  t("Who's arriving today?"),
+  t("Any departures with money due?"),
+  t("Quote a double room for this weekend"),
+  t("What does cancelling RES-… cost?"),
 ]
 
 const toolLabel: Record<string, string> = {
@@ -42,6 +57,10 @@ const toolLabel: Record<string, string> = {
 }
 
 export default function AssistantPanel() {
+  // useT and not the bare t(): it subscribes to the `kamra:lang` event, so
+  // switching language redraws the suggestions instead of leaving the old
+  // language on screen until the panel is reopened.
+  const { t } = useT()
   const [enabled, setEnabled] = useState(false)
   const [open, setOpen] = useState(false)
   const [msgs, setMsgs] = useState<Msg[]>([])
@@ -80,6 +99,9 @@ export default function AssistantPanel() {
     const payload = {
       property: getCurrentProperty(),
       messages: history.map(({ role, content }) => ({ role, content })),
+      // The UI language lives in localStorage, per device - the server cannot
+      // read it, and User.language is not it. See kamra/assistant.py.
+      lang: getLang(),
     }
 
     try {
@@ -204,10 +226,11 @@ export default function AssistantPanel() {
                   <li>Search guests and their history</li>
                 </ul>
                 <p className="text-xs text-zinc-400">
-                  Every action is audit-logged. This chat lives on your device
-                  and clears when you close or clear it.
+                  {t(
+                    "Every action is audit-logged. This chat lives on your device and clears when you close or clear it.",
+                  )}
                 </p>
-                {SUGGESTIONS.map((s) => (
+                {suggestions(t).map((s) => (
                   <button
                     key={s}
                     className="block w-full rounded-lg border border-zinc-200 px-3 py-1.5 text-left text-sm text-zinc-600 hover:border-brand-600"
