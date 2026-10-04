@@ -1,0 +1,21 @@
+[Unit]
+Description=ZIRI PMS weekly backup verification
+Documentation=file://@@ZIRI_DIR@@/docs/product/RESTORE.md
+
+[Timer]
+# Sunday 06:30, an hour after that morning's backup, so it verifies a set that
+# is at most one hour old.
+#
+# Weekly and not daily on purpose. A level 1 verification starts a MariaDB
+# container and imports the whole dump into it - measured at 35 s restore on
+# this install, but that scales with the database and a real property's will be
+# far larger. Daily would put that load on a hotel's only server every morning
+# for information that changes slowly. Weekly is often enough to catch a
+# backup chain that has started producing unusable sets, which is the failure
+# this guards against.
+OnCalendar=Sun *-*-* 06:30:00
+Persistent=true
+AccuracySec=1min
+
+[Install]
+WantedBy=timers.target

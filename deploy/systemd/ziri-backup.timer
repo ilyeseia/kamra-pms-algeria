@@ -1,0 +1,26 @@
+[Unit]
+Description=ZIRI PMS daily backup
+Documentation=file://@@ZIRI_DIR@@/docs/product/BACKUP.md
+
+[Timer]
+# 05:30 local time, which docs/product/BACKUP.md section 4.1 picked because it
+# is after the last scheduled writer: night audit 03:00, guest-retention
+# erasure 03:30, demo reset 04:15, enquiry purge 04:45. A dump taken mid-audit
+# is internally consistent but captures a half-closed day.
+#
+# Local time, not UTC, and the host clock must equal the site timezone
+# (Africa/Algiers). health.py reports CONFIGURATION-003 when a property's zone
+# and the site's disagree; it cannot see the host's.
+OnCalendar=*-*-* 05:30:00
+
+# The one that matters on a hotel server. Without it, a server that was off,
+# asleep or being updated at 05:30 simply skips the day and nothing says so.
+# With it, the backup runs as soon as the machine is back.
+Persistent=true
+
+# Nothing else shares this host, so no jitter is needed; a fixed time also
+# makes "did last night's backup run" answerable by looking at one timestamp.
+AccuracySec=1min
+
+[Install]
+WantedBy=timers.target

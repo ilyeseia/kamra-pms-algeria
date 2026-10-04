@@ -22,9 +22,20 @@
 # accordingly.
 #
 # USAGE
-#   ./backup-verify.sh backup            take a set and write its manifest
+#   ./backup-verify.sh backup            take a set, prune old ones
 #   ./backup-verify.sh verify [DIR]      verify the newest set, or DIR
-#   ./backup-verify.sh self-test         prove the verifier can FAIL (N1, N2)
+#   ./backup-verify.sh self-test         prove the verifier can FAIL (N1,N2,N4)
+#
+# ENVIRONMENT
+#   KEEP_SETS  how many sets to keep (default 14). Pruning happens only after
+#              a set has been written and checksummed, keeps by count and not
+#              by age, and never removes the newest.
+#   SITE, SETS_DIR, COMPOSE_FILE  as set below.
+#
+# ON A SCHEDULE
+#   deploy/systemd/install-timers.sh installs a daily backup (05:30) and a
+#   weekly verification (Sunday 06:30). Until that existed this script ran only
+#   when a human ran it, which is the same protection as no script at all.
 #
 # EXIT CODES
 #   0 verified   1 verification failed   2 could not run
@@ -75,8 +86,17 @@ need docker
 # Log. Frappe records logins and document changes already; taking or verifying
 # a backup is the one consequential thing an operator does that left no trace
 # anywhere. Never allowed to fail the operation it is recording.
+# AUDIT_PREFIX exists because of what the self-test did to the trail. Its
+# negative controls run cmd_verify against deliberately broken copies and are
+# SUPPOSED to fail - and each one wrote a plain "verify: failed" line, so a
+# single self-test left five failures in the hotel's audit log. An operator or
+# an auditor scanning that sees five broken backups and is right to be alarmed,
+# about nothing. Suppressing them would be worse: the run did happen. So they
+# are recorded as what they are.
+AUDIT_PREFIX="${AUDIT_PREFIX:-}"
+
 audit() {   # audit <operation> <status> [detail]
-	bexec "cd $BENCH && bench --site $SITE execute kamra.monitoring.record_data_operation --kwargs \"{'operation': '$1', 'status': '$2', 'detail': '${3:-}'}\"" >/dev/null 2>&1 || true
+	bexec "cd $BENCH && bench --site $SITE execute kamra.monitoring.record_data_operation --kwargs \"{'operation': '$AUDIT_PREFIX$1', 'status': '$2', 'detail': '${3:-}'}\"" >/dev/null 2>&1 || true
 }
 
 # A set id is YYYYmmdd-HHMMSS: fourteen digits with one separator, which the
@@ -103,6 +123,13 @@ SQL
 }
 
 cmd_backup() {
+	# Every failure path here goes through die(), which exits - so the audit
+	# line for a failed backup cannot sit at the end of the function, it has to
+	# come from a trap. This matters most for the case this was written for: a
+	# systemd timer firing at 05:30 with nobody watching. A scheduled backup
+	# that fails silently is indistinguishable from one that never ran, which
+	# is the exact shape of the problem monitoring.py exists to solve.
+	trap 'rc=$?; if [ "$rc" -ne 0 ]; then audit backup failed "exit $rc"; fi' EXIT
 	mkdir -p "$SETS_DIR"
 	local stamp set_dir
 	stamp=$(date -u +%Y%m%d-%H%M%S)
@@ -124,7 +151,14 @@ cmd_backup() {
 	# NF==2 drop every one of them: the manifest came back with 52 of 352
 	# tables and the verifier would have checked 15% of the database while
 	# printing a pass.
-	lq "USE \`$dbname\`; $inner" | awk -F'\t' 'NF==2 {print $1"\t"$2}' | sort > "$set_dir/manifest.tsv"
+	#
+	# LC_ALL=C, because the manifest is compared with `join` at verify time and
+	# join needs both sides collated the same way. Without it the order depends
+	# on whichever locale the host happened to have: a set taken under
+	# en_US.UTF-8 sorts __global_search BEFORE __UserSettings, and under C it
+	# sorts after. Verify re-sorts both sides anyway so old sets are safe, but
+	# a stored file with a stated order should have a stated collation.
+	lq "USE \`$dbname\`; $inner" | awk -F'\t' 'NF==2 {print $1"\t"$2}' | LC_ALL=C sort > "$set_dir/manifest.tsv"
 	[ -s "$set_dir/manifest.tsv" ] || die "manifest came back empty"
 	say "manifest: $(wc -l < "$set_dir/manifest.tsv") tables"
 
@@ -140,18 +174,99 @@ cmd_backup() {
 	dc cp "backend:$BENCH/sites/$SITE/site_config.json" "$set_dir/site_config.json" >/dev/null
 	chmod 600 "$set_dir/site_config.json" 2>/dev/null || true
 
-	# 4. provenance, so a verifier can tell a stale set from a current one
+	# 4. the uploaded files.
+	#
+	# `bench backup --with-files` above writes two tar archives beside the dump
+	# INSIDE the sites volume, and until now nothing copied them out. The host
+	# set held the database and the encryption key and no files at all - so the
+	# one disaster it exists for, losing that volume, would have restored a
+	# hotel with every booking intact and not one guest ID scan, invoice PDF or
+	# uploaded document. The set was incomplete for its own purpose.
+	#
+	# They are matched by the dump's own timestamp prefix rather than by `ls
+	# -t`, so a set can never pair a dump with archives from a different run.
+	local prefix captured=()
+	prefix="${newest%-database.sql.gz}"
+	local kind
+	for kind in files private-files; do
+		if bexec "test -f '$prefix-$kind.tar'" >/dev/null 2>&1; then
+			dc cp "backend:$prefix-$kind.tar" "$set_dir/$kind.tar" >/dev/null
+			captured+=("$kind.tar")
+		else
+			# Said out loud, not swallowed. A set with no file archives is
+			# still a usable set; a set that silently lost them is a trap.
+			say "note: no $kind.tar for this dump - files are NOT in this set"
+		fi
+	done
+
+	# 5. provenance, so a verifier can tell a stale set from a current one
 	{
 		echo "site=$SITE"
 		echo "taken_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 		echo "db_image=$DB_IMAGE"
 		echo "source_dump=$(basename "$newest")"
+		echo "file_archives=${captured[*]:-none}"
 	} > "$set_dir/SET.info"
 
-	( cd "$set_dir" && sha256sum database.sql.gz manifest.tsv site_config.json > SHA256SUMS )
+	# ${arr[@]+"${arr[@]}"} and not "${arr[@]}": under `set -u` an empty array
+	# expanded the second way is an unbound-variable error on bash before 4.4,
+	# and a site with no uploads yet is exactly when that would bite.
+	( cd "$set_dir" && sha256sum database.sql.gz manifest.tsv site_config.json \
+	    ${captured[@]+"${captured[@]}"} > SHA256SUMS )
 	audit backup ok "$(set_label "$set_dir"), $(wc -l < "$set_dir/manifest.tsv") tables"
 	ok "set written: $(du -sh "$set_dir" | cut -f1)"
+	prune_sets
 	echo "$set_dir"
+}
+
+# ── retention ────────────────────────────────────────────────────────────
+# Until this existed, every run left a set behind for ever and the only reason
+# that was survivable is that nothing ran this on a schedule. Automating an
+# unbounded writer is how you fill a disk, and a full disk is a worse outage
+# than the missing backup it was meant to prevent - health.py would report
+# STORAGE-002 and the cause would be the backup system itself.
+#
+# Deliberate choices:
+#   - Pruning runs only AFTER a set has been written and checksummed. A failed
+#     backup must never be the thing that deletes an older good one.
+#   - It keeps by count, not by age. Age-based retention on a host that was off
+#     for three weeks deletes everything and keeps nothing.
+#   - It never deletes the newest set, whatever KEEP_SETS says. KEEP_SETS=0 is
+#     treated as 1.
+#   - Each path is checked to be a direct child of SETS_DIR with a
+#     timestamp-shaped name before it is removed. `rm -rf` driven by a variable
+#     is worth being paranoid about, and verify-restore.sh guards its volume
+#     teardown the same way.
+KEEP_SETS="${KEEP_SETS:-14}"
+
+prune_sets() {
+	local keep="$KEEP_SETS"
+	case "$keep" in
+		''|*[!0-9]*) say "KEEP_SETS=$keep is not a number - keeping everything"; return 0 ;;
+	esac
+	[ "$keep" -lt 1 ] && keep=1
+
+	local -a sets=()
+	while IFS= read -r d; do
+		[ -n "$d" ] && sets+=("$d")
+	done < <(find "$SETS_DIR" -mindepth 1 -maxdepth 1 -type d \
+	         -name '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9]' \
+	         -printf '%f\n' 2>/dev/null | sort)
+
+	local total=${#sets[@]} drop=$(( ${#sets[@]} - keep ))
+	[ "$drop" -gt 0 ] || { say "retention: $total set(s), keeping $keep"; return 0; }
+
+	local i removed=0
+	for (( i = 0; i < drop; i++ )); do
+		local victim="$SETS_DIR/${sets[$i]}"
+		# Belt and braces: it came from SETS_DIR and matched the name pattern
+		# above, and it still has to look like a set before it is removed.
+		[ -d "$victim" ] && [ -f "$victim/SET.info" ] || continue
+		rm -rf -- "$victim" && removed=$(( removed + 1 ))
+	done
+	say "retention: removed $removed of $total set(s), keeping the newest $keep"
+	[ "$removed" -gt 0 ] && audit prune ok "removed $removed, keeping $keep"
+	return 0
 }
 
 # ── verification ─────────────────────────────────────────────────────────
@@ -179,8 +294,33 @@ cmd_verify() {
 	else
 		bad "2 archive is truncated or corrupt"
 		say "    stopping: a corrupt archive cannot be imported"
+		# This early return used to skip the audit line at the end of the
+		# function, so the single most likely real corruption - a dump
+		# truncated by a full disk or a half-finished copy - was the one
+		# failure that left no trace in the trail. Found by counting rows
+		# after a self-test: three controls had been rejected and only two
+		# had been recorded.
+		audit verify failed "$(set_label "$set_dir") level 1, corrupt archive"
 		return $FAILED
 	fi
+
+	# check 2b - the file archives, which BACKUP.md section 3 has always
+	# required ("tar -tf passes on each archive") and this script could never
+	# check because it did not copy them out. Sets taken before that are not
+	# failed for lacking them: they are reported as what they are, a set that
+	# restores a database and no uploads.
+	local arch found=0
+	for arch in files private-files; do
+		[ -f "$set_dir/$arch.tar" ] || continue
+		found=$(( found + 1 ))
+		if tar -tf "$set_dir/$arch.tar" >/dev/null 2>&1; then
+			ok "2b $arch.tar readable ($(du -h "$set_dir/$arch.tar" | cut -f1))"
+		else
+			bad "2b $arch.tar is corrupt - uploads would not restore"
+		fi
+	done
+	[ "$found" -gt 0 ] || say "    [INFO] 2b no file archives in this set - it "\
+"restores the database and the encryption key, not uploaded documents"
 
 	trap teardown EXIT
 	teardown
@@ -237,19 +377,37 @@ cmd_verify() {
 	fi
 
 	# check 5 - exact per-table counts
-	local inner cmp_file shrunk missing
+	local inner cmp_file ref_file shrunk missing
 	inner=$(vq "$(table_counts verify)" | tr -d '\r' | head -1)
 	cmp_file="$set_dir/.restored.tsv"
+	ref_file="$set_dir/.manifest.c.tsv"
 	if [ -n "$inner" ]; then
-		vq "$inner" | tr -d '\r' | awk -F'\t' 'NF==2 {print $1"\t"$2}' | sort > "$cmp_file"
-		missing=$(join -t"$(printf '\t')" -v1 "$set_dir/manifest.tsv" "$cmp_file" | wc -l)
-		shrunk=$(join -t"$(printf '\t')" "$set_dir/manifest.tsv" "$cmp_file" \
+		# Both sides are re-sorted here under LC_ALL=C and joined under it, and
+		# the manifest's own stored order is deliberately not trusted.
+		#
+		# This was a real false failure, not a hypothetical: the set taken on
+		# 2026-10-01 under one locale was reported "74 table(s) missing" when
+		# verified under another. Nothing was missing. join had been handed two
+		# files collated differently and produced nonsense, and its "not in
+		# sorted order" warning went to stderr where an operator running the
+		# one-line command never saw it.
+		#
+		# A verifier that cries wolf is worse than no verifier: a weekly timer
+		# reporting a false NOT VERIFIED teaches a hotel to ignore the one that
+		# is true.
+		vq "$inner" | tr -d '\r' | awk -F'\t' 'NF==2 {print $1"\t"$2}' \
+		    | LC_ALL=C sort > "$cmp_file"
+		LC_ALL=C sort "$set_dir/manifest.tsv" > "$ref_file"
+		missing=$(LC_ALL=C join -t"$(printf '\t')" -v1 "$ref_file" "$cmp_file" | wc -l)
+		shrunk=$(LC_ALL=C join -t"$(printf '\t')" "$ref_file" "$cmp_file" \
 			| awk -F'\t' '$3+0 < $2+0 {print}' | wc -l)
 		if [ "$missing" -eq 0 ] && [ "$shrunk" -eq 0 ]; then
 			ok "5 every table restored with at least its manifest count"
 		else
 			bad "5 $missing table(s) missing, $shrunk short of the manifest"
-			join -t"$(printf '\t')" "$set_dir/manifest.tsv" "$cmp_file" \
+			LC_ALL=C join -t"$(printf '\t')" -v1 "$ref_file" "$cmp_file" \
+				| awk -F'\t' '{printf "        missing: %s (manifest %s)\n", $1, $2}' | head -5
+			LC_ALL=C join -t"$(printf '\t')" "$ref_file" "$cmp_file" \
 				| awk -F'\t' '$3+0 < $2+0 {printf "        %s: manifest %s, restored %s\n", $1, $2, $3}' | head -5
 		fi
 	else
@@ -284,7 +442,7 @@ cmd_verify() {
 	fi
 
 	[ "$_had_e" = 1 ] && set -e
-	rm -f "$set_dir/.import.err" "$cmp_file"
+	rm -f "$set_dir/.import.err" "$cmp_file" "$ref_file"
 	teardown; trap - EXIT
 	echo
 	if [ "$FAILED" -eq 0 ]; then
@@ -304,11 +462,13 @@ cmd_verify() {
 # makes this mandatory: until the negative controls have been seen to fail,
 # a deployment's verification status is UNPROVEN whatever the checks printed.
 cmd_self_test() {
+	# Every audit line from here on says selftest-verify, not verify.
+	AUDIT_PREFIX="selftest-"
 	local src; src=$(ls -d "$SETS_DIR"/*/ 2>/dev/null | sort | tail -1 || true)
 	[ -n "$src" ] || die "take a backup first: $0 backup"
 	src="${src%/}"
 	local work="$SETS_DIR/.selftest"; rm -rf "$work"; mkdir -p "$work"
-	local rc pass=0 fail=0 total=2
+	local rc pass=0 fail=0 total=3
 
 	say "N1 - truncated dump (must FAIL)"
 	cp -r "$src/." "$work/"
@@ -323,6 +483,21 @@ cmd_self_test() {
 	( cd "$work" && sha256sum database.sql.gz manifest.tsv site_config.json > SHA256SUMS )
 	set +e; cmd_verify "$work" >/dev/null 2>&1; rc=$?; set -e
 	if [ $rc -ne 0 ]; then ok "N2 rejected"; pass=$((pass+1)); else bad "N2 PASSED - the verifier is broken"; fail=$((fail+1)); fi
+
+	# N4 guards check 5 specifically, and it exists because of how check 5 was
+	# wrong before: it compared the manifest with the restored counts using
+	# `join` on two files collated under different locales, and reported 74
+	# tables missing from a set that was complete. The fix re-sorts both sides
+	# under LC_ALL=C - and the risk of that kind of fix is the opposite error,
+	# a join that now agrees so readily that a genuinely absent table slips
+	# through. So this names a table that cannot exist and requires a FAIL.
+	say "N4 - manifest names a table that is not in the dump (must FAIL)"
+	rm -rf "$work"; mkdir -p "$work"; cp -r "$src/." "$work/"
+	printf 'tabZZZ No Such Doctype\t7\n' >> "$work/manifest.tsv"
+	LC_ALL=C sort -o "$work/manifest.tsv" "$work/manifest.tsv"
+	( cd "$work" && sha256sum database.sql.gz manifest.tsv site_config.json > SHA256SUMS )
+	set +e; cmd_verify "$work" >/dev/null 2>&1; rc=$?; set -e
+	if [ $rc -ne 0 ]; then ok "N4 rejected"; pass=$((pass+1)); else bad "N4 PASSED - check 5 no longer detects a missing table"; fail=$((fail+1)); fi
 
 	# N3 only means something where the live site HAS a key. Frappe creates
 	# one lazily, on the first thing it encrypts, so a site with no SMTP, no

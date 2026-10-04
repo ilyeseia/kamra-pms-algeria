@@ -220,7 +220,28 @@ section 2). What `backup_limit` counts when sets of different kinds mix is
 
 ### 4.3 Where it is scheduled
 
-Linux host: `cron` or a `systemd` timer, as `algeria/BACKUP.md` section 7.
+**Implemented** for Linux hosts: `deploy/systemd/install-timers.sh` installs
+
+| Unit | When | What |
+| --- | --- | --- |
+| `ziri-backup.timer` | daily 05:30 local | one set, then pruning to `KEEP_SETS` (default 14) |
+| `ziri-verify.timer` | Sunday 06:30 local | level 1 verification of the newest set |
+
+Both carry `Persistent=true`, which is the reason this is a systemd timer and
+not a `cron` entry: a hotel server that was off, asleep or mid-update at 05:30
+backs up as soon as it is back instead of silently skipping the night. The two
+units take the same `flock`, so a verification and a dump never run at once -
+the daily backup waits up to 30 minutes for the weekly verify, and the weekly
+verify skips rather than queue behind a backup.
+
+The installer runs one backup immediately and fails if it does not work, since
+an enabled timer only proves systemd accepted the file.
+
+Until this existed the schedule was documented here and nowhere else:
+`backup-verify.sh` ran when a human ran it, which is the same protection as no
+script at all (`PRODUCTIZATION_AUDIT.md`, gap section 22).
+
+Other hosts: `cron` or a timer by hand, as `algeria/BACKUP.md` section 7.
 Windows: Task Scheduler as `algeria/BACKUP.md` section 6, with the structural
 weakness stated there - Docker Desktop is a user-session app, so a Windows
 hotel server that is asleep, locked out or not logged in backs up nothing. This

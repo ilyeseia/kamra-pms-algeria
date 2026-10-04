@@ -1,0 +1,36 @@
+[Unit]
+# Restores the newest set into a throwaway MariaDB and compares it, table by
+# table, against the manifest taken before the dump. This is the half that
+# makes the other half mean anything: a backup nobody has restored is a file,
+# not a backup.
+Description=ZIRI PMS backup verification (RESTORE.md level 1)
+Documentation=file://@@ZIRI_DIR@@/docs/product/RESTORE.md
+Wants=docker.service
+After=docker.service network-online.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=@@ZIRI_DIR@@/deploy
+
+# -n and not -w: if the daily backup is still running, skip this week's
+# verification rather than queue behind it. Next Sunday will verify a newer
+# set, and the journal records the skip. The reverse choice - waiting - would
+# mean a verify starting at an unpredictable hour on a working day.
+ExecStart=/usr/bin/flock -n /run/ziri-backup.lock \
+          /bin/bash @@ZIRI_DIR@@/deploy/backup-verify.sh verify
+
+TimeoutStartSec=3600
+Nice=15
+IOSchedulingClass=idle
+
+# Exit 1 means NOT VERIFIED and exit 2 means it could not run. Both are
+# failures of this unit, deliberately: `systemctl list-timers` and
+# `systemctl status` should show red when the hotel's backups are unproven.
+# The run also writes an Activity Log line either way (kamra/monitoring.py),
+# which is what survives a journal rotation.
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

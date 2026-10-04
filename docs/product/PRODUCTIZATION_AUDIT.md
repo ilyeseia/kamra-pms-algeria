@@ -145,7 +145,7 @@ record that gets edited to match today is not a record. What has changed since:
 | §35 Installation ID | 0 | **Closed.** `kamra/installation.py`, generated and stored rather than derived |
 | §30, §55 Monitoring, alerting | 0 | **Alerting closed**, `kamra/monitoring.py`, hourly, on state change not state. **Metrics endpoint still open**: `system_health` is JSON over HTTP, not a Prometheus exposition |
 | §45 Error-code taxonomy | 0 | **22 of 63 allocated codes emitted** by `health.py`, `ziri-doctor`, the bundle and four `Error Log` titles; `kamra/scripts/error_code_check.py` fails CI on drift. The other 41 have no machine signal and say so |
-| §22 Scheduled automatic backup | 0 | **Still open.** `deploy/backup-verify.sh` exists and is verified end to end, but nothing installs a cron entry or a timer, so on a real host it runs only when a human runs it |
+| §22 Scheduled automatic backup | 0 | **Closed.** `deploy/systemd/` - daily backup 05:30, weekly verification Sunday 06:30, both `Persistent=true`, installed by `install-timers.sh`. Retention added at the same time (`KEEP_SETS`, default 14): automating an unbounded writer is how a disk fills |
 | §59 Feature flags | 0 | **Still open.** No hit anywhere |
 | §12–14 Commercial licence | 0 | **Still open.** No hit anywhere |
 
