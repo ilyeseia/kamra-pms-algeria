@@ -412,6 +412,18 @@ def _section_backups() -> dict:
 		d = frappe.get_site_path("private", "backups")
 		files = sorted(glob.glob(os.path.join(d, "*.sql.gz")),
 		               key=os.path.getmtime, reverse=True)
+		# The audit trail answers "was a restore ever tested, and when" from
+		# recorded fact rather than from the presence of files. A directory full
+		# of dumps says a backup was WRITTEN; only a verify line says one was
+		# ever read back. That distinction is the whole point of the trail.
+		# The prefix is imported rather than repeated: two copies of a marker
+		# that must match is a silent break waiting for whoever edits one.
+		from kamra.monitoring import _AUDIT_PREFIX, recent_data_operations
+
+		trail = recent_data_operations(15)
+		verifies = [t for t in trail
+		            if t["subject"].startswith(f"{_AUDIT_PREFIX} verify")
+		            and t["status"] == "Success"]
 		return {
 			"count": len(files),
 			"newest_age_hours": (
@@ -421,7 +433,13 @@ def _section_backups() -> dict:
 				round(os.path.getsize(files[0]) / (1024 ** 2), 1) if files else None),
 			# filenames only - never contents, never the files themselves
 			"filenames": [os.path.basename(f) for f in files[:10]],
-			"restore_tested_at": "unknown (no restore-test record exists yet)",
+			"restore_tested_at": (
+				str(verifies[0]["creation"]) if verifies
+				else "never - no successful verify has been recorded"),
+			"data_operations": [
+				{"when": str(t["creation"]), "what": t["subject"], "result": t["status"]}
+				for t in trail
+			],
 		}
 	except Exception as e:
 		return {"error": f"{type(e).__name__}: {e}"}

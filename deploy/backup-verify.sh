@@ -71,6 +71,24 @@ lq() {   # live query -> tab-separated rows, no header
 need() { command -v "$1" >/dev/null 2>&1 || die "$1 is required"; }
 need docker
 
+# One audit line per backup and per verification, into the site's own Activity
+# Log. Frappe records logins and document changes already; taking or verifying
+# a backup is the one consequential thing an operator does that left no trace
+# anywhere. Never allowed to fail the operation it is recording.
+audit() {   # audit <operation> <status> [detail]
+	bexec "cd $BENCH && bench --site $SITE execute kamra.monitoring.record_data_operation --kwargs \"{'operation': '$1', 'status': '$2', 'detail': '${3:-}'}\"" >/dev/null 2>&1 || true
+}
+
+# A set id is YYYYmmdd-HHMMSS: fourteen digits with one separator, which the
+# support bundle's card-number rule redacts - correctly, by its own terms, and
+# the first bundle written after the audit lines landed showed
+# "<redacted:card-like>" where the set name should be. The rule is not the thing
+# to change: a redactor that can be talked out of a match to make output
+# prettier is not a redactor. So the id is written ISO-8601 basic instead, which
+# breaks the run into eight digits and six and is the more correct spelling
+# anyway. The directory on disk keeps its name; only the audit text changes.
+set_label() { basename "$1" | tr '-' 'T'; }
+
 # ── manifest ─────────────────────────────────────────────────────────────
 # Exact COUNT(*) per table, not information_schema.TABLE_ROWS, which is an
 # estimate for InnoDB and would pass a lossy import.
@@ -131,6 +149,7 @@ cmd_backup() {
 	} > "$set_dir/SET.info"
 
 	( cd "$set_dir" && sha256sum database.sql.gz manifest.tsv site_config.json > SHA256SUMS )
+	audit backup ok "$(set_label "$set_dir"), $(wc -l < "$set_dir/manifest.tsv") tables"
 	ok "set written: $(du -sh "$set_dir" | cut -f1)"
 	echo "$set_dir"
 }
@@ -269,11 +288,13 @@ cmd_verify() {
 	teardown; trap - EXIT
 	echo
 	if [ "$FAILED" -eq 0 ]; then
+		audit verify ok "$(set_label "$set_dir") level 1"
 		say "VERIFIED - this set imported into a clean MariaDB with its counts intact."
 		say "That is evidence, not a guarantee: it does not prove the application"
 		say "runs on it. See docs/product/RESTORE.md section 2.3 for the Level 2 run."
 		return 0
 	fi
+	audit verify failed "$(set_label "$set_dir") level 1"
 	say "NOT VERIFIED - do not rely on this set."
 	return 1
 }

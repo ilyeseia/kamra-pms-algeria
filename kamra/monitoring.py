@@ -33,6 +33,8 @@ import json
 
 import frappe
 
+from kamra.authz import require_roles
+
 _STATE_KEY = "kamra_health_alert_state"
 # Advisories are not pages. "No backup yet" and "a newer release exists" are
 # real and neither is worth waking anyone; they are visible on the panel and in
@@ -167,3 +169,103 @@ def check_and_alert() -> dict:
 	_save_state(now)
 	return {"ok": True, "overall": result.get("overall"),
 	        "newly_failing": broke, "recovered": fixed}
+
+
+# ── audit: the operations Frappe does not already record ────────────────
+# Frappe covers more than a first look suggests, and checking that before
+# building anything saved a parallel audit system that would have duplicated
+# it: Activity Log carries logins, logouts and failed attempts; Version carries
+# document changes on every money doctype in this app; Permission Log carries
+# permission edits. What none of them sees is an operator taking a backup or
+# restoring one - which is the single most consequential thing anyone does to a
+# hotel's data, and until now left no trace at all.
+
+# The marker that makes these rows findable. Both `operation` and `status` on
+# Activity Log are Select fields with a vocabulary Frappe owns - operation
+# allows only Login, Logout, Impersonate, and status only Success, Failed,
+# Linked, Closed. The first version of this wrote operation="Data Operation"
+# and status="ok", and Frappe rejected every row; the rows were missing for a
+# full backup-and-verify cycle before anyone looked.
+#
+# The fix is NOT to widen those options with a Property Setter. Appending to a
+# core field's option list means owning that list forever: the moment Frappe
+# adds an operation of its own, our override silently drops it. Instead the
+# operation is left blank - which is valid, and is what Frappe itself writes
+# for generic activity rows - and the marker lives in the subject, where no
+# framework vocabulary applies.
+_AUDIT_PREFIX = "[data]"
+# ok -> Success is not cosmetic: Frappe's own list views and reports colour and
+# filter on these four values, so a data operation reads like every other row.
+_STATUS_MAP = {"ok": "Success", "success": "Success",
+               "failed": "Failed", "error": "Failed"}
+
+
+def record_data_operation(operation: str, detail: str = "", status: str = "ok") -> None:
+	"""Write one audit line for a backup, restore or verification.
+
+	Deliberately an Activity Log row rather than a new doctype: an auditor
+	looking for "what happened to this site" should find one list, not two, and
+	Frappe already applies its retention and permission rules to that one.
+
+	Never raises. This is called from scripts that are themselves recovering a
+	site; a logging failure must not be the thing that stops a restore.
+	"""
+	try:
+		from kamra.installation import installation_id
+		iid = installation_id(create=False) or "unknown"
+	except Exception:
+		iid = "unknown"
+	try:
+		frappe.get_doc({
+			"doctype": "Activity Log",
+			"subject": f"{_AUDIT_PREFIX} {operation}: {status}"
+			           + (f" - {detail}" if detail else ""),
+			# operation deliberately unset - see _AUDIT_PREFIX above.
+			"status": _STATUS_MAP.get(str(status).lower(), "Failed"),
+			"user": frappe.session.user if getattr(frappe, "session", None) else "Administrator",
+			"full_name": f"ZIRI {iid}",
+		}).insert(ignore_permissions=True)
+		frappe.db.commit()  # nosemgrep: frappe-manual-commit -- audit line must survive a failing caller
+	except Exception as e:
+		# The reason goes in the title. The previous version logged only
+		# "could not record backup", which said that the audit trail was
+		# broken but not why, and the why was a one-line schema constraint.
+		try:
+			frappe.log_error(
+				title=f"audit: could not record {operation}: {type(e).__name__}",
+				message=f"{e}\n\noperation={operation!r} status={status!r} detail={detail!r}",
+			)
+		except Exception:
+			pass
+
+
+def recent_data_operations(limit: int = 20) -> list[dict]:
+	"""The data-operation trail, for ziri-doctor and the support bundle.
+
+	Matching on the subject prefix rather than a dedicated field is the cost of
+	not owning Activity Log's Select vocabulary - see _AUDIT_PREFIX. It is an
+	indexed-prefix LIKE on a table Frappe already keeps small by retention.
+	"""
+	try:
+		return frappe.get_all(
+			"Activity Log",
+			filters={"subject": ["like", f"{_AUDIT_PREFIX}%"]},
+			fields=["subject", "status", "user", "creation"],
+			order_by="creation desc",
+			limit=limit,
+		)
+	except Exception:
+		return []
+
+
+@frappe.whitelist()
+@require_roles("Hotel Admin", "System Manager", "Administrator")
+def log_data_operation(operation: str, detail: str = "", status: str = "ok") -> dict:
+	"""Called by deploy/backup-verify.sh and deploy/verify-restore.sh so an
+	operation run from a shell still lands in the site's own audit trail.
+
+	Role-gated even though it only appends: an audit trail any logged-in user
+	can write to is an audit trail an attacker can bury their own entry in.
+	"""
+	record_data_operation(operation, detail, status)
+	return {"ok": True}
