@@ -1,0 +1,35 @@
+# Line endings for the files that are executed on a Linux host.
+#
+# The repository already stores these as LF, so a `git clone` on the server is
+# correct today - but only because of how git is configured, not because
+# anything says so. This machine has core.autocrlf=true, which means the
+# Windows working tree holds CRLF. A technician who copies the working tree to
+# the server with scp or WinSCP instead of pulling gets scripts that fail with
+# "bad interpreter: /bin/bash^M", and a systemd unit whose ExecStart line
+# continuation may not parse.
+#
+# `eol=lf` makes the working tree LF as well, on every platform, so the file on
+# disk is the file that runs wherever it came from.
+#
+# Scoped deliberately to executable and unit files. A blanket `* text=auto`
+# would renormalise the whole repository in one commit and bury real changes.
+
+*.sh            text eol=lf
+*.service       text eol=lf
+*.timer         text eol=lf
+*.bash          text eol=lf
+
+# Container and compose files are read by Linux tooling.
+Containerfile   text eol=lf
+Dockerfile      text eol=lf
+*.yml           text eol=lf
+*.yaml          text eol=lf
+
+# Binary, so git never tries to translate anything inside them.
+*.sql.gz        binary
+*.tar           binary
+*.png           binary
+*.jpg           binary
+*.ico           binary
+*.woff          binary
+*.woff2         binary
