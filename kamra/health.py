@@ -211,6 +211,16 @@ def _disk_check() -> dict:
 		return _check("disk", "Disk space", "info", f"Could not measure: {e}")
 
 
+def _installation_id():
+	"""Never let a missing identifier break the health panel - the panel is
+	what you reach for when things are already wrong."""
+	try:
+		from kamra.installation import installation_id
+		return installation_id()
+	except Exception:
+		return None
+
+
 def _fmt_age(seconds: float) -> str:
 	if seconds < 90:
 		return f"{int(seconds)}s ago"
@@ -575,6 +585,7 @@ def system_health(refresh: int = 0):
 		"overall": overall,
 		"summary": summary,
 		"installed": {
+			"installation_id": _installation_id(),
 			"distribution": DISTRIBUTION,
 			"distribution_version": DISTRIBUTION_VERSION,
 			"kamra": KAMRA_VERSION,

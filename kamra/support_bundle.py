@@ -247,6 +247,14 @@ _CONFIG_VALUE_ALLOWLIST = frozenset({
 })
 
 
+def _installation_id() -> str | None:
+	try:
+		from kamra.installation import installation_id
+		return installation_id()
+	except Exception:
+		return None
+
+
 def _section_versions() -> dict:
 	from kamra import __version__ as core
 	return {
@@ -496,6 +504,10 @@ def build(out_dir: str | None = None) -> dict:
 		"generator": f"{DISTRIBUTION} {DISTRIBUTION_VERSION}",
 		"created_utc": started.isoformat(),
 		"bundle_id": frappe.generate_hash(length=12),
+		# Names the deployment across bundles, tickets and update checks. Not a
+		# secret (kamra/installation.py), so it belongs in the manifest rather
+		# than being redacted out of it.
+		"installation_id": _installation_id(),
 		"site": frappe.local.site,
 		"sections": sorted(sections),
 		"failed_sections": failed,
