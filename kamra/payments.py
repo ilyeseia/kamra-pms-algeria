@@ -103,7 +103,7 @@ def settle_payment_link(folio_name: str, link_id: str, amount: float) -> bool:
 		from kamra.ledger import record_payment_ledger
 		record_payment_ledger(folio, folio.payments[-1].as_dict())
 	except Exception:
-		frappe.log_error(title="ledger payment-link write failed")
+		frappe.log_error(title="[APP-010] ledger payment-link write failed")
 	if pre_arrival:
 		frappe.db.set_value("Reservation", res.name, "advance_paid",
 		                    float(res.advance_paid or 0) + amount)

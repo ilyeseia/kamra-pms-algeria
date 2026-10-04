@@ -58,6 +58,13 @@ jobs:
         with:
           python-version: "3.14"
 
+      # Reads the source and docs/product/ERROR_CODES.md - no site, no
+      # database, no Frappe. Runs before bench so a drifted error code fails
+      # in seconds instead of after a ten-minute install.
+      - name: Error-code taxonomy matches the source
+        run: python kamra/scripts/error_code_check.py
+        working-directory: ${{ github.workspace }}/apps/kamra
+
       - uses: actions/setup-node@v4
         with:
           node-version: 24

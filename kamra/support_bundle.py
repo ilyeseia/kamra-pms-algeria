@@ -288,7 +288,16 @@ def _section_system() -> dict:
 def _section_health() -> dict:
 	from kamra.health import system_health
 	try:
-		return system_health(refresh=1)
+		result = system_health(refresh=1)
+		# TECHNICIAN_MANUAL.md section 9: the bundle lists the codes whose
+		# signals fired. Each check already carries its own code, but a reader
+		# opening a 10-section bundle should not have to scan for them - this
+		# is the line that goes into the ticket.
+		result["codes_fired"] = [
+			{"code": c["code"], "check": c["id"], "status": c["status"]}
+			for c in result.get("checks", []) if c.get("code")
+		]
+		return result
 	except Exception as e:
 		return {"error": f"{type(e).__name__}: {e}"}
 

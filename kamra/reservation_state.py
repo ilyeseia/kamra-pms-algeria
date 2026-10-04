@@ -175,7 +175,7 @@ def expire_holds() -> dict:
 			doc.save(ignore_permissions=True)
 			expired += 1
 		except Exception:
-			frappe.log_error(title=f"Hold expiry failed for {name}")
+			frappe.log_error(title=f"[APP-009] Hold expiry failed for {name}")
 		finally:
 			frappe.flags.kamra_status_transition = False
 			frappe.flags.kamra_cancelling = False

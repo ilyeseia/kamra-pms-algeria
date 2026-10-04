@@ -45,12 +45,23 @@ def _print_human(result: dict) -> None:
 	click.echo("")
 	for c in result.get("checks", []):
 		mark = _MARK.get(c["status"], c["status"].upper())
-		click.echo(f"  [{mark:<4}] {c['title']:<22} {c['detail']}")
+		# The code goes before the detail, not after: it is the part a
+		# technician reads out on the phone and searches ERROR_CODES.md for,
+		# and the detail is long enough to wrap off the end of a narrow
+		# terminal and take a trailing code with it.
+		code = f"{c.get('code') or '':<16}"
+		click.echo(f"  [{mark:<4}] {c['title']:<22} {code}{c['detail']}")
 	s = result.get("summary", {})
 	click.echo("")
 	click.echo(f"  {result.get('overall', '?').upper()}  "
 	           f"passed {s.get('passed', 0)} · attention {s.get('attention', 0)} · "
 	           f"failed {s.get('failed', 0)} · info {s.get('info', 0)}")
+	fired = [c["code"] for c in result.get("checks", []) if c.get("code")]
+	if fired:
+		# One line to carry into a ticket, so the codes do not have to be read
+		# out of the table one at a time.
+		click.echo(f"  codes: {', '.join(fired)}  "
+		           "(docs/product/ERROR_CODES.md)")
 	click.echo("")
 
 

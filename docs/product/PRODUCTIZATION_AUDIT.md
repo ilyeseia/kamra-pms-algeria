@@ -134,6 +134,27 @@ Each line below is a repository-wide search that returned **zero** non-documenta
 | §30, §55 | Monitoring, metrics endpoint, alerting | 0 |
 | §22 | Scheduled automatic backup | 0 |
 
+### Since this audit (2026-10-04)
+
+The Hits column above is a dated measurement and is left as it was found; a
+record that gets edited to match today is not a record. What has changed since:
+
+| Brief | Then | Now |
+| --- | --- | --- |
+| §27 Support bundle | 0 | **Closed.** `kamra/support_bundle.py`, `bench ziri-support-bundle`, 10 sections, 3-layer redaction with a fail-closed canary |
+| §35 Installation ID | 0 | **Closed.** `kamra/installation.py`, generated and stored rather than derived |
+| §30, §55 Monitoring, alerting | 0 | **Alerting closed**, `kamra/monitoring.py`, hourly, on state change not state. **Metrics endpoint still open**: `system_health` is JSON over HTTP, not a Prometheus exposition |
+| §45 Error-code taxonomy | 0 | **22 of 63 allocated codes emitted** by `health.py`, `ziri-doctor`, the bundle and four `Error Log` titles; `kamra/scripts/error_code_check.py` fails CI on drift. The other 41 have no machine signal and say so |
+| §22 Scheduled automatic backup | 0 | **Still open.** `deploy/backup-verify.sh` exists and is verified end to end, but nothing installs a cron entry or a timer, so on a real host it runs only when a human runs it |
+| §59 Feature flags | 0 | **Still open.** No hit anywhere |
+| §12–14 Commercial licence | 0 | **Still open.** No hit anywhere |
+
+Audit trail was not in the table and turned out to be largely already present:
+Frappe's `Activity Log` carries logins and failed attempts, and `Version` with
+`track_changes` carries document history on every money doctype but one. The
+real gaps were `Cancelled Invoice` and backup/restore, both now closed
+(`kamra/monitoring.py`).
+
 `docs/algeria/LICENSING.md` exists but documents **AGPL-3.0 §13 obligations** — the
 licence this software is distributed *under*. It is not a commercial entitlement system
 and must not be confused with one.

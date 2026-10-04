@@ -178,14 +178,27 @@ def _fetch_github_latest() -> dict:
 	return out
 
 def _check(id_: str, title: str, status: str, detail: str, *,
-           link: str | None = None) -> dict:
-	"""status: passed | attention | failed | info"""
+           link: str | None = None, code: str | None = None) -> dict:
+	"""status: passed | attention | failed | info
+
+	`code` is an ERROR_CODES.md identifier, and it names the CONDITION, not the
+	check. That is why it is set per branch rather than once per function: a
+	single check id maps to four different codes - _scheduler_check alone
+	returns APP-001, APP-002, APP-003 or APP-004 - and the whole value of the
+	taxonomy is that a technician, a hotelier and a developer refer to one
+	failure by one identifier.
+
+	A healthy branch has no code, and neither does a branch that reports
+	something true but unactionable ("no releases published yet"). Rule 5 of
+	the taxonomy: no code exists for completeness.
+	"""
 	return {
 		"id": id_,
 		"title": title,
 		"status": status,
 		"detail": detail,
 		"link": link,
+		"code": code,
 	}
 
 
@@ -206,6 +219,7 @@ def _disk_check() -> dict:
 			"Disk space",
 			status,
 			f"{free_gb:.1f} GB free of {total_gb:.1f} GB ({pct_free:.0f}% free).",
+			code={"failed": "STORAGE-002", "attention": "STORAGE-001"}.get(status),
 		)
 	except OSError as e:
 		return _check("disk", "Disk space", "info", f"Could not measure: {e}")
@@ -250,6 +264,7 @@ def _scheduler_check() -> dict:
 			"attention",
 			"Scheduler is off — night audit and reminder jobs will not run.",
 			link="/app/system-settings",
+			code="APP-001",
 		)
 
 	try:
@@ -303,6 +318,7 @@ def _scheduler_check() -> dict:
 			"lapsed during the stall and the night audit does not back-fill "
 			"the days it missed.",
 			link="/app/scheduled-job-type",
+			code="APP-002",
 		)
 
 	if not last:
@@ -315,6 +331,7 @@ def _scheduler_check() -> dict:
 			"created minutes ago; otherwise the scheduler container is not "
 			"running and the night audit is not happening.",
 			link="/app/scheduled-job-type",
+			code="APP-003",
 		)
 
 	age = (frappe.utils.now_datetime() - frappe.utils.get_datetime(last)).total_seconds()
@@ -328,8 +345,12 @@ def _scheduler_check() -> dict:
 			f"Enabled, but the last scheduled job ran {when}.")
 	else:
 		status, detail = "passed", f"Running — last job {when}."
+	# APP-004 covers both the 6 h attention and the 24 h failure: one condition
+	# - "the last job ran a long time ago" - rated differently. Severity is
+	# deliberately not part of a code (taxonomy rule 3).
 	return _check("scheduler", "Scheduler", status, detail,
-	              link="/app/scheduled-job-type")
+	              link="/app/scheduled-job-type",
+	              code=None if status == "passed" else "APP-004")
 
 
 def _redis_check() -> dict:
@@ -341,11 +362,12 @@ def _redis_check() -> dict:
 		got = frappe.cache.get_value("kamra:health_probe")
 		if got != token:
 			return _check("redis", "Redis", "failed",
-			              "Cache accepted a write but returned a different value.")
+			              "Cache accepted a write but returned a different value.",
+			              code="DB-003")
 		return _check("redis", "Redis", "passed", "Cache read-write round trip OK.")
 	except Exception as e:
 		return _check("redis", "Redis", "failed",
-		              f"Cache unreachable: {str(e)[:160]}")
+		              f"Cache unreachable: {str(e)[:160]}", code="DB-003")
 
 
 def _workers_check() -> dict:
@@ -363,12 +385,16 @@ def _workers_check() -> dict:
 	try:
 		workers = get_workers()
 	except Exception as e:
+		# DB-004, not APP-005: the workers may be perfectly alive. What failed is
+		# the redis-queue broker, which is a data store - hence the DB category.
 		return _check("workers", "Background workers", "failed",
-		              f"Could not reach the queue broker: {str(e)[:160]}")
+		              f"Could not reach the queue broker: {str(e)[:160]}",
+		              code="DB-004")
 
 	if not workers:
 		return _check("workers", "Background workers", "failed",
-		              "No worker is running. Queued jobs will never execute.")
+		              "No worker is running. Queued jobs will never execute.",
+		              code="APP-005")
 
 	depth, unreadable = 0, []
 	for q in ("short", "default", "long"):
@@ -385,7 +411,8 @@ def _workers_check() -> dict:
 	else:
 		status = "passed"
 		detail = f"{n} worker(s) running, {depth} job(s) queued.{note}"
-	return _check("workers", "Background workers", status, detail)
+	return _check("workers", "Background workers", status, detail,
+	              code="APP-006" if status == "attention" else None)
 
 
 def _backup_check() -> dict:
@@ -401,7 +428,8 @@ def _backup_check() -> dict:
 		files = glob.glob(os.path.join(d, "*.sql.gz"))
 	except Exception as e:
 		return _check("backup", "Backup", "info",
-		              f"Could not read the backup directory: {str(e)[:140]}")
+		              f"Could not read the backup directory: {str(e)[:140]}",
+		              code="BACKUP-003")
 
 	if not files:
 		return _check(
@@ -411,6 +439,7 @@ def _backup_check() -> dict:
 			"No backup taken by this site. If backups are handled outside the "
 			"application (volume snapshots, host tooling), that is fine and "
 			"this check cannot see them - verify a restore has been tested.",
+			code="BACKUP-001",
 		)
 
 	newest = max(files, key=os.path.getmtime)
@@ -424,6 +453,7 @@ def _backup_check() -> dict:
 		status,
 		f"Newest backup {when} ({size_mb:.1f} MB), {len(files)} on disk. "
 		"Age only - this does not prove it can be restored.",
+		code="BACKUP-002" if status == "attention" else None,
 	)
 
 
@@ -432,7 +462,8 @@ def _database_check() -> dict:
 		frappe.db.sql("select 1")
 		return _check("database", "Database", "passed", "Responding to queries.")
 	except Exception as e:
-		return _check("database", "Database", "failed", str(e)[:200])
+		return _check("database", "Database", "failed", str(e)[:200],
+		              code="DB-001")
 
 
 def _frappe_check() -> dict:
@@ -444,7 +475,8 @@ def _frappe_check() -> dict:
 	else:
 		status = "passed"
 		detail = f"Frappe {ver}."
-	return _check("frappe", "Frappe", status, detail)
+	return _check("frappe", "Frappe", status, detail,
+	              code="CONFIGURATION-005" if status == "attention" else None)
 
 
 def _apps_check() -> dict:
@@ -457,6 +489,7 @@ def _apps_check() -> dict:
 			"Installed apps",
 			"failed",
 			f"Missing required app(s): {', '.join(missing)}. Installed: {', '.join(apps)}.",
+			code="CONFIGURATION-004",
 		)
 	optional = [a for a in ("payments", "erpnext", "hrms") if a in apps]
 	extra = f" Optional: {', '.join(optional)}." if optional else ""
@@ -490,6 +523,7 @@ def _timezone_check() -> dict:
 			f"Property timezone differs from site ({site_tz}). "
 			"Set Time zone under Admin → Settings → Property.",
 			link="/kamra/settings",
+			code="CONFIGURATION-003",
 		)
 	return _check(
 		"timezone",
@@ -529,7 +563,8 @@ def _version_check(latest: dict) -> dict:
 	if not latest.get("ok") or not tag:
 		return _check("version", "Version", "info",
 		              f"{both}. Could not check {repo} "
-		              f"({latest.get('error') or 'unknown'}).", link=url)
+		              f"({latest.get('error') or 'unknown'}).", link=url,
+		              code="NETWORK-003")
 
 	shown = _strip_prefix(tag, prefix)
 	cmp = _cmp_semver(_strip_prefix(installed, prefix), shown)
@@ -540,7 +575,8 @@ def _version_check(latest: dict) -> dict:
 	if cmp < 0:
 		return _check("version", "Version", "attention",
 		              f"{both}. {shown} is available. Read the release notes "
-		              "and UPDATES.md before applying it.", link=url)
+		              "and UPDATES.md before applying it.", link=url,
+		              code="UPDATE-001")
 	if cmp > 0:
 		return _check("version", "Version", "info",
 		              f"{both} is ahead of the newest published release "

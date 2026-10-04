@@ -1,17 +1,31 @@
 # ZIRI PMS — Error Code Taxonomy
 
-**Status: specification. Nothing in this repository emits these codes.**
+**Status: 22 of the 63 allocated codes are emitted and visible on screen. The
+rest are allocated against conditions that have no machine signal, and say so.**
 
-A repository-wide search for codes of the form `DB-001` or `UPDATE-003` returns
-zero hits ([`PRODUCTIZATION_AUDIT.md`](PRODUCTIZATION_AUDIT.md), gaps table). This
-document defines the scheme and allocates codes so that future work —
-`health.py`, log titles, the support bundle, a monitoring hook — all say the
-same thing, and so that a technician, a customer and a developer can refer to
-one failure by one identifier.
+This document was a specification for most of its life: it opened by saying that
+a repository-wide search for `DB-001` or `UPDATE-003` returned zero hits, and
+that was true. Section 1 defines the scheme and Section 3 allocates the codes so
+that a technician, a customer and a developer refer to one failure by one
+identifier.
 
-Until something emits them, **a technician will never see these codes on a
-screen.** They are a vocabulary for tickets and a target for implementation.
-Each entry says what *does* exist today that identifies the condition (a health
+What now emits them:
+
+| Surface | What it shows | Where |
+| --- | --- | --- |
+| Health checks | `code` on every check that reports a condition | `kamra/health.py`, 19 branches |
+| `bench ziri-doctor` | the code beside each row, and a `codes:` line to paste into a ticket | `kamra/commands.py` |
+| Support bundle | `codes_fired` in `health.json` | `kamra/support_bundle.py` |
+| `Error Log` titles | `[APP-007]`, `[APP-009]`, `[APP-010]` prefixes | `folio.py`, `reservation_state.py`, `api.py`, `payments.py` |
+
+`kamra/scripts/error_code_check.py` fails CI if the source emits a code this
+document does not allocate, or if this status line goes stale again. It
+deliberately does **not** require every allocated code to be emitted: 41 are
+not, because their basis is `doc`, `designed` or `live` — real conditions with
+no machine signal. Requiring emission would force either fake signals or the
+deletion of true entries.
+
+Each entry says what exists today that identifies the condition (a health
 check, an `Error Log` title, a message string, a script message), or says
 plainly that nothing does.
 
@@ -66,14 +80,18 @@ Rules:
 | `live` | Observed on the live install during the first deployment |
 | `designed` | Condition is real; **no signal exists**; the detection method is given |
 
-### How a code should eventually be emitted (design, not implemented)
+### How a code is emitted
 
-Build on what exists; do not add a parallel system.
+Built on what exists; no parallel system. This section described a design; it now
+describes the implementation.
 
-- **`health.py`**: `_check(id_, title, status, detail, *, link=None)` gains an
-  optional keyword `code` (`code=None` default, so nothing existing changes), and
-  `system_health()` returns it per check. The existing check ids map as in
-  Section 4.
+- **`health.py`**: `_check()` takes an optional `code` keyword (`None` default,
+  so nothing existing changed) and `system_health()` returns it per check. The
+  code is set **per branch, not per function**, because it names the condition
+  and not the check: `_scheduler_check` alone returns APP-001, APP-002, APP-003
+  or APP-004. A healthy branch carries no code, and neither does a branch
+  reporting something true but unactionable — "no releases published yet" is
+  not a fault.
 - **`Error Log`**: titles gain a bracketed prefix, e.g. `[APP-007] Night audit
   failed: <property>`. Titles are already the thing technicians query
   (`method` column), so no schema change is needed.
@@ -257,8 +275,14 @@ and the support bundle's reserved licence-metadata section is filled.
 
 ## 4. Mapping of existing signals to codes
 
-The table a future change to `health.py` and the log titles would be built from.
-Nothing here is implemented.
+The table `health.py` was built from. All nineteen rows are implemented.
+
+One deliberate departure. This table reads `health:timezone | attention |
+CONFIGURATION-003`, but that check has **two** `attention` branches: the
+property zone differing from the site zone, and no Property existing yet.
+CONFIGURATION-003 names the first condition only, so the second carries no
+code — rule 4, one condition one code. The table was coarser than the code it
+described; where the two disagree, the rule decides.
 
 | Existing signal | Level | Code |
 | --- | --- | --- |
@@ -300,9 +324,18 @@ Nothing here is implemented.
 
 ## What this does not cover / has not been tested
 
-- **Nothing here is emitted by any code.** No `code` field exists in `_check()`,
-  no log title carries a prefix, no screen shows an identifier. This is a
-  specification, and the mapping in Section 4 is a proposal.
+- **41 of the 63 allocated codes are still not emitted by anything.** Their
+  basis is `doc`, `designed` or `live`: the condition is real, the signal is
+  not built. A technician will not see those on a screen.
+- **The 22 that are emitted were verified by reading the branch, not by
+  triggering it.** Of the health codes, only the healthy path and the two the
+  live install actually reports have been observed firing; the rest are
+  single-line keyword additions to branches that were themselves already in
+  use, which is weak evidence next to a reproduction.
+- **Prefixing the `Error Log` titles splits their history.** The support
+  bundle groups errors by title over a seven-day window, so for seven days
+  after an update a site can show both `Night audit failed: X` and
+  `[APP-007] Night audit failed: X` as separate rows.
 - **Every `Basis` was read from the source, not triggered.** The `Error Log`
   titles and message strings were found by searching the repository; none was
   reproduced against a running site, and the exact wording in a production log

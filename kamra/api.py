@@ -1293,7 +1293,7 @@ def add_folio_charge(folio: str, charge_type: str, description: str,
 	try:
 		record_charge_ledger(doc, charge.as_dict())
 	except Exception:
-		frappe.log_error(title="ledger charge write failed")
+		frappe.log_error(title="[APP-010] ledger charge write failed")
 	from kamra.savings import log_action
 	log_action("post_charge", "Folio", doc.name, doc.property,
 	           rationale=f"{charge_type}: {description} ₹{amount}")
@@ -1349,7 +1349,7 @@ def add_folio_payment(folio: str, mode: str, amount: float,
 		from kamra.ledger import record_payment_ledger
 		record_payment_ledger(doc, pay.as_dict(), session=sess)
 	except Exception:
-		frappe.log_error(title="ledger payment write failed")
+		frappe.log_error(title="[APP-010] ledger payment write failed")
 	return doc.as_dict()
 
 
@@ -1410,7 +1410,7 @@ def refund_folio_payment(folio: str, amount: float, mode: str,
 		from kamra.ledger import record_payment_ledger
 		record_payment_ledger(doc, pay.as_dict(), session=sess)
 	except Exception:
-		frappe.log_error(title="ledger refund write failed")
+		frappe.log_error(title="[APP-010] ledger refund write failed")
 	return {"ok": True, "balance": doc.balance}
 
 
@@ -1476,7 +1476,7 @@ def void_folio_charge(folio: str, charge_row: str, reason: str = "",
 	try:
 		reverse_ledger_for_charge(prop, folio, charge_row, str(reason_text))
 	except Exception:
-		frappe.log_error(title="ledger void reversal failed")
+		frappe.log_error(title="[APP-010] ledger void reversal failed")
 	from kamra.folio import void_charge
 	return void_charge(folio, charge_row, str(reason_text))
 

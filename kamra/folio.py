@@ -867,4 +867,4 @@ def nightly_audit_all_properties():
 		try:
 			run_night_audit(p.name)
 		except Exception:
-			frappe.log_error(title=f"Night audit failed: {p.name}")
+			frappe.log_error(title=f"[APP-007] Night audit failed: {p.name}")
