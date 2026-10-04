@@ -1,0 +1,39 @@
+# Isolation for the Level 2 restore verifier (docs/product/RESTORE.md 2.4).
+#
+# A restored site is not an inert copy. It carries the production encryption
+# key, so every stored credential works: the channel-manager push, the
+# pre-arrival guest emails, the banquet reminders. kamra/hooks.py schedules
+# push_all_ari hourly, and a test stack that can reach the internet would
+# republish rates and availability for the real hotel from a snapshot - and
+# message its guests.
+#
+# Three things stop that, and none of them is sufficient alone:
+#
+#   1. `internal: true` - the project network has no route out. This is the one
+#      that holds even if someone later starts the scheduler by mistake.
+#   2. No published ports: nothing reaches in either.
+#   3. Only db, redis, configurator and backend are started. The scheduler, the
+#      queue workers, websocket and frontend stay down, and the site is restored
+#      with pause_scheduler set.
+#
+# RESTORE.md 2.4 says to test the first one rather than assume it, because a
+# control that is never exercised is exactly what this whole document is about.
+# verify-restore.sh does that on every run.
+
+networks:
+  default:
+    internal: true
+
+services:
+  # The verifier never needs these, and leaving them in the project invites a
+  # later `docker compose up` with no service list from starting them.
+  frontend:
+    profiles: ["never"]
+  websocket:
+    profiles: ["never"]
+  scheduler:
+    profiles: ["never"]
+  queue-short:
+    profiles: ["never"]
+  queue-long:
+    profiles: ["never"]
