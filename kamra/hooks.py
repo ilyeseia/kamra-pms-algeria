@@ -29,6 +29,11 @@ add_to_apps_screen = [
 scheduler_events = {
 	"cron": {
 		"0 * * * *": ["kamra.channel_manager.push_all_ari"],
+		# :20 past the hour - deliberately not :00, which already carries the
+		# channel-manager push, and not :30 or :45, which carry retention and
+		# purge jobs. A monitor that queues behind the work it is watching
+		# reports late on exactly the busy minute that broke things.
+		"20 * * * *": ["kamra.monitoring.check_and_alert"],
 		# 03:00 site time, daily - the night audit closes the day
 		"0 3 * * *": ["kamra.folio.nightly_audit_all_properties"],
 		# 09:00 - send self check-in links to upcoming arrivals, for properties
