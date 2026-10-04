@@ -454,6 +454,29 @@ def _section_backups() -> dict:
 		return {"error": f"{type(e).__name__}: {e}"}
 
 
+def _section_entitlement() -> dict:
+	"""The licence-metadata section ERROR_CODES.md reserved.
+
+	Included because the first question on a support call is "what did this
+	customer buy", and the answer being in the bundle saves asking. It is a
+	record, not a credential: it authorises nothing, and the vendor reading
+	this bundle is the party that issued it.
+	"""
+	try:
+		from kamra.entitlement import state
+		s = state()
+		return {
+			"state": s["state"],
+			"days": s.get("days"),
+			"record": s.get("record"),
+			"enforced": False,
+			"note": ("Informational. ZIRI PMS is AGPL-3.0 and no feature "
+			         "depends on this record."),
+		}
+	except Exception as e:
+		return {"error": f"{type(e).__name__}: {e}"}
+
+
 def _section_errors() -> dict:
 	"""Error Log TITLES and counts. Never the `error` column - it holds
 	tracebacks, and a traceback holds whatever was being processed."""
@@ -480,6 +503,7 @@ _SECTIONS = {
 	"migrations": _section_migrations,
 	"configuration": _section_config,
 	"backups": _section_backups,
+	"entitlement": _section_entitlement,
 	"errors": _section_errors,
 }
 

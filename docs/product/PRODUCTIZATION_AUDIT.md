@@ -144,10 +144,52 @@ record that gets edited to match today is not a record. What has changed since:
 | §27 Support bundle | 0 | **Closed.** `kamra/support_bundle.py`, `bench ziri-support-bundle`, 10 sections, 3-layer redaction with a fail-closed canary |
 | §35 Installation ID | 0 | **Closed.** `kamra/installation.py`, generated and stored rather than derived |
 | §30, §55 Monitoring, alerting | 0 | **Alerting closed**, `kamra/monitoring.py`, hourly, on state change not state. **Metrics endpoint still open**: `system_health` is JSON over HTTP, not a Prometheus exposition |
-| §45 Error-code taxonomy | 0 | **22 of 63 allocated codes emitted** by `health.py`, `ziri-doctor`, the bundle and four `Error Log` titles; `kamra/scripts/error_code_check.py` fails CI on drift. The other 41 have no machine signal and say so |
+| §45 Error-code taxonomy | 0 | **26 of 67 allocated codes emitted** by `health.py`, `ziri-doctor`, the bundle and four `Error Log` titles; `kamra/scripts/error_code_check.py` fails CI on drift, including on the counts stated in that document. The other 41 have no machine signal and say so |
 | §22 Scheduled automatic backup | 0 | **Closed.** `deploy/systemd/` - daily backup 05:30, weekly verification Sunday 06:30, both `Persistent=true`, installed by `install-timers.sh`. Retention added at the same time (`KEEP_SETS`, default 14): automating an unbounded writer is how a disk fills |
-| §59 Feature flags | 0 | **Still open.** No hit anywhere |
-| §12–14 Commercial licence | 0 | **Still open.** No hit anywhere |
+| §59 Feature flags | 0 | **Was already closed before this audit ran — the 0 is a search-term error, corrected below** |
+| §12–14 Commercial licence | 0 | **Closed as far as the licence permits.** `kamra/entitlement.py` records what a customer bought and reports `active / expiring / grace / expired / perpetual / unregistered / malformed`, surfaced in `health.py`, `ziri-doctor` and the support bundle, with LICENSE-001 to -004. **It enforces nothing**, and the reason is in Section 22.3 below |
+
+#### Correction: §59 was never open
+
+The 0 against feature flags is wrong, and the mistake was mine. The search was
+for `feature_flag`, `FEATURE_FLAG` and `feature_enabled`, and the capability
+exists under a different name: **`Property.enabled_modules`**, with
+`kamra.api.enabled_modules()` / `set_enabled_modules()` validating against
+`ALL_MODULES` (nine modules), and `visibleApps(roles, modules)` in
+`frontend/src/lib/apps.ts` reading it. It is per-property, which is the right
+grain, and better reasoned than what would have been built in its place:
+
+- an empty setting means **all** modules, so an existing property keeps working
+  untouched rather than coming back blank after an upgrade;
+- `front-desk` and `admin` are forced back in on every write, because turning
+  off `admin` removes the only screen that could turn it back on - and the
+  ability to add a room at all.
+
+Verified live: nine modules listed, a guesthouse subset applied, an attempt to
+drop `admin` silently corrected, an unknown module rejected, and a rollback
+restoring the original. **A capability search that misses the local name
+reports a gap that does not exist**, which is the more expensive kind of audit
+error: it invites building a second system beside a working one.
+
+#### 22.3 Why the licence item is closed without enforcement
+
+ZIRI PMS is AGPL-3.0 (`license.txt`, 661 lines). Section 7 of that licence does
+not permit imposing further restrictions on the rights it grants, and running
+the program is one of them; section 13 requires the complete source to be
+offered to every network user, so any gate would ship together with the
+instructions for removing it. The product's own marketplace screen also tells
+the hotelier "every app is open and included".
+
+So what is enforceable is the vendor's own services, which run on the vendor's
+machines: the update feed, the managed WhatsApp gateway, remote support, an
+SLA. None of that is enforced from inside the hotel's installation. Hard
+enforcement would need either a separate, separately-licensed application the
+vendor owns, or relicensing - which needs the upstream Kamra authors'
+agreement, not just this distribution's.
+
+No entitlement state is ever `failed`, in any condition. monitoring.py alerts
+only on `failed`, so an unpaid renewal can never page anyone at 03:00. A red
+cross for a billing matter teaches an operator that red crosses are noise.
 
 Audit trail was not in the table and turned out to be largely already present:
 Frappe's `Activity Log` carries logins and failed attempts, and `Version` with

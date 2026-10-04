@@ -1,6 +1,6 @@
 # ZIRI PMS — Error Code Taxonomy
 
-**Status: 22 of the 63 allocated codes are emitted and visible on screen. The
+**Status: 26 of the 67 allocated codes are emitted and visible on screen. The
 rest are allocated against conditions that have no machine signal, and say so.**
 
 This document was a specification for most of its life: it opened by saying that
@@ -13,14 +13,20 @@ What now emits them:
 
 | Surface | What it shows | Where |
 | --- | --- | --- |
-| Health checks | `code` on every check that reports a condition | `kamra/health.py`, 19 branches |
+| Health checks | `code` on every check that reports a condition | `kamra/health.py`, 23 branches |
 | `bench ziri-doctor` | the code beside each row, and a `codes:` line to paste into a ticket | `kamra/commands.py` |
 | Support bundle | `codes_fired` in `health.json` | `kamra/support_bundle.py` |
 | `Error Log` titles | `[APP-007]`, `[APP-009]`, `[APP-010]` prefixes | `folio.py`, `reservation_state.py`, `api.py`, `payments.py` |
+| Entitlement | LICENSE-001 to -004, never `failed` | `kamra/entitlement.py` via `health.py` |
 
 `kamra/scripts/error_code_check.py` fails CI if the source emits a code this
-document does not allocate, or if this status line goes stale again. It
-deliberately does **not** require every allocated code to be emitted: 41 are
+document does not allocate, or if this status line goes stale again. It also
+checks the two counts in this document against the source, because a prose
+count nothing verifies is the same failure one digit smaller — adding the four
+LICENSE codes made both numbers wrong in a single commit, and the guard caught
+it.
+
+It deliberately does **not** require every allocated code to be emitted: 41 are
 not, because their basis is `doc`, `designed` or `live` — real conditions with
 no machine signal. Requiring emission would force either fake signals or the
 deletion of true entries.
@@ -195,14 +201,30 @@ stable names. Keep the existing prefixes in the messages.
 
 ### LICENSE
 
-**No codes are allocated.** The repository contains no commercial licence
-system: no entitlement, activation, expiry, grace period or enforcement (zero
-hits, audit gap table). `docs/algeria/LICENSING.md` concerns AGPL-3.0 §13 and
-describes an obligation, not a runtime state that can fail. Allocating
-`LICENSE-001 … LICENSE-nnn` now would be inventing failure modes of a system that
-does not exist. When a licence system is designed, its states (not verified,
-expired, in grace, signature invalid, activation failed) take the next numbers,
-and the support bundle's reserved licence-metadata section is filled.
+Four codes, and only four. `kamra/entitlement.py` records what a customer
+bought and reports when it lapses; it gates nothing, because ZIRI PMS is
+AGPL-3.0 and section 7 of that licence does not permit restricting the right to
+run the program (see that module's header, and `docs/algeria/LICENSING.md`).
+
+That is why **no code here is ever `failed`.** Nothing has broken. An expired
+invoice reported as a red cross teaches an operator that red crosses are noise,
+and the next one is a database that has stopped answering. monitoring.py alerts
+only on `failed`, so none of these will ever page anyone.
+
+The states this section once reserved numbers for - "signature invalid",
+"activation failed" - are **not allocated**, because there is no signature and
+no activation to fail. Rule 5: no code exists for completeness.
+
+| Code | Meaning | Likely cause | First action | Runbook |
+| --- | --- | --- | --- | --- |
+| LICENSE-001 | The entitlement expires within 30 days. **Basis:** `health:entitlement` (`attention`) | Normal; a renewal is due | Renew, or clear the record if the relationship has ended | none yet |
+| LICENSE-002 | The entitlement expired within the last 30 days - the grace window. **Basis:** `health:entitlement` (`attention`) | Renewal not yet processed | Confirm with the vendor whether it was renewed; the hotel's PMS is unaffected either way | none yet |
+| LICENSE-003 | The entitlement expired more than 30 days ago. **Basis:** `health:entitlement` (`attention`) | The relationship lapsed or ended | Renew, or run `bench ziri-entitlement --clear`: a lapsed record reported for ever is noise, and no record is a supported state | none yet |
+| LICENSE-004 | An entitlement record is present in site config and cannot be parsed. **Basis:** `health:entitlement` (`info`) | Hand-edited `site_config.json`; invalid JSON or an unparseable `expires` date | Rewrite it with `bench ziri-entitlement --set`, which validates | none yet |
+
+No code is allocated for `unregistered`, `active` or `perpetual`. An install
+with no commercial relationship at all is exactly what the AGPL permits and is
+not a fault.
 
 ### BACKUP
 
@@ -305,6 +327,10 @@ described; where the two disagree, the rule decides.
 | `health:disk` | `attention` | STORAGE-001 |
 | `health:disk` | `failed` | STORAGE-002 |
 | `health:timezone` | `attention` | CONFIGURATION-003 |
+| `health:entitlement` | `attention` (expiring) | LICENSE-001 |
+| `health:entitlement` | `attention` (in grace) | LICENSE-002 |
+| `health:entitlement` | `attention` (lapsed) | LICENSE-003 |
+| `health:entitlement` | `info` (unparseable record) | LICENSE-004 |
 
 ---
 
@@ -324,12 +350,13 @@ described; where the two disagree, the rule decides.
 
 ## What this does not cover / has not been tested
 
-- **41 of the 63 allocated codes are still not emitted by anything.** Their
+- **41 of the 67 allocated codes are still not emitted by anything.** Their
   basis is `doc`, `designed` or `live`: the condition is real, the signal is
   not built. A technician will not see those on a screen.
-- **The 22 that are emitted were verified by reading the branch, not by
-  triggering it.** Of the health codes, only the healthy path and the two the
-  live install actually reports have been observed firing; the rest are
+- **Most of the 26 that are emitted were verified by reading the branch, not
+  by triggering it.** The exceptions are APP-001 and CONFIGURATION-003, which
+  were induced on the live install inside a rolled-back transaction, and all
+  four LICENSE codes, which were driven through every state. The rest are
   single-line keyword additions to branches that were themselves already in
   use, which is weak evidence next to a reproduction.
 - **Prefixing the `Error Log` titles splits their history.** The support
@@ -344,7 +371,10 @@ described; where the two disagree, the rule decides.
   show.** Frappe, MariaDB, Redis, nginx, Docker and the OTA/e-invoicing providers
   have many failure modes this does not name. Absence of a code does not mean the
   condition cannot occur; it means nothing here establishes it.
-- **LICENSE has no codes** because no licence system exists to fail.
+- **LICENSE has four codes and no `failed` status**, because an entitlement
+  that has lapsed breaks nothing - `kamra/entitlement.py` is a record, not a
+  gate. There is no "signature invalid" or "activation failed" code because
+  there is no signature and no activation.
 - **Several codes have no runbook yet** (SECURITY-001 to -004, INTEGRATION-003 to
   -005). That gap is deliberate and visible.
 - **`designed` codes (APP-008, APP-011, NETWORK-002, SECURITY-005, BACKUP-005,

@@ -533,6 +533,70 @@ def _timezone_check() -> dict:
 	)
 
 
+def _entitlement_check() -> dict:
+	"""Is the commercial relationship in force, and does anyone need to act?
+
+	Never `failed`, in any state. kamra/entitlement.py gates nothing - the
+	software is AGPL-3.0 and an expired record changes nothing about what runs
+	- so there is no condition here that is an outage. monitoring.py alerts
+	only on `failed`, which means a lapsed renewal can never page anyone at
+	03:00. That is the intended behaviour, not an oversight.
+
+	An install with no record at all is reported as `info`, not `attention`:
+	running this software with no commercial relationship is precisely what its
+	licence permits, and a product that nags about it is a product that has
+	misunderstood its own licence.
+	"""
+	try:
+		from kamra.entitlement import GRACE_DAYS, state
+		s = state()
+	except Exception as e:
+		return _check("entitlement", "Entitlement", "info",
+		              f"Could not read the entitlement record: {str(e)[:140]}")
+
+	st = s["state"]
+	rec = s.get("record") or {}
+	plan = rec.get("plan") or "unnamed plan"
+	days = s.get("days")
+
+	if st == "unregistered":
+		return _check("entitlement", "Entitlement", "info",
+		              "No commercial entitlement recorded. ZIRI PMS is "
+		              "AGPL-3.0; this is a supported state and nothing is "
+		              "limited by it.")
+	if st == "malformed":
+		return _check("entitlement", "Entitlement", "info",
+		              "An entitlement record exists in site config but could "
+		              "not be read. Rewrite it with `bench ziri-entitlement "
+		              "--set`, which validates what it writes.",
+		              code="LICENSE-004")
+	if st == "perpetual":
+		return _check("entitlement", "Entitlement", "passed",
+		              f"{plan} — no renewal date recorded.")
+	if st == "active":
+		return _check("entitlement", "Entitlement", "passed",
+		              f"{plan} — {days} days remaining "
+		              f"(expires {rec.get('expires')}).")
+	if st == "expiring":
+		return _check("entitlement", "Entitlement", "attention",
+		              f"{plan} expires in {days} day(s), on "
+		              f"{rec.get('expires')}. Nothing stops working when it "
+		              "does; the vendor's own services may.",
+		              code="LICENSE-001")
+	if st == "grace":
+		return _check("entitlement", "Entitlement", "attention",
+		              f"{plan} expired {abs(days)} day(s) ago "
+		              f"({rec.get('expires')}), inside the {GRACE_DAYS}-day "
+		              "grace window. The hotel's PMS is unaffected.",
+		              code="LICENSE-002")
+	return _check("entitlement", "Entitlement", "attention",
+	              f"{plan} expired {abs(days)} day(s) ago "
+	              f"({rec.get('expires')}). If the relationship has ended, "
+	              "clear the record with `bench ziri-entitlement --clear` - a "
+	              "lapsed record reported for ever is noise.",
+	              code="LICENSE-003")
+
+
 def _version_check(latest: dict) -> dict:
 	"""Is this DISTRIBUTION current against ITS OWN releases?
 
@@ -603,6 +667,7 @@ def system_health(refresh: int = 0):
 		_backup_check(),
 		_disk_check(),
 		_timezone_check(),
+		_entitlement_check(),
 	]
 
 	summary = {

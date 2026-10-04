@@ -161,4 +161,81 @@ def ziri_support_bundle(context, out_dir):
 	sys.exit(0)
 
 
-commands = [ziri_doctor, ziri_support_bundle]
+@click.command("ziri-entitlement")
+@click.option("--set", "plan", default=None,
+              help="Record a plan, e.g. --set 'Support - Standard'.")
+@click.option("--expires", default=None, help="Renewal date, YYYY-MM-DD.")
+@click.option("--customer", default=None, help="Who the entitlement is for.")
+@click.option("--reference", default=None, help="Contract or invoice number.")
+@click.option("--starts", default=None, help="Start date, YYYY-MM-DD.")
+@click.option("--services", default=None,
+              help="Comma-separated vendor services, e.g. updates,support.")
+@click.option("--clear", is_flag=True, help="Remove the record.")
+@pass_context
+def ziri_entitlement(context, plan, expires, customer, reference, starts,
+                     services, clear):
+	"""Show or set what this installation's customer bought.
+
+	This RECORDS a commercial relationship. It does not enforce one: ZIRI PMS
+	is AGPL-3.0 and no feature of it depends on this record. Read the header of
+	kamra/entitlement.py before changing that.
+
+	Only a shell can write it, deliberately - the customer should not be the
+	one typing what they agreed to buy.
+	"""
+	site = get_site(context)
+	try:
+		frappe.init(site=site)
+		frappe.connect()
+	except Exception as e:
+		click.echo(f"cannot open site {site}: {type(e).__name__}: {e}", err=True)
+		sys.exit(2)
+	try:
+		from kamra.entitlement import clear_record, set_record, state
+
+		if clear:
+			result = clear_record()
+			click.echo("")
+			click.echo("  record removed. An install with no entitlement is a")
+			click.echo("  supported state, not an unlicensed one.")
+		elif plan:
+			if expires:
+				# Checked before writing, because a date that will not parse
+				# turns the record into LICENSE-004 and the person who typed
+				# it is standing right here.
+				try:
+					frappe.utils.getdate(expires)
+				except Exception:
+					click.echo(f"  --expires {expires!r} is not a date "
+					           "(use YYYY-MM-DD)", err=True)
+					sys.exit(2)
+			result = set_record(plan, expires=expires, customer=customer,
+			                    reference=reference, starts=starts,
+			                    services=services)
+		else:
+			result = state()
+	except Exception as e:
+		click.echo(f"could not read or write the record: "
+		           f"{type(e).__name__}: {e}", err=True)
+		sys.exit(2)
+	finally:
+		frappe.destroy()
+
+	rec = result.get("record") or {}
+	click.echo("")
+	click.echo(f"  state:    {result['state']}")
+	for field in ("plan", "customer", "reference", "starts", "expires"):
+		if rec.get(field):
+			click.echo(f"  {field + ':':<11}{rec[field]}")
+	if rec.get("services"):
+		click.echo(f"  services: {', '.join(rec['services'])}")
+	if result.get("days") is not None:
+		d = result["days"]
+		click.echo(f"  days:     {d}" + (" (past)" if d < 0 else ""))
+	click.echo("")
+	click.echo("  Informational. Nothing in ZIRI PMS is gated on this.")
+	click.echo("")
+	sys.exit(0)
+
+
+commands = [ziri_doctor, ziri_support_bundle, ziri_entitlement]

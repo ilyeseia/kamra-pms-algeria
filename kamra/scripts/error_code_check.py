@@ -128,6 +128,33 @@ def main() -> int:
 		problems.append("the catalogue still says nothing emits these codes, "
 		                f"but {len(emitted)} are emitted")
 
+	# 4. The counts in the status line. The document used to state "22 of the
+	#    63 allocated codes are emitted"; adding four LICENSE codes made both
+	#    numbers wrong in one commit. A prose count that nothing checks is the
+	#    same failure as the status line this guard was written for, one digit
+	#    smaller - so the numbers are checked rather than trusted.
+	stated = re.search(r"(\d+) of the (\d+) allocated codes are emitted", text)
+	if stated:
+		if int(stated.group(1)) != len(emitted):
+			problems.append(f"the catalogue says {stated.group(1)} codes are "
+			                f"emitted; {len(emitted)} are")
+		if int(stated.group(2)) != len(allocated):
+			problems.append(f"the catalogue says {stated.group(2)} codes are "
+			                f"allocated; {len(allocated)} are")
+	elif emitted:
+		problems.append('the catalogue has no "N of the M allocated codes are '
+		                'emitted" status line for this check to verify')
+
+	# The companion sentence in the caveats, which states the remainder.
+	rest = re.search(r"(\d+) of the (\d+) allocated codes are still not "
+	                 r"emitted", text)
+	if rest:
+		want = len(allocated) - len(emitted)
+		if int(rest.group(1)) != want or int(rest.group(2)) != len(allocated):
+			problems.append(f"the caveats say {rest.group(1)} of "
+			                f"{rest.group(2)} are not emitted; it is {want} "
+			                f"of {len(allocated)}")
+
 	if problems:
 		print(f"FAIL  {len(problems)} problem(s)")
 		for p in problems:
