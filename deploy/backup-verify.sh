@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# Copyright (c) 2026 Ilyes Keskas (Algeria)
+# Part of the ZIRI PMS Algeria distribution of Kamra PMS.
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# See NOTICE for the upstream authorship this builds on.
 # ZIRI PMS - take a backup set, and prove it can be restored.
 #
 # Implements docs/product/RESTORE.md section 2.1 (Level 1). The point is the

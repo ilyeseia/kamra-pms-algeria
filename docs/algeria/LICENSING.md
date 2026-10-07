@@ -152,6 +152,24 @@ rebranding it so the hotel believes you wrote it is not — and it is also the
 kind of thing that surfaces awkwardly the first time a client reads the source
 link you are obliged to give them.
 
+#### What this distribution actually did
+
+The rule above is not hypothetical here; it is the rule this repository
+followed when the question came up.
+
+`NOTICE` at the repository root names both holders and says which work is
+whose, and `pyproject.toml` lists both authors. The files Ilyes Keskas created
+- the Algerian localization, the deployment and backup tooling, the health,
+monitoring, support-bundle and entitlement layer - carry his copyright header.
+Not one upstream header was removed or altered to make room for it: the change
+that added them was 76 insertions and no deletions, which is checkable in the
+history.
+
+The split is not a claim, it is a measurement. `git shortlog -sne` counts
+roughly 400 upstream commits against 79 in this distribution, and
+`git log --diff-filter=A` names who created each file. A derivative work
+claims its own authorship by adding a line, never by editing someone else's.
+
 The practical rule: **the hotel must be able to find out what this software is
 and where it comes from.** If they cannot, something has gone wrong with your
 attribution.

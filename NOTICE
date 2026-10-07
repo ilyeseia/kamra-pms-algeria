@@ -1,0 +1,64 @@
+ZIRI PMS — Algeria distribution
+===============================
+
+Copyright (c) 2026 Ilyes Keskas (Algeria)
+Copyright (c) 2026 HeyKoala and contributors
+Copyright (c) 2026 Kamra and contributors
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License, version 3, as published by
+the Free Software Foundation. The full text is in `license.txt`, and
+`docs/algeria/LICENSING.md` explains what it requires of anyone running this
+for a paying hotel.
+
+
+What this file is for
+---------------------
+
+AGPL-3.0 section 5 requires that a modified work keep intact all notices
+stating that it is licensed under this License, and that it carry prominent
+notices stating that it is modified and the date. This file does both, and
+records who holds what, because the repository's own history makes the answer
+precise rather than a matter of assertion.
+
+Adding a line here is how a derivative work claims its own authorship. It is
+not a place to remove anyone else's.
+
+
+Who wrote what
+--------------
+
+ZIRI PMS is a derivative of Kamra PMS (https://github.com/Kamra-PMS/kamra-pms),
+an AGPL-3.0 hotel property-management system. The upstream work is the larger
+part of this repository by a wide margin and its authorship is unchanged.
+
+  Upstream (Kamra PMS)
+    Mohammed Azzan and the Kamra/HeyKoala contributors.
+    The application core: the front desk, folios and the ledger, the night
+    audit, reservations and the booking engine, housekeeping, banquets, the
+    POS, the agent layer, and the React console they are served through.
+    Their copyright headers appear in the source files they wrote and are
+    left exactly as they are.
+
+  This distribution (ZIRI PMS — Algeria)
+    Ilyes Keskas.
+    The Algerian localization — TVA and the taxe de séjour, the NIF/RC/NIS/AI
+    identifiers, the 58 wilayas and their communes, French and Arabic for the
+    console; and the productization layer the hotel is actually run by: the
+    installer and the Docker deployment, the backup and restore verifier with
+    its negative controls and its systemd timers, the health checks, the error
+    code taxonomy, the support bundle and its redaction, the installation
+    identifier, monitoring and alerting, the entitlement record, and the
+    update, rollback and disaster-recovery procedures.
+
+The split is not an estimate. `git shortlog -sne` counts the commits, and
+`git log --diff-filter=A` names who created each file; the files carrying an
+"Ilyes Keskas" header are the ones that command attributes to him.
+
+
+Third-party code
+----------------
+
+Dependencies under `node_modules/` and the Python packages this app installs
+carry their own licences and their own copyright notices. Nothing in this
+repository alters them.

@@ -1,9 +1,15 @@
 [project]
 name = "kamra"
+# Both, in the order the work was done. HeyKoala authored Kamra PMS, which is
+# the larger part of this repository; Ilyes Keskas authored the ZIRI Algeria
+# distribution built on it - the localization and the productization layer.
+# LICENSING.md section 3.2 permits adding a copyright for your own
+# contributions and forbids removing anyone else's; NOTICE records the split.
 authors = [
-    { name = "HeyKoala", email = "azzaxp@users.noreply.github.com"}
+    { name = "HeyKoala", email = "azzaxp@users.noreply.github.com"},
+    { name = "Ilyes Keskas", email = "keskasilyes@gmail.com"}
 ]
-description = "Open-source, AI-native hotel PMS"
+description = "ZIRI PMS - the Algeria distribution of Kamra PMS, an open-source AI-native hotel PMS"
 requires-python = ">=3.10"
 readme = "README.md"
 dynamic = ["version"]
