@@ -684,18 +684,79 @@ def _resolve(fn_name: str):
 	return getattr(api, fn_name, None)
 
 
-def _tool_allowed(name: str) -> bool:
-	"""RBAC for Kamra Agent: a tool is only visible/callable when the
-	signed-in user's roles pass the SAME gate as the underlying API
-	endpoint. The model never even sees tools this user couldn't use."""
+# Which product module each tool belongs to, for a property that has switched
+# one off in Settings (Property.enabled_modules, kamra.api.ALL_MODULES).
+#
+# A tool NOT listed here is always available. That default is the whole safety
+# of this map: a mapping that is incomplete can only fail by leaving a tool
+# switched on, never by hiding one a hotel needs. Only boundaries that are
+# unambiguous are drawn - the front-desk, finance and guest tools are load
+# bearing for the core flow and are deliberately absent.
+_TOOL_MODULE = {
+	"events": tuple(n for n in TOOLS if n.startswith("banquet_")),
+	"housekeeping": ("hk_queue", "hk_update_task", "set_room_hk_status"),
+}
+_MODULE_OF_TOOL = {t: m for m, names in _TOOL_MODULE.items() for t in names}
+
+
+def _enabled_modules(property: str | None) -> set[str] | None:
+	"""The modules this property runs, or None meaning "do not filter".
+
+	None on any failure, and on no property, because the question this answers
+	is "may I HIDE this tool" - and the safe answer when the configuration
+	cannot be read is no.
+	"""
+	if not property:
+		return None
+	try:
+		from kamra.api import enabled_modules
+		return set(enabled_modules(property))
+	except Exception:
+		return None
+
+
+def _tool_allowed(name: str, roles: set | None = None,
+                  modules: set[str] | None = None) -> bool:
+	"""Can this user, at this property, use this tool?
+
+	Two gates. The first is RBAC: a tool is only visible or callable when the
+	signed-in user's roles pass the SAME gate as the underlying API endpoint,
+	so the model never even sees tools this user could not use.
+
+	The second is the property's own module configuration, and it was missing.
+	A guesthouse that switched Events off in Settings still had all fifteen
+	banquet tools described to the model on every round - so the agent offered
+	to quote and book functions for a property whose own UI hides them, and the
+	hotelier paid for 27% of a 20KB tool schema describing a module they had
+	turned off. The product respected that setting everywhere except here.
+
+	`roles` and `modules` are passed in by _tool_defs so the whole list costs
+	one frappe.get_roles() and one settings read instead of one per tool.
+	"""
 	fn = _resolve(TOOLS[name][0])
 	allowed = getattr(fn, "_kamra_roles", None)
-	if not allowed:
-		return True
-	return bool(set(frappe.get_roles()) & set(allowed))
+	if allowed:
+		if roles is None:
+			roles = set(frappe.get_roles())
+		if not (roles & set(allowed)):
+			return False
+
+	module = _MODULE_OF_TOOL.get(name)
+	if module and modules is not None and module not in modules:
+		return False
+	return True
 
 
-def _tool_defs():
+def _tool_defs(property: str | None = None):
+	"""The tool schema for this user and property.
+
+	Built ONCE per request and passed into the loop. It used to be rebuilt on
+	every one of the up-to-six tool rounds, producing byte-identical JSON each
+	time and calling frappe.get_roles() once per tool - 55 calls a round, up to
+	330 for a single question - to arrive at the same answer.
+	"""
+	roles = set(frappe.get_roles())
+	modules = _enabled_modules(property)
 	return [{
 		"type": "function",
 		"function": {
@@ -708,7 +769,7 @@ def _tool_defs():
 			},
 		},
 	} for name, (_, desc, params, _inject, _mut) in TOOLS.items()
-	  if _tool_allowed(name)]
+	  if _tool_allowed(name, roles, modules)]
 
 
 def _post_chat(base: str, headers: dict, body: dict, *, stream: bool = False):
@@ -731,8 +792,12 @@ def _post_chat(base: str, headers: dict, body: dict, *, stream: bool = False):
 
 
 def _run_tool(name: str, args: dict, property: str):
-	if not _tool_allowed(name):
-		frappe.throw("Your role doesn't include this action.",
+	# Checked again here and not only when building the schema. Hiding a tool
+	# from the model is presentation; this is the gate. A model that invents a
+	# tool name, a replayed conversation carrying an older tool list, or a
+	# module switched off mid-session all arrive at this line.
+	if not _tool_allowed(name, modules=_enabled_modules(property)):
+		frappe.throw("That action is not available for this property.",
 		             frappe.PermissionError)
 	fn_name, _desc, params, inject, mutating = TOOLS[name]
 	fn = _resolve(fn_name)
@@ -787,9 +852,11 @@ def ask(property: str, messages, lang: str | None = None):
 	headers = {"Authorization": f"Bearer {api_key}",
 	           "Content-Type": "application/json"}
 	actions = []
+	# Once, not once per round: the schema does not change between rounds.
+	tool_defs = _tool_defs(property)
 	for _ in range(MAX_TOOL_ROUNDS):
 		resp = _post_chat(base, headers, chat_payload(
-			model, convo, tools=_tool_defs(), temperature=0.2))
+			model, convo, tools=tool_defs, temperature=0.2))
 		if resp.status_code != 200:
 			frappe.throw(f"AI provider error ({resp.status_code}): "
 			             f"{resp.text[:300]}")
@@ -857,9 +924,10 @@ def ask_stream(property: str, messages, lang: str | None = None):
 
 	# --- resolve tools synchronously (DB access happens here, before streaming)
 	actions = []
+	tool_defs = _tool_defs(property)
 	for _ in range(MAX_TOOL_ROUNDS):
 		resp = _post_chat(base, headers, chat_payload(
-			model, convo, tools=_tool_defs(), temperature=0.2))
+			model, convo, tools=tool_defs, temperature=0.2))
 		if resp.status_code != 200:
 			frappe.throw(f"AI provider error ({resp.status_code}): {resp.text[:200]}")
 		msg = resp.json()["choices"][0]["message"]

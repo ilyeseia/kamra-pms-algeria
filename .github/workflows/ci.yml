@@ -125,6 +125,17 @@ jobs:
           # run in which every test that can run did pass.
           grep -qE "^OK( \([^)]*\))?$" banquet.out
 
+      # The agent describes its tools to the model on every round, and which
+      # tools those are now depends on the property's module settings as well
+      # as the user's roles. The direction that gate fails in is the thing
+      # worth defending: an unreadable configuration must hide nothing.
+      - name: Run the agent tool-gate tests
+        run: |
+          cd frappe-bench
+          bench --site test.localhost run-tests --module kamra.tests.test_agent_tool_gate \
+            2>&1 | tee agent_gate.out
+          grep -qE "^OK( \([^)]*\))?$" agent_gate.out
+
       - name: Run front-desk persona journey
         run: |
           cd frappe-bench
