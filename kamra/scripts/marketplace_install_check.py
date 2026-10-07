@@ -34,7 +34,13 @@ def ok(msg: str) -> None:
 
 
 def check_pyproject() -> None:
-	data = tomllib.loads((ROOT / "pyproject.toml").read_text())
+	# encoding="utf-8" on every read in this file, and not the platform
+	# default. This repository holds Arabic and French source and docs, and
+	# on a Windows developer machine the default is cp1252 - so the guard
+	# crashed with a UnicodeDecodeError on its own repository while passing
+	# in CI, where the default happens to be UTF-8. A check that only runs
+	# on the build server is a check developers stop running.
+	data = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
 	project = data["project"]
 	if project.get("name") != "kamra":
 		fail("pyproject name is not kamra")
@@ -49,7 +55,7 @@ def check_pyproject() -> None:
 
 
 def check_hooks() -> None:
-	src = (APP / "hooks.py").read_text()
+	src = (APP / "hooks.py").read_text(encoding="utf-8")
 	tree = ast.parse(src)
 	ns: dict[str, object] = {}
 	for node in tree.body:
@@ -59,6 +65,7 @@ def check_hooks() -> None:
 				"required_apps",
 				"add_to_apps_screen",
 				"website_route_rules",
+				"website_redirects",
 				"app_name",
 				"app_license",
 			}:
@@ -67,25 +74,34 @@ def check_hooks() -> None:
 		fail("hooks.app_name is not kamra")
 	if ns.get("required_apps") != ["payments"]:
 		fail(f"required_apps expected ['payments'], got {ns.get('required_apps')}")
+	# app_name stays "kamra" above and the public route is "/ziri" here, and
+	# that difference is the point rather than an oversight: the app package
+	# names the Python module, /assets/kamra/ and every /api/method/kamra.*
+	# endpoint; the route is only what a person sees in the address bar.
 	screen = ns.get("add_to_apps_screen") or []
-	if not screen or screen[0].get("route") != "/kamra":
-		fail("add_to_apps_screen missing /kamra route")
+	if not screen or screen[0].get("route") != "/ziri":
+		fail("add_to_apps_screen missing /ziri route")
 	rules = str(ns.get("website_route_rules"))
-	if "/kamra/<path:app_path>" not in rules:
-		fail("/kamra SPA route rule missing")
+	if "/ziri/<path:app_path>" not in rules:
+		fail("/ziri SPA route rule missing")
+	redirects = str(ns.get("website_redirects"))
+	# The old path must keep resolving. Guests hold /kamra/checkin/<token>
+	# links that were sent to them before the rename.
+	if "/kamra/(.*)" not in redirects:
+		fail("legacy /kamra redirect missing - old guest links would 404")
 	if ns.get("app_license") != "agpl-3.0":
 		fail("app_license is not agpl-3.0")
-	ok("hooks.py: payments, /kamra launcher, SPA route, AGPL")
+	ok("hooks.py: payments, /ziri launcher, SPA route, legacy redirect, AGPL")
 
 
 def check_shipped_spa() -> None:
 	index = APP / "public" / "frontend" / "index.html"
-	boot = APP / "www" / "kamra.py"
+	boot = APP / "www" / "ziri.py"
 	if not index.is_file():
 		fail("prebuilt SPA missing at kamra/public/frontend/index.html")
 	if not boot.is_file():
-		fail("SPA boot page missing at kamra/www/kamra.py")
-	html = index.read_text()
+		fail("SPA boot page missing at kamra/www/ziri.py")
+	html = index.read_text(encoding="utf-8")
 	if "/assets/kamra/frontend/assets/" not in html:
 		fail("SPA index.html does not reference /assets/kamra/frontend/assets/")
 	ok("prebuilt SPA shipped (marketplace benches do not run npm)")
@@ -94,7 +110,7 @@ def check_shipped_spa() -> None:
 def check_license_and_package() -> None:
 	if not (ROOT / "license.txt").is_file() and not (ROOT / "LICENSE").is_file():
 		fail("license.txt / LICENSE missing")
-	pkg = (ROOT / "package.json").read_text()
+	pkg = (ROOT / "package.json").read_text(encoding="utf-8")
 	if '"build"' not in pkg:
 		fail("root package.json missing build script (FC runs yarn build)")
 	ok("license + FC yarn build entrypoint present")
@@ -104,7 +120,7 @@ def check_semgrep_same_line() -> None:
 	"""FC auditor requires # nosemgrep on the same line as the call."""
 	bad: list[str] = []
 	for path in APP.rglob("*.py"):
-		for i, line in enumerate(path.read_text().splitlines(), 1):
+		for i, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
 			stripped = line.lstrip()
 			if stripped.startswith("#") or stripped.startswith(("\"\"\"", "'''")):
 				continue
@@ -118,7 +134,7 @@ def check_semgrep_same_line() -> None:
 
 
 def check_listing_copy() -> None:
-	md = (ROOT / "docs" / "marketplace-listing.md").read_text()
+	md = (ROOT / "docs" / "marketplace-listing.md").read_text(encoding="utf-8")
 	# The paste-ready long description lives in a markdown fence.
 	m = re.search(r"```markdown\n(.*?)```", md, re.S)
 	if not m:
@@ -127,6 +143,18 @@ def check_listing_copy() -> None:
 	if re.search(r"https?://", body):
 		fail("long description still contains URLs (FC metadata audit)")
 	ok("listing long description has no extra URLs")
+
+
+# The output side of the same problem as the reads above: this script prints
+# arrows and check marks, and on a Windows console the default encoding is
+# cp1252, which cannot represent them. It printed "CHECKS PASSED" and then
+# died on its own summary line, exiting non-zero after passing.
+try:
+	sys.stdout.reconfigure(encoding="utf-8")
+	sys.stderr.reconfigure(encoding="utf-8")
+except (AttributeError, OSError):
+	# A stream that cannot be reconfigured is not a reason to fail the check.
+	pass
 
 
 def main() -> int:

@@ -963,7 +963,7 @@ def seed_sample_content():
 			("Outbound", "Template", "kamra_booking_confirmation", "Sent",
 			 "Rohan · ZIRI Demo · 2026-07-24 · 2026-07-26"),
 			("Outbound", "Template", "kamra_precheckin_link", "Sent",
-			 "Rohan · https://demo.kamrapms.com/kamra/checkin/…"),
+			 "Rohan · https://demo.kamrapms.com/ziri/checkin/…"),
 			("Inbound", "Text", None, "Received",
 			 "Hi! Could we get a late checkout on Sunday?"),
 			("Outbound", "Text", None, "Sent",

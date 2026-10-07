@@ -522,7 +522,7 @@ def _timezone_check() -> dict:
 			"attention",
 			f"Property timezone differs from site ({site_tz}). "
 			"Set Time zone under Admin → Settings → Property.",
-			link="/kamra/settings",
+			link="/ziri/settings",
 			code="CONFIGURATION-003",
 		)
 	return _check(

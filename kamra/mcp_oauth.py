@@ -444,7 +444,7 @@ def _error_page(message: str) -> str:
 	return _html_shell(
 		"Could not connect",
 		f"<p>{frappe.utils.escape_html(message)}</p>"
-		"<p><a href='/kamra/assistant'>Back to ZIRI</a></p>",
+		"<p><a href='/ziri/assistant'>Back to ZIRI</a></p>",
 	)
 
 

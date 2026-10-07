@@ -31,15 +31,17 @@ def execute():
 
 
 def _set_home_to_kamra():
-	"""Land visitors on /kamra, not empty Frappe Desk."""
+	"""Land visitors on /ziri, not empty Frappe Desk."""
 	ws = frappe.get_doc("Website Settings")
 	changed = False
 	if not ws.favicon:
 		ws.favicon = "/assets/kamra/ziri-mark.png"
 		changed = True
-	# Frappe serves www/kamra.py at /kamra; home_page is the route name.
-	if (ws.home_page or "").strip() in ("", "login", "me", "index"):
-		ws.home_page = "kamra"
+	# Frappe serves www/ziri.py at /ziri; home_page is the route name. "kamra"
+	# is accepted as a previous value so a site that still carries it is moved
+	# rather than left pointing at a page that no longer exists.
+	if (ws.home_page or "").strip() in ("", "login", "me", "index", "kamra"):
+		ws.home_page = "ziri"
 		changed = True
 	if changed:
 		ws.flags.ignore_mandatory = True

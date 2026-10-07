@@ -2321,7 +2321,7 @@ def t48():
 		params = sent[0]["template"]["components"][0]["parameters"]
 		assert len(params) == 4 and params[1]["text"], params
 		assert sent[1]["template"]["name"] == "kamra_precheckin_link"
-		assert "/kamra/checkin/" in sent[1]["template"]["components"][0][
+		assert "/ziri/checkin/" in sent[1]["template"]["components"][0][
 			"parameters"][1]["text"]
 
 		rows = frappe.get_all("WhatsApp Message",

@@ -14,14 +14,18 @@ app_logo_url = "/assets/kamra/ziri-mark.png"
 app_icon = "octicon octicon-home"
 app_color = "#1E7B4F"
 
-# The product UI is the React SPA at /kamra; surface it in the Apps launcher
+# The product UI is the React SPA at /ziri; surface it in the Apps launcher
 # (and the /apps grid) so users land on it instead of the Desk.
+#
+# `name` stays "kamra" and so does the logo path: that is the installed app's
+# own identifier and its asset directory, which Frappe and the database both
+# key on. Only `route` - the URL a human sees - moved.
 add_to_apps_screen = [
 	{
 		"name": "kamra",
 		"logo": "/assets/kamra/ziri-mark.png",
 		"title": "ZIRI",
-		"route": "/kamra",
+		"route": "/ziri",
 	}
 ]
 
@@ -89,22 +93,35 @@ kamra_localization = {
 
 # Served single-page app
 # -----------------------
-# The React front-end mounts at /kamra and owns all client-side routes
-# (front desk, booking engine, housekeeping, self check-in). The `kamra` www
-# page (kamra/www/kamra.py) serves the built shell with the CSRF token
+# The React front-end mounts at /ziri and owns all client-side routes
+# (front desk, booking engine, housekeeping, self check-in). The `ziri` www
+# page (kamra/www/ziri.py) serves the built shell with the CSRF token
 # injected; every deep link falls through to it so browser refresh works.
+#
+# The route is /ziri and the app package is still `kamra`. Those are different
+# things and only the first one is a URL: /assets/kamra/ and every
+# /api/method/kamra.* endpoint are named after the installed app, which this
+# rename does not touch.
 website_route_rules = [
-	{"from_route": "/kamra/<path:app_path>", "to_route": "kamra"},
+	{"from_route": "/ziri/<path:app_path>", "to_route": "ziri"},
 ]
 
 # Clean, shareable guest URLs redirect into the SPA's routes.
+#
+# The /kamra rules at the end are not legacy clutter to delete later. Guests
+# have been sent self check-in links of the form /kamra/checkin/<token> by
+# WhatsApp and email; staff have /kamra/... bookmarks. Renaming a path without
+# redirecting the old one does not tidy anything, it breaks messages that are
+# already in people's hands. These keep them working.
 website_redirects = [
-	{"source": r"/book$", "target": "/kamra/book"},
-	{"source": r"/book/(.*)", "target": r"/kamra/book/\1"},
-	{"source": r"/stay$", "target": "/kamra/stay"},
-	{"source": r"/stay/(.*)", "target": r"/kamra/stay/\1"},
-	{"source": r"/hk$", "target": "/kamra/hk"},
-	{"source": r"/checkin/(.*)", "target": r"/kamra/checkin/\1"},
+	{"source": r"/book$", "target": "/ziri/book"},
+	{"source": r"/book/(.*)", "target": r"/ziri/book/\1"},
+	{"source": r"/stay$", "target": "/ziri/stay"},
+	{"source": r"/stay/(.*)", "target": r"/ziri/stay/\1"},
+	{"source": r"/hk$", "target": "/ziri/hk"},
+	{"source": r"/checkin/(.*)", "target": r"/ziri/checkin/\1"},
+	{"source": r"/kamra$", "target": "/ziri"},
+	{"source": r"/kamra/(.*)", "target": r"/ziri/\1"},
 ]
 
 # Each item in the list will be shown as an app in the apps page

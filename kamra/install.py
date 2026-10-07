@@ -96,15 +96,21 @@ def ensure_agent_identity():
 
 def set_site_home_and_favicon():
 	"""A fresh site shows Frappe's favicon and Desk until Website Settings
-	carries ours. Point home at /kamra (WordPress-style: product, not Desk).
+	carries ours. Point home at /ziri (WordPress-style: product, not Desk).
 	Never overrides a hotelier's custom favicon or home page."""
 	ws = frappe.get_doc("Website Settings")
 	changed = False
 	if not ws.favicon:
 		ws.favicon = "/assets/kamra/ziri-mark.png"
 		changed = True
-	if (ws.home_page or "").strip() in ("", "login", "me", "index"):
-		ws.home_page = "kamra"
+	# "kamra" is in the list because it is what every site installed before the
+	# public path was renamed already holds. Without it this stays untouched and
+	# those sites keep pointing "/" at a page that no longer exists - the one
+	# failure a rename like this produces that nobody notices until a hotelier
+	# opens the bare hostname. kamra/patches/v38 moves them too; this covers a
+	# site that reinstalls rather than migrates.
+	if (ws.home_page or "").strip() in ("", "login", "me", "index", "kamra"):
+		ws.home_page = "ziri"
 		changed = True
 	if changed:
 		ws.flags.ignore_mandatory = True

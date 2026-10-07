@@ -3,7 +3,7 @@
 // and the shell shows the login screen.
 
 // The served boot page injects the session's CSRF token as window.csrf_token
-// (see kamra/www/kamra.py). Frappe enforces it on POSTs from a logged-in
+// (see kamra/www/ziri.py). Frappe enforces it on POSTs from a logged-in
 // session; guests and the dev server (ignore_csrf) don't need it.
 import { htmlToText } from "./utils"
 

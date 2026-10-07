@@ -939,7 +939,7 @@ What ZIRI does and where to find it:
 - Billing: folios, post charges, take payments, payment links. Closing a folio
   assigns a GST tax invoice (logo, GSTIN, place of supply, SAC 996311).
 - Reports: occupancy, ADR, RevPAR, RevPAX, MTD, collections, 14-day trend.
-- Housekeeping: room board + a phone app at /kamra/hk.
+- Housekeeping: room board + a phone app at /ziri/hk.
 - Revenue: rate plans, seasons, vouchers, rate guardrails.
 - Events: Venue Bookings and a Venue Calendar (banquet/function diary);
   Experiences cover spa/tours as booking add-ons.

@@ -848,7 +848,7 @@ function AiAssistantCard({
         )}
         <p className="text-xs text-zinc-400">
           {t("Want Claude the app?")}{" "}
-          <a href="/kamra/assistant" className="font-medium text-brand-700 hover:underline">
+          <a href="/ziri/assistant" className="font-medium text-brand-700 hover:underline">
             {t("ZIRI Agent → Connect your AI")}
           </a>
           . {t("Want Claude the model in this chat? Use the OpenRouter preset.")}
@@ -1020,13 +1020,13 @@ export default function Settings() {
         <CardContent className="space-y-3 text-sm">
           <p className="text-zinc-600">
             Open{" "}
-            <a href="/kamra/assistant" className="font-medium text-brand-700 hover:underline">
+            <a href="/ziri/assistant" className="font-medium text-brand-700 hover:underline">
               ZIRI Agent → Connect your AI
             </a>{" "}
             and click <strong>Connect Claude</strong>. Claude opens with this
             hotel&apos;s MCP URL filled in; confirm, sign in as yourself, done.
             Service keys for unattended agents stay on{" "}
-            <a href="/kamra/developers" className="font-medium text-brand-700 hover:underline">
+            <a href="/ziri/developers" className="font-medium text-brand-700 hover:underline">
               Developers
             </a>
             .
