@@ -12,6 +12,7 @@ from frappe.rate_limiter import rate_limit
 from frappe.utils import cint, date_diff
 
 from kamra import __version__
+from kamra.distribution import DISTRIBUTION_VERSION
 from kamra.booking_slugs import resolve_public_slug, slugify
 
 # Module level and not inside each function, unlike the pack_for
@@ -234,10 +235,24 @@ def site_info():
 	is precisely what a hotel's guests do on the booking engine - so the
 	source URL belongs on a surface every user can reach, not in a file only
 	the operator sees.
+
+	WHICH VERSION `version` IS
+
+	The distribution's, not the core's. This returned kamra.__version__ and the
+	login screen renders the line as "ZIRI PMS v{version}" - so a hotelier read
+	"ZIRI PMS v2.6.5" while the product they installed was ZIRI 1.0.0. Both
+	numbers were right; pairing them was not. 2.6.5 is upstream Kamra's version
+	and it moves on upstream's release schedule, which is neither this
+	distribution's nor what a support call should quote.
+
+	`core_version` carries it instead, because the number is genuinely useful -
+	ziri-doctor prints both for exactly that reason - and dropping it would
+	trade one wrong answer for a missing one.
 	"""
 	return {
 		"demo_mode": frappe.db.get_default("kamra_demo_mode") == "1",
-		"version": __version__,
+		"version": DISTRIBUTION_VERSION,
+		"core_version": __version__,
 		"source_url": (frappe.db.get_default("kamra_source_url")
 		               or DEFAULT_SOURCE_URL),
 	}
