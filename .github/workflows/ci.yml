@@ -136,6 +136,15 @@ jobs:
             2>&1 | tee agent_gate.out
           grep -qE "^OK( \([^)]*\))?$" agent_gate.out
 
+      # The guest agent is the surface an unauthenticated caller reaches.
+      # These assertions are about blast radius, not answer quality.
+      - name: Run the guest agent surface tests
+        run: |
+          cd frappe-bench
+          bench --site test.localhost run-tests --module kamra.tests.test_agent_guest \
+            2>&1 | tee agent_guest.out
+          grep -qE "^OK( \([^)]*\))?$" agent_guest.out
+
       - name: Run front-desk persona journey
         run: |
           cd frappe-bench
