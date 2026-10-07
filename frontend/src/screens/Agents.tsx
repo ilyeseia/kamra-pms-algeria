@@ -21,6 +21,7 @@ import {
 } from "../components/ui/card"
 import { serverError } from "../lib/resource"
 import { moneyLocale } from "../lib/money"
+import { useT } from "../lib/i18n"
 
 
 
@@ -34,6 +35,7 @@ const statusTone: Record<string, "zinc" | "sky" | "amber" | "rose" | "green"> = 
 }
 
 export default function Agents() {
+  const { t } = useT()
   const property = getCurrentProperty()
   const [panel, setPanel] = useState<"none" | "connect">("none")
 
@@ -45,8 +47,9 @@ export default function Agents() {
           <h1 className="text-xl font-semibold tracking-tight">ZIRI Agent</h1>
         </div>
         <p className="text-sm text-zinc-500">
-          Chat in the console, or connect Claude — it acts as you, with your
-          role limits, on the same governed tools.
+          {t(
+            "Chat in the console, or connect Claude — it acts as you, with your role limits, on the same governed tools.",
+          )}
         </p>
         <div className="ml-auto flex items-center gap-2">
           {panel !== "none" && (
@@ -55,14 +58,16 @@ export default function Agents() {
               className="flex items-center gap-1.5 rounded-full bg-brand-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-brand-700"
             >
               <MessageSquare className="size-4" aria-hidden />
-              Back to chat
+              {t("Back to chat")}
             </button>
           )}
           <button
             onClick={() =>
               setPanel((p) => (p === "connect" ? "none" : "connect"))
             }
-            title="Open Claude and connect this hotel over MCP — scoped to your role"
+            title={t(
+              "Open Claude and connect this hotel over MCP — scoped to your role",
+            )}
             className={
               "flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm " +
               (panel === "connect"
@@ -71,7 +76,7 @@ export default function Agents() {
             }
           >
             <Plug className="size-4" aria-hidden />
-            Connect your AI
+            {t("Connect your AI")}
           </button>
         </div>
       </header>
@@ -127,6 +132,7 @@ const fmtWhen = (d: string) =>
   })
 
 export function ActivityTab({ property }: { property: string }) {
+  const { t } = useT()
   const [rows, setRows] = useState<ActivityRow[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -181,15 +187,16 @@ export function ActivityTab({ property }: { property: string }) {
             setPage(0)
           }}
           className="rounded-lg border border-zinc-300 bg-white px-2.5 py-1.5 text-sm"
-          aria-label="Filter by who acted"
+          aria-label={t("Filter by who acted")}
         >
-          <option value="">Everyone</option>
-          <option value="human">People only</option>
-          <option value="agent">AI only</option>
+          <option value="">{t("Everyone")}</option>
+          <option value="human">{t("People only")}</option>
+          <option value="agent">{t("AI only")}</option>
         </select>
         <p className="text-xs text-zinc-400">
-          Every action on the property, newest first - who did it and what
-          changed.
+          {t(
+            "Every action on the property, newest first - who did it and what changed.",
+          )}
         </p>
       </div>
 
@@ -202,18 +209,18 @@ export function ActivityTab({ property }: { property: string }) {
         <LoadingRow />
       ) : rows.length === 0 ? (
         <p className="py-8 text-center text-sm text-zinc-400">
-          Nothing logged yet.
+          {t("Nothing logged yet.")}
         </p>
       ) : (
         <div className="overflow-x-auto rounded-xl border border-zinc-200 bg-white">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-zinc-200 text-left text-xs font-medium uppercase tracking-wider text-zinc-500">
-                <th className="px-3 py-2">When</th>
-                <th className="px-3 py-2">Who</th>
-                <th className="px-3 py-2">What</th>
-                <th className="px-3 py-2">On</th>
-                <th className="px-3 py-2">Status</th>
+                <th className="px-3 py-2">{t("When")}</th>
+                <th className="px-3 py-2">{t("Who")}</th>
+                <th className="px-3 py-2">{t("What")}</th>
+                <th className="px-3 py-2">{t("On")}</th>
+                <th className="px-3 py-2">{t("Status")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-100">
@@ -264,25 +271,25 @@ export function ActivityTab({ property }: { property: string }) {
                   <tr className="bg-zinc-50/60">
                     <td colSpan={5} className="px-4 py-3">
                       {!detail ? (
-                        <p className="text-xs text-zinc-400">Loading…</p>
+                        <p className="text-xs text-zinc-400">{t("Loading…")}</p>
                       ) : (
                         <div className="space-y-3 text-sm">
                           <dl className="grid grid-cols-2 gap-x-6 gap-y-1.5 sm:grid-cols-4">
                             {([
                               ["Logged", fmtWhen(detail.creation)],
-                              ["Executed", detail.executed_at ? fmtWhen(detail.executed_at) : "-"],
-                              ["Actor", detail.actor ?? "system"],
-                              ["Agent", detail.agent_name ?? "-"],
-                              ["Channel", detail.action_channel ?? "-"],
-                              ["Autonomy", detail.autonomy ?? "-"],
+                              [t("Executed"), detail.executed_at ? fmtWhen(detail.executed_at) : "-"],
+                              [t("Actor"), detail.actor ?? t("system")],
+                              [t("Agent"), detail.agent_name ?? "-"],
+                              [t("Channel"), detail.action_channel ?? "-"],
+                              [t("Autonomy"), detail.autonomy ?? "-"],
                               [
-                                "Reference",
+                                t("Reference"),
                                 detail.reference_name
                                   ? `${detail.reference_doctype} · ${detail.reference_name}`
                                   : "-",
                               ],
                               [
-                                "Minutes saved",
+                                t("Minutes saved"),
                                 detail.minutes_saved ? String(detail.minutes_saved) : "-",
                               ],
                             ] as [string, string][]).map(([k, v]) => (
@@ -378,6 +385,7 @@ interface ConnectInfo {
 }
 
 export function ConnectTab({ property }: { property: string }) {
+  const { t } = useT()
   const [info, setInfo] = useState<ConnectInfo | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -409,12 +417,13 @@ export function ConnectTab({ property }: { property: string }) {
       <div className="max-w-2xl space-y-4">
         <Card>
           <CardHeader>
-            <CardTitle>Connect Claude</CardTitle>
+            <CardTitle>{t("Connect Claude")}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-zinc-600">
-              Connect Claude is turned off on this site. On your own ZIRI PMS,
-              every staff member can connect Claude and act within their role.
+              {t(
+                "Connect Claude is turned off on this site. On your own ZIRI PMS, every staff member can connect Claude and act within their role.",
+              )}
             </p>
           </CardContent>
         </Card>
@@ -427,22 +436,23 @@ export function ConnectTab({ property }: { property: string }) {
       <Card>
         <CardHeader>
           <div>
-            <CardTitle>Connect Claude</CardTitle>
+            <CardTitle>{t("Connect Claude")}</CardTitle>
             <p className="mt-0.5 text-xs text-zinc-500">
-              Claude acts as you at {info?.property_name || "this hotel"}: your
-              role decides what it can see and do. A front-desk connection
-              books and checks in; it cannot touch rates or finance. Every
-              action lands in Activity under your name.
+              {/* The hotel name is a placeholder, not a concatenation: Arabic
+                  and French put it in a different place in the sentence. */}
+              {t(
+                "Claude acts as you at {hotel}: your role decides what it can see and do. A front-desk connection books and checks in; it cannot touch rates or finance. Every action lands in Activity under your name.",
+                { hotel: info?.property_name || t("this hotel") },
+              )}
             </p>
           </div>
         </CardHeader>
         <CardContent className="space-y-3">
           {info && !info.is_public_https && (
             <p className="rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800">
-              Claude reaches this hotel from Anthropic&apos;s cloud, so the
-              site needs public HTTPS. This origin looks local — use Claude
-              Code over HTTP on this machine, or the stdio sidecar, until you
-              have a public URL.
+              {t(
+                "Claude reaches this hotel from Anthropic's cloud, so the site needs public HTTPS. This origin looks local — use Claude Code over HTTP on this machine, or the stdio sidecar, until you have a public URL.",
+              )}
             </p>
           )}
           <div className="flex flex-wrap items-center gap-2">
@@ -454,7 +464,7 @@ export function ConnectTab({ property }: { property: string }) {
               }}
             >
               <ExternalLink className="size-4" aria-hidden />
-              Connect Claude
+              {t("Connect Claude")}
             </Button>
             {info && info.active_grants > 0 && (
               <Button
@@ -492,16 +502,15 @@ export function ConnectTab({ property }: { property: string }) {
           )}
           {info && info.active_grants > 0 && !info.last_mcp && (
             <p className="text-xs text-green-700">
-              Claude is authorised for this property. Enable the connector in
-              a chat with the + menu, then talk in hotel language.
+              {t(
+                "Claude is authorised for this property. Enable the connector in a chat with the + menu, then talk in hotel language.",
+              )}
             </p>
           )}
           <p className="text-sm text-zinc-600">
-            Claude opens with this hotel&apos;s MCP URL filled in. Confirm Add,
-            sign in here if asked, pick the property, Allow. Then in Claude
-            enable the connector on the chat + menu and say things like
-            &quot;occupancy this week&quot; or &quot;book a Deluxe for
-            Friday&quot;.
+            {t(
+              "Claude opens with this hotel's MCP URL filled in. Confirm Add, sign in here if asked, pick the property, Allow. Then in Claude enable the connector on the chat + menu and say things like “occupancy this week” or “book a Deluxe for Friday”.",
+            )}
           </p>
           {info && (
             <>
@@ -549,9 +558,9 @@ export function ConnectTab({ property }: { property: string }) {
         </CardContent>
       </Card>
       <p className="text-xs text-zinc-400">
-        Need a platform-wide or service key (HeyKoala, unattended jobs)? That
-        is issued by your system admin under Developers. Staff should use
-        Connect Claude — no API secrets on a laptop.
+        {t(
+          "Need a platform-wide or service key (HeyKoala, unattended jobs)? That is issued by your system admin under Developers. Staff should use Connect Claude — no API secrets on a laptop.",
+        )}
       </p>
     </div>
   )

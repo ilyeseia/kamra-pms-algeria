@@ -14,37 +14,58 @@ import {
 } from "../lib/api"
 import { cn } from "../lib/utils"
 import { Markdown } from "../lib/markdown"
+import { useT } from "../lib/i18n"
+import { getLang } from "../lib/dir"
 
-const TOOL_LABEL: Record<string, string> = {
-  availability: "Checked availability",
-  quote: "Priced the stay",
-  create_booking: "Created a booking",
-  check_in: "Checked in",
-  check_out: "Checked out",
-  post_charge: "Posted a charge",
-  take_payment: "Recorded a payment",
-  find_reservations: "Looked up reservations",
-  stay_detail: "Opened a stay",
-  cancel_reservation: "Cancelled a booking",
-  owner_briefing: "Read the day's numbers",
-  front_desk_today: "Checked today's desk",
-  waitlist_ready: "Checked waitlist openings",
-  promote_waitlist: "Promoted from waitlist",
+type TFn = (s: string) => string
+
+// Built THROUGH t() rather than held as plain strings, so scripts/
+// i18n-extract.mjs - which scans for a string literal passed straight to t -
+// can see these at all. A map or array of bare strings translated at the point
+// of use is invisible to it: the key never reaches catalog.csv and the text
+// stays English in every language while looking translated in the source.
+//
+// The phrasing of this comment matters too. It first spelled out the pattern
+// the extractor matches, and the extractor duly matched it - adding a key
+// called "literal" to the catalogue from inside a comment explaining the
+// extractor.
+const toolLabel = (t: TFn, name: string) => {
+  const LABELS: Record<string, string> = {
+    availability: t("Checked availability"),
+    quote: t("Priced the stay"),
+    create_booking: t("Created a booking"),
+    check_in: t("Checked in"),
+    check_out: t("Checked out"),
+    post_charge: t("Posted a charge"),
+    take_payment: t("Recorded a payment"),
+    find_reservations: t("Looked up reservations"),
+    stay_detail: t("Opened a stay"),
+    cancel_reservation: t("Cancelled a booking"),
+    owner_briefing: t("Read the day's numbers"),
+    front_desk_today: t("Checked today's desk"),
+    waitlist_ready: t("Checked waitlist openings"),
+    promote_waitlist: t("Promoted from waitlist"),
+  }
+  // An unknown tool falls back to its own identifier with the underscores
+  // opened out. Deliberately NOT translated: it is a name, not a sentence.
+  return LABELS[name] ?? name.replace(/_/g, " ")
 }
-const toolLabel = (t: string) =>
-  TOOL_LABEL[t] ?? t.replace(/_/g, " ")
 
-const SUGGESTIONS = [
-  "What does today look like - arrivals, departures, occupancy?",
-  "Find the reservation for room 101 and show me the folio.",
-  "Quote 2 nights in a Deluxe for 2 adults from this Friday.",
-  "Which waitlisted guests can I now give a room?",
+// The translated text is also what gets SENT. Tapping an Arabic suggestion
+// puts Arabic in the conversation, which is a stronger signal to the model
+// than the language directive the server adds on top of it.
+const suggestions = (t: TFn) => [
+  t("What does today look like - arrivals, departures, occupancy?"),
+  t("Find the reservation for room 101 and show me the folio."),
+  t("Quote 2 nights in a Deluxe for 2 adults from this Friday."),
+  t("Which waitlisted guests can I now give a room?"),
 ]
 
 function ThinkingDots() {
+  const { t } = useT()
   return (
     <span className="inline-flex items-center gap-1.5 text-sm text-zinc-500">
-      Thinking
+      {t("Thinking")}
       <span className="inline-flex gap-0.5">
         <span className="size-1.5 animate-bounce rounded-full bg-zinc-400 [animation-delay:0ms]" />
         <span className="size-1.5 animate-bounce rounded-full bg-zinc-400 [animation-delay:150ms]" />
@@ -55,12 +76,19 @@ function ThinkingDots() {
 }
 
 function AiSetupNotice() {
+  const { t } = useT()
   return (
     <div className="mx-auto max-w-lg space-y-3 rounded-xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
-      <p className="font-semibold">ZIRI Agent needs an AI key to start working.</p>
+      <p className="font-semibold">
+        {t("ZIRI Agent needs an AI key to start working.")}
+      </p>
       <ol className="list-decimal space-y-1 pl-5">
+        {/* The link is split out of the sentence rather than carried inside it
+            as markup: a translator should move the URL to wherever the clause
+            lands in their word order, and cannot do that if the <a> is frozen
+            mid-string. */}
         <li>
-          Get an OpenAI API key at{" "}
+          {t("Get an OpenAI API key at")}{" "}
           <a
             className="underline"
             href="https://platform.openai.com/api-keys"
@@ -69,23 +97,29 @@ function AiSetupNotice() {
           >
             platform.openai.com/api-keys
           </a>{" "}
-          (sign up, add billing, create a key).
+          {t("(sign up, add billing, create a key).")}
         </li>
         <li>
-          In ZIRI PMS, open <b>Settings, AI assistant</b>: paste the key, pick a
-          model (gpt-4o-mini works well), switch it on, save.
+          {t(
+            "In ZIRI PMS, open Settings → AI assistant: paste the key, pick a model (gpt-4o-mini works well), switch it on, save.",
+          )}
         </li>
-        <li>Come back here and ask a question.</li>
+        <li>{t("Come back here and ask a question.")}</li>
       </ol>
       <p className="text-xs text-amber-700">
-        The key stays on your server and is stored masked. Usage is billed to
-        your own OpenAI account.
+        {t(
+          "The key stays on your server and is stored masked. Usage is billed to your own OpenAI account.",
+        )}
       </p>
     </div>
   )
 }
 
 export default function Assistant() {
+  // useT, not the bare t(): it subscribes to the `kamra:lang` event so the
+  // suggestions, tool chips and headings redraw when the language changes
+  // instead of staying in the old one until the screen is reopened.
+  const { t } = useT()
   const [convos, setConvos] = useState<ConversationSummary[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
   const [msgs, setMsgs] = useState<ChatMsg[]>([])
@@ -124,7 +158,7 @@ export default function Assistant() {
       setActiveId(c.name)
       setMsgs(c.messages)
     } catch {
-      setError("Couldn't open that conversation.")
+      setError(t("Couldn't open that conversation."))
     }
   }
 
@@ -180,6 +214,12 @@ export default function Assistant() {
         body: JSON.stringify({
           property: getCurrentProperty(),
           messages: history.map(({ role, content }) => ({ role, content })),
+          // The UI language lives in localStorage, per device - the server
+          // cannot read it, and User.language is not it. Without this the
+          // console would be in Arabic and the agent would answer in English.
+          // Read at call time rather than closed over, so it is always the
+          // language the user is looking at right now.
+          lang: getLang(),
         }),
       })
       if (!res.ok || !res.body) throw new Error(`stream ${res.status}`)
@@ -225,7 +265,7 @@ export default function Assistant() {
       )
       if (isFirst) refreshList()
     } catch {
-      setError("The agent couldn't finish - check the AI key in Settings.")
+      setError(t("The agent couldn't finish - check the AI key in Settings."))
       if (!content) setMsgs((ms) => ms.filter((_, i) => i !== aIdx))
     } finally {
       setBusy(false)
@@ -241,13 +281,13 @@ export default function Assistant() {
             onClick={newChat}
             className="flex w-full items-center gap-2 rounded-lg border border-zinc-200 px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
           >
-            <Plus className="size-4" /> New chat
+            <Plus className="size-4" /> {t("New chat")}
           </button>
         </div>
         <div className="flex-1 overflow-y-auto px-2 pb-2">
           {convos.length === 0 && (
             <p className="px-2 py-4 text-xs text-zinc-400">
-              No conversations yet.
+              {t("No conversations yet.")}
             </p>
           )}
           {convos.map((c) => (
@@ -261,10 +301,10 @@ export default function Assistant() {
                   : "text-zinc-600 hover:bg-zinc-50",
               )}
             >
-              <span className="flex-1 truncate">{c.title || "Untitled"}</span>
+              <span className="flex-1 truncate">{c.title || t("Untitled")}</span>
               <button
                 onClick={(e) => removeConvo(c.name, e)}
-                aria-label="Delete conversation"
+                aria-label={t("Delete conversation")}
                 className="opacity-0 group-hover:opacity-100"
               >
                 <Trash2 className="size-3.5 text-zinc-400 hover:text-rose-500" />
@@ -280,8 +320,10 @@ export default function Assistant() {
           <Sparkles className="size-4 text-brand-600" />
           <span className="text-sm font-semibold">ZIRI Agent</span>
           <span className="text-[10px] uppercase tracking-wider text-zinc-400">
-            your AI, acting as you · on{" "}
-            {getCurrentProperty()?.split("-")[0] ?? "your hotel"}
+            {/* uppercase is a Latin typographic effect; Arabic has no case,
+                so the class is simply inert there rather than wrong. */}
+            {t("your AI, acting as you · on")}{" "}
+            {getCurrentProperty()?.split("-")[0] ?? t("your hotel")}
           </span>
         </div>
 
@@ -295,15 +337,15 @@ export default function Assistant() {
             <div className="mx-auto max-w-xl space-y-3 py-8 text-center">
               <Sparkles className="mx-auto size-8 text-brand-500" />
               <h2 className="text-lg font-semibold">
-                Your AI, acting as you
+                {t("Your AI, acting as you")}
               </h2>
               <p className="text-sm text-zinc-500">
-                It can look things up and act - quote and book stays, check
-                guests in and out, post charges and payments, work the waitlist,
-                and read the day's numbers.
+                {t(
+                  "It can look things up and act - quote and book stays, check guests in and out, post charges and payments, work the waitlist, and read the day's numbers.",
+                )}
               </p>
               <div className="grid gap-2 pt-2 sm:grid-cols-2">
-                {SUGGESTIONS.map((s) => (
+                {suggestions(t).map((s) => (
                   <button
                     key={s}
                     onClick={() => send(s)}
@@ -351,7 +393,7 @@ export default function Assistant() {
                             )}
                           >
                             <Wrench className="size-3" />
-                            {toolLabel(a.tool)}
+                            {toolLabel(t, a.tool)}
                           </span>
                         ))}
                       </div>
@@ -386,14 +428,14 @@ export default function Assistant() {
           <div className="flex items-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 py-1.5 shadow-sm transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-100">
             <input
               className="flex-1 bg-transparent py-2 text-sm outline-none placeholder:text-zinc-400"
-              placeholder="Ask anything about the hotel…"
+              placeholder={t("Ask anything about the hotel…")}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={busy}
             />
             <button
               type="submit"
-              aria-label="Send"
+              aria-label={t("Send")}
               disabled={busy || !input.trim()}
               className="flex size-9 items-center justify-center rounded-full bg-brand-600 text-white transition hover:bg-brand-700 disabled:opacity-40"
             >
