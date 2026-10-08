@@ -63,7 +63,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Provider",
-   "options": "HeyKoala\nTwilio\nRetell\nVapi\nMeta Business\nCustom",
+   "options": "HeyKoala\nTwilio\nRetell\nVapi\nMeta Business\njambonz\nCustom",
    "reqd": 1
   },
   {

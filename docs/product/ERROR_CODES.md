@@ -1,6 +1,6 @@
 # ZIRI PMS — Error Code Taxonomy
 
-**Status: 26 of the 67 allocated codes are emitted and visible on screen. The
+**Status: 27 of the 67 allocated codes are emitted and visible on screen. The
 rest are allocated against conditions that have no machine signal, and say so.**
 
 This document was a specification for most of its life: it opened by saying that
@@ -18,6 +18,7 @@ What now emits them:
 | Support bundle | `codes_fired` in `health.json` | `kamra/support_bundle.py` |
 | `Error Log` titles | `[APP-007]`, `[APP-009]`, `[APP-010]` prefixes | `folio.py`, `reservation_state.py`, `api.py`, `payments.py` |
 | Entitlement | LICENSE-001 to -004, never `failed` | `kamra/entitlement.py` via `health.py` |
+| Channel webhooks | SECURITY-001 on a rejected signature | `kamra/whatsapp.py`, `kamra/voice_jambonz.py` |
 
 `kamra/scripts/error_code_check.py` fails CI if the source emits a code this
 document does not allocate, or if this status line goes stale again. It also
@@ -26,7 +27,7 @@ count nothing verifies is the same failure one digit smaller — adding the four
 LICENSE codes made both numbers wrong in a single commit, and the guard caught
 it.
 
-It deliberately does **not** require every allocated code to be emitted: 41 are
+It deliberately does **not** require every allocated code to be emitted: 40 are
 not, because their basis is `doc`, `designed` or `live` — real conditions with
 no machine signal. Requiring emission would force either fake signals or the
 deletion of true entries.
@@ -193,7 +194,7 @@ stable names. Keep the existing prefixes in the messages.
 
 | Code | Meaning | Likely cause | First action | Runbook |
 | --- | --- | --- | --- | --- |
-| SECURITY-001 | An inbound WhatsApp webhook failed signature verification and was rejected. **Basis:** `log:WhatsApp webhook signature rejected` | Wrong/rotated app secret (misconfiguration) — or someone forging requests | Compare the configured secret with the provider's; if it was not recently changed, treat as hostile | none yet |
+| SECURITY-001 | An inbound channel webhook failed signature verification and was rejected. **Basis:** `log:WhatsApp webhook signature rejected`, `log:[SECURITY-001] jambonz call hook: bad signature` | Wrong/rotated app secret (misconfiguration) — or someone forging requests | Compare the configured secret with the provider's; if it was not recently changed, treat as hostile | none yet |
 | SECURITY-002 | A guest ID image could not be deleted under the retention policy, so personal data was kept longer than intended. **Basis:** `log:ID document discard failed: <reservation>`, `log:ID document: stale file kept (...)` | File-system or database error during discard | Escalate to development and to the person responsible for data protection. Do not delete files by hand | none yet |
 | SECURITY-003 | Demo accounts (`@kamra.local`) exist on a production site. **Basis:** `doc` (`INSTALLATION.md` §7.7 — query must return empty) | A trial/demo site promoted, or demo seed run on production | Do not hand the site over; follow `INSTALLATION.md` §1 | none yet (installation doc) |
 | SECURITY-004 | A public endpoint refused a caller for exceeding its hourly limit (10–30 per hour per endpoint). **Basis:** `doc` — `@rate_limit` in `kamra/public_api.py`; Frappe responds HTTP 429 | A guest retrying a self check-in step; or abuse | Normally none; if repeated from one source, treat as abuse | none yet |
@@ -350,7 +351,7 @@ described; where the two disagree, the rule decides.
 
 ## What this does not cover / has not been tested
 
-- **41 of the 67 allocated codes are still not emitted by anything.** Their
+- **40 of the 67 allocated codes are still not emitted by anything.** Their
   basis is `doc`, `designed` or `live`: the condition is real, the signal is
   not built. A technician will not see those on a screen.
 - **Most of the 26 that are emitted were verified by reading the branch, not
