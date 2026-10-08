@@ -106,10 +106,13 @@ GUEST_TOOLS: dict[str, tuple[str, str, dict, bool]] = {
 # fewer, and every round is a paid model call on the hotel's own key.
 MAX_GUEST_ROUNDS = 3
 
-# The delimiter tool output is quoted in. Chosen to be something a guest cannot
-# plausibly type by accident into a name or a note.
-_DATA_OPEN = "<<<TOOL_RESULT_DATA>>>"
-_DATA_CLOSE = "<<<END_TOOL_RESULT_DATA>>>"
+# The delimiter tool output is quoted in. Imported from the staff agent rather
+# than repeated: two copies of a marker that must match is a silent break
+# waiting for whoever edits one. The staff agent fences its own results for
+# the same reason - see kamra/assistant.py.
+from kamra.assistant import DATA_CLOSE as _DATA_CLOSE  # noqa: E402
+from kamra.assistant import DATA_OPEN as _DATA_OPEN  # noqa: E402
+from kamra.assistant import fence as _fence  # noqa: E402
 
 GUEST_SYSTEM = """You are the concierge for {property_name}, answering a guest
 who contacted the hotel. Today is {today}.
@@ -190,15 +193,13 @@ def run_guest_tool(name: str, args: dict, property: str):
 
 
 def _quote(result) -> str:
-	"""Tool output, fenced as data. See the module docstring."""
-	try:
-		body = frappe.as_json(result)
-	except Exception:
-		body = json.dumps({"error": "could not read that result"})
-	# A result that contains the delimiter would close the fence early, so the
-	# delimiter is removed from the payload rather than trusted not to appear.
-	body = body.replace(_DATA_OPEN, "").replace(_DATA_CLOSE, "")
-	return f"{_DATA_OPEN}\n{body}\n{_DATA_CLOSE}"
+	"""Tool output, fenced as data. See the module docstring.
+
+	Thin wrapper over assistant.fence so the two agents cannot fence
+	differently; kept as a name here because the tests and the call site below
+	read better for it.
+	"""
+	return _fence(result)
 
 
 def answer(property: str, messages: list[dict], lang: str | None = None) -> dict:

@@ -155,6 +155,15 @@ jobs:
             2>&1 | tee voice_jambonz.out
           grep -qE "^OK( \([^)]*\))?$" voice_jambonz.out
 
+      # Thirty of the agent's tools change state. These assert that the model
+      # cannot execute one without a user turn it did not author.
+      - name: Run the agent confirmation-gate tests
+        run: |
+          cd frappe-bench
+          bench --site test.localhost run-tests --module kamra.tests.test_agent_confirmation \
+            2>&1 | tee agent_confirm.out
+          grep -qE "^OK( \([^)]*\))?$" agent_confirm.out
+
       - name: Run front-desk persona journey
         run: |
           cd frappe-bench
