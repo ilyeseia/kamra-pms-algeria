@@ -43,13 +43,27 @@ class TestSupportAccess(IntegrationTestCase):
 		frappe.db.rollback()
 
 	def _grant(self, hours=4, scope="diagnostics", revoked=0, user=TECH):
+		"""Create a grant. `hours` may be negative, meaning already expired.
+
+		An expired one is created VALID and then aged with db.set_value,
+		because SupportAccessGrant.validate refuses a grant that expires
+		before it starts - correctly, and that rule has its own test. The
+		state being set up here is not "somebody created a bad grant", it is
+		"time passed", and time passing does not re-run validation.
+		"""
 		doc = frappe.get_doc({
 			"doctype": "Support Access Grant", "user": user, "scope": scope,
 			"reason": "a reason long enough to mean something later",
 			"approved_by": BOSS, "granted_at": now_datetime(),
-			"expires_after": add_to_date(now_datetime(), hours=hours),
+			"expires_after": add_to_date(now_datetime(), hours=max(hours, 1)),
 			"revoked": revoked,
 		}).insert(ignore_permissions=True)
+		if hours < 0:
+			frappe.db.set_value(
+				"Support Access Grant", doc.name, "expires_after",
+				add_to_date(now_datetime(), hours=hours),
+				update_modified=False)
+			doc.reload()
 		return doc
 
 	# ── the gate is the grant, not the role ──────────────────────────────
