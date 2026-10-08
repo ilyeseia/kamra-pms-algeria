@@ -204,6 +204,20 @@ jobs:
             exit 1
           fi
 
+      # Temporary support access. The assertion that matters is that an
+      # expired grant authorises nothing even with the role still attached -
+      # the difference between a support door and a backdoor.
+      - name: Run the support access tests
+        run: |
+          cd frappe-bench
+          bench --site test.localhost run-tests --module kamra.tests.test_support_access \
+            2>&1 | tee support_access.out
+          if ! grep -qE "^OK( \([^)]*\))?$" support_access.out; then
+            MSG=$(tail -40 support_access.out | awk '{printf "%s | ", $0}' | cut -c1-3000)
+            echo "::error title=test_support_access::$MSG"
+            exit 1
+          fi
+
       - name: Run front-desk persona journey
         run: |
           cd frappe-bench

@@ -19,8 +19,23 @@ import string
 import frappe
 
 # Every role ZIRI ships. A tenant gets the ones its modules need.
+#
+# "Support" and "Read Only" are not hotel jobs and are not in MODULE_ROLES
+# below, so no property is provisioned with them. They exist to be granted:
+#
+#   Support    - a vendor technician, for the length of one authorised
+#                session. It carries no permission of its own; what it can
+#                reach is decided per grant (kamra/support_access.py), and a
+#                grant that has expired leaves the role inert.
+#   Read Only  - everything this user could see, nothing they could change.
+#                For auditors, trainees, and as the default scope of a
+#                support session, because most support is diagnosis.
+#
+# Shipping them unassigned is deliberate. A role nobody holds is visible in
+# the Desk, reviewable, and has no effect - which is the opposite of the
+# hidden account the brief forbids.
 ROLES = ("Hotel Admin", "Front Desk", "Housekeeping", "Finance",
-         "Revenue Manager", "Kamra Agent")
+         "Revenue Manager", "Kamra Agent", "Support", "Read Only")
 
 # What a property must have before anyone can take a booking on it.
 MODULE_ROLES = {

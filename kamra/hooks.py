@@ -61,6 +61,11 @@ scheduler_events = {
 		# 04:45 - drop old kamrapms.com Hosting Enquiry leads (default 24 months;
 		# Won / converted stays; site_config hosting_enquiry_retention_months)
 		"45 4 * * *": ["kamra.hosting_enquiry_retention.purge_expired_hosting_enquiries"],
+		# Housekeeping, not enforcement: kamra/support_access.py checks the
+		# clock on every call, so a run that never happens leaves a stale
+		# role that authorises nothing. Hourly because a technician whose
+		# session ended should stop seeing the Desk menu reasonably soon.
+		"25 * * * *": ["kamra.support_access.expire_grants"],
 	},
 }
 

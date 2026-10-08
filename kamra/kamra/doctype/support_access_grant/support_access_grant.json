@@ -1,0 +1,116 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-10-08 00:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "scope",
+  "reason",
+  "cb_who",
+  "approved_by",
+  "granted_at",
+  "expires_after",
+  "revoked"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "options": "User",
+   "label": "Technician",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Who is being let in. Never the person approving."
+  },
+  {
+   "fieldname": "scope",
+   "fieldtype": "Select",
+   "label": "Scope",
+   "reqd": 1,
+   "options": "diagnostics\nread_only\nfull",
+   "default": "diagnostics",
+   "in_list_view": 1,
+   "description": "diagnostics: health, versions, logs, support bundle. read_only: adds the hotel's operational data. full: can write - ask only when a fix needs it."
+  },
+  {
+   "fieldname": "reason",
+   "fieldtype": "Small Text",
+   "label": "Reason",
+   "reqd": 1,
+   "description": "What this session is for, in words a reader will understand in six months."
+  },
+  {
+   "fieldname": "cb_who",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "options": "User",
+   "label": "Approved by",
+   "reqd": 1,
+   "read_only": 1,
+   "description": "The hotel administrator who authorised it."
+  },
+  {
+   "fieldname": "granted_at",
+   "fieldtype": "Datetime",
+   "label": "Granted at",
+   "reqd": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "expires_after",
+   "fieldtype": "Datetime",
+   "label": "Expires after",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Checked on every call, not only by the scheduler."
+  },
+  {
+   "fieldname": "revoked",
+   "fieldtype": "Check",
+   "label": "Revoked",
+   "default": "0",
+   "in_list_view": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "issingle": 0,
+ "istable": 0,
+ "links": [],
+ "modified": "2026-10-08 00:00:00",
+ "modified_by": "Administrator",
+ "module": "Kamra",
+ "name": "Support Access Grant",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "sort_field": "granted_at",
+ "sort_order": "DESC",
+ "track_changes": 1,
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0
+  },
+  {
+   "role": "Hotel Admin",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0
+  },
+  {
+   "role": "Support",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  }
+ ]
+}

@@ -1,6 +1,6 @@
 # ZIRI PMS — Error Code Taxonomy
 
-**Status: 27 of the 67 allocated codes are emitted and visible on screen. The
+**Status: 28 of the 68 allocated codes are emitted and visible on screen. The
 rest are allocated against conditions that have no machine signal, and say so.**
 
 This document was a specification for most of its life: it opened by saying that
@@ -19,6 +19,7 @@ What now emits them:
 | `Error Log` titles | `[APP-007]`, `[APP-009]`, `[APP-010]` prefixes | `folio.py`, `reservation_state.py`, `api.py`, `payments.py` |
 | Entitlement | LICENSE-001 to -004, never `failed` | `kamra/entitlement.py` via `health.py` |
 | Channel webhooks | SECURITY-001 on a rejected signature | `kamra/whatsapp.py`, `kamra/voice_jambonz.py` |
+| Support access | SECURITY-006 when an access event cannot be audited | `kamra/support_access.py` |
 
 `kamra/scripts/error_code_check.py` fails CI if the source emits a code this
 document does not allocate, or if this status line goes stale again. It also
@@ -199,6 +200,7 @@ stable names. Keep the existing prefixes in the messages.
 | SECURITY-003 | Demo accounts (`@kamra.local`) exist on a production site. **Basis:** `doc` (`INSTALLATION.md` §7.7 — query must return empty) | A trial/demo site promoted, or demo seed run on production | Do not hand the site over; follow `INSTALLATION.md` §1 | none yet (installation doc) |
 | SECURITY-004 | A public endpoint refused a caller for exceeding its hourly limit (10–30 per hour per endpoint). **Basis:** `doc` — `@rate_limit` in `kamra/public_api.py`; Frappe responds HTTP 429 | A guest retrying a self check-in step; or abuse | Normally none; if repeated from one source, treat as abuse | none yet |
 | SECURITY-005 | The support bundle's canary scan found a live secret in the finished bundle and aborted. **Basis:** `designed` ([manual §9.4](../support/TECHNICIAN_MANUAL.md#94-how-logs-are-sanitised)) | Redaction rule gap | Fix the ruleset; never send the partial bundle | manual §9 |
+| SECURITY-006 | A support-access event could not be written to the audit trail. **Basis:** `log:[SECURITY-006] support audit failed` | Activity Log unwritable; database fault during a grant or revocation | Read the Error Log entry. The session itself is unaffected - `active_grant()` reads the grant, not the audit line - but a session nobody can account for should be revoked and re-authorised | none yet |
 
 ### LICENSE
 
@@ -351,7 +353,7 @@ described; where the two disagree, the rule decides.
 
 ## What this does not cover / has not been tested
 
-- **40 of the 67 allocated codes are still not emitted by anything.** Their
+- **40 of the 68 allocated codes are still not emitted by anything.** Their
   basis is `doc`, `designed` or `live`: the condition is real, the signal is
   not built. A technician will not see those on a screen.
 - **Most of the 26 that are emitted were verified by reading the branch, not
