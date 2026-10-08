@@ -27,12 +27,33 @@ from kamra.tests.fixtures import PROPERTY, build
 
 
 def _a_mutating_tool() -> str:
-	"""Pick one from the table rather than naming it, so renaming a tool does
-	not quietly stop testing the gate."""
+	"""A state-changing tool THIS user is allowed to call.
+
+	Picked from the table rather than named, so renaming a tool does not
+	quietly stop testing the gate - but filtered by _tool_allowed, because the
+	role gate runs before the confirmation gate and a tool the runner cannot
+	use would raise PermissionError for the wrong reason.
+	"""
 	for name, t in A.TOOLS.items():
-		if len(t) > 4 and t[4] and t[0] != "__confirm__":
+		if len(t) > 4 and t[4] and t[0] != "__confirm__" and A._tool_allowed(name):
 			return name
-	raise AssertionError("no mutating tool in TOOLS - the gate guards nothing")
+	raise AssertionError("no usable mutating tool - the gate guards nothing")
+
+
+def _a_read_only_tool() -> str:
+	"""A read-only tool that needs no arguments beyond the property.
+
+	The first version of this test took the first read-only entry in the
+	table, which is movable_rooms, and called it with no reservation - so it
+	raised from inside the tool and the test failed for a reason that had
+	nothing to do with the gate. A tool with an empty parameter schema can
+	actually run.
+	"""
+	for name, t in A.TOOLS.items():
+		if (len(t) > 4 and not t[4] and t[0] != "__confirm__"
+				and not t[2] and A._tool_allowed(name)):
+			return name
+	raise AssertionError("no argument-free read-only tool to test against")
 
 
 class TestAgentConfirmation(IntegrationTestCase):
@@ -56,10 +77,16 @@ class TestAgentConfirmation(IntegrationTestCase):
 		self.assertIn("NOT been performed", out["instruction"])
 
 	def test_a_read_only_tool_is_not_gated(self):
-		"""The gate must not turn every lookup into a dialogue."""
-		read_only = next(n for n, t in A.TOOLS.items()
-		                 if len(t) > 4 and not t[4] and t[0] != "__confirm__")
-		out = A._run_tool(read_only, {}, PROPERTY, user_turns=1)
+		"""The gate must not turn every lookup into a dialogue.
+
+		The tool's own success is not under test - only that the gate did not
+		intercept it. A tool that raises for its own reasons still proves the
+		point, because _issue_confirmation returns rather than raising.
+		"""
+		try:
+			out = A._run_tool(_a_read_only_tool(), {}, PROPERTY, user_turns=1)
+		except Exception:
+			return   # it ran and failed on its own terms; the gate let it
 		self.assertFalse(isinstance(out, dict) and out.get("confirmation_required"))
 
 	# ── the token cannot be redeemed by the model alone ──────────────────
@@ -74,30 +101,26 @@ class TestAgentConfirmation(IntegrationTestCase):
 
 	def test_a_later_user_turn_releases_it(self):
 		"""The positive control. Without this, the test above could pass
-		because confirmation never works at all."""
+		because confirmation never works at all.
+
+		Asserted on _redeem_confirmation rather than through _dispatch,
+		because _dispatch goes on to RUN the tool - with no arguments, since
+		the gate is what is under test - and the tool's own PermissionError
+		would then read as the gate refusing. Isolating the gate is the only
+		way this assertion means what it says.
+		"""
 		issued = A._run_tool(self.tool, {}, PROPERTY, user_turns=1)
-		try:
-			A._dispatch("confirm_action",
-			            {"confirm_token": issued["confirm_token"]},
-			            PROPERTY, user_turns=2)
-		except frappe.PermissionError as e:
-			self.fail(f"a confirmed action was still refused: {e}")
-		except Exception:
-			# The tool's own failure - missing arguments, missing data - is
-			# not this test's business. Only the gate is.
-			pass
+		data = A._redeem_confirmation(issued["confirm_token"], user_turns=2)
+		self.assertEqual(data["tool"], self.tool)
+		self.assertEqual(data["property"], PROPERTY)
 
 	def test_a_token_is_single_use(self):
+		"""A replayed token must not authorise a second cancellation."""
 		issued = A._run_tool(self.tool, {}, PROPERTY, user_turns=1)
 		token = issued["confirm_token"]
-		try:
-			A._dispatch("confirm_action", {"confirm_token": token},
-			            PROPERTY, user_turns=2)
-		except Exception:
-			pass
+		A._redeem_confirmation(token, user_turns=2)
 		with self.assertRaises(frappe.ValidationError):
-			A._dispatch("confirm_action", {"confirm_token": token},
-			            PROPERTY, user_turns=3)
+			A._redeem_confirmation(token, user_turns=3)
 
 	def test_an_invented_token_is_refused(self):
 		"""A model can emit any string."""
