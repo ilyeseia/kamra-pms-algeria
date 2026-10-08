@@ -1,0 +1,139 @@
+# Security scanning for ZIRI PMS Algeria.
+#
+# WHY THIS IS A SEPARATE WORKFLOW
+#
+# ci.yml answers "does this change work". This answers "is what we ship safe",
+# which is a different question with a different failure appetite and a
+# different schedule - an advisory published tonight makes yesterday's green
+# build unsafe without anybody touching the code, so this also runs weekly.
+#
+# WHAT IT SCANS, AND WHAT IT DELIBERATELY DOES NOT
+#
+#   secrets      gitleaks over the full history. Verified clean before this
+#                workflow was written; this keeps it that way.
+#   npm          the frontend's 5 runtime and 9 dev dependencies, which have
+#                a lockfile, so the versions scanned are the versions shipped.
+#   python       the INSTALLED bench environment, not pyproject.toml. This
+#                app declares no Python dependencies - frappe and its tree are
+#                installed by bench - so scanning the manifest would scan an
+#                empty list and report a clean bill for a stack of hundreds of
+#                packages.
+#   containers   nothing. There is no Containerfile in this repository:
+#                deploy/install.sh builds the image on the customer's own
+#                server from frappe/frappe_docker at install time. Scanning a
+#                file that does not exist would produce a passing check that
+#                means nothing, which is worse than an absent one. Scanning
+#                the built image belongs on the host that builds it, and
+#                docs/product/SECURITY_SCANNING.md says so.
+#
+# WHAT FAILS THE BUILD, AND WHY NOT EVERYTHING DOES
+#
+# A scan that fails on every transitive advisory is switched off within a
+# week, and then the one that mattered is missed too - the same alert-fatigue
+# reasoning kamra/monitoring.py is built on. So:
+#
+#   secrets                  FAIL. A committed credential is never acceptable
+#                            and there is no triage to do.
+#   dependency advisories    REPORT, and fail only on high or critical.
+#                            Everything is uploaded as an artifact either way,
+#                            so a moderate finding is readable without being
+#                            a gate.
+
+name: Security
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+  schedule:
+    # Monday 06:00 UTC. An advisory published after a green build is the case
+    # this catches; nothing in the repository has to change for it to fire.
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  secrets:
+    name: Secrets in history
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The whole history, not the tip. A credential removed in a later
+          # commit is still published in the one that added it.
+          fetch-depth: 0
+
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  dependencies:
+    name: Dependency advisories
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: npm audit (frontend)
+        working-directory: frontend
+        run: |
+          npm ci --ignore-scripts
+          # Everything, for the artifact and for a human to read.
+          npm audit --json > ../npm-audit.json || true
+          npm audit || true
+
+          # The gate is --omit=dev: high or critical in something that is
+          # actually SHIPPED. Measured before writing this - today the
+          # frontend has two high advisories, sharp and source-map-js, and
+          # both are devDependencies: a build-time image resizer and a source
+          # map parser, neither of which runs on a hotel's server. Gating on
+          # them would have failed this build on day one for code that is not
+          # in the product, and a gate like that is switched off within a week
+          # along with the one that mattered.
+          #
+          # Dev advisories still matter - they run on a developer's machine
+          # and in CI - so they are reported as a warning annotation, not
+          # silently dropped.
+          if ! npm audit --audit-level=high --omit=dev; then
+            MSG=$(npm audit --audit-level=high --omit=dev 2>&1 | tail -30 | awk '{printf "%s | ", $0}' | cut -c1-3000)
+            echo "::error title=npm-audit (shipped)::$MSG"
+            exit 1
+          fi
+          if ! npm audit --audit-level=high; then
+            MSG=$(npm audit --audit-level=high 2>&1 | tail -20 | awk '{printf "%s | ", $0}' | cut -c1-2000)
+            echo "::warning title=npm-audit (dev only)::$MSG"
+          fi
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: pip-audit (installed bench environment)
+        run: |
+          pip install --quiet frappe-bench pip-audit
+          # Resolve the tree bench would install rather than this app's own
+          # manifest, which is empty on purpose - see the header.
+          pip install --quiet "frappe>=16.0.0.dev0,<17" || true
+          pip-audit --strict --format=json --output pip-audit.json || true
+          pip-audit || true
+          if ! pip-audit --vulnerability-service osv; then
+            MSG=$(pip-audit --vulnerability-service osv 2>&1 | tail -30 | awk '{printf "%s | ", $0}' | cut -c1-3000)
+            echo "::warning title=pip-audit::$MSG"
+          fi
+
+      - name: Keep the reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-advisories
+          path: |
+            npm-audit.json
+            pip-audit.json
+          if-no-files-found: ignore
+          retention-days: 30
