@@ -123,7 +123,15 @@ jobs:
           # skips the checks that assert India-pack output, which this
           # distribution no longer registers, so an exact ^OK$ would fail a
           # run in which every test that can run did pass.
-          grep -qE "^OK( \([^)]*\))?$" banquet.out
+          if ! grep -qE "^OK( \([^)]*\))?$" banquet.out; then
+            # Surfaced as a GitHub annotation, not only in the log. Reading a
+            # workflow log through the API needs admin rights on this
+            # repository; annotations do not - so a failing run says WHY to
+            # whoever is looking, including tooling that cannot open the UI.
+            MSG=$(tail -40 banquet.out | awk '{printf "%s | ", $0}' | cut -c1-3000)
+            echo "::error title=tests::$MSG"
+            exit 1
+          fi
 
       # The agent describes its tools to the model on every round, and which
       # tools those are now depends on the property's module settings as well
@@ -134,7 +142,15 @@ jobs:
           cd frappe-bench
           bench --site test.localhost run-tests --module kamra.tests.test_agent_tool_gate \
             2>&1 | tee agent_gate.out
-          grep -qE "^OK( \([^)]*\))?$" agent_gate.out
+          if ! grep -qE "^OK( \([^)]*\))?$" agent_gate.out; then
+            # Surfaced as a GitHub annotation, not only in the log. Reading a
+            # workflow log through the API needs admin rights on this
+            # repository; annotations do not - so a failing run says WHY to
+            # whoever is looking, including tooling that cannot open the UI.
+            MSG=$(tail -40 agent_gate.out | awk '{printf "%s | ", $0}' | cut -c1-3000)
+            echo "::error title=test_agent_tool_gate::$MSG"
+            exit 1
+          fi
 
       # The guest agent is the surface an unauthenticated caller reaches.
       # These assertions are about blast radius, not answer quality.
@@ -143,7 +159,15 @@ jobs:
           cd frappe-bench
           bench --site test.localhost run-tests --module kamra.tests.test_agent_guest \
             2>&1 | tee agent_guest.out
-          grep -qE "^OK( \([^)]*\))?$" agent_guest.out
+          if ! grep -qE "^OK( \([^)]*\))?$" agent_guest.out; then
+            # Surfaced as a GitHub annotation, not only in the log. Reading a
+            # workflow log through the API needs admin rights on this
+            # repository; annotations do not - so a failing run says WHY to
+            # whoever is looking, including tooling that cannot open the UI.
+            MSG=$(tail -40 agent_guest.out | awk '{printf "%s | ", $0}' | cut -c1-3000)
+            echo "::error title=test_agent_guest::$MSG"
+            exit 1
+          fi
 
       # The jambonz call hooks are allow_guest, so the signature and the
       # transcript-confidence floor are the two things standing between the
@@ -153,7 +177,15 @@ jobs:
           cd frappe-bench
           bench --site test.localhost run-tests --module kamra.tests.test_voice_jambonz \
             2>&1 | tee voice_jambonz.out
-          grep -qE "^OK( \([^)]*\))?$" voice_jambonz.out
+          if ! grep -qE "^OK( \([^)]*\))?$" voice_jambonz.out; then
+            # Surfaced as a GitHub annotation, not only in the log. Reading a
+            # workflow log through the API needs admin rights on this
+            # repository; annotations do not - so a failing run says WHY to
+            # whoever is looking, including tooling that cannot open the UI.
+            MSG=$(tail -40 voice_jambonz.out | awk '{printf "%s | ", $0}' | cut -c1-3000)
+            echo "::error title=test_voice_jambonz::$MSG"
+            exit 1
+          fi
 
       # Thirty of the agent's tools change state. These assert that the model
       # cannot execute one without a user turn it did not author.
@@ -162,7 +194,15 @@ jobs:
           cd frappe-bench
           bench --site test.localhost run-tests --module kamra.tests.test_agent_confirmation \
             2>&1 | tee agent_confirm.out
-          grep -qE "^OK( \([^)]*\))?$" agent_confirm.out
+          if ! grep -qE "^OK( \([^)]*\))?$" agent_confirm.out; then
+            # Surfaced as a GitHub annotation, not only in the log. Reading a
+            # workflow log through the API needs admin rights on this
+            # repository; annotations do not - so a failing run says WHY to
+            # whoever is looking, including tooling that cannot open the UI.
+            MSG=$(tail -40 agent_confirm.out | awk '{printf "%s | ", $0}' | cut -c1-3000)
+            echo "::error title=test_agent_confirmation::$MSG"
+            exit 1
+          fi
 
       - name: Run front-desk persona journey
         run: |
