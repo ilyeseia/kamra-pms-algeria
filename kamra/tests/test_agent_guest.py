@@ -18,6 +18,36 @@ from kamra import assistant as A
 from kamra.tests.fixtures import PROPERTY, build
 
 
+def _guest_decorated(fn_name: str) -> bool:
+	"""Is kamra.public_api.<fn_name> declared @frappe.whitelist(allow_guest=True)?
+
+	Parsed from source for the reason given in the test below. Same technique
+	as docs-site/gen_api.py, kept local so this test needs nothing from the
+	docs tooling.
+	"""
+	import ast
+	import io
+	import pathlib
+
+	src = pathlib.Path(frappe.get_app_path("kamra", "public_api.py"))
+	tree = ast.parse(io.open(src, encoding="utf-8").read())
+	for node in tree.body:
+		if not isinstance(node, ast.FunctionDef) or node.name != fn_name:
+			continue
+		for d in node.decorator_list:
+			if not isinstance(d, ast.Call):
+				continue
+			if not ast.unparse(d.func).endswith("whitelist"):
+				continue
+			for kw in d.keywords:
+				if kw.arg == "allow_guest":
+					try:
+						return bool(ast.literal_eval(kw.value))
+					except Exception:
+						return False
+	return False
+
+
 class TestGuestAgentSurface(IntegrationTestCase):
 	def setUp(self):
 		build()
@@ -53,15 +83,36 @@ class TestGuestAgentSurface(IntegrationTestCase):
 			self.assertIsNotNone(G._resolve(target),
 			                     f"{name} points at {target}, which does not exist")
 
+	def test_every_guest_tool_target_is_whitelisted(self):
+		"""frappe.whitelisted is a runtime set this repository already relies
+		on (kamra/scripts/eval_harness.py). A target outside it is not an
+		endpoint at all."""
+		for name, (target, _d, _p, _i) in G.GUEST_TOOLS.items():
+			fn = G._resolve(target)
+			self.assertIn(fn, frappe.whitelisted,
+			              f"{name} -> {target} is not a whitelisted endpoint")
+
 	def test_every_guest_tool_target_allows_guests(self):
 		"""The decisive one. A target without allow_guest=True is a staff
 		endpoint, and routing a stranger to it through the agent would be a
-		way around the permission its author wrote."""
+		way around the permission its author wrote.
+
+		Read from the SOURCE decorator, not from an attribute on the function.
+		The first version of this test checked getattr(fn, "allow_guest") and
+		failed in CI for the reason it should have: frappe.whitelist registers
+		the function in module-level sets and returns it unchanged, so no such
+		attribute exists. docs-site/gen_api.py in this repository already
+		answers the same question by parsing the decorator, which is also what
+		a reviewer reads."""
+		self.assertTrue(_guest_decorated("showcase"),
+		                "the decorator reader itself is broken - showcase is "
+		                "known to be allow_guest=True")
 		for name, (target, _d, _p, _i) in G.GUEST_TOOLS.items():
-			fn = G._resolve(target)
+			module, attr = target.rsplit(".", 1)
+			self.assertEqual(module, "public_api")
 			self.assertTrue(
-				getattr(fn, "allow_guest", False),
-				f"{name} -> {target} is not whitelisted for guests")
+				_guest_decorated(attr),
+				f"{name} -> {target} is not declared allow_guest=True")
 
 	def test_property_injection_matches_the_real_signature(self):
 		"""The declaration in GUEST_TOOLS and the function's own parameters
