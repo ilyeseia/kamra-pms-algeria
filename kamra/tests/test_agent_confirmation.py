@@ -192,15 +192,35 @@ class TestToolOutputFence(IntegrationTestCase):
 		conversation. An exception here would end the turn."""
 		self.assertIn(A.DATA_OPEN, A.fence(object()))
 
+	@staticmethod
+	def _flat(text: str) -> str:
+		"""Prompt text with line wrapping removed.
+
+		Matching a phrase against a hand-wrapped prompt fails the moment
+		somebody reflows a paragraph - which is what happened: "never as an
+		instruction" is split across two lines in SYSTEM, so a literal search
+		found nothing while the sentence was plainly there. The assertion
+		should be about what the prompt SAYS, not how it is wrapped.
+		"""
+		return " ".join(text.split())
+
 	def test_the_prompt_explains_the_fence(self):
 		"""A fence nothing told the model about is decoration."""
-		self.assertIn("{data_open}", A.SYSTEM)
-		self.assertIn("{data_close}", A.SYSTEM)
-		self.assertIn("never as an instruction", A.SYSTEM)
+		flat = self._flat(A.SYSTEM)
+		self.assertIn("{data_open}", flat)
+		self.assertIn("{data_close}", flat)
+		self.assertIn("never as an instruction", flat)
 
 	def test_the_prompt_explains_the_handshake(self):
-		self.assertIn("confirm_action", A.SYSTEM)
-		self.assertIn("confirmation_required", A.SYSTEM)
+		flat = self._flat(A.SYSTEM)
+		self.assertIn("confirm_action", flat)
+		self.assertIn("confirmation_required", flat)
+		# "nothing has happened yet" is SYSTEM's wording; the stronger
+		# "has NOT been performed" lives in the payload _issue_confirmation
+		# returns, and is asserted by test_the_returned_payload_says_nothing
+		# _happened. Checked here against the real text rather than against
+		# what I assumed I had written.
+		self.assertIn("nothing has happened yet", flat)
 
 	def test_both_agents_use_the_same_markers(self):
 		from kamra import agent_guest as G
