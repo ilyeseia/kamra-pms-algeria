@@ -218,6 +218,20 @@ jobs:
             exit 1
           fi
 
+      # The wizard's saved progress. The assertion that matters is that
+      # nothing secret reaches site_config.json, which also holds the
+      # encryption key and the database password.
+      - name: Run the setup state tests
+        run: |
+          cd frappe-bench
+          bench --site test.localhost run-tests --module kamra.tests.test_setup_state \
+            2>&1 | tee setup_state.out
+          if ! grep -qE "^OK( \([^)]*\))?$" setup_state.out; then
+            MSG=$(tail -40 setup_state.out | awk '{printf "%s | ", $0}' | cut -c1-3000)
+            echo "::error title=test_setup_state::$MSG"
+            exit 1
+          fi
+
       - name: Run front-desk persona journey
         run: |
           cd frappe-bench

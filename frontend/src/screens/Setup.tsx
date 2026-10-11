@@ -98,6 +98,39 @@ export default function Setup() {
     history?: number
     errors: { row: number; guest: string; error: string }[]
   } | null>(null)
+  // Progress lives on the server, not in this tab. A closed laptop, a dropped
+  // connection or a question the hotelier had to go and ask the owner used to
+  // mean re-typing the whole form; kamra/setup_state.py is where it is kept.
+  useEffect(() => {
+    let cancelled = false
+    call<{
+      step: number
+      answers: Record<string, string>
+      resumed: boolean
+      stale?: boolean
+      saved_at?: string
+    }>("kamra.setup_state.get_state")
+      .then((st) => {
+        if (cancelled) return
+        // A state older than a month is offered, not applied: resuming into
+        // half-remembered answers is worse than starting again.
+        if (st.resumed && !st.stale && st.answers) {
+          setProp((p) => ({ ...p, ...st.answers }))
+          setStep(st.step || 0)
+          setResumed(st.saved_at || "")
+        }
+      })
+      .catch(() => {
+        // A setup that cannot read its own saved state still has to open.
+      })
+      .finally(() => {
+        if (!cancelled) setRestoring(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   const [preset, setPreset] = useState("auto")
   const [preview, setPreview] = useState<{
     mapping: Record<string, string>
@@ -127,8 +160,26 @@ export default function Setup() {
   // The country picks the tax & invoicing pack - and with it the currency,
   // clock, ID documents and ways to pay. Asked first so nothing defaults
   // to India by accident.
+  // Set once the server hands back answers from an interrupted sitting, so
+  // the hotelier is told where they came back to rather than silently landing
+  // mid-form on a screen they do not remember reaching.
+  const [resumed, setResumed] = useState<string | null>(null)
+  const [restoring, setRestoring] = useState(true)
   const [countries, setCountries] = useState<CountryPack[]>([])
   const [otherCountry, setOtherCountry] = useState(false)
+
+  // Saved after the restore has run, never during it - otherwise the empty
+  // initial form would overwrite the answers being restored.
+  useEffect(() => {
+    if (restoring) return
+    call("kamra.setup_state.save_state", {
+      step,
+      answers: JSON.stringify(prop),
+      property: createdProperty || undefined,
+    }).catch(() => {
+      // Losing a save costs a resume, not the sitting in progress.
+    })
+  }, [step, prop, createdProperty, restoring])
   function pickCountry(c: CountryPack | null) {
     setOtherCountry(!c)
     setProp((p) => ({
@@ -323,6 +374,10 @@ export default function Setup() {
       }
       const res = await call<{ property: string }>("kamra.api.setup_property", { payload })
       setCreatedProperty(res.property)
+      // The property exists; the saved answers have done their job. Cleared
+      // rather than left behind so a later visit starts fresh instead of
+      // offering to resume a setup that already finished.
+      call("kamra.setup_state.clear_state").catch(() => {})
       setCurrentProperty(res.property)
       // currency symbol and tax words now come from the chosen pack
       await loadLocale()
@@ -434,6 +489,13 @@ export default function Setup() {
           <CardTitle>{t(steps[step])}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          {resumed && (
+            <div className="rounded-lg border border-sky-200 bg-sky-50 px-3 py-2 text-sm text-sky-800">
+              {t(
+                "Picked up where you left off. Your earlier answers are filled in - check them before continuing.",
+              )}
+            </div>
+          )}
           {step === 0 && (
             <div className="grid gap-3 sm:grid-cols-2">
               {(
