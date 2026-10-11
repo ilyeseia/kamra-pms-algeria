@@ -72,6 +72,11 @@ scheduler_events = {
 		# A no-op on any site with no kamra_entitlement_url, which is the
 		# default and will stay true of most installs.
 		"40 * * * *": ["kamra.entitlement_sync.sync"],
+		# :50 - opt-in telemetry. Hourly but acts about weekly, in an hour
+		# and on a weekday derived from the Installation ID. A no-op unless
+		# BOTH kamra_telemetry_url is set and somebody has recorded consent,
+		# which is no site by default.
+		"50 * * * *": ["kamra.telemetry.send"],
 	},
 }
 
