@@ -225,6 +225,22 @@ no activation to fail. Rule 5: no code exists for completeness.
 | LICENSE-003 | The entitlement expired more than 30 days ago. **Basis:** `health:entitlement` (`attention`) | The relationship lapsed or ended | Renew, or run `bench ziri-entitlement --clear`: a lapsed record reported for ever is noise, and no record is a supported state | none yet |
 | LICENSE-004 | An entitlement record is present in site config and cannot be parsed. **Basis:** `health:entitlement` (`info`) | Hand-edited `site_config.json`; invalid JSON or an unparseable `expires` date | Rewrite it with `bench ziri-entitlement --set`, which validates | none yet |
 
+### Why the vendor fetch has no code
+
+`kamra/entitlement_sync.py` can fail in six ways — unreachable, rate limited,
+an HTTP error, an answer that is not JSON, a record that will not validate, no
+Installation ID yet — and **none of them has an error code, reports to
+`health.py`, or can reach `monitoring.py`.** That is deliberate, and it is the
+same reasoning as the four codes above never being `failed`: the record gates
+nothing, so a failure to refresh it is not a fault in the hotel's system. A
+code would put a vendor's outage on a hotelier's screen as though they had to
+act on it.
+
+The outcome of the last attempt is written to site config and printed by
+`bench ziri-entitlement`, and a failure goes to the error log. That is the
+right amount of noise for something that, at worst, means a plan name is a
+few days stale.
+
 No code is allocated for `unregistered`, `active` or `perpetual`. An install
 with no commercial relationship at all is exactly what the AGPL permits and is
 not a fault.

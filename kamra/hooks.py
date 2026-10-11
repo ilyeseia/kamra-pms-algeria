@@ -66,6 +66,12 @@ scheduler_events = {
 		# role that authorises nothing. Hourly because a technician whose
 		# session ended should stop seeing the Desk menu reasonably soon.
 		"25 * * * *": ["kamra.support_access.expire_grants"],
+		# :40 - ask the vendor what this installation bought. Hourly but acts
+		# about once a day, in an hour derived from the Installation ID, so a
+		# fleet of hotels does not arrive at the vendor on the same minute.
+		# A no-op on any site with no kamra_entitlement_url, which is the
+		# default and will stay true of most installs.
+		"40 * * * *": ["kamra.entitlement_sync.sync"],
 	},
 }
 

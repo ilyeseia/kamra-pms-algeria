@@ -1106,28 +1106,55 @@ customer.
 
 ---
 
-## 16. Verify the licence (does not exist)
+## 16. Read the entitlement (there is still no enforcement)
 
 **There is no licence verification in this product. Do not invent one.**
 
-The audit found zero code for a commercial licence: no entitlement, no
-activation, no expiry, no grace period, no enforcement, no licence server, no
-Installation ID. `docs/algeria/LICENSING.md` is about the **AGPL-3.0 §13**
-obligations of the software's own licence (offering source to network users). It
-is not a commercial entitlement, and a customer is not "unlicensed" because
-nothing can verify it.
+That sentence has not changed. What has changed is that there is now a
+**record** to read, so this section no longer says "nothing exists" — it used
+to, and it was written before `kamra/entitlement.py`, `kamra/installation.py`
+and `kamra/entitlement_sync.py` were added. Three things now exist and the
+distinction between them matters on a support call:
 
-What a technician can state truthfully today:
+| Exists | Does not exist |
+| --- | --- |
+| An **Installation ID** (`kamra/installation.py`), e.g. `DZA-ZIRI-V9ATNM` | Any activation. It is generated locally, is not a secret, and authenticates nothing |
+| An **entitlement record** in site config: plan, customer, reference, start, expiry, services | Any check. No feature of ZIRI PMS reads it to decide whether to run |
+| A **grace window** (30 days) and a notice window (30 days) | Any consequence. They change the wording of a health line and nothing else |
+| An optional **daily fetch** from the vendor (`kamra_entitlement_url`) | Any licence server. The hotel asks; it never asks permission, and a blocked fetch changes nothing |
 
-- which version is installed (`bench version`, `/kamra/health`);
-- which repository and branch built the image (`apps.json`, or the install
-  record);
-- that the code is distributed under AGPL-3.0 (`license.txt` in the repository).
+### Reading it
 
-If a customer asks "is my licence valid?", the correct answer is that no
-licence check exists yet, and that the question goes to whoever owns the
-commercial terms. The support bundle reserves a "licence metadata" section for
-when that changes (Section 9.2).
+```bash
+bench --site <site> ziri-entitlement
+```
+
+Prints the state — `unregistered`, `active`, `expiring`, `grace`, `expired`,
+`perpetual` or `malformed` — the record, and when the vendor was last asked.
+`--fetch` asks now; `--set` writes by hand; `--clear` removes it.
+
+### What to tell a customer
+
+If a customer asks **"is my licence valid?"**: there is no licence to be
+invalid. The software is AGPL-3.0 and nothing in it can stop them using it.
+What the record answers is a *commercial* question — what they bought and
+until when — and the authority on that is whoever owns the contract, not this
+command.
+
+If a customer asks **"why is my plan showing last year's date?"**: run
+`ziri-entitlement` and read the vendor line. "Not configured" means nobody
+set `kamra_entitlement_url` and the record is maintained by hand. An
+`unreachable` or `http-error` outcome is the **vendor's** problem, not the
+hotel's — the hotel is unaffected either way. Do not raise an incident on the
+hotel for it.
+
+If a customer asks **"what is it sending about us?"**: the Installation ID and
+the version, once a day, with no request body. The table in
+`docs/algeria/LICENSING.md` §5a is written to be shown to a hotelier.
+
+An expired record is never `failed` in `/kamra/health` and can never reach
+`monitoring.py`. If you see a billing matter paging someone at 03:00, that is
+a defect — read the header of `kamra/entitlement.py`.
 
 ---
 

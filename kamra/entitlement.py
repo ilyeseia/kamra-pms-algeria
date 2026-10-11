@@ -213,6 +213,14 @@ def get_entitlement() -> dict:
 	in the payload so a UI author reading it cannot mistake what it is for.
 	"""
 	s = state()
+	try:
+		from kamra.entitlement_sync import last_sync
+
+		sync = last_sync()
+	except Exception:
+		# The record stands on its own. A hotelier asking what they bought
+		# should get an answer even if the optional sync module is broken.
+		sync = {"configured": False}
 	return {
 		**s,
 		"enforced": False,
@@ -220,4 +228,8 @@ def get_entitlement() -> dict:
 		         "depends on this record. See kamra/entitlement.py."),
 		"grace_days": GRACE_DAYS,
 		"notice_days": NOTICE_DAYS,
+		# Where the record came from, so a hotelier looking at a stale plan
+		# can tell "nobody has updated this" from "the vendor cannot be
+		# reached". Never a reason to show an error: see entitlement_sync.py.
+		"sync": sync,
 	}

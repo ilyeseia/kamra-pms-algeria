@@ -175,9 +175,11 @@ def ziri_support_bundle(context, out_dir):
 @click.option("--services", default=None,
               help="Comma-separated vendor services, e.g. updates,support.")
 @click.option("--clear", is_flag=True, help="Remove the record.")
+@click.option("--fetch", "do_fetch", is_flag=True,
+              help="Ask the vendor now (needs kamra_entitlement_url).")
 @pass_context
 def ziri_entitlement(context, plan, expires, customer, reference, starts,
-                     services, clear):
+                     services, clear, do_fetch):
 	"""Show or set what this installation's customer bought.
 
 	This RECORDS a commercial relationship. It does not enforce one: ZIRI PMS
@@ -202,6 +204,27 @@ def ziri_entitlement(context, plan, expires, customer, reference, starts,
 			click.echo("")
 			click.echo("  record removed. An install with no entitlement is a")
 			click.echo("  supported state, not an unlicensed one.")
+		elif do_fetch:
+			from kamra.entitlement_sync import sync
+
+			outcome = sync(force=True)
+			click.echo("")
+			click.echo(f"  fetch:    {outcome['outcome']}")
+			if outcome.get("detail"):
+				click.echo(f"  detail:   {outcome['detail']}")
+			if outcome.get("changed"):
+				click.echo(f"  changed:  {', '.join(outcome['changed'])}")
+			elif outcome.get("ok") and not outcome.get("acted"):
+				click.echo("  nothing to change - the stored record already "
+				           "matches.")
+			if outcome["outcome"] == "not-configured":
+				click.echo("")
+				click.echo("  Set the vendor's endpoint first:")
+				click.echo("    bench --site <site> set-config "
+				           "kamra_entitlement_url \\")
+				click.echo("      \"https://vendor.example/api/method/"
+				           "ziri_vendor.api.entitlement\"")
+			result = state()
 		elif plan:
 			if expires:
 				# Checked before writing, because a date that will not parse
@@ -236,6 +259,26 @@ def ziri_entitlement(context, plan, expires, customer, reference, starts,
 	if result.get("days") is not None:
 		d = result["days"]
 		click.echo(f"  days:     {d}" + (" (past)" if d < 0 else ""))
+
+	# Where the record came from. A technician looking at last year's plan
+	# needs to tell "nobody updated it" from "the vendor is unreachable".
+	try:
+		from kamra.entitlement_sync import last_sync
+
+		s = last_sync()
+	except Exception:
+		s = {"configured": False}
+	click.echo("")
+	if not s.get("configured"):
+		click.echo("  vendor:   not configured - the record is set by hand")
+		click.echo("            (kamra_entitlement_url). This is the default,")
+		click.echo("            and a supported way to run.")
+	else:
+		click.echo(f"  vendor:   last checked {s.get('last_attempt') or 'never'}"
+		           f" ({s.get('outcome') or 'no result yet'})")
+		if s.get("last_success") and s.get("last_success") != s.get("last_attempt"):
+			click.echo(f"            last succeeded {s['last_success']}")
+
 	click.echo("")
 	click.echo("  Informational. Nothing in ZIRI PMS is gated on this.")
 	click.echo("")

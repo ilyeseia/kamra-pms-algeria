@@ -271,6 +271,52 @@ and a defined price.
 
 ---
 
+## 5a. The entitlement record, and the vendor fetch
+
+Two modules touch the commercial relationship and neither enforces it.
+
+`kamra/entitlement.py` holds a record of what a customer bought — a plan, a
+customer name, a reference and two dates — in site config. Its own header
+explains at length why it gates nothing: §7 does not permit imposing further
+restrictions on the rights this licence grants, and running the program is one
+of them, while §13 means any gate would ship together with the instructions
+for removing it.
+
+`kamra/entitlement_sync.py` fills that record in by asking the vendor, so
+nobody has to retype it after a renewal. It is **off unless a site is told
+where to ask**:
+
+```bash
+bench --site <site> set-config kamra_entitlement_url \
+  "https://vendor.example/api/method/ziri_vendor.api.entitlement"
+```
+
+Off by default is the licence showing through, not caution. Anyone may run
+this software with no commercial relationship at all, and most installations
+legitimately have no entitlement to fetch; an install that phoned a vendor
+nobody had told it about would be a surprise at best. The same shape already
+governs `kamra_update_repo`.
+
+What a hotelier should be told about it, if they ask:
+
+| Question | Answer |
+| --- | --- |
+| What leaves my server? | The Installation ID and the version. Two query parameters, once a day |
+| Can the vendor read my guests, occupancy or revenue? | No. There is no field for it and the request has no body |
+| What if I block it at the firewall? | Nothing changes. The stored record stands and the software is unaffected |
+| Can a response from the vendor switch anything off? | No. The response has no field that could, and the record gates nothing |
+| Can it erase my plan? | No. Only a valid record writes; "I have never heard of this installation" leaves what you have alone |
+| Can I turn it off? | `bench --site <site> set-config kamra_entitlement_url ""` |
+
+A failed fetch has **no error code** and never reports `failed`, deliberately.
+`monitoring.py` alerts on `failed`, and a vendor's outage is not a hotel's
+outage — see [`../product/ERROR_CODES.md`](../product/ERROR_CODES.md) §on
+`LICENSE-001` to `-004`, all of which are about the record and none about the
+fetch. `bench ziri-entitlement` prints when the last attempt was and how it
+went, which is where a technician should look.
+
+---
+
 ## 6. Summary
 
 | Question | Answer |
