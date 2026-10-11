@@ -310,10 +310,75 @@ What a hotelier should be told about it, if they ask:
 
 A failed fetch has **no error code** and never reports `failed`, deliberately.
 `monitoring.py` alerts on `failed`, and a vendor's outage is not a hotel's
-outage — see [`../product/ERROR_CODES.md`](../product/ERROR_CODES.md) §on
+outage — see [`../product/ERROR_CODES.md`](../product/ERROR_CODES.md) on
 `LICENSE-001` to `-004`, all of which are about the record and none about the
 fetch. `bench ziri-entitlement` prints when the last attempt was and how it
 went, which is where a technician should look.
+
+---
+
+## 5b. Telemetry, which is off until somebody says otherwise
+
+`kamra/telemetry.py` can send the vendor a weekly report about the
+**software** — never about the hotel. It takes two separate acts to turn on:
+
+```bash
+bench --site <site> set-config kamra_telemetry_url "https://..."   # where
+bench --site <site> ziri-telemetry --consent                        # yes
+```
+
+They are separate on purpose. A vendor shipping a preconfigured image can set
+a URL in a template; the agreement has to come from whoever runs the hotel,
+after reading what would be sent. The consent record stores **who** agreed and
+**when**, not a boolean, so "who turned this on" has an answer months later.
+
+**Show the hotelier the report before asking.** `bench ziri-telemetry` with no
+options prints the entire payload, built by the same function that sends it —
+so what they agree to is what they read, not a description of it.
+
+### What is in it
+
+| Field | Example |
+| --- | --- |
+| Installation ID | `DZA-ZIRI-V9ATNM` |
+| Versions | ZIRI `1.0.0`, Kamra `2.6.5`, Frappe `16.25.0`, Python `3.14` |
+| Health counts and overall | `9 passed, 2 info`, `passed` |
+| Error codes currently reported | `["BACKUP-002", "LICENSE-001"]` |
+| Which modules are in use | `["front-desk", "housekeeping"]` |
+| How many properties, as a bucket | `"2-5"` |
+
+### Why nothing else *can* be in it
+
+Not care — **intersection**. Every value is checked against a known
+vocabulary on the way out: module names against the product's own module
+list, error codes against the `ERROR_CODES.md` pattern, versions against a
+version shape, the property count replaced by one of four buckets, health
+figures cast to integers.
+
+So a guest's name typed into a property's module field, a hostile string from
+a future health check, the site's hostname, a plan title — none of them can
+appear, because none of them is in a vocabulary. **There is no string in the
+payload that a person typed**, and `ALLOWED_KEYS` is applied to the finished
+dict so a field added without being declared is dropped rather than sent.
+
+The Installation ID is sent in the clear and is not hashed. The vendor holds
+the entitlement records too and could hash any ID it already knows, so a hash
+would protect nobody while reading as though it did.
+
+### What a hotelier should be told
+
+| Question | Answer |
+| --- | --- |
+| Is it on? | No. Not on any site, until two separate settings are made |
+| Can I see exactly what would be sent? | Yes — `bench ziri-telemetry`, before agreeing |
+| Can you see my guests, rates, revenue or occupancy? | No. There is no field for any of them |
+| Can you see my hotel's name, or my server's? | No |
+| How often? | Weekly, at a time derived from the Installation ID |
+| What if I say no, or stop? | Nothing changes. `ziri-telemetry --withdraw` |
+| Does any feature depend on it? | No, and it cannot — same reason as §5a |
+
+A telemetry failure, like a failed entitlement fetch, has **no error code**
+and never reports `failed`.
 
 ---
 
@@ -333,6 +398,8 @@ went, which is where a technician should look.
 | Can the hotel take it elsewhere and hire someone else? | Yes. That is the deal |
 | Is my Algeria localisation work AGPL? | Yes |
 | Does the licence warrant that this works, or that it is tax-compliant? | No, expressly not |
+| Does anything in it phone home by default? | No. The entitlement fetch and telemetry are both off until configured — §5a, §5b |
+| Can I sell support and updates and still honour the AGPL? | Yes. That is the model: the services run on your machines, not inside theirs |
 | Is this document legal advice? | **No.** See a lawyer |
 
 ---

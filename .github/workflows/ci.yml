@@ -232,6 +232,33 @@ jobs:
             exit 1
           fi
 
+      # Opt-in telemetry. The assertion that matters is not that it sends -
+      # it is that a default install sends nothing, and that a name typed
+      # into a field the payload builder reads cannot reach the wire.
+      - name: Run the telemetry tests
+        run: |
+          cd frappe-bench
+          bench --site test.localhost run-tests --module kamra.tests.test_telemetry \
+            2>&1 | tee telemetry.out
+          if ! grep -qE "^OK( \([^)]*\))?$" telemetry.out; then
+            MSG=$(tail -40 telemetry.out | awk '{printf "%s | ", $0}' | cut -c1-3000)
+            echo "::error title=test_telemetry::$MSG"
+            exit 1
+          fi
+
+      # The vendor fetch on the hotel's side. Every failure path must leave a
+      # stored entitlement record exactly as it was.
+      - name: Run the entitlement sync tests
+        run: |
+          cd frappe-bench
+          bench --site test.localhost run-tests --module kamra.tests.test_entitlement_sync \
+            2>&1 | tee entitlement_sync.out
+          if ! grep -qE "^OK( \([^)]*\))?$" entitlement_sync.out; then
+            MSG=$(tail -40 entitlement_sync.out | awk '{printf "%s | ", $0}' | cut -c1-3000)
+            echo "::error title=test_entitlement_sync::$MSG"
+            exit 1
+          fi
+
       - name: Run front-desk persona journey
         run: |
           cd frappe-bench

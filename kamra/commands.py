@@ -285,4 +285,109 @@ def ziri_entitlement(context, plan, expires, customer, reference, starts,
 	sys.exit(0)
 
 
-commands = [ziri_doctor, ziri_support_bundle, ziri_entitlement]
+@click.command("ziri-telemetry")
+@click.option("--consent", "agree", is_flag=True,
+              help="Agree to send it. Prints the payload first.")
+@click.option("--withdraw", is_flag=True, help="Stop sending it.")
+@click.option("--send-now", "send_now", is_flag=True,
+              help="Send one report now (needs a URL and consent).")
+@pass_context
+def ziri_telemetry(context, agree, withdraw, send_now):
+	"""Show, agree to, or stop the optional telemetry report.
+
+	With no options it prints exactly what WOULD be sent and whether anything
+	is being sent, which is the only order that makes agreeing meaningful.
+	Nothing is sent by default, on any site.
+	"""
+	site = get_site(context)
+	try:
+		frappe.init(site=site)
+		frappe.connect()
+	except Exception as e:
+		click.echo(f"cannot open site {site}: {type(e).__name__}: {e}", err=True)
+		sys.exit(2)
+
+	try:
+		from kamra import telemetry as T
+
+		if withdraw:
+			T.withdraw_consent()
+			click.echo("")
+			click.echo("  consent withdrawn. Nothing further will be sent.")
+			click.echo("  The endpoint is left configured so changing your")
+			click.echo("  mind back does not mean re-typing a URL.")
+		elif agree:
+			# Printed BEFORE the agreement is recorded, every time, even for
+			# somebody who passed --consent without looking. The whole claim
+			# of this feature is that what you agree to is what you read.
+			click.echo("")
+			click.echo("  This is the entire report. Read it before agreeing.")
+			click.echo("")
+			click.echo(frappe.as_json(T._payload()))
+			click.echo("")
+			if not click.confirm("  Send reports like this one?", default=False):
+				click.echo("  nothing changed.")
+				# SystemExit is not an Exception, so it passes the handler
+				# below and the `finally` closes the site exactly once.
+				sys.exit(0)
+			result = T.give_consent()
+			click.echo("")
+			click.echo(f"  consent recorded by {result['consent']['by']}"
+			           f" at {result['consent']['at']}")
+			if not result.get("configured"):
+				click.echo("  No endpoint is configured yet, so nothing will")
+				click.echo("  be sent until somebody sets:")
+				click.echo("    bench --site <site> set-config "
+				           "kamra_telemetry_url \"https://...\"")
+		elif send_now:
+			out = T.send(force=True)
+			click.echo("")
+			click.echo(f"  outcome:  {out['outcome']}")
+			if out["outcome"] == "not-enabled":
+				click.echo("  Needs BOTH kamra_telemetry_url and a recorded")
+				click.echo("  consent. Run this command with no options to")
+				click.echo("  see which is missing.")
+		else:
+			state = T.preview()
+			sent = T.last_sent()
+			click.echo("")
+			click.echo(f"  sending:  {'yes' if state['enabled'] else 'no'}")
+			click.echo(f"  endpoint: "
+			           f"{'configured' if state['configured'] else 'not set'}")
+			consent = state["consent"]
+			if consent.get("by"):
+				click.echo(f"  consent:  {consent['by']} at {consent['at']}")
+			else:
+				click.echo("  consent:  nobody has agreed")
+			if sent.get("last_attempt"):
+				click.echo(f"  last try: {sent['last_attempt']}"
+				           f" ({sent.get('outcome')})")
+			click.echo("")
+			click.echo("  What WOULD be sent, built by the same function that")
+			click.echo("  sends it:")
+			click.echo("")
+			click.echo(frappe.as_json(state["payload"]))
+			click.echo("")
+			click.echo("  Every value above is an enum, a count or a version.")
+			click.echo("  No guest, reservation, rate, revenue, staff name,")
+			click.echo("  property name or site hostname can appear here -")
+			click.echo("  there is no field for one. See kamra/telemetry.py.")
+			if not state["enabled"]:
+				click.echo("")
+				click.echo("  To start sending it:")
+				click.echo("    bench --site <site> set-config "
+				           "kamra_telemetry_url \"https://...\"")
+				click.echo("    bench --site <site> ziri-telemetry --consent")
+	except Exception as e:
+		click.echo(f"telemetry: {type(e).__name__}: {e}", err=True)
+		sys.exit(2)
+	finally:
+		frappe.destroy()
+
+	click.echo("")
+	click.echo("  Optional. Nothing in ZIRI PMS depends on this.")
+	click.echo("")
+	sys.exit(0)
+
+
+commands = [ziri_doctor, ziri_support_bundle, ziri_entitlement, ziri_telemetry]
