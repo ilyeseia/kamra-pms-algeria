@@ -346,6 +346,32 @@ This settles brief sections 11, 12, 15, 16, 17, 18, 19, 20, 22, 36 and 38 in
 one move: all of them are the vendor application, none of them is a change to
 this repository.
 
+### D3 — The vendor application is proprietary; this repository stays AGPL
+
+**Decided during Phase 5**, when building the vendor app made the omission
+obvious: D2 separated the two repositories and said nothing about licensing
+the second one, and giving it the same licence as this one would have undone
+the separation on the first day.
+
+AGPL §13 requires the complete corresponding source to be offered to every
+user who interacts with the program remotely over a network. The only remote
+users of the vendor application are hotels fetching their own entitlement
+record — so under the AGPL each of them could require the source of the
+customer list, the price book and the margins. That is precisely the
+disclosure D2 exists to prevent, and it is irreversible once a copy is out.
+
+Nothing compels the AGPL there. The vendor application contains no part of
+this software and does not link to it; it depends on Frappe, which is MIT.
+The two programs speak a documented network protocol
+(`docs/ENTITLEMENT_API.md` in the vendor repository), and speaking a protocol
+does not make one program a derivative of the other.
+
+**This repository is unaffected and its licence does not change.** AGPL §7
+forbids adding restrictions to the rights this licence grants, and D3 adds
+none: a hotel with no commercial relationship may run, modify and
+redistribute ZIRI PMS exactly as before, and nothing in the vendor
+application is a condition of running it — which is D1, unchanged.
+
 ### Still open
 
 - Approval to begin Phase 1. Phases 1 to 4 modify this repository and are
