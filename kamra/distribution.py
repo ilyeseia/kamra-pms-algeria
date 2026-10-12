@@ -40,19 +40,32 @@ DISTRIBUTION = "ZIRI PMS"
 
 # Keep in step with the newest `ziri-v*` tag.
 #
-# The -rc suffix is gone, and it is gone because the condition this comment
-# itself set has been met. It used to read: "the suffix is dropped once a trial
-# install has proven the migrations against a real database." That install
-# exists, `bench migrate` has run against it repeatedly across real schema
-# changes - Cancelled Invoice tracking, the Property locale defaults - and a
-# backup set taken from it has been restored into a clean MariaDB and verified
-# table by table against a manifest, with the verifier's own negative controls
-# proving it can fail. So this is the release the comment was waiting for
-# rather than a number chosen because the work felt finished.
+# WHY THE -rc SUFFIX IS BACK, HAVING BEEN EARNED AWAY ONCE
+#
+# At 1.0.0 this comment recorded that the suffix had been dropped because the
+# condition it set had been met: a trial install existed, `bench migrate` had
+# run against it repeatedly across real schema changes, and a backup set from
+# it had been restored into a clean MariaDB and verified table by table. That
+# was true of 1.0.0 and it is still true of 1.0.0.
+#
+# It is not true of this. 1.1.0 adds one patch - v38.move_spa_route_to_ziri -
+# which rewrites `Website Settings.home_page` on every existing site, and one
+# new DocType. **No `bench migrate` has run from 1.0.0 to here, anywhere.** CI
+# installs a fresh site and never exercises the upgrade path (there is no
+# `bench migrate` in any workflow in this repository), and no server has been
+# updated. docs/algeria/VERSIONING.md says a tag is a claim that the thing
+# works and not to drop the suffix until a migrate has run against a real
+# database, so the suffix stays until one has.
+#
+# It becomes 1.1.0 when `install.sh update` has carried a real site from
+# 1.0.0 to here and the site passed its own health checks afterwards. The
+# release workflow marks any -rc tag as a prerelease, which keeps it out of
+# GitHub's /releases/latest - so no existing 1.0.0 install is told an update
+# is available while that is still outstanding.
 #
 # ziri-release.yml refuses to publish a tag that disagrees with this line, so
 # the two cannot drift apart by accident.
-DISTRIBUTION_VERSION = "1.0.0"
+DISTRIBUTION_VERSION = "1.1.0-rc.1"
 
 # Releases of THIS distribution, not upstream's. Tags carry a prefix so they
 # cannot collide with upstream's `v2.6.5` style in the same repository.

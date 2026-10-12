@@ -48,7 +48,9 @@
     .\Install-Kamra.ps1 -Mode Production -SiteName pms.hotelalger.dz -AdminEmail gm@hotelalger.dz
 
 .NOTES
-    ZIRI PMS Algeria Distribution 1.0.0, on Kamra core 2.6.5.
+    ZIRI PMS Algeria Distribution - the version is read at run time from
+    kamra/distribution.py and printed on every run; this block does not
+    repeat it, because a second copy is a second thing to forget.
     Targets Windows PowerShell 5.1, which is what Windows 10 ships - so no
     ternary, null-coalescing, or && / || operators appear in this file.
 #>
@@ -512,9 +514,28 @@ function Show-Result {
 
 # ── Main ────────────────────────────────────────────────────────────────────
 
+# The version this prints used to be a literal, which VERSIONING.md recorded
+# as a known gap: it drifted every release and nobody noticed, so an installer
+# announced a version the product was not. It is now read from the one
+# authoritative place - kamra/distribution.py, the line ziri-release.yml
+# refuses to let a tag disagree with.
+#
+# The literal below is a FALLBACK, for the case this script was downloaded on
+# its own with no repository beside it. It is wrong the moment the next
+# release is cut, which is why the dynamic read comes first.
+$ZiriVersion = '1.1.0-rc.1'
+$ZiriDistPy = Join-Path $PSScriptRoot '..\..\kamra\distribution.py'
+if (Test-Path $ZiriDistPy) {
+    $ZiriMatch = Select-String -Path $ZiriDistPy -Pattern 'DISTRIBUTION_VERSION\s*=\s*"([^"]+)"'
+    if ($ZiriMatch) { $ZiriVersion = $ZiriMatch.Matches[0].Groups[1].Value }
+}
+
 Write-Host ''
-Write-Host 'ZIRI PMS - Algeria Distribution 1.0.0' -ForegroundColor White
+Write-Host "ZIRI PMS - Algeria Distribution $ZiriVersion" -ForegroundColor White
 Write-Host 'on Kamra core 2.6.5 - AGPL-3.0 - see docs/algeria/LICENSING.md' -ForegroundColor DarkGray
+if ($ZiriVersion -like '*-rc*') {
+    Write-Host 'This is a RELEASE CANDIDATE. See the release notes before going live.' -ForegroundColor Yellow
+}
 
 $script:Distro = ''
 
